@@ -27,6 +27,7 @@ using Domain.Interfaces;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Interfaces.Services.PagamentoPedido;
+using Domain.Interfaces.Services.PeriodoPontoVenda;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
@@ -43,6 +44,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Service.Services.FormaPagamento;
 using Service.Services.ItemPedidoService;
 using Service.Services.PagamentoPedidoServices;
+using Service.Services.PeriodoPontoVenda;
 using Service.Services.Pessoas.Pessoa;
 using Service.Services.Produto;
 using Service.Services.ProdutoMedidaService;
@@ -87,8 +89,9 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPessoaTipoRepository, PessoaTipoImplementecao>();
             serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
             serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
-
             serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
+            serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
+
 
             serviceCollection.AddTransient<IPontoVendaService, PontoVendaService>();
             serviceCollection.AddTransient<IPedidoService, PedidoService>();
@@ -101,6 +104,9 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddTransient<IPagamentoPedidoService, PagamentoPedidoService>();
             serviceCollection.AddTransient<IProdutoMedidaServices, ProdutoMedidaServices>();
             serviceCollection.AddTransient<IProdutoTipoServices, ProdutoTipoServices>();
+            serviceCollection.AddTransient<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
+
+
 
             serviceCollection.AddTransient<IUserRole, UserRole>();
             serviceCollection.AddTransient<IPessoaTipoServices, PessoaTipoServices>();

@@ -14,6 +14,7 @@ using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.Pedido;
 using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ namespace Api.Data.Context
         public DbSet<CategoriaProdutoEntity>? CategoriasProdutos { get; set; }
         public DbSet<ProdutoTipoEntity>? TiposProdutos { get; set; }
         public DbSet<ProdutoEntity>? Produtos { get; set; }
-
+        public DbSet<PeriodoPontoVendaEntity>? PeriodosPontosVendas { get; set; }
 
 
         //faltar revisar - desta linha para baixo
@@ -45,6 +46,8 @@ namespace Api.Data.Context
         public DbSet<ProdutoMedidaEntity>? ProdutosMedidas { get; set; }
 
         public DbSet<SituacaoPedidoEntity>? SituacoesPedidos { get; set; }
+        
+
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -57,6 +60,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
             modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
             modelBuilder.Entity<ProdutoEntity>(new ProdutoMap().Configure);
+            modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
 
             //modelBuilder.Entity<PedidoEntity>(new PedidoMap().Configure);
             //modelBuilder.Entity<PrecoProdutoEntity>(new PrecoProdutoMap().Configure);

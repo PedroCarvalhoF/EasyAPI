@@ -22,6 +22,7 @@ using Domain.Entities.ProdutoTipo;
 using Domain.Models.FormaPagamentoModels;
 using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
+using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
 using Domain.Models.ProdutoModels;
 
@@ -57,6 +58,8 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ProdutoMedidaModel, ProdutoMedidaEntity>().ReverseMap();
 
             CreateMap<ProdutoTipoModels, ProdutoTipoEntity>().ReverseMap();
+
+            CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaModels>().ReverseMap();
 
         }
     }
