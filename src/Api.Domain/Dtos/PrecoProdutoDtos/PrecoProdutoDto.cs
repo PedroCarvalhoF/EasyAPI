@@ -3,7 +3,7 @@ using Domain.Dtos.ProdutoDtos;
 
 namespace Api.Domain.Dtos.PrecoProdutoDtos
 {
-    public class PrecoProdutoDto //: BaseDto
+    public class PrecoProdutoDto 
     {
         public Guid Id { get; set; }
         public DateTime CreateAt { get; set; }

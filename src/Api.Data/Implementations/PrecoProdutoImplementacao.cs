@@ -18,32 +18,35 @@ namespace Data.Implementations
 
         public async Task<PrecoProdutoEntity> ConsultarPrecoByID(Guid id)
         {
-            IQueryable<PrecoProdutoEntity>? query = _context.PrecosProdutos;
-            query = query?.Include(prod => prod.ProdutoEntity).
-                ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
-            query = query?.Include(cat => cat.CategoriaPrecoEntity);
+            return null;
 
-            query = query?.Where(pr => pr.Id.Equals(id));
+            //IQueryable<PrecoProdutoEntity>? query = _context.PrecosProdutos;
+            //query = query?.Include(prod => prod.ProdutoEntity).
+            //    ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+            //query = query?.Include(cat => cat.CategoriaPrecoEntity);
 
-            PrecoProdutoEntity? entity = await query?.AsNoTracking().FirstOrDefaultAsync();
-            return entity;
+            //query = query?.Where(pr => pr.Id.Equals(id));
+
+            //PrecoProdutoEntity? entity = await query?.AsNoTracking().FirstOrDefaultAsync();
+            //return entity;
         }
 
         public async Task<IEnumerable<PrecoProdutoEntity>> Get(Expression<Func<PrecoProdutoEntity, bool>> funcao, bool inlude = true)
         {
-            IQueryable<PrecoProdutoEntity>? query = _context.PrecosProdutos;
+            return null;
+            //IQueryable<PrecoProdutoEntity>? query = _context.PrecosProdutos;
 
-            if (inlude)
-            {
-                query = query?.Include(prod => prod.ProdutoEntity).ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
-                query = query?.Include(cat => cat.CategoriaPrecoEntity);
-            }
+            //if (inlude)
+            //{
+            //    query = query?.Include(prod => prod.ProdutoEntity).ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+            //    query = query?.Include(cat => cat.CategoriaPrecoEntity);
+            //}
 
-            query = query?.Where(funcao);
+            //query = query?.Where(funcao);
 
-            PrecoProdutoEntity[] entities = await query.AsNoTracking().ToArrayAsync();
+            //PrecoProdutoEntity[] entities = await query.AsNoTracking().ToArrayAsync();
 
-            return entities;
+            //return entities;
         }
 
         public async Task<PrecoProdutoEntity> GetById(Guid id)

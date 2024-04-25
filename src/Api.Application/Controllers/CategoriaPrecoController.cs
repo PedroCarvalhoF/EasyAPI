@@ -9,16 +9,17 @@ namespace Api.Application.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize]
-    class CategoriaPrecoController : ControllerBase
+    public class CategoriaPrecoController : ControllerBase
     {
-        private readonly ICategoriaPrecoService _categoriaPrecoService;
+        private readonly ICategoriaPrecoService _service;
         public CategoriaPrecoController(ICategoriaPrecoService categoriaPrecoService)
         {
-            _categoriaPrecoService = categoriaPrecoService;
+            _service = categoriaPrecoService;
         }
 
-        [HttpPost("cadastrar")]
-        public async Task<ActionResult> Cadastrar([FromBody] CategoriaPrecoDtoCreate categoriaPrecoDtoCreate)
+
+        [HttpGet("categorias-precos")]
+        public async Task<ActionResult<IEnumerable<CategoriaPrecoDto>>> GetAll()
         {
             if (!ModelState.IsValid)
             {
@@ -26,32 +27,7 @@ namespace Api.Application.Controllers
             }
             try
             {
-                CategoriaPrecoDtoCreateResult result = await _categoriaPrecoService.Cadastrar(categoriaPrecoDtoCreate);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
-                return Ok(result);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-
-        [HttpGet("consultar-todas")]
-        public async Task<ActionResult> GetAll()
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                IEnumerable<CategoriaPrecoDto> result = await _categoriaPrecoService.ConsultarTodos();
+                var result = await _service.GetAll();
                 if (result == null)
                     return BadRequest("Não foi possível realizar tarefa");
                 return Ok(result);
@@ -67,5 +43,106 @@ namespace Api.Application.Controllers
             }
         }
 
+        [HttpGet("categorias-precos/{id}/id")]
+        public async Task<ActionResult<CategoriaPrecoDto>> Get(Guid id)
+        {
+            try
+            {
+                var dto = await _service.Get(id);
+                if (dto == null)
+                {
+                    return BadRequest("Não localizado");
+                }
+                return Ok(dto);
+            }
+            catch (ModelsExceptions ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro.Detalhes: {ex.Message}");
+            }
+        }
+
+        [HttpPost("cadastrar-categorias-precos")]
+        public async Task<ActionResult> Cadastrar(CategoriaPrecoDtoCreate categoriaPrecoDtoCreate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var result = await _service.Create(categoriaPrecoDtoCreate);
+                if (result == null)
+                    return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
+                return Ok(result);
+            }
+            catch (ModelsExceptions ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro.Detalhes: {ex.Message}");
+            }
+        }
+
+        [HttpPut("alterar-categorias-precos")]
+        public async Task<ActionResult<CategoriaPrecoDto>> Update(CategoriaPrecoDtoUpdate update)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
+            {
+                var dto = await _service.Update(update);
+                if (dto == null)
+                {
+                    return BadRequest("Não foi possível realizar tafefa");
+                }
+                return Ok(dto);
+            }
+            catch (ModelsExceptions ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro.Detalhes: {ex.Message}");
+            }
+        }
+
+        [HttpPut("desabilitar/categorias-precos/{id}")]
+        public async Task<ActionResult> Desabilitar(Guid id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                bool result = await _service.Desabilitar(id);
+                if (result)
+
+                    return Ok(result);
+                else
+                    return BadRequest("Não foi possível realizar alteração");
+
+            }
+            catch (ModelsExceptions ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro.Detalhes: {ex.Message}");
+            }
+        }
     }
 }

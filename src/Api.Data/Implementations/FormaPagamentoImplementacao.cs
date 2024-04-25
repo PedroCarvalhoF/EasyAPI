@@ -20,17 +20,18 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<FormaPagamentoEntity>? query = _context?.FormasPagamentos?.AsNoTracking();
-                if (fullConsulta)
-                {
+                return null;
+                //IQueryable<FormaPagamentoEntity>? query = _context?.FormasPagamentos?.AsNoTracking();
+                //if (fullConsulta)
+                //{
 
-                }
+                //}
 
-                query = query.Where(funcao);
+                //query = query.Where(funcao);
 
-                FormaPagamentoEntity[] entities = await query.ToArrayAsync();
+                //FormaPagamentoEntity[] entities = await query.ToArrayAsync();
 
-                return entities;
+                //return entities;
             }
             catch (Exception ex)
             {

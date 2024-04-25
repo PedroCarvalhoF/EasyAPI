@@ -68,8 +68,6 @@ namespace Api.Controllers
             }
         }
 
-
-
         [HttpGet("periodos-pontos-vendas/{descricao}")]
         public async Task<ActionResult<IEnumerable<PeriodoPontoVendaDto>>> Get(string descricao)
         {
@@ -148,7 +146,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPut("periodos-pontos-vendas/desabilitar/{id}")]
+        [HttpPut("desabilitar/periodos-pontos-vendas/{id}")]
         public async Task<ActionResult> Desabilitar(Guid id)
         {
             if (!ModelState.IsValid)

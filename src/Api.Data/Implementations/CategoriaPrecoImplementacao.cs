@@ -14,21 +14,6 @@ namespace Data.Implementations
             _dataset = context.Set<CategoriaPrecoEntity>();
         }
 
-        public async Task<IEnumerable<CategoriaPrecoEntity>> ConsultarTodasCategoriasPrecosIncludeProdutos()
-        {
-            try
-            {
-                IQueryable<CategoriaPrecoEntity> query = _dataset.AsNoTracking();
-
-                query = query?.Include(produto => produto.PrecoProdutoEntities);
-
-                return await query.ToArrayAsync();
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-        }
+     
     }
 }

@@ -12,18 +12,7 @@ namespace Api.Extensions
             using (IServiceScope? scope = scopedFactory?.CreateScope())
             {
                 ICategoriaPrecoService? service = scope?.ServiceProvider.GetService<ICategoriaPrecoService>();
-
-                IEnumerable<CategoriaPrecoDto> categorias = await service.ConsultarTodos();
-
-                if (categorias.Count() == 0)
-                {
-                    await service.Cadastrar(
-                       new CategoriaPrecoDtoCreate
-                       {
-                           DescricaoCategoria = "BALCAO",
-                           Habilitado = true
-                       });
-                }
+             
 
             }
         }

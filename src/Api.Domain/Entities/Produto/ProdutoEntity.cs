@@ -37,9 +37,7 @@ namespace Domain.Entities.Produto
         [Required(ErrorMessage = "Informe o tipo do produto")]
         public Guid? ProdutoTipoEntityId { get; set; }
         public ProdutoTipoEntity? ProdutoTipoEntity { get; set; } //ok
-        public string? ImgUrl { get; set; }
-       
-        public IEnumerable<PrecoProdutoEntity>? PrecoProdutoEntities { get; set; }
-        public IEnumerable<ItemPedidoEntity>? ItemPedidoEntities { get; set; }
+        public string? ImgUrl { get; set; }      
+      
     }
 }

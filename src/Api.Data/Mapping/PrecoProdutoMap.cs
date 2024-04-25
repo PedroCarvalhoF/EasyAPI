@@ -22,16 +22,13 @@ namespace Data.Mapping
             builder.Property(prod => prod.Habilitado)
                    .IsRequired();
 
-            builder.HasOne(preco => preco.ProdutoEntity)
-                .WithMany(produto => produto.PrecoProdutoEntities)
-                .HasForeignKey(preco => preco.ProdutoEntityId)
-                .OnDelete(DeleteBehavior.NoAction);
+     
 
 
-            builder.HasOne(preco => preco.CategoriaPrecoEntity)
-                .WithMany(categoria => categoria.PrecoProdutoEntities)
-                .HasForeignKey(preco => preco.CategoriaPrecoEntityId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //builder.HasOne(preco => preco.CategoriaPrecoEntity)
+            //    .WithMany(categoria => categoria.PrecoProdutoEntities)
+            //    .HasForeignKey(preco => preco.CategoriaPrecoEntityId)
+            //    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

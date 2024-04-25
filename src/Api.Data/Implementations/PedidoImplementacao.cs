@@ -20,12 +20,13 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<PedidoEntity> query = _context.Pedidos.AsNoTracking();
+                return null ;
+                //IQueryable<PedidoEntity> query = _context.Pedidos.AsNoTracking();
 
-                query = QueryPedidoEntity(query);
+                //query = QueryPedidoEntity(query);
 
-                PedidoEntity[] resut = await query.ToArrayAsync();
-                return resut;
+                //PedidoEntity[] resut = await query.ToArrayAsync();
+                //return resut;
             }
             catch (Exception ex)
             {
@@ -37,15 +38,16 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<PedidoEntity> query = _context.Pedidos.AsNoTracking();
-                if (inlude)
-                {
-                    query = QueryPedidoEntity(query);
-                }
+                return null;
+                //IQueryable<PedidoEntity> query = _context.Pedidos.AsNoTracking();
+                //if (inlude)
+                //{
+                //    query = QueryPedidoEntity(query);
+                //}
 
-                query = query.Where(funcao);
-                PedidoEntity[] entities = await query.ToArrayAsync();
-                return entities;
+                //query = query.Where(funcao);
+                //PedidoEntity[] entities = await query.ToArrayAsync();
+                //return entities;
             }
             catch (Exception ex)
             {

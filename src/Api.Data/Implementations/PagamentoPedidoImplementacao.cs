@@ -20,7 +20,7 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<PagamentoPedidoEntity>? query = _context?.PagamentosPedidos?.AsNoTracking();
+                IQueryable<PagamentoPedidoEntity>? query = _dataset.AsNoTracking();
 
                 query = GetQueryable(query);
                 query = query.Where(pgt => pgt.PedidoEntityId.Equals(idPedido));

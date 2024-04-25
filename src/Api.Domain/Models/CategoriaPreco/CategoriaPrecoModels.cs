@@ -1,10 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Api.Domain.Models.CategoriaPreco
 {
-    public class CategoriaPrecoModels : BaseModel
+    public class CategoriaPrecoModels 
     {
-        [MaxLength(100)]
+        public Guid Id { get; set; }
+        public DateTime? CreateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
+        public bool Habilitado { get; set; }
         public string? DescricaoCategoria { get; set; }
     }
 }

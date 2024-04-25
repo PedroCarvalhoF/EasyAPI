@@ -21,7 +21,7 @@ namespace Api.Domain.Dtos.PedidoDtos
         public Guid? PontoVendaEntityId { get; set; }
         public PontoVendaDto? PontoVendaEntity { get; set; }
         public IEnumerable<ItemPedidoDto>? ItemPedidoEntity { get; set; }
-        public CategoriaPrecoDto? CategoriaPrecoEntity { get; set; }
+     //   public CategoriaPrecoDto? CategoriaPrecoEntity { get; set; }
 
         public IEnumerable<PagamentoPedidoDto>? PagamentoPedidoEntity { get; set; }
     }

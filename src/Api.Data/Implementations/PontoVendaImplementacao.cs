@@ -21,41 +21,43 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
+                return null;
 
-                query = query
-                    .Where(pdv => idsPdvs.Contains(pdv.Id))
-                    .Select(pdv => pdv);
+                //IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
 
-                //query = query?.Include(ped => ped.PedidoEntity);
+                //query = query
+                //    .Where(pdv => idsPdvs.Contains(pdv.Id))
+                //    .Select(pdv => pdv);
 
-                query = query?.Include(ped => ped.PedidoEntities)
-                              .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities);
+                ////query = query?.Include(ped => ped.PedidoEntity);
 
-
-                query = query?.Include(ped => ped.PedidoEntities)
-                             .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
-                             .ThenInclude(produto => produto.ProdutoEntity)
-                             .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+                //query = query?.Include(ped => ped.PedidoEntities)
+                //              .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities);
 
 
+                //query = query?.Include(ped => ped.PedidoEntities)
+                //             .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
+                //             .ThenInclude(produto => produto.ProdutoEntity)
+                //             .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
 
 
-                //categoria preço pedido
-
-                query = query?.Include(pedido => pedido.PedidoEntities)
-                             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
-
-                //Pagamento Pedido
-
-                query = query?.Include(ped => ped.PedidoEntities)
-                             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
-                             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
-
-                PontoVendaEntity[] entities = await query.AsNoTracking().ToArrayAsync();
 
 
-                return entities;
+                ////categoria preço pedido
+
+                //query = query?.Include(pedido => pedido.PedidoEntities)
+                //             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
+
+                ////Pagamento Pedido
+
+                //query = query?.Include(ped => ped.PedidoEntities)
+                //             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
+                //             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
+
+                //PontoVendaEntity[] entities = await query.AsNoTracking().ToArrayAsync();
+
+
+                //return entities;
             }
             catch (Exception ex)
             {
@@ -67,32 +69,33 @@ namespace Data.Implementations
 
         public async Task<IEnumerable<PontoVendaEntity>> GetPontoVenda(Expression<Func<PontoVendaEntity, bool>> funcao, bool inlude = true)
         {
-            IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
-            query = query?.Where(funcao);
+            return null;
+            ////IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
+            //query = query?.Where(funcao);
 
-            if (inlude)
-            {
-                //item pedido
-                query = query?.Include(ped => ped.PedidoEntities)
-                             .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
-                             .ThenInclude(produto => produto.ProdutoEntity)
-                             .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+            //if (inlude)
+            //{
+            //    //item pedido
+            //    query = query?.Include(ped => ped.PedidoEntities)
+            //                 .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
+            //                 .ThenInclude(produto => produto.ProdutoEntity)
+            //                 .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
 
-                //categoria preço pedido
+            //    //categoria preço pedido
 
-                query = query?.Include(pedido => pedido.PedidoEntities)
-                             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
+            //    query = query?.Include(pedido => pedido.PedidoEntities)
+            //                 .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
 
-                //Pagamento Pedido
+            //    //Pagamento Pedido
 
-                query = query?.Include(ped => ped.PedidoEntities)
-                             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
-                             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
-            }
+            //    query = query?.Include(ped => ped.PedidoEntities)
+            //                 .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
+            //                 .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
+            //}
 
-            PontoVendaEntity[] entities = await query.AsNoTracking().ToArrayAsync();
+            //PontoVendaEntity[] entities = await query.AsNoTracking().ToArrayAsync();
 
-            return entities;
+            //return entities;
         }
 
 
@@ -101,29 +104,30 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<PontoVendaEntity>? query = _context.PontosVendas.AsNoTracking();
+                return null;
+               // IQueryable<PontoVendaEntity>? query = _context.PontosVendas.AsNoTracking();
 
-                query = query
-               .Where(pdv => pdv.CreateAt >= pdvGetByData.DataInicial.Date && pdv.CreateAt <= pdvGetByData.DataFinal.Date.AddDays(1));
+               // query = query
+               //.Where(pdv => pdv.CreateAt >= pdvGetByData.DataInicial.Date && pdv.CreateAt <= pdvGetByData.DataFinal.Date.AddDays(1));
 
-                query = query?.Include(ped => ped.PedidoEntities)
-                         .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
-                         .ThenInclude(produto => produto.ProdutoEntity)
-                         .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+               // query = query?.Include(ped => ped.PedidoEntities)
+               //          .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
+               //          .ThenInclude(produto => produto.ProdutoEntity)
+               //          .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
 
-                //categoria preço pedido
+               // //categoria preço pedido
 
-                query = query?.Include(pedido => pedido.PedidoEntities)
-                             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
+               // query = query?.Include(pedido => pedido.PedidoEntities)
+               //              .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
 
-                //Pagamento Pedido
+               // //Pagamento Pedido
 
-                query = query?.Include(ped => ped.PedidoEntities)
-                             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
-                             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
+               // query = query?.Include(ped => ped.PedidoEntities)
+               //              .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
+               //              .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
 
 
-                return await query.AsNoTracking().ToArrayAsync();
+               // return await query.AsNoTracking().ToArrayAsync();
             }
             catch (Exception ex)
             {
@@ -139,29 +143,30 @@ namespace Data.Implementations
 
         public async Task<IEnumerable<PontoVendaEntity>> InfoDashPdvsByPeriodo(PdvGetByData filtroConsultaPdvDashDto)
         {
-            IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
+            return null;
+            //IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
 
-            query = query
-                .Where(pdv => pdv.CreateAt >= filtroConsultaPdvDashDto.DataInicial.Date && pdv.CreateAt <= filtroConsultaPdvDashDto.DataFinal.Date);
+            //query = query
+            //    .Where(pdv => pdv.CreateAt >= filtroConsultaPdvDashDto.DataInicial.Date && pdv.CreateAt <= filtroConsultaPdvDashDto.DataFinal.Date);
 
-            query = query?.Include(ped => ped.PedidoEntities)
-                         .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
-                         .ThenInclude(produto => produto.ProdutoEntity)
-                         .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+            //query = query?.Include(ped => ped.PedidoEntities)
+            //             .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
+            //             .ThenInclude(produto => produto.ProdutoEntity)
+            //             .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
 
-            //categoria preço pedido
+            ////categoria preço pedido
 
-            query = query?.Include(pedido => pedido.PedidoEntities)
-                         .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
+            //query = query?.Include(pedido => pedido.PedidoEntities)
+            //             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
 
-            //Pagamento Pedido
+            ////Pagamento Pedido
 
-            query = query?.Include(ped => ped.PedidoEntities)
-                         .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
-                         .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
+            //query = query?.Include(ped => ped.PedidoEntities)
+            //             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
+            //             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
 
 
-            return await query.AsNoTracking().ToArrayAsync();
+            //return await query.AsNoTracking().ToArrayAsync();
         }
 
         #region Dash Ponto Venda Versao V2
@@ -170,33 +175,34 @@ namespace Data.Implementations
         {
             try
             {
-                IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
+                return null;
+                //IQueryable<PontoVendaEntity>? query = _context.PontosVendas;
 
-                query = query?
-                    .Where(pdv => idsPdvs.Contains(pdv.Id))
-                    .Select(pdv => pdv);
+                //query = query?
+                //    .Where(pdv => idsPdvs.Contains(pdv.Id))
+                //    .Select(pdv => pdv);
 
-                query = query?.Include(ped => ped.PedidoEntities)
-                       .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
-                       .ThenInclude(produto => produto.ProdutoEntity)
-                       .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
+                //query = query?.Include(ped => ped.PedidoEntities)
+                //       .ThenInclude(item_pedido => item_pedido.ItemPedidoEntities)
+                //       .ThenInclude(produto => produto.ProdutoEntity)
+                //       .ThenInclude(cat_produto => cat_produto.CategoriaProdutoEntity);
 
-                //categoria preço pedido
+                ////categoria preço pedido
 
-                query = query?.Include(pedido => pedido.PedidoEntities)
-                             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
+                //query = query?.Include(pedido => pedido.PedidoEntities)
+                //             .ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
 
-                //Pagamento Pedido
+                ////Pagamento Pedido
 
-                query = query?.Include(ped => ped.PedidoEntities)
-                             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
-                             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
+                //query = query?.Include(ped => ped.PedidoEntities)
+                //             .ThenInclude(pgt => pgt.PagamentoPedidoEntities)
+                //             .ThenInclude(forma_pgt => forma_pgt.FormaPagamentoEntity);
 
 
 
-                PontoVendaEntity[] entities = await query?.AsNoTracking().ToArrayAsync();
+                //PontoVendaEntity[] entities = await query?.AsNoTracking().ToArrayAsync();
 
-                return entities;
+                //return entities;
             }
             catch (Exception ex)
             {
