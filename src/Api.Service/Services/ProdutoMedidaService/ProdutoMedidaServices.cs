@@ -3,8 +3,7 @@ using Api.Domain.Entities.ProdutoMedida;
 using Api.Domain.Interfaces.Services.ProdutoMedida;
 using AutoMapper;
 using Domain.Interfaces;
-using Domain.Repository;
-
+using Domain.Interfaces.Repository;
 
 namespace Service.Services.ProdutoMedidaService
 {

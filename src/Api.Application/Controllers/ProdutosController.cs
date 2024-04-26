@@ -78,7 +78,8 @@ namespace Api.Controllers
             try
             {
                 var produtoDto = await _service.GetCodigo(codigoPersonalizado);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
+                if (produtoDto == null)
+                   return BadRequest("Não localizado.");
                 return Ok(produtoDto);
             }
             catch (ModelsExceptions ex)

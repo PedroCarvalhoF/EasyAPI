@@ -30,14 +30,17 @@ namespace Domain.Entities.Produto
         public Guid? CategoriaProdutoEntityId { get; set; }
         public CategoriaProdutoEntity? CategoriaProdutoEntity { get; set; } //ok
 
+
         [Required(ErrorMessage = "Informe o qual tipo de medida")]
-        public Guid ProdutoMedidaEntityId { get; set; }        
+        public Guid ProdutoMedidaEntityId { get; set; }
         public ProdutoMedidaEntity? ProdutoMedidaEntity { get; set; } //ok
+
 
         [Required(ErrorMessage = "Informe o tipo do produto")]
         public Guid? ProdutoTipoEntityId { get; set; }
         public ProdutoTipoEntity? ProdutoTipoEntity { get; set; } //ok
-        public string? ImgUrl { get; set; }      
-      
+        public string? ImgUrl { get; set; }
+
+        public IEnumerable<PrecoProdutoEntity>? PrecoProdutoEntities { get; set; }
     }
 }

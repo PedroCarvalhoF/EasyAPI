@@ -1,8 +1,8 @@
-﻿using Api.Domain.Repository;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Dtos.ProdutoDtos;
 using Domain.Entities.Produto;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services.Produto;
 using Domain.Models.ProdutoModels;
 

@@ -34,6 +34,10 @@ namespace Api.CrossCutting.Mappings
     {
         public DtoToModelProfile()
         {
+            CreateMap<PrecoProdutoModels, PrecoProdutoDto>();
+            CreateMap<PrecoProdutoModels, PrecoProdutoDtoCreate>();
+       
+
 
             CreateMap<CategoriaProdutoModel, CategoriaProdutoDto>().ReverseMap();
             CreateMap<CategoriaProdutoModel, CategoriaProdutoDtoCreate>().ReverseMap();

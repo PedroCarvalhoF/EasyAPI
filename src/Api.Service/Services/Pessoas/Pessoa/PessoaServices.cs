@@ -3,9 +3,9 @@ using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Domain.Models.PessoaModels.PessoaModels;
-using Domain.Repository.PessoaRepositorys.Pessoa;
 
 namespace Service.Services.Pessoas.Pessoa
 {

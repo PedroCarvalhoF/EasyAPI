@@ -6,9 +6,9 @@ using Domain.Entities.ItensPedido;
 using Domain.Enuns;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Models.ItemPedidoModels;
-using Domain.Repository;
 
 namespace Service.Services.ItemPedidoService
 {

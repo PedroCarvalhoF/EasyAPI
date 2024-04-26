@@ -3,9 +3,9 @@ using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Entities.FormaPagamento;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Models.FormaPagamentoModels;
-using Domain.Repository;
 
 namespace Service.Services.FormaPagamento
 {

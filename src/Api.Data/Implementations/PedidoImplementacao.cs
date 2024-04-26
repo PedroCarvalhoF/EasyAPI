@@ -2,7 +2,7 @@
 using Api.Data.Repository;
 using Api.Domain.Entities.Pedido;
 using Domain.Enuns;
-using Domain.Repository;
+using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

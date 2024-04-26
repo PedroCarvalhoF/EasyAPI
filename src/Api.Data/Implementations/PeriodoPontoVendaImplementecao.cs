@@ -1,7 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Domain.Entities.PontoVendaPeriodoVenda;
-using Domain.Repository;
+using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Implementations

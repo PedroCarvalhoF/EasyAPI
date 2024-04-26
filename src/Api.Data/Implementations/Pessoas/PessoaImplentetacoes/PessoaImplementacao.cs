@@ -1,7 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Domain.Entities.Pessoa.Pessoas;
-using Domain.Repository.PessoaRepositorys.Pessoa;
+using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Implementations.Pessoas.PessoaImplentetacoes

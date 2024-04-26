@@ -2,9 +2,9 @@
 using Domain.Dtos.ProdutoTipo;
 using Domain.Entities.ProdutoTipo;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
 using Domain.Models.ProdutoModels;
-using Domain.Repository.Produto;
 
 namespace Service.Services.ProdutoTipoService
 {

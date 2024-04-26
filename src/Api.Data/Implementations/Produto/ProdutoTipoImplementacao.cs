@@ -1,7 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Domain.Entities.Produto;
-using Domain.Repository.Produto;
+using Domain.Interfaces.Repository.Produto;
 
 namespace Data.Implementations.Produto
 {

@@ -1,7 +1,7 @@
 using Api.Data.Context;
 using Api.Data.Repository;
-using Api.Domain.Repository;
 using Domain.Entities.Produto;
+using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data.Implementations

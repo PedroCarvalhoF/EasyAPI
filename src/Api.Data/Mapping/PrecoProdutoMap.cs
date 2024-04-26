@@ -8,7 +8,7 @@ namespace Data.Mapping
     {
         public void Configure(EntityTypeBuilder<PrecoProdutoEntity> builder)
         {
-            builder.ToTable("PrecoProduto");
+            builder.ToTable("PrecosProdutos");
             builder.HasKey(prod => prod.Id);
 
             builder.Property(prod => prod.ProdutoEntityId)
@@ -22,13 +22,14 @@ namespace Data.Mapping
             builder.Property(prod => prod.Habilitado)
                    .IsRequired();
 
-     
 
+            builder.HasOne(preco => preco.ProdutoEntity)
+                    .WithMany(produto => produto.PrecoProdutoEntities)
+                    .OnDelete(DeleteBehavior.NoAction);
 
-            //builder.HasOne(preco => preco.CategoriaPrecoEntity)
-            //    .WithMany(categoria => categoria.PrecoProdutoEntities)
-            //    .HasForeignKey(preco => preco.CategoriaPrecoEntityId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(preco => preco.CategoriaPrecoEntity)
+                    .WithMany(cat_preco => cat_preco.PrecoProdutoEntities)
+                    .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

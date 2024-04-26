@@ -50,11 +50,60 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("710bd8dd-1853-43a1-8708-ca1f259d71ad"),
-                            CreateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(9098),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(6091),
                             DescricaoCategoria = "Balcão",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(9106)
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(6102)
+                        },
+                        new
+                        {
+                            Id = new Guid("5533b87c-72d5-4033-85c4-ae44f5a3210c"),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(6104),
+                            DescricaoCategoria = "IFood",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(6105)
+                        },
+                        new
+                        {
+                            Id = new Guid("ed65a4e3-a0b0-40a7-b7ae-3397a965d924"),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(6107),
+                            DescricaoCategoria = "Lojista",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(6109)
                         });
+                });
+
+            modelBuilder.Entity("Api.Domain.Entities.PrecoProduto.PrecoProdutoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoriaPrecoEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal>("PrecoProduto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProdutoEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaPrecoEntityId");
+
+                    b.HasIndex("ProdutoEntityId");
+
+                    b.ToTable("PrecosProdutos", (string)null);
                 });
 
             modelBuilder.Entity("Api.Domain.Entities.ProdutoMedida.ProdutoMedidaEntity", b =>
@@ -67,7 +116,9 @@ namespace Data.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Descricao")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -77,7 +128,28 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProdutosMedidas");
+                    b.HasIndex("Descricao")
+                        .IsUnique();
+
+                    b.ToTable("ProdutosMedidas", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"),
+                            CreateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(5878),
+                            Descricao = "Unidade",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(5876)
+                        },
+                        new
+                        {
+                            Id = new Guid("2f943e86-f06f-4f7d-babf-48d0d2d8f3ac"),
+                            CreateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(5888),
+                            Descricao = "Caixa",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(5886)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.CategoriaProduto.CategoriaProdutoEntity", b =>
@@ -111,18 +183,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"),
-                            CreateAt = new DateTime(2024, 4, 25, 16, 34, 23, 340, DateTimeKind.Utc).AddTicks(1276),
+                            CreateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(3594),
                             DescricaoCategoria = "Executivos",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 16, 34, 23, 340, DateTimeKind.Utc).AddTicks(1273)
+                            UpdateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(3588)
                         },
                         new
                         {
                             Id = new Guid("d9d229c4-9a64-4836-af41-2f111f229c46"),
-                            CreateAt = new DateTime(2024, 4, 25, 16, 34, 23, 340, DateTimeKind.Utc).AddTicks(1296),
+                            CreateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(3618),
                             DescricaoCategoria = "Bebidas",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 16, 34, 23, 340, DateTimeKind.Utc).AddTicks(1296)
+                            UpdateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(3617)
                         });
                 });
 
@@ -157,34 +229,34 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("567906bb-6eb4-42e9-b890-10e6da214766"),
-                            CreateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8181),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4620),
                             DescricaoPeriodo = "Almoço",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8191)
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4625)
                         },
                         new
                         {
                             Id = new Guid("fc6a5d67-8356-4270-b9e6-7749b553dcf3"),
-                            CreateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8195),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4628),
                             DescricaoPeriodo = "Janta",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8196)
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4629)
                         },
                         new
                         {
                             Id = new Guid("f14c83df-1fa4-4a83-8070-b16ecb19aa77"),
-                            CreateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8199),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4632),
                             DescricaoPeriodo = "Dia Todo",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8200)
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4633)
                         },
                         new
                         {
                             Id = new Guid("7e107de8-c97a-435b-9976-7a689ca28bb7"),
-                            CreateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8202),
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4635),
                             DescricaoPeriodo = "Noturno",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 25, 13, 34, 23, 340, DateTimeKind.Local).AddTicks(8203)
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(4636)
                         });
                 });
 
@@ -250,6 +322,23 @@ namespace Data.Migrations
                     b.HasIndex("ProdutoTipoEntityId");
 
                     b.ToTable("Produtos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f0e75a80-0b64-4b2b-9f53-f3dce3f6d126"),
+                            CategoriaProdutoEntityId = new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"),
+                            CodigoBarrasPersonalizado = "01",
+                            CreateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(3711),
+                            Descricao = "",
+                            Habilitado = true,
+                            ImgUrl = "",
+                            NomeProduto = "Agua sem gas",
+                            Observacoes = "",
+                            ProdutoMedidaEntityId = new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"),
+                            ProdutoTipoEntityId = new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"),
+                            UpdateAt = new DateTime(2024, 4, 25, 17, 3, 40, 318, DateTimeKind.Local).AddTicks(3731)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.ProdutoTipo.ProdutoTipoEntity", b =>
@@ -278,6 +367,43 @@ namespace Data.Migrations
                         .IsUnique();
 
                     b.ToTable("TiposProdutos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"),
+                            CreateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(4663),
+                            DescricaoTipoProduto = "Venda",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(4671)
+                        },
+                        new
+                        {
+                            Id = new Guid("1e11b25a-8bf5-4d57-80b7-396d09cbfcf1"),
+                            CreateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(4672),
+                            DescricaoTipoProduto = "Materia Prima",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 4, 25, 20, 3, 40, 317, DateTimeKind.Utc).AddTicks(4674)
+                        });
+                });
+
+            modelBuilder.Entity("Api.Domain.Entities.PrecoProduto.PrecoProdutoEntity", b =>
+                {
+                    b.HasOne("Api.Domain.Entities.CategoriaPreco.CategoriaPrecoEntity", "CategoriaPrecoEntity")
+                        .WithMany("PrecoProdutoEntities")
+                        .HasForeignKey("CategoriaPrecoEntityId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Produto.ProdutoEntity", "ProdutoEntity")
+                        .WithMany("PrecoProdutoEntities")
+                        .HasForeignKey("ProdutoEntityId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("CategoriaPrecoEntity");
+
+                    b.Navigation("ProdutoEntity");
                 });
 
             modelBuilder.Entity("Domain.Entities.Produto.ProdutoEntity", b =>
@@ -307,6 +433,11 @@ namespace Data.Migrations
                     b.Navigation("ProdutoTipoEntity");
                 });
 
+            modelBuilder.Entity("Api.Domain.Entities.CategoriaPreco.CategoriaPrecoEntity", b =>
+                {
+                    b.Navigation("PrecoProdutoEntities");
+                });
+
             modelBuilder.Entity("Api.Domain.Entities.ProdutoMedida.ProdutoMedidaEntity", b =>
                 {
                     b.Navigation("ProdutoEntities");
@@ -315,6 +446,11 @@ namespace Data.Migrations
             modelBuilder.Entity("Domain.Entities.CategoriaProduto.CategoriaProdutoEntity", b =>
                 {
                     b.Navigation("ProdutoEntities");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Produto.ProdutoEntity", b =>
+                {
+                    b.Navigation("PrecoProdutoEntities");
                 });
 
             modelBuilder.Entity("Domain.Entities.ProdutoTipo.ProdutoTipoEntity", b =>

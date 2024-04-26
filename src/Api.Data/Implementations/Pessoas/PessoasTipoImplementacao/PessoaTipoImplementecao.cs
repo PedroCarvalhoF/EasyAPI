@@ -1,7 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Api.Domain.Entities.Pessoa.PessoaTipo;
-using Domain.Repository.PessoaRepositorys.PessoaTipo;
+using Domain.Interfaces.Repository.PessoaRepositorys.PessoaTipo;
 
 namespace Data.Implementations.Pessoas.PessoasTipoImplementacao
 {

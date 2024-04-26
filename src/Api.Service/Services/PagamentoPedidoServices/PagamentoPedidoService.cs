@@ -5,9 +5,9 @@ using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Entities.PagamentoPedido;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository;
 using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Models.PagamentoPedidoModels;
-using Domain.Repository;
 
 namespace Service.Services.PagamentoPedidoServices
 {

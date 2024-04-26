@@ -2,7 +2,7 @@
 using Api.Data.Repository;
 using Api.Domain.Entities.PontoVenda;
 using Domain.Dtos.PontoVendaDtos;
-using Domain.Repository;
+using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

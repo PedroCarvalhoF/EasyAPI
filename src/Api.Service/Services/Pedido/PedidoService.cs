@@ -9,7 +9,7 @@ using Domain.Entities.ItensPedido;
 using Domain.Enuns;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces;
-using Domain.Repository;
+using Domain.Interfaces.Repository;
 
 namespace Api.Service.Services.Pedido
 {
