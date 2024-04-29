@@ -5,6 +5,7 @@ namespace Api.Domain.Interfaces.Services.Identity
 {
     public interface IIdentityService
     {
+        Task<Guid> GetIdIdentityByName(string name);
         Task<UsuarioLoginResponse> Login(UsuarioLoginRequest usuarioLogin);
         Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest usuarioCadastro);
         Task<UsuarioDto> GetUserById(Guid id);

@@ -9,21 +9,22 @@ namespace Data.Mapping.PerfilUsuario
         public void Configure(EntityTypeBuilder<PerfilUsuarioEntity> builder)
         {
             //tabela Produto
-            builder.ToTable("PerfilsUsuarios");
-
+            builder.ToTable("PerfisUsuarios");
             //Id 
-            builder.HasKey(user => user.Id);         
+            builder.HasKey(user => user.Id);
 
-            //nome do produto
+
+            //UsuarioIdentity           
+            builder.Property(user => user.IdentityId)
+                .IsRequired();
+
+
+            //nome
             builder.Property(user => user.Nome)
                 .HasMaxLength(100)
                 .IsRequired();
             builder.HasIndex(user => user.Nome)
                 .IsUnique();
-
-            //senha           
-            builder.Property(user => user.Senha)
-                .IsRequired();
         }
     }
 }

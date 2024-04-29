@@ -26,7 +26,7 @@ namespace Api.Identity.Services
         }
         public async Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest usuarioCadastro)
         {
-            
+
             IdentityUser identityUser = new IdentityUser
             {
                 UserName = usuarioCadastro.Email,
@@ -65,7 +65,6 @@ namespace Api.Identity.Services
 
             return usuarioLoginResponse;
         }
-
 
         private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
         {
@@ -184,6 +183,12 @@ namespace Api.Identity.Services
             };
 
             return user;
+        }
+
+        public async Task<Guid> GetIdIdentityByName(string name)
+        {
+            IdentityUser? userName = await _userManager.FindByNameAsync(name);
+            return Guid.Parse(userName.Id);
         }
     }
 }

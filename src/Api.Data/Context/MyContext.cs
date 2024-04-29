@@ -24,7 +24,7 @@ namespace Api.Data.Context
         public DbSet<CategoriaPrecoEntity>? CategoriasPrecos { get; set; }
         public DbSet<CategoriaPrecoEntity>? PrecosProdutos { get; set; }
 
-        public DbSet<PerfilUsuarioEntity>? PerfilsUsuarios { get; set; }
+        public DbSet<PerfilUsuarioEntity>? PerfisUsuarios { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {

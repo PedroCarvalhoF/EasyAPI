@@ -8,7 +8,6 @@ namespace Domain.Dtos.PerfilUsuario
         [Required(ErrorMessage = "Obrigatório Id Perfil para alterar")]
         public Guid Id { get; set; }
 
-
         [Required(ErrorMessage = "Informe o nome")]
         [MaxLength(100, ErrorMessage = "Número máximo de caracteres: {0}")]
         [DisplayName("Nome do Usuário")]

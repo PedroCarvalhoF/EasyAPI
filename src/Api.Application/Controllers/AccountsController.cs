@@ -2,6 +2,8 @@ using Api.Application.Shared;
 using Api.Domain.Dtos.IdentityDto;
 using Api.Domain.Interfaces.Services.Identity;
 using Domain.Dtos.IdentityDto;
+using Domain.Dtos.PerfilUsuario;
+using Domain.Interfaces.Services.PerfilUsuario;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -13,9 +15,14 @@ namespace Api.Application.Controllers
     [Authorize]
     public class AccountsController : ControllerBase
     {
-        private IIdentityService _identityService;
-        public AccountsController(IIdentityService identityService) =>
+        private readonly IIdentityService _identityService;
+        private readonly IPerfilUsuarioService _perfilUsuarioService;
+
+        public AccountsController(IIdentityService identityService, IPerfilUsuarioService perfilUsuarioService)
+        {
             _identityService = identityService;
+            _perfilUsuarioService = perfilUsuarioService;
+        }
 
         [AllowAnonymous]
         [HttpPost("cadastrar")]
@@ -25,8 +32,27 @@ namespace Api.Application.Controllers
                 return BadRequest();
 
             UsuarioCadastroResponse resultado = await _identityService.CadastrarUsuario(usuarioCadastro);
+
+
+
+
             if (resultado.Sucesso)
+            {
+
+                var idIdentity = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
+                
+
+                PerfilUsuarioDtoCreate perfilCreate = new PerfilUsuarioDtoCreate
+                {
+                    Nome = usuarioCadastro.Nome,
+                    IdentityId = idIdentity
+                };
+
+                var perfilResult = await _perfilUsuarioService.Create(perfilCreate);
+
                 return Ok(resultado);
+            }
+
 
             else if (resultado.Erros.Count > 0)
             {
@@ -58,7 +84,7 @@ namespace Api.Application.Controllers
             if (usuarioDto.Id == Guid.Empty)
                 return BadRequest("Usuário não encontrado");
 
-            
+
             return Ok(usuarioDto);
         }
 
