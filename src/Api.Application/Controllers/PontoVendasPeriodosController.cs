@@ -1,5 +1,4 @@
 ﻿using Api.Domain.Dtos.ProdutoMedidaDtos;
-using Api.Domain.Interfaces.Services.ProdutoMedida;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
@@ -10,11 +9,11 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
 
-    public class PeriodosPontosVendasController : ControllerBase
+    public class PontoVendasPeriodosController : ControllerBase
     {
         private readonly IPeriodoPontoVendaService _service;
 
-        public PeriodosPontosVendasController(IPeriodoPontoVendaService service)
+        public PontoVendasPeriodosController(IPeriodoPontoVendaService service)
         {
             _service = service;
         }
@@ -118,33 +117,7 @@ namespace Api.Controllers
                     $"Erro.Detalhes: {ex.Message}");
             }
         }
-
-
-        [HttpPut("alterar-periodos-pontos-vendas")]
-        public async Task<ActionResult<ProdutoMedidaDto>> Update(PeriodoPontoVendaDtoUpdate update)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            try
-            {
-                var dto = await _service.Update(update);
-                if (dto == null)
-                {
-                    return BadRequest("Não foi possível realizar tafefa");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
+      
 
         [HttpPut("desabilitar/periodos-pontos-vendas/{id}")]
         public async Task<ActionResult> Desabilitar(Guid id)

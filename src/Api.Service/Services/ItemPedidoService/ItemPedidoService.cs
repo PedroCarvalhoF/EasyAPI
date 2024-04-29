@@ -202,9 +202,9 @@ namespace Service.Services.ItemPedidoService
                 }
 
 
-                IEnumerable<ItemPedidoEntity> entity = await repository.SelectAsync(item => item.SituacaoItemPedidoEnum.Equals(situacaoEnumSelecionada), fullConsulta);
+                //IEnumerable<ItemPedidoEntity> entity = await repository.SelectAsync(item => item.SituacaoItemPedidoEnum.Equals(situacaoEnumSelecionada), fullConsulta);
 
-                return mapper.Map<IEnumerable<ItemPedidoDto>>(entity);
+                return null;
             }
             catch (Exception ex)
             {

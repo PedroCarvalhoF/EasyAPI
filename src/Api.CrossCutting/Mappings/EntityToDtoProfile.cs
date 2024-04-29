@@ -46,9 +46,8 @@ namespace Api.CrossCutting.Mappings
             //
             CreateMap<ProdutoDto, ProdutoEntity>().ReverseMap();
 
+            // ## PONTO  DE VENDA ##
             CreateMap<PontoVendaDto, PontoVendaEntity>().ReverseMap();
-            CreateMap<PontoVendaDtoCreateResult, PontoVendaEntity>().ReverseMap();
-            CreateMap<PontoVendaDtoUpdateResult, PontoVendaEntity>().ReverseMap();
 
             CreateMap<PedidoDto, PedidoEntity>().ReverseMap();
             CreateMap<PedidoDtoCreateResult, PedidoEntity>().ReverseMap();
@@ -87,7 +86,7 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<PeriodoPontoVendaDto, PeriodoPontoVendaEntity>().ReverseMap();
             CreateMap<PeriodoPontoVendaDtoCreate, PeriodoPontoVendaEntity>().ReverseMap();
-            CreateMap<PeriodoPontoVendaDtoUpdate, PeriodoPontoVendaEntity>().ReverseMap();
+           
 
 
         }

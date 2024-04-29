@@ -55,12 +55,11 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ProdutoDtoCreate, ProdutoModels>();
             CreateMap<ProdutoDtoUpdate, ProdutoModels>();
 
+
+            // # PONTO DE VENDA #
             CreateMap<PontoVendaModels, PontoVendaDto>().ReverseMap();
             CreateMap<PontoVendaModels, PontoVendaDtoCreate>().ReverseMap();
-            CreateMap<PedidoDtoCreate, PedidoModels>()
-            .ConstructUsing(dto => new PedidoModels(dto.NumeroPedido, dto.Observacoes, dto.UserIdCreatePedido, dto.PontoVendaEntityId, dto.CategoriaPrecoEntityId));
-
-            CreateMap<PontoVendaModels, PontoVendaDtoUpdate>().ReverseMap();
+           
 
             CreateMap<PedidoModels, PedidoDto>().ReverseMap();
             CreateMap<PedidoModels, PedidoDtoCreate>().ReverseMap();
@@ -106,7 +105,7 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDto>().ReverseMap();
             CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDtoCreate>().ReverseMap();
-            CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDtoUpdate>().ReverseMap();                      
+                          
         }
 
     }

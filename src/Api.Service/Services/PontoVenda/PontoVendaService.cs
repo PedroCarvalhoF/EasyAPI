@@ -3,13 +3,10 @@ using Api.Domain.Entities.PontoVenda;
 using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Domain.Models.PontoVendaModels;
 using AutoMapper;
-using Domain.Dtos.PedidoDtos;
-using Domain.Dtos.PontoVendaDtos;
-using Domain.Enuns;
-using Domain.ExceptionsPersonalizadas;
+using Domain.Dtos;
 using Domain.Interfaces;
-using Domain.Interfaces.Repository;
-using Service.Services.PontoVendaService;
+using Domain.Interfaces.Repository.PontoVenda;
+using System.Globalization;
 
 namespace Api.Service.Services.PontoVendaService
 {
@@ -17,213 +14,191 @@ namespace Api.Service.Services.PontoVendaService
     {
         private readonly IRepository<PontoVendaEntity> _repository;
         private readonly IMapper _mapper;
-        private readonly IPontoVendaRepository _pontoVendaRepository;
+        private readonly IPontoVendaRepository _implementacao;
 
-        public PontoVendaService(IRepository<PontoVendaEntity> repository, IMapper mapper, IPontoVendaRepository pontoVendaRepository)
+        public PontoVendaService(IRepository<PontoVendaEntity> repository,
+                                 IMapper mapper,
+                                 IPontoVendaRepository pontoVendaRepository)
         {
             _repository = repository;
             _mapper = mapper;
-            _pontoVendaRepository = pontoVendaRepository;
+            _implementacao = pontoVendaRepository;
         }
-
-        public async Task<IEnumerable<PontoVendaDto>> ConsultarPdvsById(List<Guid> idsPdvs)
+        public async Task<ResponseDto<List<PontoVendaDto>>> GetPdvs()
         {
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                IEnumerable<PontoVendaEntity> pdvs = await _pontoVendaRepository.ConsultarPdvsById(idsPdvs);
-                IEnumerable<PontoVendaDto> pdvs_dtos = _mapper.Map<IEnumerable<PontoVendaDto>>(pdvs);
+                var entities = await _implementacao.GetPdvs();
 
-                //  var resumo_dia = PontoVendaResumoDetalhadoExt.GetResumoDia(pdvs_dtos.ToList());
+                if (entities == null)
+                {
+                    resposta.Status = true;
+                    resposta.Mensagem = "Ponto de Venda não localizado";
+                    return resposta;
+                }
 
-                return pdvs_dtos;
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
+                var dtos = _mapper.Map<List<PontoVendaDto>>(entities);
+                resposta.Dados = dtos;
+                resposta.Mensagem = $"PDVs Localizados: {dtos.Count} ";
+                return resposta;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
             }
         }
-
-        public async Task<IEnumerable<PontoVendaDto>> ConsultarPontoVenda(bool abertoFechado)
+        public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId)
         {
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                IEnumerable<PontoVendaEntity> pdvEntities = await _pontoVendaRepository.GetPontoVenda(pdv => pdv.AbertoFechado.Equals(abertoFechado), false);
+                var entities = await _implementacao.GetByIdPdv(pdvId);
 
-                return _mapper.Map<IEnumerable<PontoVendaDto>>(pdvEntities);
+                if (entities == null)
+                {
+                    resposta.Status = true;
+                    resposta.Mensagem = "Ponto de Venda não localizado";
+                    return resposta;
+                }
+                var dtos = _mapper.Map<PontoVendaDto>(entities);
 
+                resposta.Dados.Add(dtos);
+                resposta.Mensagem = "PDV Localizado";
 
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<PontoVendaResumoDetalhadoDto> ConsultarPontoVenda(Guid pontoVendaId)
-        {
-            try
-            {
-                PontoVendaEntity? pontoVendaEntity = (await _pontoVendaRepository.GetPontoVenda(pdv => pdv.Id.Equals(pontoVendaId))).FirstOrDefault();
-
-                PontoVendaModels pdvModel = _mapper.Map<PontoVendaModels>(pontoVendaEntity);
-
-                PontoVendaDto pdvDto = _mapper.Map<PontoVendaDto>(pdvModel);
-
-                PontoVendaResumoDetalhadoDto detalhado = PontoVendaExtension.GetResumoDetalhadoPdV(pdvDto);
-
-                return detalhado;
-
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-
-
-        public async Task<PontoVendaDto> EncerrarPontoVenda(Guid pontoVendaId)
-        {
-            try
-            {
-                PontoVendaEntity pontoVendaEntity = await _repository.SelectAsync(pontoVendaId);
-                PontoVendaModels model = _mapper.Map<PontoVendaModels>(pontoVendaEntity);
-                model.EncerrarPontoVendaModels();
-                PontoVendaEntity entity = _mapper.Map<PontoVendaEntity>(model);
-                PontoVendaEntity result = await _repository.UpdateAsync(entity);
-                return _mapper.Map<PontoVendaDto>(await _repository.SelectAsync(result.Id));
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
-        }
-
-        public async Task<PontoVendaDto> GerarPontoVenda(PontoVendaDtoCreate pontoVendaDtoCreate)
-        {
-            try
-            {
-                //CONTINUAR PONTO DE VENDA
-                PontoVendaModels model = _mapper.Map<PontoVendaModels>(pontoVendaDtoCreate);
-                model.GerarPontoVendaModels();
-                PontoVendaEntity entity = _mapper.Map<PontoVendaEntity>(model);
-                PontoVendaEntity result = await _repository.InsertAsync(entity);
-                return _mapper.Map<PontoVendaDto>(await _repository.SelectAsync(result.Id));
+                return resposta;
 
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
             }
         }
-
-        public async Task<IEnumerable<PontoVendaResumoDiaDto>> InfoDashPdvsByPeriodo(PdvGetByData FiltroConsultaPdvDashDto)
+        public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV)
         {
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                IEnumerable<PontoVendaEntity> pdvs = await _pontoVendaRepository.InfoDashPdvsByPeriodo(FiltroConsultaPdvDashDto);
-                IEnumerable<PontoVendaDto> pdvs_dtos = _mapper.Map<IEnumerable<PontoVendaDto>>(pdvs);
+                var entities = await _implementacao.GetByIdPerfilUsuario(IdPerfilUtilizarPDV);
 
-                List<PontoVendaResumoDiaDto> resumo_dia = PontoVendaExtension.GetResumoDia(pdvs_dtos.ToList());
+                if (entities == null)
+                {
+                    resposta.Status = true;
+                    resposta.Mensagem = "Ponto de Venda não localizado para este usuário";
+                    return resposta;
+                }
+                var dtos = _mapper.Map<List<PontoVendaDto>>(entities);
 
-                return resumo_dia;
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
+                resposta.Dados = dtos;
+                resposta.Mensagem = "PDV Localizado";
+
+                return resposta;
+
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
             }
         }
-        public async Task<IEnumerable<PontoVendaDto>> ConsultarPontoVendaByData(PdvGetByData pdvGetByData)
+        public async Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado)
         {
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                IEnumerable<PontoVendaEntity> pdvs = await _pontoVendaRepository.ConsultarPontoVendaByData(pdvGetByData);
-                IEnumerable<PontoVendaDto> pdvs_dtos = _mapper.Map<IEnumerable<PontoVendaDto>>(pdvs);
+                var entities = await _implementacao.AbertosFechados(abertoFechado);
 
-                return pdvs_dtos;
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
+                if (entities == null)
+                {
+                    resposta.Status = true;
+                    resposta.Mensagem = "Ponto de Venda não localizado";
+                    return resposta;
+                }
+                var dtos = _mapper.Map<List<PontoVendaDto>>(entities);
+
+                resposta.Dados = dtos;
+                resposta.Mensagem = $"PDV Localizado: {dtos.Count} {(abertoFechado == true ? "ABERTOS" : "FECHADOS")}";
+
+                return resposta;
+
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
             }
         }
-
-
-        #region Dash Ponto de Venda
-
-
-        public async Task<DashPontoVendaDtosV2> DashPdvsByIdsPdvs(List<Guid> idsPdvs)
+        public async Task<ResponseDto<List<PontoVendaDto>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate)
         {
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                IEnumerable<PontoVendaEntity> pdvs = await _pontoVendaRepository.GetByIdsPdvs(idsPdvs);
-                IEnumerable<PontoVendaDto> pdvsDtos = _mapper.Map<IEnumerable<PontoVendaDto>>(pdvs);
+                var model = _mapper.Map<PontoVendaModels>(pontoVendaDtoCreate);
+                model.AbrirPDV();
+                var entity = _mapper.Map<PontoVendaEntity>(model);
 
+                var result = await _repository.InsertAsync(entity);
 
-                IEnumerable<Domain.Dtos.PedidoDtos.PedidoDto> all_pedidos = PontoVendaDetalhado.FiltrarPedidosPontoVenda(pdvsDtos, SituacaoPedidoEnum.Aberto, true);
-                IEnumerable<Domain.Dtos.PedidoDtos.PedidoDto> all_validos = PontoVendaDetalhado.FiltrarPedidosPontoVenda(pdvsDtos, SituacaoPedidoEnum.Finalizado, false);
-                IEnumerable<Domain.Dtos.PedidoDtos.PedidoDto> all_pedidosCancelados = PontoVendaDetalhado.FiltrarPedidosPontoVenda(pdvsDtos, SituacaoPedidoEnum.Cancelado, false);
+                var pdvCreate = await GetByIdPdv(result.Id);
 
-                DashPontoVendaDtosV2 dash = new DashPontoVendaDtosV2();
-
-
-                dash.all_pedidos = all_pedidos.ToList();
-                dash.all_validos = all_validos.ToList();
-                dash.all_pedidos_cancelados = all_pedidosCancelados.ToList();
-
-                dash.total_pedido = PontoVendaDetalhado.TotalPedido(all_pedidos);
-                dash.total_pedido_validos = PontoVendaDetalhado.TotalPedido(all_validos);
-                dash.total_pedidos_cancelados = PontoVendaDetalhado.TotalPedido(all_pedidosCancelados);
-
-
-
-                dash.faturamento = PontoVendaDetalhado.TotalFaturado(all_validos);
-                dash.TC = dash.total_pedido_validos;
-                dash.CalculaTM(dash.faturamento, dash.TC);
-
-                dash.ListaProdutosAgrupados = PontoVendaDetalhado.ProdutosRegistrados(dash.all_validos);
-                dash.ListaFpgtsInformados = PontoVendaDetalhado.PagamentosRegistrados(dash.all_validos);
-
-                return dash;
-            }
-            catch (ModelsExceptions ex)
-            {
-                throw new ModelsExceptions(ex.Message);
+                return pdvCreate;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
             }
-
         }
+        public async Task<ResponseDto<List<PontoVendaDto>>> Encerrar(Guid pontoVendaId)
+        {
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
+            try
+            {
+                var pdvSelecionado = await _repository.SelectAsync(pontoVendaId);
+
+                var model = _mapper.Map<PontoVendaModels>(pdvSelecionado);
+
+                model.FinalizarPDV();
+
+                var entity = _mapper.Map<PontoVendaEntity>(model);
+
+                var resultUpdate = await _repository.UpdateAsync(entity);
+
+                var verificarUpdate = await _implementacao.GetByIdPdv(pontoVendaId);
+
+                if (!verificarUpdate.AbertoFechado)
+                {
+                    resposta.Mensagem = $"PDV {entity.Id} encerrado com sucesso! {resultUpdate.UpdateAt} ";
+                    return resposta;
+                }
+                else
+                {
+                    resposta.Status = false;
+                    resposta.Mensagem = "Não foi possível encerrar pdv";
+                    return resposta;
+                }
 
 
-
-
-        #endregion
+            }
+            catch (Exception ex)
+            {
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Api.Domain.Entities;
 using Api.Domain.Entities.Pedido;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities.Pedido
@@ -13,8 +12,3 @@ namespace Domain.Entities.Pedido
         public IEnumerable<PedidoEntity>? PedidoEntities { get; set; }
     }
 }
-
-
-//        Aberto = 1,
-//        Finalizado = 2,
-//        Cancelado = 3

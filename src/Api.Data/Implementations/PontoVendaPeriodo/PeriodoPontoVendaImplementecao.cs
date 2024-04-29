@@ -4,7 +4,7 @@ using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Implementations
+namespace Data.Implementations.PontoVendaPeriodo
 {
     public class PeriodoPontoVendaImplementecao : BaseRepository<PeriodoPontoVendaEntity>, IPeriodoPontoVendaRepository
     {

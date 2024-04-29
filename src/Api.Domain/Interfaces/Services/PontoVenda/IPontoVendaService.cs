@@ -1,19 +1,17 @@
 using Api.Domain.Dtos.PontoVendaDtos;
-using Domain.Dtos.PedidoDtos;
-using Domain.Dtos.PontoVendaDtos;
-using Service.Services.PontoVendaService;
+using Domain.Dtos;
 
 namespace Api.Domain.Interfaces.Services.PontoVenda
 {
     public interface IPontoVendaService
     {
-        Task<PontoVendaDto> GerarPontoVenda(PontoVendaDtoCreate pontoVendaDtoCreate);
-        Task<PontoVendaDto> EncerrarPontoVenda(Guid pontoVendaId);
-        Task<IEnumerable<PontoVendaDto>> ConsultarPontoVenda(bool abertoFechado);
-        Task<PontoVendaResumoDetalhadoDto> ConsultarPontoVenda(Guid pontoVendaId);
-        Task<IEnumerable<PontoVendaDto>> ConsultarPdvsById(List<Guid> idsPdvs);
-        Task<IEnumerable<PontoVendaResumoDiaDto>> InfoDashPdvsByPeriodo(PdvGetByData FiltroConsultaPdvDashDto);
-        Task<DashPontoVendaDtosV2> DashPdvsByIdsPdvs(List<Guid> idsPdvs);
-        Task<IEnumerable<PontoVendaDto>> ConsultarPontoVendaByData(PdvGetByData pdvGetByData);
+        Task<ResponseDto<List<PontoVendaDto>>> GetPdvs();
+        Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId);
+        Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV);
+        Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado);
+        Task<ResponseDto<List<PontoVendaDto>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate);
+        Task<ResponseDto<List<PontoVendaDto>>> Encerrar(Guid pontoVendaId);
+
+
     }
 }

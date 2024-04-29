@@ -1,4 +1,3 @@
-using Api.Domain.Enuns;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Dtos.PontoVendaDtos
@@ -6,17 +5,12 @@ namespace Api.Domain.Dtos.PontoVendaDtos
     public class PontoVendaDtoCreate
     {
         [Required]
-        public Guid UserIdCreatePdv { get; set; }
+        public Guid IdPerfilAbriuPDV { get; set; }
 
         [Required]
-        public Guid UserIdResponsavel { get; set; }
-        /// <summary>
-        ///  1 - almoço
-        ///  2 - janta
-        ///  3 - dia 
-        /// </summary>
+        public Guid IdPerfilUtilizarPDV { get; set; }
         [Required]
-        public PeriodoPontoVendaEnum PeriodoPontoVendaEnum { get; set; }
+        public Guid PeriodoPontoVendaEntityId { get; set; }
 
     }
 }

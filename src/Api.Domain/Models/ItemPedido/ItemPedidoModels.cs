@@ -4,7 +4,7 @@ using Domain.ExceptionsPersonalizadas;
 
 namespace Domain.Models.ItemPedidoModels
 {
-    public class ItemPedidoModels : BaseModel
+    public class ItemPedidoModels : ModelBase
     {
         public ItemPedidoModels(Guid produtoEntityId, decimal quatidade, decimal preco, decimal desconto, string? observacaoItem, Guid pedidoEntityId, Guid usuarioRestroId)
         {

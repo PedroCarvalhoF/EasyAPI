@@ -3,7 +3,6 @@ using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.Pedido;
-using Domain.Enuns;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,12 +12,16 @@ namespace Api.Domain.Entities.Pedido
     {
         [Required]
         public string? NumeroPedido { get; set; }
+
+
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? TotalItensPedido { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? ValorDesconto { get; set; }
+
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? ValorPedido { get; set; }
@@ -35,6 +38,8 @@ namespace Api.Domain.Entities.Pedido
         [Required]
         public DateTime DataUltimaAtualizacao { get; set; }
 
+
+        //um pedido contem 1 pdv
         [Required]
         public Guid? PontoVendaEntityId { get; set; }
         public PontoVendaEntity? PontoVendaEntity { get; set; }

@@ -1,20 +1,18 @@
-using Api.Domain.Dtos.PedidoDtos;
-using Api.Domain.Enuns;
+using Domain.Dtos.PerfilUsuario;
+using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 
 namespace Api.Domain.Dtos.PontoVendaDtos
 {
-    public class PontoVendaDto //: BaseDto
+    public class PontoVendaDto
     {
         public Guid Id { get; set; }
         public DateTime CreateAt { get; set; }
-        public Guid UserIdCreatePdv { get; set; }
-        public Guid UserIdResponsavel { get; set; }
-        public PeriodoPontoVendaEnum PeriodoPontoVendaEnum { get; set; }
-        public bool AbertoFechado { get; set; }
-        public IEnumerable<PedidoDto>? PedidoEntity { get; set; }
-        public DateTime? DataAlteracaoEncerrado { get; set; }
+        public DateTime UpdateAt { get; set; }
+        public bool Habilitado { get; set; }
 
-        public override string ToString()
-        => $"ID: {Id} - Data Abertura: {CreateAt.ToString("G")}";
+        public PerfilUsuarioDto? PerfilUsuarioEntityAbrilPDV { get; set; }
+        public PerfilUsuarioDto? PerfilUsuarioEntityUtilizarPDV { get; set; }
+        public PeriodoPontoVendaDto? PeriodoPontoVendaEntity { get; set; }
+        public bool AbertoFechado { get; set; }
     }
 }

@@ -80,23 +80,7 @@ namespace Service.Services.PeriodoPontoVenda
                 throw;
             }
         }
-        public async Task<PeriodoPontoVendaDto> Update(PeriodoPontoVendaDtoUpdate update)
-        {
-            try
-            {
-                var entity = _mapper.Map<PeriodoPontoVendaEntity>(update);
-                var result = await _repository.UpdateAsync(entity);
-                var dto = _mapper.Map<PeriodoPontoVendaDto>(result);
-
-
-                return await Get(result.Id);
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+     
 
         public async Task<bool> Desabilitar(Guid id)
         {
