@@ -57,6 +57,8 @@ namespace Api.Application.Controllers
             UsuarioDto usuarioDto = await _identityService.GetUserById(id);
             if (usuarioDto.Id == Guid.Empty)
                 return BadRequest("Usuário não encontrado");
+
+            
             return Ok(usuarioDto);
         }
 

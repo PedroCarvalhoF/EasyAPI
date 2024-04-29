@@ -79,7 +79,7 @@ namespace Api.Controllers
             {
                 var produtoDto = await _service.GetCodigo(codigoPersonalizado);
                 if (produtoDto == null)
-                   return BadRequest("Não localizado.");
+                    return BadRequest("Não localizado.");
                 return Ok(produtoDto);
             }
             catch (ModelsExceptions ex)
@@ -192,7 +192,7 @@ namespace Api.Controllers
 
 
 
-        [HttpGet("produtos/{habilitado}/habilitado")]
+        [HttpPut("produtos/{habilitado}/habilitado")]
         public async Task<ActionResult> GetHabilitadoNaoHabilitado(bool habilitado)
         {
             if (!ModelState.IsValid)

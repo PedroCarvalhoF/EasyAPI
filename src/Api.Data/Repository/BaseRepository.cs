@@ -96,7 +96,7 @@ namespace Api.Data.Repository
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("NÃO foi possível cadastrar!Já existe um cadastro como mesmo termo");
+                throw new Exception(ex.InnerException.Message);
             }
             catch (Exception ex)
             {

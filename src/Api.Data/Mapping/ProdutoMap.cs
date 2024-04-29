@@ -1,5 +1,4 @@
-﻿using Api.Domain.Entities.ProdutoMedida;
-using Domain.Entities.Produto;
+﻿using Domain.Entities.Produto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

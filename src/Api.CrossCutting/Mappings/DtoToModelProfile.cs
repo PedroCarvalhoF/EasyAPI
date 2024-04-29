@@ -17,6 +17,7 @@ using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
+using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.ProdutoDtos;
@@ -24,6 +25,7 @@ using Domain.Dtos.ProdutoTipo;
 using Domain.Models.FormaPagamentoModels;
 using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
+using Domain.Models.PerfilUsuario;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
 using Domain.Models.ProdutoModels;
@@ -34,10 +36,13 @@ namespace Api.CrossCutting.Mappings
     {
         public DtoToModelProfile()
         {
-            CreateMap<PrecoProdutoModels, PrecoProdutoDto>();
-            CreateMap<PrecoProdutoModels, PrecoProdutoDtoCreate>();
-       
 
+            CreateMap<PerfilUsuarioModels, PerfilUsuarioDto>().ReverseMap();
+            CreateMap<PerfilUsuarioModels, PerfilUsuarioDtoCreate>().ReverseMap();
+            CreateMap<PerfilUsuarioModels, PerfilUsuarioDtoUpdate>().ReverseMap();
+
+            CreateMap<PrecoProdutoModels, PrecoProdutoDto>();
+            CreateMap<PrecoProdutoModels, PrecoProdutoDtoCreate>();    
 
             CreateMap<CategoriaProdutoModel, CategoriaProdutoDto>().ReverseMap();
             CreateMap<CategoriaProdutoModel, CategoriaProdutoDtoCreate>().ReverseMap();
@@ -46,21 +51,16 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ProdutoModels, ProdutoDto>().ReverseMap();
             CreateMap<ProdutoModels, ProdutoDtoCreate>().ReverseMap();
 
-
             CreateMap<ProdutoDto, ProdutoModels>();
             CreateMap<ProdutoDtoCreate, ProdutoModels>();
             CreateMap<ProdutoDtoUpdate, ProdutoModels>();
 
-
             CreateMap<PontoVendaModels, PontoVendaDto>().ReverseMap();
-
             CreateMap<PontoVendaModels, PontoVendaDtoCreate>().ReverseMap();
             CreateMap<PedidoDtoCreate, PedidoModels>()
             .ConstructUsing(dto => new PedidoModels(dto.NumeroPedido, dto.Observacoes, dto.UserIdCreatePedido, dto.PontoVendaEntityId, dto.CategoriaPrecoEntityId));
 
-
             CreateMap<PontoVendaModels, PontoVendaDtoUpdate>().ReverseMap();
-
 
             CreateMap<PedidoModels, PedidoDto>().ReverseMap();
             CreateMap<PedidoModels, PedidoDtoCreate>().ReverseMap();
@@ -74,7 +74,6 @@ namespace Api.CrossCutting.Mappings
             CreateMap<PrecoProdutoModels, PrecoProdutoDtoCreate>().ReverseMap();
             CreateMap<PrecoProdutoModels, PrecoProdutoDtoUpdate>().ReverseMap();
 
-
             CreateMap<ItemPedidoModels, ItemPedidoDto>().ReverseMap();
             CreateMap<ItemPedidoModels, ItemPedidoDtoCreate>().ReverseMap();
             CreateMap<ItemPedidoModels, ItemPedidoDtoUpdate>().ReverseMap();
@@ -83,21 +82,15 @@ namespace Api.CrossCutting.Mappings
             CreateMap<FormaPagamentoModels, FormaPagamentoDtoCreate>().ReverseMap();
             CreateMap<FormaPagamentoModels, FormaPagamentoDtoUpdate>().ReverseMap();
 
-
             CreateMap<PagamentoPedidoModels, PagamentoPedidoDto>().ReverseMap();
             CreateMap<PagamentoPedidoModels, PagamentoPedidoDtoCreate>().ReverseMap();
 
-
             CreateMap<PessoaTipoModels, PessoaTipoDto>().ReverseMap();
-
-
 
             CreateMap<PessoaDtoCreate, PessoasModels>()
                .ConstructUsing(dto => new PessoasModels(dto.PrimeiroNome, dto.SegundoNome, dto.RgIE, dto.CpfCnpj, dto.Sexo, dto.DataNascimentoFundacao, dto.PessoaTipoEntityId));
-
             CreateMap<PessoaDtoUpdate, PessoasModels>()
               .ConstructUsing(dto => new PessoasModels(dto.Id, dto.PrimeiroNome, dto.SegundoNome, dto.RgIE, dto.CpfCnpj, dto.Sexo, dto.DataNascimentoFundacao, dto.PessoaTipoEntityId));
-
 
             CreateMap<ProdutoMedidaModel, ProdutoMedidaDto>().ReverseMap();
             CreateMap<ProdutoMedidaModel, ProdutoMedidaDtoCreate>().ReverseMap();
@@ -107,16 +100,13 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ProdutoTipoModels, ProdutoTipoDtoCreate>().ReverseMap();
             CreateMap<ProdutoTipoModels, ProdutoTipoDtoUpdate>().ReverseMap();
 
-
             CreateMap<ProdutoTipoModels, ProdutoTipoDto>().ReverseMap();
             CreateMap<ProdutoTipoModels, ProdutoTipoDtoCreate>().ReverseMap();
             CreateMap<ProdutoTipoModels, ProdutoTipoDtoUpdate>().ReverseMap();
 
             CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDto>().ReverseMap();
             CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDtoCreate>().ReverseMap();
-            CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDtoUpdate>().ReverseMap();
-                      
-
+            CreateMap<PeriodoPontoVendaModels, PeriodoPontoVendaDtoUpdate>().ReverseMap();                      
         }
 
     }

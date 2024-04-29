@@ -3,10 +3,12 @@ using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
 using Data.Mapping;
+using Data.Mapping.PerfilUsuario;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
+using Domain.Entities.UsuarioSistema;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data.Context
@@ -20,9 +22,9 @@ namespace Api.Data.Context
         public DbSet<ProdutoEntity>? Produtos { get; set; }
         public DbSet<PeriodoPontoVendaEntity>? PeriodosPontosVendas { get; set; }
         public DbSet<CategoriaPrecoEntity>? CategoriasPrecos { get; set; }
-
         public DbSet<CategoriaPrecoEntity>? PrecosProdutos { get; set; }
 
+        public DbSet<PerfilUsuarioEntity>? PerfilsUsuarios { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -41,6 +43,12 @@ namespace Api.Data.Context
             modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
             modelBuilder.Entity<CategoriaPrecoEntity>(new CategoriaPrecoMap().Configure);
             modelBuilder.Entity<PrecoProdutoEntity>(new PrecoProdutoMap().Configure);
+
+            modelBuilder.Entity<PerfilUsuarioEntity>(new PerfilUsuarioMap().Configure); 
+
+
+
+                
 
         }
 

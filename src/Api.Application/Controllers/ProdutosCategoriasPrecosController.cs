@@ -9,10 +9,10 @@ namespace Api.Application.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize]
-    public class ProdutosCategoriasPrecosontroller : ControllerBase
+    public class ProdutosCategoriasPrecosController : ControllerBase
     {
         private readonly ICategoriaPrecoService _service;
-        public ProdutosCategoriasPrecosontroller(ICategoriaPrecoService categoriaPrecoService)
+        public ProdutosCategoriasPrecosController(ICategoriaPrecoService categoriaPrecoService)
         {
             _service = categoriaPrecoService;
         }

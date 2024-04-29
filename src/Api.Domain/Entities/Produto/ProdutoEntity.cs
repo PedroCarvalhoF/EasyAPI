@@ -2,7 +2,6 @@
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
 using Domain.Entities.CategoriaProduto;
-using Domain.Entities.ItensPedido;
 using Domain.Entities.ProdutoTipo;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +9,8 @@ namespace Domain.Entities.Produto
 {
     public class ProdutoEntity : BaseEntity
     {
+              
+
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Produto")]
 

@@ -9,10 +9,10 @@ namespace Api.Application.Controllers
     [Route("api/[controller]")]
 
 
-    public class PrecosProdutoControllerController : Controller
+    public class PrecosProdutosController : Controller
     {
         private readonly IPrecoProdutoService _service;
-        public PrecosProdutoControllerController(IPrecoProdutoService service)
+        public PrecosProdutosController(IPrecoProdutoService service)
         {
             _service = service;
         }

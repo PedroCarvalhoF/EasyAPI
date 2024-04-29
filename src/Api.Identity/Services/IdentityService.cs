@@ -26,6 +26,7 @@ namespace Api.Identity.Services
         }
         public async Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest usuarioCadastro)
         {
+            
             IdentityUser identityUser = new IdentityUser
             {
                 UserName = usuarioCadastro.Email,
