@@ -27,6 +27,7 @@ using Data.Implementations.PontoVendaPeriodo;
 using Data.Implementations.Produto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Domain.Interfaces.Repository.PerfilUsuario;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Repository.PessoaRepositorys.PessoaTipo;

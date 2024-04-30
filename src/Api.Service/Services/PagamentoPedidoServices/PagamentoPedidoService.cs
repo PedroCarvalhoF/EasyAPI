@@ -51,7 +51,7 @@ namespace Service.Services.PagamentoPedidoServices
         {
             try
             {
-                PagamentoPedidoModels model = _mapper.Map<PagamentoPedidoModels>(pagamentoPedidoDto);
+                PagamentoPedidoModel model = _mapper.Map<PagamentoPedidoModel>(pagamentoPedidoDto);
                 PagamentoPedidoEntity entity = _mapper.Map<PagamentoPedidoEntity>(model);
                 PagamentoPedidoEntity resultPagamento = await _repository.InsertAsync(entity);
                 IEnumerable<PedidoDto> pedido = await _pedidoService.GetByIdPedido(resultPagamento.PedidoEntityId, true);
@@ -73,7 +73,7 @@ namespace Service.Services.PagamentoPedidoServices
         {
             try
             {
-                IEnumerable<PagamentoPedidoModels> model = _mapper.Map<IEnumerable<PagamentoPedidoModels>>(pgts);
+                IEnumerable<PagamentoPedidoModel> model = _mapper.Map<IEnumerable<PagamentoPedidoModel>>(pgts);
                 IEnumerable<PagamentoPedidoEntity> entities = _mapper.Map<IEnumerable<PagamentoPedidoEntity>>(model);
                 IEnumerable<PagamentoPedidoEntity> resultLoto = await _repository.InsertAsync(entities);
 

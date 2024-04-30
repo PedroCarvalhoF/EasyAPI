@@ -31,7 +31,7 @@ namespace Service.Services.ItemPedidoService
         {
             try
             {
-                ItemPedidoModels itemModel = new ItemPedidoModels(item.ProdutoEntityId, item.Quatidade, item.Preco, item.Desconto, item.ObservacaoItem, item.PedidoEntityId, item.UsuarioRestroId);
+                ItemPedidoModel itemModel = new ItemPedidoModel(item.ProdutoEntityId, item.Quatidade, item.Preco, item.Desconto, item.ObservacaoItem, item.PedidoEntityId, item.UsuarioRestroId);
 
                 ItemPedidoEntity entity = mapper.Map<ItemPedidoEntity>(itemModel);
 
@@ -64,7 +64,7 @@ namespace Service.Services.ItemPedidoService
         {
             try
             {
-                ItemPedidoModels itemModel = new ItemPedidoModels(item.ProdutoEntityId, item.Quatidade, item.Preco, item.Desconto, item.ObservacaoItem, item.PedidoEntityId, item.UsuarioRestroId);
+                ItemPedidoModel itemModel = new ItemPedidoModel(item.ProdutoEntityId, item.Quatidade, item.Preco, item.Desconto, item.ObservacaoItem, item.PedidoEntityId, item.UsuarioRestroId);
 
                 ItemPedidoEntity entity = mapper.Map<ItemPedidoEntity>(itemModel);
 
@@ -99,7 +99,7 @@ namespace Service.Services.ItemPedidoService
             try
             {
                 ItemPedidoEntity itemPedidoSelecionado = await repository.GetByIdItemPedido(idItemPedido);
-                ItemPedidoModels model = mapper.Map<ItemPedidoModels>(itemPedidoSelecionado);
+                ItemPedidoModel model = mapper.Map<ItemPedidoModel>(itemPedidoSelecionado);
 
                 model.CancelarItem();
 
@@ -131,7 +131,7 @@ namespace Service.Services.ItemPedidoService
             try
             {
                 ItemPedidoEntity itemPedidoSelecionado = await repository.GetByIdItemPedido(idItemPedido);
-                ItemPedidoModels model = mapper.Map<ItemPedidoModels>(itemPedidoSelecionado);
+                ItemPedidoModel model = mapper.Map<ItemPedidoModel>(itemPedidoSelecionado);
                 model.CancelarItem();
                 ItemPedidoEntity entity = mapper.Map<ItemPedidoEntity>(model);
                 ItemPedidoEntity result = await repositoryBase.UpdateAsync(entity);

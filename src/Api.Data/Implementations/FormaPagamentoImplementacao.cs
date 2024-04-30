@@ -1,7 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Domain.Entities.FormaPagamento;
-using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -16,28 +16,6 @@ namespace Data.Implementations
             _dataset.AsNoTracking();
         }
 
-        public async Task<IEnumerable<FormaPagamentoEntity>> SelectAsync(Expression<Func<FormaPagamentoEntity, bool>> funcao, bool fullConsulta = true)
-        {
-            try
-            {
-                return null;
-                //IQueryable<FormaPagamentoEntity>? query = _context?.FormasPagamentos?.AsNoTracking();
-                //if (fullConsulta)
-                //{
-
-                //}
-
-                //query = query.Where(funcao);
-
-                //FormaPagamentoEntity[] entities = await query.ToArrayAsync();
-
-                //return entities;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-        }
+     
     }
 }

@@ -138,7 +138,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var model = _mapper.Map<ProdutoModels>(produtoDtoCreate);
+                var model = _mapper.Map<ProdutoModel>(produtoDtoCreate);
                 var entity = _mapper.Map<ProdutoEntity>(model);
                 var result = await _repository.InsertAsync(entity);
                 return _mapper.Map<ProdutoDto>(result);
@@ -154,7 +154,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var model = _mapper.Map<ProdutoModels>(produtoDtoUpdate);
+                var model = _mapper.Map<ProdutoModel>(produtoDtoUpdate);
 
                 model.Update();
 

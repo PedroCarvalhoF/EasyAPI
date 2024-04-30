@@ -4,7 +4,7 @@ using Domain.Entities.ProdutoTipo;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
-using Domain.Models.ProdutoModels;
+using Domain.Models.ProdutoTipo;
 
 namespace Service.Services.ProdutoTipoService
 {
@@ -59,7 +59,7 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var model = _mapper.Map<ProdutoTipoModels>(create);
+                var model = _mapper.Map<ProdutoTipoModel>(create);
                 var entity = _mapper.Map<ProdutoTipoEntity>(model);
                 var result = await _repository.InsertAsync(entity);
                 if (result != null)
@@ -77,7 +77,7 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var model = _mapper.Map<ProdutoTipoModels>(update);
+                var model = _mapper.Map<ProdutoTipoModel>(update);
                 var entity = _mapper.Map<ProdutoTipoEntity>(model);
                 var result = await _repository.UpdateAsync(entity);
                 if (result != null)

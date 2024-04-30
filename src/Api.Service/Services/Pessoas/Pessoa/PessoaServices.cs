@@ -83,7 +83,7 @@ namespace Service.Services.Pessoas.Pessoa
         {
             try
             {
-                PessoasModels model = _mapper.Map<PessoasModels>(pessoaCreate);
+                PessoasModel model = _mapper.Map<PessoasModel>(pessoaCreate);
                 PessoaEntity entity = _mapper.Map<PessoaEntity>(model);
                 PessoaEntity result = await _repository.InsertAsync(entity);
                 PessoaEntity entityResult = await _pessoaRepository.Get(result.Id);
@@ -103,7 +103,7 @@ namespace Service.Services.Pessoas.Pessoa
         {
             try
             {
-                PessoasModels models = _mapper.Map<PessoasModels>(pessoaDto);
+                PessoasModel models = _mapper.Map<PessoasModel>(pessoaDto);
                 PessoaEntity entity = _mapper.Map<PessoaEntity>(models);
                 PessoaEntity updateResultEntity = await _repository.UpdateAsync(entity);
 

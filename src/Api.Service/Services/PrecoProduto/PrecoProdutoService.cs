@@ -82,7 +82,7 @@ namespace Api.Service.Services.PrecoProduto
         {
             try
             {
-                var model = _mapper.Map<PrecoProdutoModels>(createUpdate);
+                var model = _mapper.Map<PrecoProdutoModel>(createUpdate);
                 var entidade = _mapper.Map<PrecoProdutoEntity>(model);
                 var precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
 

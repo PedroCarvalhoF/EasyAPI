@@ -121,7 +121,7 @@ namespace Service.Services.PerfilUsuario
                     return resposta;
                 }
 
-                var model = _mapper.Map<PerfilUsuarioModels>(create);
+                var model = _mapper.Map<PerfilUsuarioModel>(create);
                 var entity = _mapper.Map<PerfilUsuarioEntity>(model);
                 var result = await _repository.InsertAsync(entity);
 
@@ -159,7 +159,7 @@ namespace Service.Services.PerfilUsuario
                 }
 
 
-                var model = _mapper.Map<PerfilUsuarioModels>(update);
+                var model = _mapper.Map<PerfilUsuarioModel>(update);
                 var entity = _mapper.Map<PerfilUsuarioEntity>(model);
                 var result = await _repository.UpdateAsync(entity);
                 var dto = _mapper.Map<PerfilUsuarioDto>(result);

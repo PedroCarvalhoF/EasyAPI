@@ -144,7 +144,7 @@ namespace Api.Service.Services.PontoVendaService
             resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                var model = _mapper.Map<PontoVendaModels>(pontoVendaDtoCreate);
+                var model = _mapper.Map<PontoVendaModel>(pontoVendaDtoCreate);
                 model.AbrirPDV();
                 var entity = _mapper.Map<PontoVendaEntity>(model);
 
@@ -169,7 +169,7 @@ namespace Api.Service.Services.PontoVendaService
             {
                 var pdvSelecionado = await _repository.SelectAsync(pontoVendaId);
 
-                var model = _mapper.Map<PontoVendaModels>(pdvSelecionado);
+                var model = _mapper.Map<PontoVendaModel>(pdvSelecionado);
 
                 model.FinalizarPDV();
 
