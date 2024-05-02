@@ -104,20 +104,13 @@ namespace Service.Services.PerfilUsuario
                 return resposta;
             }
         }
-
         public async Task<ResponseDto<List<PerfilUsuarioDto>>> Create(PerfilUsuarioDtoCreate create)
         {
             ResponseDto<List<PerfilUsuarioDto>> resposta = new ResponseDto<List<PerfilUsuarioDto>>();
             resposta.Dados = new List<PerfilUsuarioDto>();
             try
             {
-                IEnumerable<PerfilUsuarioEntity> perfilNameExists = await _implementacao.GetPerfilUsuarioName(create.Nome);
-                if (perfilNameExists.Any())
-                {
-                    resposta.Mensagem = "Não foi possível cadastrar: Nome já está em uso";
-                    resposta.Status = false;
-                    return resposta;
-                }
+                
 
                 PerfilUsuarioModel model = _mapper.Map<PerfilUsuarioModel>(create);
                 PerfilUsuarioEntity entity = _mapper.Map<PerfilUsuarioEntity>(model);
@@ -174,7 +167,6 @@ namespace Service.Services.PerfilUsuario
                 return resposta;
             }
         }
-
         public async Task<ResponseDto<List<PerfilUsuarioDto>>> Desabilitar(Guid id)
         {
             ResponseDto<List<PerfilUsuarioDto>> resposta = new ResponseDto<List<PerfilUsuarioDto>>();

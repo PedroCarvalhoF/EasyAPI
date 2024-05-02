@@ -1,14 +1,15 @@
 using Api.Domain.Dtos.IdentityDto;
+using Domain.Dtos;
 using Domain.Dtos.IdentityDto;
 
 namespace Api.Domain.Interfaces.Services.Identity
 {
     public interface IIdentityService
     {
-        Task<Guid> GetIdIdentityByName(string name);
-        Task<UsuarioLoginResponse> Login(UsuarioLoginRequest usuarioLogin);
-        Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest usuarioCadastro);
         Task<UsuarioDto> GetUserById(Guid id);
-        Task<IEnumerable<UsuarioDto>> GetAll();
+        Task<Guid> GetIdIdentityByName(string name);
+        Task<ResponseDto<List<UsuarioLoginResponse>>> Login(UsuarioLoginRequest usuarioLogin);
+        Task<ResponseDto<List<UsuarioCadastroResponse>>> Create(UsuarioCadastroRequest usuarioCadastro);
+        
     }
 }

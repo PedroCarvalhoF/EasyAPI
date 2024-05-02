@@ -1,6 +1,8 @@
 using Api.Application.Shared;
 using Api.Domain.Dtos.IdentityDto;
 using Api.Domain.Interfaces.Services.Identity;
+using Api.Extensions;
+using Domain.Dtos;
 using Domain.Dtos.IdentityDto;
 using Domain.Dtos.PerfilUsuario;
 using Domain.Interfaces.Services.PerfilUsuario;
@@ -31,16 +33,29 @@ namespace Api.Application.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            UsuarioCadastroResponse resultado = await _identityService.CadastrarUsuario(usuarioCadastro);
+            var guidExists = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
 
-
-
-
-            if (resultado.Sucesso)
+            if (guidExists != Guid.Empty)
             {
+                ResponseDto<List<string>> resposta = new ResponseDto<List<string>>();
+                resposta.Dados = new List<string>();
+                resposta.Status = false;
+                resposta.Mensagem = "Atenção usuário ja existe";
+                return BadRequest(resposta);
+            }
 
-                Guid idIdentity = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
 
+            var resultado = await _identityService.Create(usuarioCadastro);
+            if (!resultado.Status)
+            {
+                return BadRequest(resultado);
+            }
+
+            if (resultado.Status)
+            {
+                //cadastra no sistema interno - criando perfil
+
+                var idIdentity = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
 
                 PerfilUsuarioDtoCreate perfilCreate = new PerfilUsuarioDtoCreate
                 {
@@ -48,15 +63,17 @@ namespace Api.Application.Controllers
                     IdentityId = idIdentity
                 };
 
-                global::Domain.Dtos.ResponseDto<List<PerfilUsuarioDto>> perfilResult = await _perfilUsuarioService.Create(perfilCreate);
+                ResponseDto<List<PerfilUsuarioDto>> perfilResult = await _perfilUsuarioService.Create(perfilCreate);
+
+                resultado.Mensagem += "Perfil de Usuário também cadastrado.";
 
                 return Ok(resultado);
             }
 
 
-            else if (resultado.Erros.Count > 0)
+            else if (resultado.Dados[0].Erros.Count > 0)
             {
-                CustomProblemDetails problemDetails = new CustomProblemDetails(HttpStatusCode.BadRequest, Request, errors: resultado.Erros);
+                CustomProblemDetails problemDetails = new CustomProblemDetails(HttpStatusCode.BadRequest, Request, errors: resultado.Dados[0].Erros);
                 return BadRequest(problemDetails);
             }
 
@@ -70,9 +87,13 @@ namespace Api.Application.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            UsuarioLoginResponse resultado = await _identityService.Login(usuarioLogin);
-            if (resultado.Sucesso)
+            var resultado = await _identityService.Login(usuarioLogin);
+
+            if (resultado.Dados.Any())
                 return Ok(resultado);
+
+
+
 
             return Unauthorized(resultado);
         }
@@ -83,24 +104,8 @@ namespace Api.Application.Controllers
             UsuarioDto usuarioDto = await _identityService.GetUserById(id);
             if (usuarioDto.Id == Guid.Empty)
                 return BadRequest("Usuário não encontrado");
-
-
             return Ok(usuarioDto);
         }
 
-        [HttpGet("get-all-user")]
-        public async Task<ActionResult<IEnumerable<UsuarioDto>>> Get()
-        {
-            IEnumerable<UsuarioDto> users = await _identityService.GetAll();
-            return Ok(users);
-        }
-
-
-        [AllowAnonymous]
-        [HttpGet("TESTE-API")]
-        public async Task<ActionResult> TesteAPI()
-        {
-            return Content("Teste de conexão realizada com sucesso!Realize o login para ter acesso completo ao sistema");
-        }
     }
 }

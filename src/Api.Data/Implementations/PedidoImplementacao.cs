@@ -61,14 +61,14 @@ namespace Data.Implementations
             query = query.Include(ped => ped.PontoVendaEntity);
 
             //ITENS DO PEDIDO
-            query = query.Include(item => item.ItemPedidoEntities).
-                          ThenInclude(prod => prod.ProdutoEntity).ThenInclude(cat_prod => cat_prod.CategoriaProdutoEntity);
+            //query = query.Include(item => item.ItemPedidoEntities).
+            //              ThenInclude(prod => prod.ProdutoEntity).ThenInclude(cat_prod => cat_prod.CategoriaProdutoEntity);
 
             //CATEGORIA DE PREÇO DO PEDIDO
             query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
 
             //PAGAMENTO DO PEDIDO
-            query = query.Include(pgt => pgt.PagamentoPedidoEntities).ThenInclude(f_pgt => f_pgt.FormaPagamentoEntity);
+            //query = query.Include(pgt => pgt.PagamentoPedidoEntities).ThenInclude(f_pgt => f_pgt.FormaPagamentoEntity);
             return query;
         }
     }

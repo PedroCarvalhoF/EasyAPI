@@ -1,6 +1,7 @@
 using Api.Domain.Dtos.IdentityDto;
 using Api.Domain.Interfaces.Services.Identity;
 using Api.Identity.Configurations;
+using Domain.Dtos;
 using Domain.Dtos.IdentityDto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,9 +25,10 @@ namespace Api.Identity.Services
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
         }
-        public async Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest usuarioCadastro)
+        public async Task<ResponseDto<List<UsuarioCadastroResponse>>> Create(UsuarioCadastroRequest usuarioCadastro)
         {
-
+            ResponseDto<List<UsuarioCadastroResponse>> resposta = new ResponseDto<List<UsuarioCadastroResponse>>();
+            resposta.Dados = new List<UsuarioCadastroResponse>();
             IdentityUser identityUser = new IdentityUser
             {
                 UserName = usuarioCadastro.Email,
@@ -36,19 +38,41 @@ namespace Api.Identity.Services
 
             IdentityResult result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
             if (result.Succeeded)
+            {
                 await _userManager.SetLockoutEnabledAsync(identityUser, false);
+
+                resposta.Status = true;
+                resposta.Mensagem = $"Usuário Idendity Cadastrado com sucesso.";
+                return resposta;
+            }
+
 
             UsuarioCadastroResponse usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
             if (!result.Succeeded && result.Errors.Count() > 0)
                 usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
 
-            return usuarioCadastroResponse;
+            resposta.Dados.Add(usuarioCadastroResponse);
+            resposta.Status = false;
+            resposta.Mensagem = $"Não foi possível efetuar o cadastro.Motivo: {usuarioCadastroResponse.Erros.FirstOrDefault()}";
+
+
+            return resposta;
         }
-        public async Task<UsuarioLoginResponse> Login(UsuarioLoginRequest usuarioLogin)
+        public async Task<ResponseDto<List<UsuarioLoginResponse>>> Login(UsuarioLoginRequest usuarioLogin)
         {
+
+            ResponseDto<List<UsuarioLoginResponse>> resposta = new ResponseDto<List<UsuarioLoginResponse>>();
+            resposta.Dados = new List<UsuarioLoginResponse>();
+
             SignInResult result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
             if (result.Succeeded)
-                return await GerarCredenciais(usuarioLogin.Email);
+            {
+                resposta.Status = true;
+                resposta.Mensagem = "Login efetuado com sucesso.";
+                resposta.Dados.Add(await GerarCredenciais(usuarioLogin.Email));
+                return resposta;
+            }
+
 
             UsuarioLoginResponse usuarioLoginResponse = new UsuarioLoginResponse();
             if (!result.Succeeded)
@@ -63,8 +87,38 @@ namespace Api.Identity.Services
                     usuarioLoginResponse.AdicionarErro("Usuário ou senha estão incorretos");
             }
 
-            return usuarioLoginResponse;
+            resposta.Mensagem = $"Não foi possível realizar login. Motivo: {usuarioLoginResponse.Erros.FirstOrDefault()}";
+            resposta.Status = false;
+
+
+            return resposta;
         }
+       
+        public async Task<UsuarioDto> GetUserById(Guid id)
+        {
+            IdentityUser? usuarioName = await _userManager.FindByIdAsync(id.ToString());
+            if (usuarioName == null)
+                return new UsuarioDto();
+
+            UsuarioDto user = new UsuarioDto
+            {
+                Email = usuarioName.Email,
+                Id = Guid.Parse(usuarioName.Id),
+                Nome = usuarioName.UserName
+            };
+
+            return user;
+        }
+
+        public async Task<Guid> GetIdIdentityByName(string name)
+        {
+            IdentityUser? userName = await _userManager.FindByNameAsync(name);
+            if (userName == null)
+                return Guid.Empty;
+
+            return Guid.Parse(userName.Id);
+        }
+
 
         private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
         {
@@ -128,67 +182,5 @@ namespace Api.Identity.Services
             return claims;
         }
 
-        public async Task<IEnumerable<UsuarioDto>> GetAll()
-        {
-            IdentityUser[] users = await _userManager.Users.ToArrayAsync();
-
-            if (!users.Any())
-                return null;
-
-            List<UsuarioDto> listaUsers = new List<UsuarioDto>();
-
-            foreach (IdentityUser? user in users)
-            {
-                UsuarioDto usuarioDto = new UsuarioDto
-                {
-                    Id = Guid.Parse(user.Id),
-                    Nome = user.UserName,
-                    Email = user.Email
-                };
-                listaUsers.Add(usuarioDto);
-            }
-            return listaUsers;
-        }
-
-        public async Task<UsuarioDto> GetUserByNomeUser(string? userName)
-        {
-            IdentityUser? usuarioName = await _userManager.FindByNameAsync(userName);
-
-            if (usuarioName == null)
-            {
-                return new UsuarioDto();
-            }
-
-            UsuarioDto user = new UsuarioDto
-            {
-                Email = usuarioName.Email,
-                Id = Guid.Parse(usuarioName.Id),
-                Nome = userName
-            };
-
-            return user;
-        }
-
-        public async Task<UsuarioDto> GetUserById(Guid id)
-        {
-            IdentityUser? usuarioName = await _userManager.FindByIdAsync(id.ToString());
-            if (usuarioName == null)
-                return new UsuarioDto();
-
-            UsuarioDto user = new UsuarioDto
-            {
-                Email = usuarioName.Email,
-                Id = Guid.Parse(usuarioName.Id),
-                Nome = usuarioName.UserName
-            };
-
-            return user;
-        }
-
-        public async Task<Guid> GetIdIdentityByName(string name)
-        {
-            IdentityUser? userName = await _userManager.FindByNameAsync(name);
-            return Guid.Parse(userName.Id);
-        }
     }
 }
