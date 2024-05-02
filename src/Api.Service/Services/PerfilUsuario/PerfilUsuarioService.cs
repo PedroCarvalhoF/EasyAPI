@@ -6,8 +6,6 @@ using Domain.Interfaces;
 using Domain.Interfaces.Repository.PerfilUsuario;
 using Domain.Interfaces.Services.PerfilUsuario;
 using Domain.Models.PerfilUsuario;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Service.Services.PerfilUsuario
 {
@@ -36,8 +34,8 @@ namespace Service.Services.PerfilUsuario
 
             try
             {
-                var entities = await _implementacao.GetAll();
-                var dtos = _mapper.Map<IEnumerable<PerfilUsuarioDto>>(entities);
+                IEnumerable<PerfilUsuarioEntity> entities = await _implementacao.GetAll();
+                IEnumerable<PerfilUsuarioDto> dtos = _mapper.Map<IEnumerable<PerfilUsuarioDto>>(entities);
 
                 if (entities == null)
                 {
@@ -61,14 +59,14 @@ namespace Service.Services.PerfilUsuario
             resposta.Dados = new List<PerfilUsuarioDto>();
             try
             {
-                var entity = await _implementacao.GetPerfilUsuarioId(id);
+                PerfilUsuarioEntity entity = await _implementacao.GetPerfilUsuarioId(id);
                 if (entity == null)
                 {
                     resposta.Mensagem = "Não encontrado";
 
                     return resposta;
                 }
-                var dto = _mapper.Map<PerfilUsuarioDto>(entity);
+                PerfilUsuarioDto dto = _mapper.Map<PerfilUsuarioDto>(entity);
 
                 resposta.Dados.Add(dto);
 
@@ -93,7 +91,7 @@ namespace Service.Services.PerfilUsuario
                     resposta.Mensagem = "Não encontrado";
                     return resposta;
                 }
-                var dtos = _mapper.Map<List<PerfilUsuarioDto>>(entities);
+                List<PerfilUsuarioDto> dtos = _mapper.Map<List<PerfilUsuarioDto>>(entities);
 
                 resposta.Dados = dtos;
 
@@ -113,7 +111,7 @@ namespace Service.Services.PerfilUsuario
             resposta.Dados = new List<PerfilUsuarioDto>();
             try
             {
-                var perfilNameExists = await _implementacao.GetPerfilUsuarioName(create.Nome);
+                IEnumerable<PerfilUsuarioEntity> perfilNameExists = await _implementacao.GetPerfilUsuarioName(create.Nome);
                 if (perfilNameExists.Any())
                 {
                     resposta.Mensagem = "Não foi possível cadastrar: Nome já está em uso";
@@ -121,9 +119,9 @@ namespace Service.Services.PerfilUsuario
                     return resposta;
                 }
 
-                var model = _mapper.Map<PerfilUsuarioModel>(create);
-                var entity = _mapper.Map<PerfilUsuarioEntity>(model);
-                var result = await _repository.InsertAsync(entity);
+                PerfilUsuarioModel model = _mapper.Map<PerfilUsuarioModel>(create);
+                PerfilUsuarioEntity entity = _mapper.Map<PerfilUsuarioEntity>(model);
+                PerfilUsuarioEntity result = await _repository.InsertAsync(entity);
 
                 if (result.Id == Guid.Empty)
                 {
@@ -131,7 +129,7 @@ namespace Service.Services.PerfilUsuario
                     return resposta;
                 }
 
-                var dto = _mapper.Map<PerfilUsuarioDto>(result);
+                PerfilUsuarioDto dto = _mapper.Map<PerfilUsuarioDto>(result);
 
                 resposta.Dados.Add(dto);
 
@@ -151,7 +149,7 @@ namespace Service.Services.PerfilUsuario
             resposta.Dados = new List<PerfilUsuarioDto>();
             try
             {
-                var perfilNameExists = await _implementacao.GetPerfilUsuarioName(update.Nome);
+                IEnumerable<PerfilUsuarioEntity> perfilNameExists = await _implementacao.GetPerfilUsuarioName(update.Nome);
                 if (perfilNameExists.Any())
                 {
                     resposta.Mensagem = "Não foi possível cadastrar: Nome já está em uso";
@@ -159,10 +157,10 @@ namespace Service.Services.PerfilUsuario
                 }
 
 
-                var model = _mapper.Map<PerfilUsuarioModel>(update);
-                var entity = _mapper.Map<PerfilUsuarioEntity>(model);
-                var result = await _repository.UpdateAsync(entity);
-                var dto = _mapper.Map<PerfilUsuarioDto>(result);
+                PerfilUsuarioModel model = _mapper.Map<PerfilUsuarioModel>(update);
+                PerfilUsuarioEntity entity = _mapper.Map<PerfilUsuarioEntity>(model);
+                PerfilUsuarioEntity result = await _repository.UpdateAsync(entity);
+                PerfilUsuarioDto dto = _mapper.Map<PerfilUsuarioDto>(result);
 
                 resposta.Dados.Add(dto);
 
@@ -182,7 +180,7 @@ namespace Service.Services.PerfilUsuario
             ResponseDto<List<PerfilUsuarioDto>> resposta = new ResponseDto<List<PerfilUsuarioDto>>();
             try
             {
-                var result = await _repository.DesabilitarHabilitar(id);
+                bool result = await _repository.DesabilitarHabilitar(id);
                 if (result)
                 {
                     resposta.Mensagem = "Desabilitado com sucesso!";

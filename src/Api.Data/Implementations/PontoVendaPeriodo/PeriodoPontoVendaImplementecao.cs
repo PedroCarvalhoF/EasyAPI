@@ -23,7 +23,7 @@ namespace Data.Implementations.PontoVendaPeriodo
 
                 query = query.Where(p => p.DescricaoPeriodo.Contains(descricao));
 
-                var entites = await query.ToArrayAsync();
+                PeriodoPontoVendaEntity[] entites = await query.ToArrayAsync();
 
                 return entites;
 

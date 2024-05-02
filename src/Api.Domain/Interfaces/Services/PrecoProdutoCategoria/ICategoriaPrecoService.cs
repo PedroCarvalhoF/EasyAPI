@@ -6,7 +6,7 @@ namespace Api.Domain.Interfaces.Services.CategoriaPreco
     {
 
         Task<IEnumerable<CategoriaPrecoDto>> GetAll();
-        Task<CategoriaPrecoDto> Get(Guid id);       
+        Task<CategoriaPrecoDto> Get(Guid id);
         Task<CategoriaPrecoDto> Create(CategoriaPrecoDtoCreate create);
         Task<CategoriaPrecoDto> Update(CategoriaPrecoDtoUpdate update);
         Task<bool> Desabilitar(Guid id);

@@ -6,7 +6,7 @@ namespace Data.Seeds
     {
         public static void GerarSeedsPeriodo(ModelBuilder modelBuilder)
         {
-            
+
         }
     }
 }

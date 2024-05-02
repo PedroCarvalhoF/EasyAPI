@@ -2,14 +2,13 @@
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces.Services.PagamentoPedido;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
+
     class PagamentoPedidoController : Controller
     {
         private readonly IPagamentoPedidoService _pagamentoPedidoService;

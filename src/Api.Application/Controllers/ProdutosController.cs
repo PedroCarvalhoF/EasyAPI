@@ -28,7 +28,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.Get();
+                IEnumerable<ProdutoDto>? produtoDto = await _service.Get();
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -52,7 +52,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.Get(id);
+                ProdutoDto? produtoDto = await _service.Get(id);
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -77,7 +77,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.GetCodigo(codigoPersonalizado);
+                ProdutoDto produtoDto = await _service.GetCodigo(codigoPersonalizado);
                 if (produtoDto == null)
                     return BadRequest("Não localizado.");
                 return Ok(produtoDto);
@@ -103,7 +103,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.Get(nomeProduto);
+                IEnumerable<ProdutoDto>? produtoDto = await _service.Get(nomeProduto);
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -127,7 +127,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.GetCategoria(categoriaId);
+                IEnumerable<ProdutoDto>? produtoDto = await _service.GetCategoria(categoriaId);
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -151,7 +151,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.GetMedida(medidaId);
+                IEnumerable<ProdutoDto>? produtoDto = await _service.GetMedida(medidaId);
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -175,7 +175,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.GetProdutoTipo(produtoTipoId);
+                IEnumerable<ProdutoDto>? produtoDto = await _service.GetProdutoTipo(produtoTipoId);
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -201,7 +201,7 @@ namespace Api.Controllers
             }
             try
             {
-                var produtoDto = await _service.GetHabilitadoNaoHabilitado(habilitado);
+                IEnumerable<ProdutoDto>? produtoDto = await _service.GetHabilitadoNaoHabilitado(habilitado);
                 if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
                 return Ok(produtoDto);
             }
@@ -228,7 +228,7 @@ namespace Api.Controllers
 
             try
             {
-                var result = await _service.Cadastrar(create);
+                ProdutoDto result = await _service.Cadastrar(create);
                 if (result == null)
                     return BadRequest("Não foi possível realizar operação");
                 return Ok(result);
@@ -255,7 +255,7 @@ namespace Api.Controllers
 
             try
             {
-                var result = await _service.Alterar(update);
+                ProdutoDto result = await _service.Alterar(update);
                 if (result == null)
                     return BadRequest("Não foi possível realizar operação");
                 return Ok(result);

@@ -14,6 +14,6 @@ namespace Data.Implementations
             _dataset = context.Set<CategoriaPrecoEntity>();
         }
 
-     
+
     }
 }

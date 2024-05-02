@@ -8,6 +8,6 @@
         public bool Habilitado { get; set; }
         public Guid IdentityId { get; set; }
         public string? Nome { get; set; }
-   
+
     }
 }

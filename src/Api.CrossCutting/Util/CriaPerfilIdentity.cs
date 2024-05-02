@@ -14,7 +14,7 @@ namespace CrossCutting.Util
             {
                 ISeedUserRoleInitial? service = scope?.ServiceProvider.GetService<ISeedUserRoleInitial>();
                 await service.SeedRolesAsync();
-               // await service.SeedUsersAsync();
+                // await service.SeedUsersAsync();
 
                 //var service = scope.ServiceProvider.GetService<ISeedUserClaimsInitial>();
                 //await service.SeedUserClaims();

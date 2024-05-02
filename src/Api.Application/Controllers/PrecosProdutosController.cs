@@ -22,7 +22,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetAll();
+                IEnumerable<PrecoProdutoDto> result = await _service.GetAll();
                 if (result == null)
                     return BadRequest("Não encontrado");
 
@@ -41,7 +41,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.Get(id);
+                PrecoProdutoDto result = await _service.Get(id);
                 if (result == null)
                     return BadRequest("Não encontrado");
 
@@ -60,7 +60,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetProdutoId(id);
+                IEnumerable<PrecoProdutoDto> result = await _service.GetProdutoId(id);
                 if (result == null)
                     return BadRequest("Não encontrado");
 
@@ -79,7 +79,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetCategoriaPrecoId(id);
+                IEnumerable<PrecoProdutoDto> result = await _service.GetCategoriaPrecoId(id);
                 if (result == null)
                     return BadRequest("Não encontrado");
 
@@ -106,7 +106,7 @@ namespace Api.Application.Controllers
 
             try
             {
-                var result = await _service.CreateUpdate(create);
+                PrecoProdutoDto result = await _service.CreateUpdate(create);
                 if (result == null)
                     return BadRequest("Não foi possível realizar operação");
                 return Ok(result);

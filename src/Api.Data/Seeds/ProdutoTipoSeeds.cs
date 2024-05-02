@@ -1,5 +1,4 @@
-﻿using Domain.Entities.Produto;
-using Domain.Entities.ProdutoTipo;
+﻿using Domain.Entities.ProdutoTipo;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Seeds

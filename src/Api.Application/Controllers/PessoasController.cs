@@ -7,7 +7,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-  
+
     class PessoasController : Controller
     {
         private readonly IPessoaServices _pessoaServices;

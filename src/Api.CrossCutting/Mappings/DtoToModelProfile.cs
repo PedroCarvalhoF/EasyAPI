@@ -17,6 +17,7 @@ using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
+using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
@@ -25,6 +26,7 @@ using Domain.Dtos.ProdutoTipo;
 using Domain.Models.FormaPagamentoModels;
 using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
+using Domain.Models.PedidoSituacao;
 using Domain.Models.PerfilUsuario;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
@@ -38,12 +40,17 @@ namespace Api.CrossCutting.Mappings
         public DtoToModelProfile()
         {
 
+            CreateMap<SituacaoPedidoModel, SituacaoPedidoDto>().ReverseMap();
+            CreateMap<SituacaoPedidoModel, SituacaoPedidoDtoCreate>().ReverseMap();
+            CreateMap<SituacaoPedidoModel, SituacaoPedidoDtoUpdate>().ReverseMap();
+
+
             CreateMap<PerfilUsuarioModel, PerfilUsuarioDto>().ReverseMap();
             CreateMap<PerfilUsuarioModel, PerfilUsuarioDtoCreate>().ReverseMap();
             CreateMap<PerfilUsuarioModel, PerfilUsuarioDtoUpdate>().ReverseMap();
 
             CreateMap<PrecoProdutoModel, PrecoProdutoDto>();
-            CreateMap<PrecoProdutoModel, PrecoProdutoDtoCreate>();    
+            CreateMap<PrecoProdutoModel, PrecoProdutoDtoCreate>();
 
             CreateMap<CategoriaProdutoModel, CategoriaProdutoDto>().ReverseMap();
             CreateMap<CategoriaProdutoModel, CategoriaProdutoDtoCreate>().ReverseMap();
@@ -60,7 +67,7 @@ namespace Api.CrossCutting.Mappings
             // # PONTO DE VENDA #
             CreateMap<PontoVendaModel, PontoVendaDto>().ReverseMap();
             CreateMap<PontoVendaModel, PontoVendaDtoCreate>().ReverseMap();
-           
+
 
             CreateMap<PedidoModel, PedidoDto>().ReverseMap();
             CreateMap<PedidoModel, PedidoDtoCreate>().ReverseMap();
@@ -106,7 +113,7 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<PeriodoPontoVendaModel, PeriodoPontoVendaDto>().ReverseMap();
             CreateMap<PeriodoPontoVendaModel, PeriodoPontoVendaDtoCreate>().ReverseMap();
-                          
+
         }
 
     }

@@ -27,7 +27,7 @@ namespace Service.Services.FormaPagamento
             resposta.Dados = new List<FormaPagamentoDto>();
             try
             {
-                var entities = await _repository.SelectAsync();
+                IEnumerable<FormaPagamentoEntity> entities = await _repository.SelectAsync();
                 if (entities == null)
                 {
                     resposta.Mensagem = "Nenhuma forma de pagamento localizada.";
@@ -35,7 +35,7 @@ namespace Service.Services.FormaPagamento
                     return resposta;
                 }
 
-                var dtos = _mapper.Map<List<FormaPagamentoDto>>(entities);
+                List<FormaPagamentoDto> dtos = _mapper.Map<List<FormaPagamentoDto>>(entities);
                 resposta.Dados = dtos;
                 resposta.Mensagem = $"Formas de pagamentos localizadas: {dtos.Count}";
 
@@ -56,7 +56,7 @@ namespace Service.Services.FormaPagamento
 
             try
             {
-                var entity = await _repository.SelectAsync(id);
+                FormaPagamentoEntity entity = await _repository.SelectAsync(id);
                 if (entity == null)
                 {
                     resposta.Mensagem = $"Nenhuma forma de pagamento com este id: {id} localizado.";
@@ -64,8 +64,37 @@ namespace Service.Services.FormaPagamento
                     return resposta;
                 }
 
-                var dto = _mapper.Map<FormaPagamentoDto>(entity);
+                FormaPagamentoDto dto = _mapper.Map<FormaPagamentoDto>(entity);
                 resposta.Dados.Add(dto);
+                resposta.Mensagem = $"Forma de pagamento localizada.";
+
+                return resposta;
+
+            }
+            catch (Exception ex)
+            {
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
+            }
+        }
+        public async Task<ResponseDto<List<FormaPagamentoDto>>> GetByDescricao(string descricao)
+        {
+            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
+            resposta.Dados = new List<FormaPagamentoDto>();
+
+            try
+            {
+                IEnumerable<FormaPagamentoEntity> entities = await _implementacao.GetByDescricao(descricao);
+                if (entities == null)
+                {
+                    resposta.Mensagem = $"Nenhuma forma de pagamento localizada com esta descricao {descricao}";
+                    resposta.Status = false;
+                    return resposta;
+                }
+
+                List<FormaPagamentoDto> dto = _mapper.Map<List<FormaPagamentoDto>>(entities);
+                resposta.Dados = dto;
                 resposta.Mensagem = $"Forma de pagamento localizada.";
 
                 return resposta;
@@ -85,9 +114,9 @@ namespace Service.Services.FormaPagamento
 
             try
             {
-                var model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoCreate);
-                var entity = _mapper.Map<FormaPagamentoEntity>(model);
-                var resultCreate = await _repository.InsertAsync(entity);
+                FormaPagamentoModel model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoCreate);
+                FormaPagamentoEntity entity = _mapper.Map<FormaPagamentoEntity>(model);
+                FormaPagamentoEntity resultCreate = await _repository.InsertAsync(entity);
 
                 if (resultCreate == null)
                 {
@@ -96,7 +125,7 @@ namespace Service.Services.FormaPagamento
                     return resposta;
                 }
 
-                var respostaCreate = await GetById(resultCreate.Id);
+                ResponseDto<List<FormaPagamentoDto>> respostaCreate = await GetById(resultCreate.Id);
 
                 respostaCreate.Mensagem = "Forma de pagamento cadastrada com sucesso!";
                 respostaCreate.Status = true;
@@ -117,9 +146,9 @@ namespace Service.Services.FormaPagamento
 
             try
             {
-                var model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoUpdate);
-                var entity = _mapper.Map<FormaPagamentoEntity>(model);
-                var resultUpdate = await _repository.UpdateAsync(entity);
+                FormaPagamentoModel model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoUpdate);
+                FormaPagamentoEntity entity = _mapper.Map<FormaPagamentoEntity>(model);
+                FormaPagamentoEntity resultUpdate = await _repository.UpdateAsync(entity);
 
                 if (resultUpdate == null)
                 {
@@ -128,7 +157,7 @@ namespace Service.Services.FormaPagamento
                     return resposta;
                 }
 
-                var respostaCreate = await GetById(resultUpdate.Id);
+                ResponseDto<List<FormaPagamentoDto>> respostaCreate = await GetById(resultUpdate.Id);
                 respostaCreate.Mensagem = $"Forma pagamento alterada com sucesso!";
                 resposta.Status = true;
 
@@ -148,7 +177,7 @@ namespace Service.Services.FormaPagamento
 
             try
             {
-                var result = await _repository.DesabilitarHabilitar(id);
+                bool result = await _repository.DesabilitarHabilitar(id);
                 if (result)
                 {
                     resposta.Mensagem = "Alteração realizada com sucesso!";
@@ -169,5 +198,7 @@ namespace Service.Services.FormaPagamento
                 return resposta;
             }
         }
+
+
     }
 }

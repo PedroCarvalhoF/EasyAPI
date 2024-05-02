@@ -2,7 +2,7 @@ using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
-using Domain.Entities.Pedido;
+using Domain.Entities.PedidoSituacao;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

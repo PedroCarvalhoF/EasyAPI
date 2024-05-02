@@ -24,8 +24,8 @@ namespace Service.Services.PeriodoPontoVenda
         {
             try
             {
-                var entities = await _repository.SelectAsync();
-                var dtos = _mapper.Map<IEnumerable<PeriodoPontoVendaDto>>(entities);
+                IEnumerable<PeriodoPontoVendaEntity> entities = await _repository.SelectAsync();
+                IEnumerable<PeriodoPontoVendaDto> dtos = _mapper.Map<IEnumerable<PeriodoPontoVendaDto>>(entities);
                 return dtos;
             }
             catch (Exception)
@@ -38,8 +38,8 @@ namespace Service.Services.PeriodoPontoVenda
         {
             try
             {
-                var entity = await _repository.SelectAsync(id);
-                var dto = _mapper.Map<PeriodoPontoVendaDto>(entity);
+                PeriodoPontoVendaEntity entity = await _repository.SelectAsync(id);
+                PeriodoPontoVendaDto dto = _mapper.Map<PeriodoPontoVendaDto>(entity);
                 return dto;
             }
             catch (Exception)
@@ -53,8 +53,8 @@ namespace Service.Services.PeriodoPontoVenda
         {
             try
             {
-                var entities = await _implementacao.Get(descricao);
-                var dtos = _mapper.Map<IEnumerable<PeriodoPontoVendaDto>>(entities);
+                IEnumerable<PeriodoPontoVendaEntity> entities = await _implementacao.Get(descricao);
+                IEnumerable<PeriodoPontoVendaDto> dtos = _mapper.Map<IEnumerable<PeriodoPontoVendaDto>>(entities);
                 return dtos;
             }
             catch (Exception)
@@ -69,9 +69,9 @@ namespace Service.Services.PeriodoPontoVenda
         {
             try
             {
-                var entity = _mapper.Map<PeriodoPontoVendaEntity>(create);
-                var result = await _repository.InsertAsync(entity);
-                var dto = _mapper.Map<PeriodoPontoVendaDto>(result);
+                PeriodoPontoVendaEntity entity = _mapper.Map<PeriodoPontoVendaEntity>(create);
+                PeriodoPontoVendaEntity result = await _repository.InsertAsync(entity);
+                PeriodoPontoVendaDto dto = _mapper.Map<PeriodoPontoVendaDto>(result);
                 return dto;
             }
             catch (Exception)
@@ -80,13 +80,13 @@ namespace Service.Services.PeriodoPontoVenda
                 throw;
             }
         }
-     
+
 
         public async Task<bool> Desabilitar(Guid id)
         {
             try
             {
-                var result = await _repository.DesabilitarHabilitar(id);
+                bool result = await _repository.DesabilitarHabilitar(id);
                 return result;
             }
             catch (Exception)

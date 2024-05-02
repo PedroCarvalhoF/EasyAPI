@@ -3,7 +3,6 @@ using Api.Domain.Interfaces.Services.Pedido;
 using AutoMapper;
 using Domain.Dtos.ItemPedido;
 using Domain.Entities.ItensPedido;
-using Domain.Enuns;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
@@ -187,15 +186,11 @@ namespace Service.Services.ItemPedidoService
         {
             try
             {
-                SituacaoItemPedidoEnum situacaoEnumSelecionada = SituacaoItemPedidoEnum.ItemRegistrado;
-
                 switch (situacaoItem)
                 {
                     case 1:
-                        situacaoEnumSelecionada = SituacaoItemPedidoEnum.ItemRegistrado;
                         break;
                     case 3:
-                        situacaoEnumSelecionada = SituacaoItemPedidoEnum.ItemCancelado;
                         break;
                     default:
                         break;

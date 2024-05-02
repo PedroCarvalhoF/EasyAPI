@@ -22,9 +22,9 @@ namespace Api.Service.Services.CategoriaProduto
         {
             try
             {
-                var model = _mapper.Map<CategoriaProdutoModel>(create);
-                var entity = _mapper.Map<CategoriaProdutoEntity>(model);
-                var result = await _repository.InsertAsync(entity);
+                CategoriaProdutoModel model = _mapper.Map<CategoriaProdutoModel>(create);
+                CategoriaProdutoEntity entity = _mapper.Map<CategoriaProdutoEntity>(model);
+                CategoriaProdutoEntity result = await _repository.InsertAsync(entity);
                 if (result != null)
                     return _mapper.Map<CategoriaProdutoDto>(result);
                 else
@@ -40,9 +40,9 @@ namespace Api.Service.Services.CategoriaProduto
         {
             try
             {
-                var model = _mapper.Map<CategoriaProdutoModel>(categoriaProdutoDtoUpdate);
-                var entity = _mapper.Map<CategoriaProdutoEntity>(model);
-                var result = await _repository.UpdateAsync(entity);
+                CategoriaProdutoModel model = _mapper.Map<CategoriaProdutoModel>(categoriaProdutoDtoUpdate);
+                CategoriaProdutoEntity entity = _mapper.Map<CategoriaProdutoEntity>(model);
+                CategoriaProdutoEntity result = await _repository.UpdateAsync(entity);
                 if (result != null)
                     return _mapper.Map<CategoriaProdutoDto>(result);
                 else
@@ -58,8 +58,8 @@ namespace Api.Service.Services.CategoriaProduto
         {
             try
             {
-                var entities = await _repository.SelectAsync();
-                var dtos = _mapper.Map<IEnumerable<CategoriaProdutoDto>>(entities);
+                IEnumerable<CategoriaProdutoEntity> entities = await _repository.SelectAsync();
+                IEnumerable<CategoriaProdutoDto> dtos = _mapper.Map<IEnumerable<CategoriaProdutoDto>>(entities);
                 dtos = dtos.OrderBy(cat => cat.DescricaoCategoria);
                 return dtos;
             }
@@ -74,8 +74,8 @@ namespace Api.Service.Services.CategoriaProduto
         {
             try
             {
-                var entity = await _repository.SelectAsync(id);
-                var dto = _mapper.Map<CategoriaProdutoDto>(entity);
+                CategoriaProdutoEntity entity = await _repository.SelectAsync(id);
+                CategoriaProdutoDto dto = _mapper.Map<CategoriaProdutoDto>(entity);
 
                 return dto;
 

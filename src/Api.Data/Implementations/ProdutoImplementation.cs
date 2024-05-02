@@ -25,7 +25,7 @@ namespace Api.Data.Implementations
 
                 query = QueryIncludes(query);
 
-                var entites = await query.ToArrayAsync();
+                ProdutoEntity[] entites = await query.ToArrayAsync();
 
                 return entites;
 
@@ -46,7 +46,7 @@ namespace Api.Data.Implementations
 
                 query = QueryIncludes(query);
 
-                var entity = await query.FirstOrDefaultAsync();
+                ProdutoEntity? entity = await query.FirstOrDefaultAsync();
 
                 return entity;
 
@@ -66,7 +66,7 @@ namespace Api.Data.Implementations
 
             query = QueryIncludes(query);
 
-            var entity = await query.ToArrayAsync();
+            ProdutoEntity[] entity = await query.ToArrayAsync();
 
             return entity;
         }
@@ -82,7 +82,7 @@ namespace Api.Data.Implementations
 
                 query = QueryIncludes(query);
 
-                var entities = await query.ToArrayAsync();
+                ProdutoEntity[] entities = await query.ToArrayAsync();
                 return entities;
 
             }
@@ -102,7 +102,7 @@ namespace Api.Data.Implementations
 
                 query = QueryIncludes(query);
 
-                var entity = await query.SingleOrDefaultAsync();
+                ProdutoEntity? entity = await query.SingleOrDefaultAsync();
                 return entity;
 
             }
@@ -120,7 +120,7 @@ namespace Api.Data.Implementations
 
             query = QueryIncludes(query);
 
-            var entities = await query.ToArrayAsync();
+            ProdutoEntity[] entities = await query.ToArrayAsync();
             return entities;
         }
 
@@ -131,7 +131,7 @@ namespace Api.Data.Implementations
 
             query = QueryIncludes(query);
 
-            var entities = await query.ToArrayAsync();
+            ProdutoEntity[] entities = await query.ToArrayAsync();
             return entities;
         }
 
@@ -142,7 +142,7 @@ namespace Api.Data.Implementations
 
             query = QueryIncludes(query);
 
-            var entities = await query.ToArrayAsync();
+            ProdutoEntity[] entities = await query.ToArrayAsync();
             return entities;
         }
 

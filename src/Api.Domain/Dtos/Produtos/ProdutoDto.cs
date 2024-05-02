@@ -4,7 +4,7 @@ using Domain.Dtos.ProdutoTipo;
 
 namespace Domain.Dtos.ProdutoDtos
 {
-    public class ProdutoDto 
+    public class ProdutoDto
     {
         public Guid Id { get; set; }
         public DateTime CreateAt { get; set; }
@@ -17,6 +17,6 @@ namespace Domain.Dtos.ProdutoDtos
         public CategoriaProdutoDto? CategoriaProdutoEntity { get; set; }
         public ProdutoMedidaDto? ProdutoMedidaEntity { get; set; }
         public ProdutoTipoDto? ProdutoTipoEntity { get; set; }
-        public string? ImgUrl { get; set; }        
+        public string? ImgUrl { get; set; }
     }
 }

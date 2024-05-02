@@ -24,8 +24,8 @@ namespace Api.Service.Services.CategoriaPreco
         {
             try
             {
-                var entities = await _repository.SelectAsync();
-                var dtos = _mapper.Map<IEnumerable<CategoriaPrecoDto>>(entities);
+                IEnumerable<CategoriaPrecoEntity> entities = await _repository.SelectAsync();
+                IEnumerable<CategoriaPrecoDto> dtos = _mapper.Map<IEnumerable<CategoriaPrecoDto>>(entities);
                 return dtos;
             }
             catch (Exception)
@@ -38,8 +38,8 @@ namespace Api.Service.Services.CategoriaPreco
         {
             try
             {
-                var entity = await _repository.SelectAsync(id);
-                var dto = _mapper.Map<CategoriaPrecoDto>(entity);
+                CategoriaPrecoEntity entity = await _repository.SelectAsync(id);
+                CategoriaPrecoDto dto = _mapper.Map<CategoriaPrecoDto>(entity);
                 return dto;
             }
             catch (Exception)
@@ -47,14 +47,14 @@ namespace Api.Service.Services.CategoriaPreco
 
                 throw;
             }
-        }    
+        }
         public async Task<CategoriaPrecoDto> Create(CategoriaPrecoDtoCreate create)
         {
             try
             {
-                var entity = _mapper.Map<CategoriaPrecoEntity>(create);
-                var result = await _repository.InsertAsync(entity);
-                var dto = _mapper.Map<CategoriaPrecoDto>(result);
+                CategoriaPrecoEntity entity = _mapper.Map<CategoriaPrecoEntity>(create);
+                CategoriaPrecoEntity result = await _repository.InsertAsync(entity);
+                CategoriaPrecoDto dto = _mapper.Map<CategoriaPrecoDto>(result);
                 return dto;
             }
             catch (Exception)
@@ -67,9 +67,9 @@ namespace Api.Service.Services.CategoriaPreco
         {
             try
             {
-                var entity = _mapper.Map<CategoriaPrecoEntity>(update);
-                var result = await _repository.UpdateAsync(entity);
-                var dto = _mapper.Map<CategoriaPrecoEntity>(result);
+                CategoriaPrecoEntity entity = _mapper.Map<CategoriaPrecoEntity>(update);
+                CategoriaPrecoEntity result = await _repository.UpdateAsync(entity);
+                CategoriaPrecoEntity dto = _mapper.Map<CategoriaPrecoEntity>(result);
 
 
                 return await Get(result.Id);
@@ -84,7 +84,7 @@ namespace Api.Service.Services.CategoriaPreco
         {
             try
             {
-                var result = await _repository.DesabilitarHabilitar(id);
+                bool result = await _repository.DesabilitarHabilitar(id);
                 return result;
             }
             catch (Exception)

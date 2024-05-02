@@ -1,14 +1,14 @@
 ﻿using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Interfaces.Services.PontoVenda;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [Authorize]
     public class PontoVendasController : ControllerBase
     {
         private readonly IPontoVendaService _service;
@@ -19,6 +19,12 @@ namespace Api.Controllers
         }
 
         [HttpGet("pdv")]
+        /// <summary>
+        /// Consulta PDV abertos e fechados
+        /// </summary>
+        /// <returns></returns>
+
+        [Authorize(Policy = "admin")]
         public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs()
         {
             ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();

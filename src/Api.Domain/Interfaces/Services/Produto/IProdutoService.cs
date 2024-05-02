@@ -11,7 +11,7 @@ namespace Domain.Interfaces.Services.Produto
         Task<IEnumerable<ProdutoDto>> GetCategoria(Guid categoriaId);
         Task<IEnumerable<ProdutoDto>> GetMedida(Guid medidaId);
         Task<IEnumerable<ProdutoDto>> GetProdutoTipo(Guid produtoTipoId);
-        Task<IEnumerable<ProdutoDto>> GetHabilitadoNaoHabilitado(bool habilitado);      
+        Task<IEnumerable<ProdutoDto>> GetHabilitadoNaoHabilitado(bool habilitado);
         Task<ProdutoDto> Cadastrar(ProdutoDtoCreate produtoDtoCreate);
         Task<ProdutoDto> Alterar(ProdutoDtoUpdate produtoDtoUpdate);
     }

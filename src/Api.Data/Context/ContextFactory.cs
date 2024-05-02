@@ -9,7 +9,6 @@ namespace Api.Data.Context
         {
 
             string DefaultConnectionDESENVOLVIMENTO = "Server=localhost;Port=3306;DataBase=RESET_BANCO;Uid=root;password=010203;";
-            string DefaultConnectionPRODUTOCAO = "Server=localhost;Port=3306;DataBase=RESET_BANCO;Uid=root;password=010203;";
 
 
             DbContextOptionsBuilder<MyContext> optionsBuilder = new DbContextOptionsBuilder<MyContext>();

@@ -16,6 +16,7 @@ using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
+using Domain.Entities.PedidoSituacao;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
@@ -23,6 +24,7 @@ using Domain.Entities.UsuarioSistema;
 using Domain.Models.FormaPagamentoModels;
 using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
+using Domain.Models.PedidoSituacao;
 using Domain.Models.PerfilUsuario;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
@@ -35,6 +37,7 @@ namespace Api.CrossCutting.Mappings
     {
         public ModelToEntityProfile()
         {
+            CreateMap<SituacaoPedidoModel, SituacaoPedidoEntity>().ReverseMap();
             //
             CreateMap<PerfilUsuarioModel, PerfilUsuarioEntity>().ReverseMap();
             //

@@ -1,5 +1,4 @@
-﻿using Domain.Enuns;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Dtos.ProdutoDtos
 {
@@ -7,7 +6,7 @@ namespace Domain.Dtos.ProdutoDtos
     {
         [Required]
         public Guid Id { get; set; }
-       
+
         [Required]
         public string? NomeProduto { get; set; }
         [Required]

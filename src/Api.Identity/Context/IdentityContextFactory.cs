@@ -8,7 +8,6 @@ namespace Api.Identity.Context
         public IdentityDataContext CreateDbContext(string[] args)
         {
             string DefaultConnectionDESENVOLVIMENTO = "Server=localhost;Port=3306;DataBase=RESET_BANCO;Uid=root;password=010203;";
-            string DefaultConnectionPRODUTOCAO = "Server=localhost;Port=3306;DataBase=RESET_BANCO;Uid=root;password=010203;";
 
 
             DbContextOptionsBuilder<IdentityDataContext> optionsBuilder = new DbContextOptionsBuilder<IdentityDataContext>();

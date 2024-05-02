@@ -3,14 +3,13 @@ using Api.Domain.Interfaces.Services.Pedido;
 using Domain.Dtos.PedidoDtos;
 using Domain.Enuns;
 using Domain.ExceptionsPersonalizadas;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
+
     class PedidosController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;

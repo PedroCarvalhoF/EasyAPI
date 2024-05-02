@@ -13,7 +13,7 @@ namespace Api.Domain.Dtos.PrecoProdutoDtos
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public Decimal PrecoProduto { get; set; }
-        
+
 
     }
 }

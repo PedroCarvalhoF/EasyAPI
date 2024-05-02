@@ -21,7 +21,7 @@ namespace Data.Implementations.PontoVenda
 
             query = Includes(query);
 
-            var result = await query.ToArrayAsync();
+            PontoVendaEntity[] result = await query.ToArrayAsync();
             return result;
         }
         public async Task<PontoVendaEntity> GetByIdPdv(Guid pdvId)
@@ -32,7 +32,7 @@ namespace Data.Implementations.PontoVenda
 
             query = query.Where(pdv => pdv.Id.Equals(pdvId));
 
-            var result = await query.FirstOrDefaultAsync();
+            PontoVendaEntity? result = await query.FirstOrDefaultAsync();
             return result;
         }
 
@@ -44,7 +44,7 @@ namespace Data.Implementations.PontoVenda
 
             query = query.Where(pdv => pdv.IdPerfilUtilizarPDV.Equals(IdPerfilUtilizarPDV));
 
-            var result = await query.ToArrayAsync();
+            PontoVendaEntity[] result = await query.ToArrayAsync();
             return result;
         }
 
@@ -56,7 +56,7 @@ namespace Data.Implementations.PontoVenda
 
             query = query.Where(pdv => pdv.AbertoFechado == abertoFechado);
 
-            var result = await query.ToArrayAsync();
+            PontoVendaEntity[] result = await query.ToArrayAsync();
             return result;
         }
 
@@ -66,7 +66,7 @@ namespace Data.Implementations.PontoVenda
             query = query.Include(userAbriu => userAbriu.PerfilUsuarioEntityAbrilPDV)
                          .Include(userPDV => userPDV.PerfilUsuarioEntityUtilizarPDV)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
-            
+
 
             return query;
         }

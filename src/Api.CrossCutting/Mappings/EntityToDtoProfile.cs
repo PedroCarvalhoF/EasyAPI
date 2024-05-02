@@ -16,6 +16,7 @@ using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
+using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
@@ -25,6 +26,7 @@ using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
+using Domain.Entities.PedidoSituacao;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
@@ -37,6 +39,8 @@ namespace Api.CrossCutting.Mappings
     {
         public EntityToDtoProfile()
         {
+            CreateMap<SituacaoPedidoDto, SituacaoPedidoEntity>().ReverseMap();
+            //
             CreateMap<PerfilUsuarioDto, PerfilUsuarioEntity>().ReverseMap();
             //
             CreateMap<CategoriaProdutoDto, CategoriaProdutoEntity>().ReverseMap();
@@ -86,7 +90,7 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<PeriodoPontoVendaDto, PeriodoPontoVendaEntity>().ReverseMap();
             CreateMap<PeriodoPontoVendaDtoCreate, PeriodoPontoVendaEntity>().ReverseMap();
-           
+
 
 
         }

@@ -1,5 +1,3 @@
-using Domain.Dtos.ProdutoDtos;
-
 namespace Api.Domain.Models.CategoriaProdutoModels
 {
     public class CategoriaProdutoModel : ModelBase

@@ -50,26 +50,26 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("710bd8dd-1853-43a1-8708-ca1f259d71ad"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(6178),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(3000),
                             DescricaoCategoria = "Balcão",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(6187)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(3008)
                         },
                         new
                         {
                             Id = new Guid("5533b87c-72d5-4033-85c4-ae44f5a3210c"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(6188),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(3010),
                             DescricaoCategoria = "IFood",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(6190)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(3011)
                         },
                         new
                         {
                             Id = new Guid("ed65a4e3-a0b0-40a7-b7ae-3397a965d924"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(6191),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(3012),
                             DescricaoCategoria = "Lojista",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(6195)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(3014)
                         });
                 });
 
@@ -175,18 +175,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"),
-                            CreateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(8153),
+                            CreateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(5597),
                             Descricao = "Unidade",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(8151)
+                            UpdateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(5596)
                         },
                         new
                         {
                             Id = new Guid("2f943e86-f06f-4f7d-babf-48d0d2d8f3ac"),
-                            CreateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(8159),
+                            CreateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(5605),
                             Descricao = "Caixa",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(8158)
+                            UpdateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(5604)
                         });
                 });
 
@@ -221,18 +221,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"),
-                            CreateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(6549),
+                            CreateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(3943),
                             DescricaoCategoria = "Executivos",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(6545)
+                            UpdateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(3935)
                         },
                         new
                         {
                             Id = new Guid("d9d229c4-9a64-4836-af41-2f111f229c46"),
-                            CreateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(6569),
+                            CreateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(3964),
                             DescricaoCategoria = "Bebidas",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(6568)
+                            UpdateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(3963)
                         });
                 });
 
@@ -267,10 +267,64 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("92008957-f185-4563-9d9e-7b71f4ea2691"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 804, DateTimeKind.Local).AddTicks(6452),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2243),
                             DescricaoFormaPg = "Dinheiro",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 804, DateTimeKind.Local).AddTicks(6498)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2265)
+                        });
+                });
+
+            modelBuilder.Entity("Domain.Entities.PedidoSituacao.SituacaoPedidoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DescricaoSituacao")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DescricaoSituacao")
+                        .IsUnique();
+
+                    b.ToTable("SituacoesPedidos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("abc0f0f9-3295-439c-a468-795b071b7f22"),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2817),
+                            DescricaoSituacao = "Aberto",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2821)
+                        },
+                        new
+                        {
+                            Id = new Guid("185b07da-7e82-43d1-b61f-912d8b29a34c"),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2824),
+                            DescricaoSituacao = "Fechado",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2825)
+                        },
+                        new
+                        {
+                            Id = new Guid("11b17cc5-c8b1-48f9-b9fd-886339441328"),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2827),
+                            DescricaoSituacao = "Cancelado",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 624, DateTimeKind.Local).AddTicks(2828)
                         });
                 });
 
@@ -305,34 +359,34 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("567906bb-6eb4-42e9-b890-10e6da214766"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5285),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2212),
                             DescricaoPeriodo = "Almoço",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5289)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2216)
                         },
                         new
                         {
                             Id = new Guid("fc6a5d67-8356-4270-b9e6-7749b553dcf3"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5292),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2218),
                             DescricaoPeriodo = "Janta",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5293)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2219)
                         },
                         new
                         {
                             Id = new Guid("f14c83df-1fa4-4a83-8070-b16ecb19aa77"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5296),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2221),
                             DescricaoPeriodo = "Dia Todo",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5297)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2222)
                         },
                         new
                         {
                             Id = new Guid("7e107de8-c97a-435b-9976-7a689ca28bb7"),
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5300),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2224),
                             DescricaoPeriodo = "Noturno",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(5301)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(2225)
                         });
                 });
 
@@ -405,7 +459,7 @@ namespace Data.Migrations
                             Id = new Guid("f0e75a80-0b64-4b2b-9f53-f3dce3f6d126"),
                             CategoriaProdutoEntityId = new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"),
                             CodigoBarrasPersonalizado = "01",
-                            CreateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(4361),
+                            CreateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(1509),
                             Descricao = "",
                             Habilitado = true,
                             ImgUrl = "",
@@ -413,7 +467,7 @@ namespace Data.Migrations
                             Observacoes = "",
                             ProdutoMedidaEntityId = new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"),
                             ProdutoTipoEntityId = new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"),
-                            UpdateAt = new DateTime(2024, 4, 30, 0, 13, 39, 797, DateTimeKind.Local).AddTicks(4373)
+                            UpdateAt = new DateTime(2024, 5, 1, 21, 25, 14, 621, DateTimeKind.Local).AddTicks(1524)
                         });
                 });
 
@@ -448,18 +502,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"),
-                            CreateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(7437),
+                            CreateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(4812),
                             DescricaoTipoProduto = "Venda",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(7444)
+                            UpdateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(4817)
                         },
                         new
                         {
                             Id = new Guid("1e11b25a-8bf5-4d57-80b7-396d09cbfcf1"),
-                            CreateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(7445),
+                            CreateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(4819),
                             DescricaoTipoProduto = "Materia Prima",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 4, 30, 3, 13, 39, 796, DateTimeKind.Utc).AddTicks(7447)
+                            UpdateAt = new DateTime(2024, 5, 2, 0, 25, 14, 620, DateTimeKind.Utc).AddTicks(4820)
                         });
                 });
 

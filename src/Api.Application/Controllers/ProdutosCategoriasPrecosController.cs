@@ -27,7 +27,7 @@ namespace Api.Application.Controllers
             }
             try
             {
-                var result = await _service.GetAll();
+                IEnumerable<CategoriaPrecoDto> result = await _service.GetAll();
                 if (result == null)
                     return BadRequest("Não foi possível realizar tarefa");
                 return Ok(result);
@@ -48,7 +48,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var dto = await _service.Get(id);
+                CategoriaPrecoDto dto = await _service.Get(id);
                 if (dto == null)
                 {
                     return BadRequest("Não localizado");
@@ -75,7 +75,7 @@ namespace Api.Application.Controllers
             }
             try
             {
-                var result = await _service.Create(categoriaPrecoDtoCreate);
+                CategoriaPrecoDto result = await _service.Create(categoriaPrecoDtoCreate);
                 if (result == null)
                     return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
                 return Ok(result);
@@ -99,7 +99,7 @@ namespace Api.Application.Controllers
 
             try
             {
-                var dto = await _service.Update(update);
+                CategoriaPrecoDto dto = await _service.Update(update);
                 if (dto == null)
                 {
                     return BadRequest("Não foi possível realizar tafefa");

@@ -3,7 +3,6 @@ using Api.Data.Repository;
 using Domain.Entities.FormaPagamento;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
 namespace Data.Implementations
 {
@@ -16,6 +15,14 @@ namespace Data.Implementations
             _dataset.AsNoTracking();
         }
 
-     
+        public async Task<IEnumerable<FormaPagamentoEntity>> GetByDescricao(string descricao)
+        {
+            IQueryable<FormaPagamentoEntity> query = _dataset;
+
+            query = query.Where(forma => forma.DescricaoFormaPg.ToLower().Contains(descricao));
+
+            FormaPagamentoEntity[] result = await query.ToArrayAsync();
+            return result;
+        }
     }
 }

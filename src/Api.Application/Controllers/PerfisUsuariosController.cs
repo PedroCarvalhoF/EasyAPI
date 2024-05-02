@@ -22,7 +22,7 @@ namespace Api.Controllers
         {
             try
             {
-                var result = await _service.GetAll();
+                ResponseDto<List<PerfilUsuarioDto>> result = await _service.GetAll();
                 if (result == null)
                     return BadRequest("Não foi possível realizar consulta");
                 return Ok(result);

@@ -25,7 +25,7 @@ namespace Api.Controllers
         {
             try
             {
-                var dtos = await _service.GetAll();
+                IEnumerable<PeriodoPontoVendaDto> dtos = await _service.GetAll();
                 if (dtos == null)
                 {
                     return BadRequest("Não localizado");
@@ -49,7 +49,7 @@ namespace Api.Controllers
         {
             try
             {
-                var dto = await _service.Get(id);
+                PeriodoPontoVendaDto dto = await _service.Get(id);
                 if (dto == null)
                 {
                     return BadRequest("Não localizado");
@@ -72,7 +72,7 @@ namespace Api.Controllers
         {
             try
             {
-                var dtos = await _service.Get(descricao);
+                IEnumerable<PeriodoPontoVendaDto> dtos = await _service.Get(descricao);
                 if (dtos == null)
                 {
                     return BadRequest("Não localizado");
@@ -100,7 +100,7 @@ namespace Api.Controllers
 
             try
             {
-                var dto = await _service.Create(create);
+                PeriodoPontoVendaDto dto = await _service.Create(create);
                 if (dto == null)
                 {
                     return BadRequest("Não foi possível realizar tafefa");
@@ -117,7 +117,7 @@ namespace Api.Controllers
                     $"Erro.Detalhes: {ex.Message}");
             }
         }
-      
+
 
         [HttpPut("desabilitar/periodos-pontos-vendas/{id}")]
         public async Task<ActionResult> Desabilitar(Guid id)

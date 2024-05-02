@@ -9,6 +9,6 @@ namespace Api.Domain.Dtos.CategoriaPrecoDtos
         [Required]
         [MaxLength(100)]
         public string? DescricaoCategoria { get; set; }
-       
+
     }
 }

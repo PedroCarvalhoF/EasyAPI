@@ -19,6 +19,7 @@ using Api.Service.Services.Pessoas.PessoasTipo;
 using Api.Service.Services.PontoVendaService;
 using Api.Service.Services.PrecoProduto;
 using Data.Implementations;
+using Data.Implementations.PedidoSituacao;
 using Data.Implementations.PerfilUsuario;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;
 using Data.Implementations.Pessoas.PessoasTipoImplementacao;
@@ -28,6 +29,7 @@ using Data.Implementations.Produto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
+using Domain.Interfaces.Repository.PedidoSituacao;
 using Domain.Interfaces.Repository.PerfilUsuario;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Repository.PessoaRepositorys.PessoaTipo;
@@ -36,6 +38,7 @@ using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Interfaces.Services.PagamentoPedido;
+using Domain.Interfaces.Services.PedidoSituacao;
 using Domain.Interfaces.Services.PerfilUsuario;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
@@ -50,6 +53,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Service.Services.FormaPagamento;
 using Service.Services.ItemPedidoService;
 using Service.Services.PagamentoPedidoServices;
+using Service.Services.PedidoSituacao;
 using Service.Services.PerfilUsuario;
 using Service.Services.PeriodoPontoVenda;
 using Service.Services.Pessoas.Pessoa;
@@ -70,7 +74,7 @@ namespace CrossCutting.DependencyInjection
             string? connectionString = configuration.GetConnectionString("DefaultConnection");
             serviceCollection.
                 AddDbContext<MyContext>(options =>
-                             options.UseMySql(connectionString, serverVersion)) ;
+                             options.UseMySql(connectionString, serverVersion));
 
             serviceCollection.
                 AddDbContext<IdentityDataContext>(options =>
@@ -98,6 +102,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
             serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
             serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
+            serviceCollection.AddScoped<ISituacaoPedidoRepository, SituacaoPedidoImplementacao>();
 
             serviceCollection.AddScoped<IPerfilUsuarioRepository, PerfilUsuarioImplementacao>();
 
@@ -115,6 +120,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddTransient<IProdutoTipoServices, ProdutoTipoServices>();
             serviceCollection.AddTransient<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
             serviceCollection.AddTransient<IPerfilUsuarioService, PerfilUsuarioService>();
+            serviceCollection.AddTransient<ISituacaoPedidoService, SituacaoPedidoService>();
 
 
 

@@ -7,6 +7,6 @@
         public DateTime? UpdateAt { get; set; }
         public bool Habilitado { get; set; }
         public string? DescricaoFormaPg { get; set; }
-        
+
     }
 }

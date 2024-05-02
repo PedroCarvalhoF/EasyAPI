@@ -24,8 +24,8 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var entities = await _repository.SelectAsync();
-                var dtos = _mapper.Map<IEnumerable<ProdutoTipoDto>>(entities);
+                IEnumerable<ProdutoTipoEntity> entities = await _repository.SelectAsync();
+                IEnumerable<ProdutoTipoDto> dtos = _mapper.Map<IEnumerable<ProdutoTipoDto>>(entities);
                 dtos = dtos.OrderBy(t => t.DescricaoTipoProduto);
                 return dtos;
             }
@@ -39,8 +39,8 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var entity = await _repository.SelectAsync(id);
-                var dto = _mapper.Map<ProdutoTipoDto>(entity);
+                ProdutoTipoEntity entity = await _repository.SelectAsync(id);
+                ProdutoTipoDto dto = _mapper.Map<ProdutoTipoDto>(entity);
 
                 return dto;
 
@@ -59,9 +59,9 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var model = _mapper.Map<ProdutoTipoModel>(create);
-                var entity = _mapper.Map<ProdutoTipoEntity>(model);
-                var result = await _repository.InsertAsync(entity);
+                ProdutoTipoModel model = _mapper.Map<ProdutoTipoModel>(create);
+                ProdutoTipoEntity entity = _mapper.Map<ProdutoTipoEntity>(model);
+                ProdutoTipoEntity result = await _repository.InsertAsync(entity);
                 if (result != null)
                     return _mapper.Map<ProdutoTipoDto>(result);
                 else
@@ -77,9 +77,9 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var model = _mapper.Map<ProdutoTipoModel>(update);
-                var entity = _mapper.Map<ProdutoTipoEntity>(model);
-                var result = await _repository.UpdateAsync(entity);
+                ProdutoTipoModel model = _mapper.Map<ProdutoTipoModel>(update);
+                ProdutoTipoEntity entity = _mapper.Map<ProdutoTipoEntity>(model);
+                ProdutoTipoEntity result = await _repository.UpdateAsync(entity);
                 if (result != null)
                     return _mapper.Map<ProdutoTipoDto>(result);
                 else

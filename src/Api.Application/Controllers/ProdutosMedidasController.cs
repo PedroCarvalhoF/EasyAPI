@@ -68,7 +68,7 @@ namespace Api.Controllers
 
 
 
-        [HttpGet("medidas-produtos/{descricao}")]
+        [HttpGet("medidas-produtos/{descricao}/descricao")]
         public async Task<ActionResult<IEnumerable<ProdutoMedidaDto>>> Get(string descricao)
         {
             try
@@ -93,7 +93,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpPost("cadastrar-medidas-produtos")]
+        [HttpPost("medidas-produtos/create")]
         public async Task<ActionResult<ProdutoMedidaDto>> Post(ProdutoMedidaDtoCreate create)
         {
             if (!ModelState.IsValid)
@@ -121,7 +121,7 @@ namespace Api.Controllers
 
 
 
-        [HttpPut("alterar-medidas-produtos")]
+        [HttpPut("medidas-produtos/update")]
         public async Task<ActionResult<ProdutoMedidaDto>> Update(ProdutoMedidaDtoUpdate update)
         {
             if (!ModelState.IsValid)

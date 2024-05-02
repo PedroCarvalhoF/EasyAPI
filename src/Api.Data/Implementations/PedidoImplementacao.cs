@@ -20,7 +20,7 @@ namespace Data.Implementations
         {
             try
             {
-                return null ;
+                return null;
                 //IQueryable<PedidoEntity> query = _context.Pedidos.AsNoTracking();
 
                 //query = QueryPedidoEntity(query);

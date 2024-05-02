@@ -5,10 +5,12 @@ using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
 using Data.Mapping;
 using Data.Mapping.PedidoFormaPagamento;
+using Data.Mapping.PedidoSituacao;
 using Data.Mapping.PerfilUsuario;
 using Data.Mapping.PontoVena;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
+using Domain.Entities.PedidoSituacao;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
@@ -30,6 +32,7 @@ namespace Api.Data.Context
         public DbSet<PerfilUsuarioEntity>? PerfisUsuarios { get; set; }
         public DbSet<PontoVendaEntity> PontosVendas { get; set; }
         public DbSet<FormaPagamentoEntity> FormasPagamentos { get; set; }
+        public DbSet<SituacaoPedidoEntity> SituacoesPedidos { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -49,6 +52,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<PerfilUsuarioEntity>(new PerfilUsuarioMap().Configure);
             modelBuilder.Entity<PontoVendaEntity>(new PontoVendaMap().Configure);
             modelBuilder.Entity<FormaPagamentoEntity>(new FormaPagamentoMap().Configure);
+            modelBuilder.Entity<SituacaoPedidoEntity>(new SituacaoPedidoMap().Configure);
 
         }
 

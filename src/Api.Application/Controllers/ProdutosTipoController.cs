@@ -23,7 +23,7 @@ namespace Api.Controllers
         {
             try
             {
-                var dtos = await _services.GetAll();
+                IEnumerable<ProdutoTipoDto> dtos = await _services.GetAll();
                 if (dtos == null)
                 {
                     return BadRequest("Não localizado");
@@ -47,7 +47,7 @@ namespace Api.Controllers
         {
             try
             {
-                var dto = await _services.Get(id);
+                ProdutoTipoDto dto = await _services.Get(id);
                 if (dto == null)
                 {
                     return BadRequest("Não localizado");
@@ -72,7 +72,7 @@ namespace Api.Controllers
         {
             try
             {
-                var dtos = await _services.Get(descricao);
+                IEnumerable<ProdutoTipoDto> dtos = await _services.Get(descricao);
                 if (dtos == null)
                 {
                     return BadRequest("Não localizado");
@@ -100,7 +100,7 @@ namespace Api.Controllers
 
             try
             {
-                var dto = await _services.Create(create);
+                ProdutoTipoDto dto = await _services.Create(create);
                 if (dto == null)
                 {
                     return BadRequest("Não foi possível realizar tafefa");
@@ -126,7 +126,7 @@ namespace Api.Controllers
 
             try
             {
-                var dto = await _services.Update(update);
+                ProdutoTipoDto dto = await _services.Update(update);
                 if (dto == null)
                 {
                     return BadRequest("Não foi possível realizar tafefa");
@@ -152,7 +152,7 @@ namespace Api.Controllers
 
             try
             {
-                var dto = await _services.Desabilitar(id);
+                bool dto = await _services.Desabilitar(id);
                 if (!dto)
                 {
                     return BadRequest("Não foi possível realizar tafefa");

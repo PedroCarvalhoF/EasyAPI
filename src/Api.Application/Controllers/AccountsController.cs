@@ -39,8 +39,8 @@ namespace Api.Application.Controllers
             if (resultado.Sucesso)
             {
 
-                var idIdentity = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
-                
+                Guid idIdentity = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
+
 
                 PerfilUsuarioDtoCreate perfilCreate = new PerfilUsuarioDtoCreate
                 {
@@ -48,7 +48,7 @@ namespace Api.Application.Controllers
                     IdentityId = idIdentity
                 };
 
-                var perfilResult = await _perfilUsuarioService.Create(perfilCreate);
+                global::Domain.Dtos.ResponseDto<List<PerfilUsuarioDto>> perfilResult = await _perfilUsuarioService.Create(perfilCreate);
 
                 return Ok(resultado);
             }
@@ -91,7 +91,7 @@ namespace Api.Application.Controllers
         [HttpGet("get-all-user")]
         public async Task<ActionResult<IEnumerable<UsuarioDto>>> Get()
         {
-            var users = await _identityService.GetAll();
+            IEnumerable<UsuarioDto> users = await _identityService.GetAll();
             return Ok(users);
         }
 

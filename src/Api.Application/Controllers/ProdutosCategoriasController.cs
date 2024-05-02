@@ -92,7 +92,7 @@ namespace Api.Application.Controllers
             }
             try
             {
-                var result = await _categoriaService.Create(categoriaCreate);
+                CategoriaProdutoDto result = await _categoriaService.Create(categoriaCreate);
                 if (result == null)
                     return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
                 return Ok(result);
@@ -117,7 +117,7 @@ namespace Api.Application.Controllers
             }
             try
             {
-                var result = await _categoriaService.Update(update);
+                CategoriaProdutoDto result = await _categoriaService.Update(update);
                 if (result == null)
                     return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
                 return Ok(result);
@@ -142,7 +142,7 @@ namespace Api.Application.Controllers
             }
             try
             {
-                var result = await _categoriaService.DesabilitarHabilitar(id);
+                bool result = await _categoriaService.DesabilitarHabilitar(id);
                 if (result)
 
                     return Ok(result);

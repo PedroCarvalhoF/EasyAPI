@@ -6,7 +6,7 @@ using Domain.Enuns;
 namespace Api.Service.Services.Pedido
 {
     public class PedidoService : IPedidoService
-    {       
+    {
         public PedidoService()
         {
 

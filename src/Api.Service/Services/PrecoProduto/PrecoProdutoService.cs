@@ -24,8 +24,8 @@ namespace Api.Service.Services.PrecoProduto
         {
             try
             {
-                var entities = await _implementacao.GetAll();
-                var dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
+                IEnumerable<PrecoProdutoEntity> entities = await _implementacao.GetAll();
+                IEnumerable<PrecoProdutoDto> dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
                 return dtos;
             }
             catch (Exception)
@@ -38,8 +38,8 @@ namespace Api.Service.Services.PrecoProduto
         {
             try
             {
-                var entity = await _implementacao.Get(id);
-                var dto = _mapper.Map<PrecoProdutoDto>(entity);
+                PrecoProdutoEntity entity = await _implementacao.Get(id);
+                PrecoProdutoDto dto = _mapper.Map<PrecoProdutoDto>(entity);
                 return dto;
             }
             catch (Exception)
@@ -54,7 +54,7 @@ namespace Api.Service.Services.PrecoProduto
             try
             {
                 IEnumerable<PrecoProdutoEntity> entities = await _implementacao.GetProdutoId(id);
-                var dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
+                IEnumerable<PrecoProdutoDto> dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
                 return dtos;
             }
             catch (Exception)
@@ -68,7 +68,7 @@ namespace Api.Service.Services.PrecoProduto
             try
             {
                 IEnumerable<PrecoProdutoEntity> entities = await _implementacao.GetCategoriaPrecoId(id);
-                var dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
+                IEnumerable<PrecoProdutoDto> dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
                 return dtos;
             }
             catch (Exception)
@@ -82,16 +82,16 @@ namespace Api.Service.Services.PrecoProduto
         {
             try
             {
-                var model = _mapper.Map<PrecoProdutoModel>(createUpdate);
-                var entidade = _mapper.Map<PrecoProdutoEntity>(model);
-                var precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
+                PrecoProdutoModel model = _mapper.Map<PrecoProdutoModel>(createUpdate);
+                PrecoProdutoEntity entidade = _mapper.Map<PrecoProdutoEntity>(model);
+                PrecoProdutoEntity? precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
 
 
 
                 if (precoExists is null)
                 {
                     //cadastrar                    
-                    var result = await _repository.InsertAsync(entidade);
+                    PrecoProdutoEntity result = await _repository.InsertAsync(entidade);
                     return await Get(result.Id);
                 }
                 else
@@ -99,7 +99,7 @@ namespace Api.Service.Services.PrecoProduto
                     //alterar
                     entidade.Id = precoExists.Id;
                     entidade.Habilitado = true;
-                    var result = await _repository.UpdateAsync(entidade);
+                    PrecoProdutoEntity result = await _repository.UpdateAsync(entidade);
                     return await Get(result.Id);
                 }
 
@@ -112,6 +112,6 @@ namespace Api.Service.Services.PrecoProduto
             }
         }
 
-       
+
     }
 }

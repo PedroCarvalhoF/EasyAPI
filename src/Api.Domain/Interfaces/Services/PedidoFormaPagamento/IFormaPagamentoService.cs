@@ -10,6 +10,6 @@ namespace Domain.Interfaces.Services.FormaPagamento
         Task<ResponseDto<List<FormaPagamentoDto>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate);
         Task<ResponseDto<List<FormaPagamentoDto>>> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate);
         Task<ResponseDto<List<FormaPagamentoDto>>> DesabilitarHabilitar(Guid id);
-
+        Task<ResponseDto<List<FormaPagamentoDto>>> GetByDescricao(string descricao);
     }
 }

@@ -22,9 +22,9 @@ namespace Api.Data.Mapping
             builder.HasData(new CategoriaProdutoEntity
             {
                 UpdateAt = DateTime.UtcNow,
-                CreateAt= DateTime.UtcNow,
-                DescricaoCategoria ="Executivos",
-                Habilitado= true    ,
+                CreateAt = DateTime.UtcNow,
+                DescricaoCategoria = "Executivos",
+                Habilitado = true,
                 Id = Guid.Parse("a9b05f16-71f0-4f77-a653-52c1a15b36bc")
             },
             new CategoriaProdutoEntity

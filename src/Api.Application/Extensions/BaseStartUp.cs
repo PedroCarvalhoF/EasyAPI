@@ -1,5 +1,4 @@
-﻿using Api.Domain.Dtos.CategoriaPrecoDtos;
-using Api.Domain.Interfaces.Services.CategoriaPreco;
+﻿using Api.Domain.Interfaces.Services.CategoriaPreco;
 
 namespace Api.Extensions
 {
@@ -12,7 +11,7 @@ namespace Api.Extensions
             using (IServiceScope? scope = scopedFactory?.CreateScope())
             {
                 ICategoriaPrecoService? service = scope?.ServiceProvider.GetService<ICategoriaPrecoService>();
-             
+
 
             }
         }

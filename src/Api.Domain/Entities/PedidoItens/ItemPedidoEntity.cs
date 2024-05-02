@@ -34,7 +34,7 @@ namespace Domain.Entities.ItensPedido
         public decimal TotalItem { get; set; }
 
         [MaxLength(200)]
-        public string? ObservacaoItem { get; set; }       
+        public string? ObservacaoItem { get; set; }
 
         [Required]
         public Guid PedidoEntityId { get; set; }

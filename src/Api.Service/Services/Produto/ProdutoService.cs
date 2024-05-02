@@ -27,7 +27,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.Get();
+                IEnumerable<ProdutoEntity> entities = await _implementacao.Get();
                 return _mapper.Map<IEnumerable<ProdutoDto>>(entities);
             }
             catch (Exception)
@@ -41,7 +41,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.Get(id);
+                ProdutoEntity entities = await _implementacao.Get(id);
                 return _mapper.Map<ProdutoDto>(entities);
             }
             catch (Exception)
@@ -55,7 +55,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.Get(nomeProduto);
+                IEnumerable<ProdutoEntity> entities = await _implementacao.Get(nomeProduto);
                 return _mapper.Map<IEnumerable<ProdutoDto>>(entities);
             }
             catch (Exception)
@@ -69,7 +69,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.GetCategoria(categoriaId);
+                IEnumerable<ProdutoEntity> entities = await _implementacao.GetCategoria(categoriaId);
                 return _mapper.Map<IEnumerable<ProdutoDto>>(entities);
             }
             catch (Exception)
@@ -83,7 +83,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.GetCodigo(codigoPersonalizado);
+                ProdutoEntity entities = await _implementacao.GetCodigo(codigoPersonalizado);
                 return _mapper.Map<ProdutoDto>(entities);
             }
             catch (Exception)
@@ -97,7 +97,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.GetHabilitadoNaoHabilitado(habilitado);
+                IEnumerable<ProdutoEntity> entities = await _implementacao.GetHabilitadoNaoHabilitado(habilitado);
                 return _mapper.Map<IEnumerable<ProdutoDto>>(entities);
             }
             catch (Exception)
@@ -111,7 +111,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.GetMedida(categoriaId);
+                IEnumerable<ProdutoEntity> entities = await _implementacao.GetMedida(categoriaId);
                 return _mapper.Map<IEnumerable<ProdutoDto>>(entities);
             }
             catch (Exception)
@@ -125,7 +125,7 @@ namespace Service.Services.Produto
         {
             try
             {
-                var entities = await _implementacao.GetProdutoTipo(categoriaId);
+                IEnumerable<ProdutoEntity> entities = await _implementacao.GetProdutoTipo(categoriaId);
                 return _mapper.Map<IEnumerable<ProdutoDto>>(entities);
             }
             catch (Exception)
@@ -138,9 +138,9 @@ namespace Service.Services.Produto
         {
             try
             {
-                var model = _mapper.Map<ProdutoModel>(produtoDtoCreate);
-                var entity = _mapper.Map<ProdutoEntity>(model);
-                var result = await _repository.InsertAsync(entity);
+                ProdutoModel model = _mapper.Map<ProdutoModel>(produtoDtoCreate);
+                ProdutoEntity entity = _mapper.Map<ProdutoEntity>(model);
+                ProdutoEntity result = await _repository.InsertAsync(entity);
                 return _mapper.Map<ProdutoDto>(result);
             }
             catch (Exception)
@@ -154,12 +154,12 @@ namespace Service.Services.Produto
         {
             try
             {
-                var model = _mapper.Map<ProdutoModel>(produtoDtoUpdate);
+                ProdutoModel model = _mapper.Map<ProdutoModel>(produtoDtoUpdate);
 
                 model.Update();
 
-                var entity = _mapper.Map<ProdutoEntity>(model);
-                var result = await _repository.UpdateAsync(entity);
+                ProdutoEntity entity = _mapper.Map<ProdutoEntity>(model);
+                ProdutoEntity result = await _repository.UpdateAsync(entity);
                 return _mapper.Map<ProdutoDto>(result);
             }
             catch (Exception)
