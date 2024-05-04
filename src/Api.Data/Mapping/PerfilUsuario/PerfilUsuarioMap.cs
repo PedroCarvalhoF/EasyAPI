@@ -11,7 +11,7 @@ namespace Data.Mapping.PerfilUsuario
             //tabela Produto
             builder.ToTable("PerfisUsuarios");
             //Id 
-            builder.HasKey(user => user.Id);
+            builder.HasKey(user => user.IdentityId);
 
 
             //UsuarioIdentity           

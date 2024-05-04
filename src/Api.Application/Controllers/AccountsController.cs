@@ -7,6 +7,7 @@ using Domain.Dtos.IdentityDto;
 using Domain.Dtos.PerfilUsuario;
 using Domain.Interfaces.Services.PerfilUsuario;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -24,6 +25,16 @@ namespace Api.Application.Controllers
         {
             _identityService = identityService;
             _perfilUsuarioService = perfilUsuarioService;
+        }
+
+        
+        [HttpGet("get-user/{id}")]
+        public async Task<ActionResult<UsuarioDto>> GetId(Guid id)
+        {
+            UsuarioDto usuarioDto = await _identityService.GetUserById(id);
+            if (usuarioDto.Id == Guid.Empty)
+                return BadRequest("Usuário não encontrado");
+            return Ok(usuarioDto);
         }
 
         [AllowAnonymous]
@@ -92,20 +103,10 @@ namespace Api.Application.Controllers
             if (resultado.Dados.Any())
                 return Ok(resultado);
 
-
-
-
             return Unauthorized(resultado);
         }
 
-        [HttpGet("get-user/{id}")]
-        public async Task<ActionResult<UsuarioDto>> GetId(Guid id)
-        {
-            UsuarioDto usuarioDto = await _identityService.GetUserById(id);
-            if (usuarioDto.Id == Guid.Empty)
-                return BadRequest("Usuário não encontrado");
-            return Ok(usuarioDto);
-        }
+
 
     }
 }

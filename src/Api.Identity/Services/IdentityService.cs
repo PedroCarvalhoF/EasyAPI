@@ -53,7 +53,7 @@ namespace Api.Identity.Services
 
             resposta.Dados.Add(usuarioCadastroResponse);
             resposta.Status = false;
-            resposta.Mensagem = $"Não foi possível efetuar o cadastro.Motivo: {usuarioCadastroResponse.Erros.FirstOrDefault()}";
+            resposta.Mensagem = $"{usuarioCadastroResponse.Erros.FirstOrDefault()}";
 
 
             return resposta;
@@ -78,16 +78,16 @@ namespace Api.Identity.Services
             if (!result.Succeeded)
             {
                 if (result.IsLockedOut)
-                    usuarioLoginResponse.AdicionarErro("Essa conta está bloqueada");
+                    usuarioLoginResponse.AdicionarErro("Essa conta está bloqueada.");
                 else if (result.IsNotAllowed)
-                    usuarioLoginResponse.AdicionarErro("Essa conta não tem permissão para fazer login");
+                    usuarioLoginResponse.AdicionarErro("Essa conta não tem permissão para fazer login.");
                 else if (result.RequiresTwoFactor)
-                    usuarioLoginResponse.AdicionarErro("É necessário confirmar o login no seu segundo fator de autenticação");
+                    usuarioLoginResponse.AdicionarErro("É necessário confirmar o login no seu segundo fator de autenticação.");
                 else
-                    usuarioLoginResponse.AdicionarErro("Usuário ou senha estão incorretos");
+                    usuarioLoginResponse.AdicionarErro("Usuário ou senha inválidos.");
             }
 
-            resposta.Mensagem = $"Não foi possível realizar login. Motivo: {usuarioLoginResponse.Erros.FirstOrDefault()}";
+            resposta.Mensagem = $"{usuarioLoginResponse.Erros.FirstOrDefault()}";
             resposta.Status = false;
 
 

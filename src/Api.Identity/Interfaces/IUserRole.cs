@@ -4,9 +4,8 @@ namespace Identity.Interfaces
 {
     public interface IUserRole
     {
-        Task<bool> AplicarRoleUser(Guid pessoaId, Guid roldId);
-        Task<bool> CadastrarRole(string UserRole);
-
+        Task<bool> AddRole(Guid pessoaId, Guid roldId);
+        Task<bool> CreateRole(string UserRole);
         Task<IEnumerable<IdentityRole>> GetRoles();
     }
 }

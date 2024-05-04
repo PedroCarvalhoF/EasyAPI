@@ -7,6 +7,7 @@ namespace Domain.Entities.UsuarioSistema
 {
     public class PerfilUsuarioEntity : BaseEntity
     {
+        [Key]
         [Required(ErrorMessage = "Informe o nome")]
 
         [DisplayName("Id Usuário Identity")]

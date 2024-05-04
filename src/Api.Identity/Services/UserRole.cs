@@ -16,7 +16,7 @@ namespace Identity.Services
             this._userManager = userManager;
         }
 
-        public async Task<bool> AplicarRoleUser(Guid pessoaId, Guid roleId)
+        public async Task<bool> AddRole(Guid pessoaId, Guid roleId)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Identity.Services
                 if (result.Succeeded)
                     return true;
                 else
-                    return false;
+                    throw new Exception(result.Errors.FirstOrDefault().Description);
 
 
             }
@@ -40,7 +40,7 @@ namespace Identity.Services
             }
         }
 
-        public async Task<bool> CadastrarRole(string role)
+        public async Task<bool> CreateRole(string role)
         {
             role = role.ToUpper();
 

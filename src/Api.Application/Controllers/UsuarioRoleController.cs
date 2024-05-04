@@ -22,7 +22,7 @@ namespace Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            bool result = await _userRole.CadastrarRole(nameRole);
+            bool result = await _userRole.CreateRole(nameRole);
             return result;
         }
 
@@ -36,7 +36,7 @@ namespace Api.Controllers
         [HttpPost("AplicarRolesUser")]
         public async Task<ActionResult> AplicarRoleUser(Guid pessoaId, Guid roldId)
         {
-            Boolean resultado = await _userRole.AplicarRoleUser(pessoaId, roldId);
+            Boolean resultado = await _userRole.AddRole(pessoaId, roldId);
 
 
             if (resultado)

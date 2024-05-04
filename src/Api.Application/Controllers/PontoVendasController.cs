@@ -1,5 +1,6 @@
 ﻿using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Interfaces.Services.PontoVenda;
+using Api.Extensions;
 using Domain.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +9,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PontoVendasController : ControllerBase
     {
         private readonly IPontoVendaService _service;
@@ -24,7 +25,7 @@ namespace Api.Controllers
         /// </summary>
         /// <returns></returns>
 
-        [Authorize(Policy = "admin")]
+       
         public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs()
         {
             ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
@@ -96,7 +97,7 @@ namespace Api.Controllers
                 return resposta;
             }
         }
-        [HttpPut("pdv/create")]
+        [HttpPost("pdv/create")]
         public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate)
         {
             ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
@@ -104,6 +105,7 @@ namespace Api.Controllers
 
             try
             {
+                pontoVendaDtoCreate.IdPerfilAbriuPDV = User.GetUserId();
                 return await _service.Create(pontoVendaDtoCreate);
             }
             catch (Exception ex)
