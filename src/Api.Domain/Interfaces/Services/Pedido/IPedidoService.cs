@@ -1,19 +1,21 @@
 using Api.Domain.Dtos.PedidoDtos;
-using Domain.Dtos.PedidoDtos;
-using Domain.Enuns;
+using Domain.Dtos;
+using Domain.Dtos.Pedidos;
+using System.Linq.Expressions;
 
 namespace Api.Domain.Interfaces.Services.Pedido
 {
     public interface IPedidoService
     {
-        Task<PedidoDto> GerarPedido(PedidoDtoCreate pedidoDtoCreate);
-        Task<PedidoDto> EncerrarPedido(Guid pedidoId);
-        Task<PedidoDto> CancelarPedido(PedidoDtoCancelamento dtoCancelamento);
-        Task<PedidoDto> AtualizarValorPedido(Guid pedidoId);
-        Task<IEnumerable<PedidoDto>> Get(SituacaoPedidoEnum situacaoPedido);
-        Task<IEnumerable<PedidoDto>> GetByIdPedido(Guid idPedido, bool fullConsulta);
-        Task<IEnumerable<PedidoDto>> Get(Guid idPdv);
-        Task<PedidoDto> CancelarTodosItensPedidoReturnPedido(Guid idPedido);
-        Task<PedidoDto> RemoverAllItensPedido(Guid idPedido);
+        Task<ResponseDto<List<PedidoDto>>> Get(Guid idPedido);
+        Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true);
+        Task<ResponseDto<List<PedidoDto>>> GetAll(Guid idPdv);
+        Task<ResponseDto<List<PedidoDto>>> GetAllBySituacao(Guid idPdv, Guid idSituacao);
+        Task<ResponseDto<List<PedidoDto>>> GetAllByCategoriaPreco(Guid idPdv, Guid idSituacao);
+        Task<ResponseDto<List<PedidoDto>>> GetAllByUser(Guid idPdv, Guid idUserCreatePedido);
+
+        Task<ResponseDto<List<PedidoDto>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate);
+        Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido);
+        Task<ResponseDto<List<PedidoDto>>> CancelarPedido(PedidoDtoCancelar cancelamentoPedido);
     }
 }

@@ -1,6 +1,7 @@
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.UsuarioSistema;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,7 +19,7 @@ namespace Api.Domain.Entities.Pedido
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? ValorDesconto { get; set; }
+        public decimal? ValorDesconto { get; set; } = 0;
         //############################################################
 
         [DisplayName("Valor de Desconto")]
@@ -29,7 +30,7 @@ namespace Api.Domain.Entities.Pedido
 
         [DisplayName("Observações")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
-        public string? Observacoes { get; set; }
+        public string? Observacoes { get; set; } = string.Empty;
         //############################################################
 
         [DisplayName("Id Situação")]
@@ -53,6 +54,7 @@ namespace Api.Domain.Entities.Pedido
         [DisplayName("Id PDV")]
         [Required(ErrorMessage = "Informe o {0}")]
         public Guid UserCreatePedidoId { get; set; }
+        public PerfilUsuarioEntity? UserCreatePedido { get; set; }
         //############################################################
     }
 }

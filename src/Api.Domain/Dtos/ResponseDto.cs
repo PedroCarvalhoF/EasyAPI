@@ -2,8 +2,8 @@
 {
     public class ResponseDto<T>
     {
-        public T? Dados { get; set; }
-        public string Mensagem { get; set; } = string.Empty;
         public bool Status { get; set; } = true;
+        public string Mensagem { get; set; } = string.Empty;
+        public T? Dados { get; set; }
     }
 }

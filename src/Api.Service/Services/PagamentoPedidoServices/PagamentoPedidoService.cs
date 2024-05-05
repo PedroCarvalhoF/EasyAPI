@@ -54,9 +54,9 @@ namespace Service.Services.PagamentoPedidoServices
                 PagamentoPedidoModel model = _mapper.Map<PagamentoPedidoModel>(pagamentoPedidoDto);
                 PagamentoPedidoEntity entity = _mapper.Map<PagamentoPedidoEntity>(model);
                 PagamentoPedidoEntity resultPagamento = await _repository.InsertAsync(entity);
-                IEnumerable<PedidoDto> pedido = await _pedidoService.GetByIdPedido(resultPagamento.PedidoEntityId, true);
+             
 
-                return pedido.FirstOrDefault();
+                return null;
 
             }
             catch (ModelsExceptions ex)

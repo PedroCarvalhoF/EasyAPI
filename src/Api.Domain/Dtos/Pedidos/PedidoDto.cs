@@ -1,27 +1,21 @@
 using Api.Domain.Dtos.PontoVendaDtos;
-using Domain.Dtos.ItemPedido;
-using Domain.Dtos.PagamentoPedidoDtos;
-using Domain.Enuns;
+using Domain.Dtos.PedidoSituacao;
+using Domain.Dtos.PerfilUsuario;
 
 namespace Api.Domain.Dtos.PedidoDtos
 {
-    public class PedidoDto
+    public class PedidoDto : BaseDto
     {
-        public Guid Id { get; set; }
-        public DateTime CreateAt { get; set; }
         public string? NumeroPedido { get; set; }
-        public decimal? TotalItensPedido { get; set; }
         public decimal? ValorDesconto { get; set; }
         public decimal? ValorPedido { get; set; }
-        public SituacaoPedidoEnum SituacaoPedidoEnum { get; set; }
-        public string? Observacoes { get; set; }
-        public Guid UserIdCreatePedido { get; set; }
-        public DateTime DataUltimaAtualizacao { get; set; }
-        public Guid? PontoVendaEntityId { get; set; }
-        public PontoVendaDto? PontoVendaEntity { get; set; }
-        public IEnumerable<ItemPedidoDto>? ItemPedidoEntity { get; set; }
-        //   public CategoriaPrecoDto? CategoriaPrecoEntity { get; set; }
 
-        public IEnumerable<PagamentoPedidoDto>? PagamentoPedidoEntity { get; set; }
+        // public Guid SituacaoPedidoId { get; set; }
+        // public Guid UserCreatePedidoId { get; set; }
+        // public Guid? PontoVendaEntityId { get; set; }
+        public string? Observacoes { get; set; }
+        public SituacaoPedidoDto? SituacaoPedidoDto { get; set; }
+        public PerfilUsuarioDto? UserCreatePedido { get; set; }
+        public PontoVendaDto? PontoVendaEntity { get; set; }
     }
 }

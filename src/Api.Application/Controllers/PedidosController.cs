@@ -1,260 +1,195 @@
 using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Interfaces.Services.Pedido;
-using Domain.Dtos.PedidoDtos;
-using Domain.Enuns;
-using Domain.ExceptionsPersonalizadas;
+using Domain.Dtos;
+using Domain.Dtos.Pedidos;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
 
-    class PedidosController : ControllerBase
+    public class PedidosController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;
-        #region Codes Desatualizados
-        public PedidosController(IPedidoService produtoService)
+
+        public PedidosController(IPedidoService pedidoService)
         {
-            _pedidoService = produtoService;
-        }
-        [HttpPost("gerar-pedido")]
-        public async Task<ActionResult> GerarPedido([FromBody] PedidoDtoCreate pedidoCreate)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PedidoDto pedidoDto = await _pedidoService.GerarPedido(pedidoCreate);
-                if (pedidoDto == null) BadRequest("Não foi possíve gerar pedido.");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
+            _pedidoService = pedidoService;
         }
 
-
-        [HttpPost("pedido-get-by-idPedido/{idPedido}/{fullConsulta}")]
-        public async Task<ActionResult> GetByIdPedido(Guid idPedido, bool fullConsulta = true)
+        [HttpGet("pedidos/{idPedido}/id")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GerarPedido(Guid idPedido)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<PedidoDto> pedidoDto = await _pedidoService.GetByIdPedido(idPedido, fullConsulta);
-                if (pedidoDto == null) BadRequest("Não foi possíve cancelar pedido.");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
+                var result = await _pedidoService.Get(idPedido);
 
+                if (!result.Status)
+                    return BadRequest(result);
 
-        [HttpPut("encerrar-pedido/{pedidoId}")]
-        public async Task<ActionResult> EncerrarPedido(Guid pedidoId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PedidoDto pedidoDto = await _pedidoService.EncerrarPedido(pedidoId);
-                if (pedidoDto == null) BadRequest("Não foi possíve encerrar pedido.");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-        [HttpDelete("cancelar-pedido")]
-        public async Task<ActionResult> CancelarPedido([FromBody] PedidoDtoCancelamento dtoCancelamento)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PedidoDto pedidoDto = await _pedidoService.CancelarPedido(dtoCancelamento);
-                if (pedidoDto == null) BadRequest("Não foi possíve cancelar pedido.");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-
-        [HttpPut("atualizar-valor-pedido/{pedidoId}")]
-        async Task<ActionResult> AtualizarValorPedido(Guid pedidoId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PedidoDto pedidoDto = await _pedidoService.AtualizarValorPedido(pedidoId);
-                if (pedidoDto == null) BadRequest("Não foi possíve cancelar pedido.");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-
-        [HttpPut("cancelar-all-item-pedido-return-pedido/{idPedido}")]
-        public async Task<ActionResult> CancelarTodosItensPedidoReturnPedido(Guid idPedido)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PedidoDto result = await _pedidoService.CancelarTodosItensPedidoReturnPedido(idPedido);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação.");
                 return Ok(result);
             }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
 
-        #region Gets
-
-        [HttpGet("consultar-pedido-by-situacao/{situacaoPedido}")]
-        /// <summary>
-        /// Consulta de pedido filtrado de acordo com a situação
-        /// 
-        /// Aberto = 1,
-        /// Finalizado = 2,
-        /// Cancelado = 3
-        /// </summary>
-        public async Task<ActionResult> GetBySituacaoPedido(SituacaoPedidoEnum situacaoPedido)
+        [HttpGet("pedidos/{idPdv}/pdv")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAll(Guid idPdv)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<PedidoDto>? pedidoDto = await _pedidoService.Get(situacaoPedido);
-                if (pedidoDto == null) BadRequest("Não foi possíve realizar consulta");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
+                var result = await _pedidoService.GetAll(idPdv);
 
+                if (!result.Status)
+                    return BadRequest(result);
 
-
-        [HttpGet("consultar-pedido-by-pdv/{idPdv}")]
-        public async Task<ActionResult> GetPdv(Guid idPdv)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                IEnumerable<PedidoDto>? pedidoDto = await _pedidoService.Get(idPdv);
-                if (pedidoDto == null) BadRequest("Não foi possíve realizar consulta");
-                return Ok(pedidoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-
-        #endregion
-
-
-        #endregion
-
-
-        [HttpDelete("remover-all-itens/pedido/{idPedido}")]
-        public async Task<ActionResult> RemoverAllItensPedido(Guid idPedido)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                PedidoDto result = await _pedidoService.RemoverAllItensPedido(idPedido);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação.");
                 return Ok(result);
             }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
 
+        [HttpGet("pedidos/{idPdv}/{idCategoria}/categoria-preco")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoria)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllByCategoriaPreco(idPdv, idCategoria);
+                if (!result.Status)
+                    return BadRequest(result);
 
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("pedidos/{idPdv}/{idSituacao}/situacao-pedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllBySituacao(Guid idPdv, Guid idSituacao)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllBySituacao(idPdv, idSituacao);
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+        [HttpGet("pedidos/{idPdv}/{idUserCreatePedido}/registro-usuario")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByUser(Guid idPdv, Guid idUserCreatePedido)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllByUser(idPdv, idUserCreatePedido);
+              
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPost("pedidos/gerar-pedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
+        {
+            try
+            {
+                var result = await _pedidoService.GerarPedido(pedidoDtoCreate);
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("pedidos/{idPedido}/encerrar-pedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> EncerrarPedido(Guid idPedido)
+        {
+            try
+            {
+                var result = await _pedidoService.EncerrarPedido(idPedido);
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("pedidos/cancelar-pedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> CancelarPedido(PedidoDtoCancelar pedidoDtoCancelar)
+        {
+            try
+            {
+                var result = await _pedidoService.CancelarPedido(pedidoDtoCancelar);
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
 
     }
 }

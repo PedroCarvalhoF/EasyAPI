@@ -38,7 +38,7 @@ namespace Service.Services.ItemPedidoService
 
                 if (resultCreate != null)
                 {
-                    PedidoDto resutAttPedido = await _pedidoService.AtualizarValorPedido(resultCreate.PedidoEntityId);
+                   
 
                     ItemPedidoEntity itemPedido = await repository.GetByIdItemPedido(resultCreate.Id);
 
@@ -71,13 +71,10 @@ namespace Service.Services.ItemPedidoService
 
                 if (resultCreate != null)
                 {
-                    PedidoDto resutAttPedido = await _pedidoService.AtualizarValorPedido(resultCreate.PedidoEntityId);
+                   
 
 
-                    resutAttPedido.ItemPedidoEntity = resutAttPedido.ItemPedidoEntity.OrderBy(item => item.CreateAt);
-
-
-                    return mapper.Map<PedidoDto>(resutAttPedido);
+                    return mapper.Map<PedidoDto>(null);
                 }
                 else
                     return new PedidoDto();
@@ -107,9 +104,8 @@ namespace Service.Services.ItemPedidoService
 
                 if (result != null)
                 {
-                    ItemPedidoEntity itemResult = await repository.GetByIdItemPedido(idItemPedido);
-                    PedidoDto resutAttPedido = await _pedidoService.AtualizarValorPedido(itemResult.PedidoEntityId);
-                    return mapper.Map<ItemPedidoDto>(itemResult);
+                   
+                    return mapper.Map<ItemPedidoDto>(null);
                 }
                 else
                 {
@@ -138,9 +134,8 @@ namespace Service.Services.ItemPedidoService
                 {
                     ItemPedidoEntity itemResult = await repository.GetByIdItemPedido(idItemPedido);
 
-                    PedidoDto resutAttPedido = await _pedidoService.AtualizarValorPedido(itemResult.PedidoEntityId);
 
-                    return mapper.Map<PedidoDto>(resutAttPedido);
+                    return mapper.Map<PedidoDto>(null);
                 }
                 else
                 {

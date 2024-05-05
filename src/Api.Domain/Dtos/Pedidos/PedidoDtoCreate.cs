@@ -1,20 +1,36 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Dtos.PedidoDtos
 {
     public class PedidoDtoCreate
     {
+        [DisplayName("Número do Pedido")]
+        
+        [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? NumeroPedido { get; set; }
+        //############################################################          
 
-        public string? Observacoes { get; set; }
+        [DisplayName("Observações")]
+        [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
+        public string? Observacoes { get; set; } = string.Empty;
+       
+        //############################################################
 
-        [Required]
-        public Guid UserIdCreatePedido { get; set; }
+        [DisplayName("Id PDV")]
+        [Required(ErrorMessage = "Informe o {0}")]
+        public Guid? PontoVendaEntityId { get; set; }       
+        //############################################################
 
-        [Required]
-        public Guid PontoVendaEntityId { get; set; }
+        [DisplayName("Id Categoria Preço")]
+        [Required(ErrorMessage = "Informe o {0}")]
+        public Guid? CategoriaPrecoEntityId { get; set; }
 
-        [Required]
-        public Guid CategoriaPrecoEntityId { get; set; }
+        //############################################################
+
+        [DisplayName("Id PDV")]
+        [Required(ErrorMessage = "Informe o {0}")]
+        public Guid UserCreatePedidoId { get; set; }
+        //############################################################
     }
 }
