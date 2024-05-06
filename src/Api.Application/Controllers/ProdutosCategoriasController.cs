@@ -1,7 +1,7 @@
 using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
+using Domain.Dtos;
 using Domain.Dtos.CategoriaProdutoDtos;
-using Domain.ExceptionsPersonalizadas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
@@ -12,153 +12,135 @@ namespace Api.Application.Controllers
     //[Authorize]
     public class ProdutosCategoriasController : ControllerBase
     {
-        private readonly ICategoriaProdutoService _categoriaService;
+        private readonly ICategoriaProdutoService _service;
         public ProdutosCategoriasController(ICategoriaProdutoService categoriaProdutoService)
         {
-            _categoriaService = categoriaProdutoService;
+            _service = categoriaProdutoService;
         }
+
         [HttpGet("categorias")]
-        public async Task<ActionResult> GetAllCategorias()
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Get()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);  // 400 Bad Request - Solicitação Inválida
-            }
             try
             {
-                return Ok(await _categoriaService.Get());
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
+                var result = await _service.Get();
 
-        [HttpGet("categoria/{id}/id")]
-        public async Task<ActionResult> GetId(Guid id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);  // 400 Bad Request - Solicitação Inválida
-            }
-            try
-            {
-                return Ok(await _categoriaService.Get(id));
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
+                if (!result.Status)
+                    return BadRequest(result);
 
-        [HttpGet("categorias/{nomeCategoria}")]
-        public async Task<ActionResult> GetNomeCategoria(string nomeCategoria)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);  // 400 Bad Request - Solicitação Inválida
-            }
-            try
-            {
-                return Ok(await _categoriaService.Get(nomeCategoria));
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-
-        [HttpPost("cadastrar-categoria-produto")]
-        public async Task<ActionResult> Post([FromBody] CategoriaProdutoDtoCreate categoriaCreate)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                CategoriaProdutoDto result = await _categoriaService.Create(categoriaCreate);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
                 return Ok(result);
             }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                response.Status = false;
+                return BadRequest(response);
             }
         }
-
-        [HttpPut("alterar-categoria-produto")]
-        public async Task<ActionResult> AlterarCategoria([FromBody] CategoriaProdutoDtoUpdate update)
+        [HttpGet("categorias/{id}/id")]
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Get(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                CategoriaProdutoDto result = await _categoriaService.Update(update);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação. Realize a depuração.ERRO CRÍTICO");
+                var result = await _service.Get(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
                 return Ok(result);
             }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                response.Status = false;
+                return BadRequest(response);
             }
         }
-
-        [HttpPut("desabilitar/{id}")]
-        public async Task<ActionResult> Desabilitar(Guid id)
+        [HttpGet("categorias/{categoria}/categoria")]
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Get(string categoria)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                bool result = await _categoriaService.DesabilitarHabilitar(id);
-                if (result)
+                var result = await _service.Get(categoria);
 
-                    return Ok(result);
-                else
-                    return BadRequest("Não foi possível realizar alteração");
+                if (!result.Status)
+                    return BadRequest(result);
 
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                response.Status = false;
+                return BadRequest(response);
             }
         }
+
+        [HttpPost("categorias/create")]
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Create(CategoriaProdutoDtoCreate create)
+        {
+            try
+            {
+                var result = await _service.Create(create);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                response.Status = false;
+                return BadRequest(response);
+            }
+
+        }
+        [HttpPut("categorias/update")]
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Update(CategoriaProdutoDtoUpdate categoriaProdutoDtoUpdate)
+        {
+            try
+            {
+                var result = await _service.Update(categoriaProdutoDtoUpdate);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                response.Status = false;
+                return BadRequest(response);
+            }
+        }
+        [HttpPut("categorias/{id}/desabilitar")]
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> DesabilitarHabilitar(Guid id)
+        {
+            try
+            {
+                var result = await _service.DesabilitarHabilitar(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                response.Status = false;
+                return BadRequest(response);
+            }
+        }
+
     }
 }

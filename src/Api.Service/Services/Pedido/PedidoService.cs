@@ -35,16 +35,15 @@ namespace Api.Service.Services.Pedido
 
                 if (result == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível consultar pedido: {idPedido}";
+                    responseDto.Error();
                     return responseDto;
                 }
 
                 var pedidoDto = _mapper.Map<PedidoDto>(result);
 
-                responseDto.Status = true;
                 responseDto.Dados.Add(pedidoDto);
-                responseDto.Mensagem = "Consulta realizada com sucesso.";
+
+                responseDto.ConsultaOk();
 
                 return responseDto;
             }
@@ -190,10 +189,9 @@ namespace Api.Service.Services.Pedido
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
-
-                responseDto.Status = true;
                 responseDto.Dados = pedidoDto;
-                responseDto.Mensagem = $"Consulta realizada com sucesso. Localizados: {pedidoDto.Count}";
+
+                responseDto.ConsultaOk(pedidoDto.Count);
 
                 return responseDto;
 

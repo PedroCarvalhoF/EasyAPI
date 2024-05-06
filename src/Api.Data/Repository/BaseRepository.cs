@@ -149,7 +149,7 @@ namespace Api.Data.Repository
         {
             try
             {
-                return await _dataset.Where(p => p.Habilitado == true).ToListAsync();
+                return await _dataset.ToArrayAsync();
             }
             catch (Exception ex)
             {

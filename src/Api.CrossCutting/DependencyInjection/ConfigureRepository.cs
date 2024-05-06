@@ -105,6 +105,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
             serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
             serviceCollection.AddScoped<ISituacaoPedidoRepository, SituacaoPedidoImplementacao>();
+            serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
 
             serviceCollection.AddScoped<IPerfilUsuarioRepository, PerfilUsuarioImplementacao>();
 

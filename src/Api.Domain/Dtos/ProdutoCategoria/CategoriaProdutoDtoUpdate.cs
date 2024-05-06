@@ -12,7 +12,7 @@ namespace Api.Domain.Dtos.CategoriaProdutoDtos
         public string? DescricaoCategoria { get; set; }
 
         [Required]
-        public bool StatusCategoria { get; set; }
+        public bool Habilitado { get; set; }
 
 
     }

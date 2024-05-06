@@ -4,7 +4,19 @@ namespace Domain.Models.FormaPagamentoModels
 {
     public class FormaPagamentoModel : ModelBase
     {
-        public string? DescricaoFormaPg { get; set; }
+        private string? _descricaoFormaPg;
+
+        public string DescricaoFormaPg
+        {
+            get
+            {
+                return _descricaoFormaPg.ToUpper();
+            }
+            set
+            {
+                _descricaoFormaPg = value.ToLower();
+            }
+        }
 
     }
 }
