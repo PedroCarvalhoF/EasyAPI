@@ -1,8 +1,8 @@
 namespace Api.Domain.Dtos.ProdutoMedidaDtos
 {
-    public class ProdutoMedidaDto
+    public class ProdutoMedidaDto : BaseDto
     {
-        public Guid Id { get; set; }
+
         public string? Descricao { get; set; }
     }
 }

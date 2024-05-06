@@ -111,9 +111,9 @@ namespace Service.Services.FormaPagamento
         {
             ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
             resposta.Dados = new List<FormaPagamentoDto>();
-
             try
             {
+
                 FormaPagamentoModel model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoCreate);
                 FormaPagamentoEntity entity = _mapper.Map<FormaPagamentoEntity>(model);
                 FormaPagamentoEntity resultCreate = await _repository.InsertAsync(entity);

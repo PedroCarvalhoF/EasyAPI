@@ -119,7 +119,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddTransient<IItemPedidoService, ItemPedidoService>();
             serviceCollection.AddTransient<IFormaPagamentoService, FormaPagamentoService>();
             serviceCollection.AddTransient<IPagamentoPedidoService, PagamentoPedidoService>();
-            serviceCollection.AddTransient<IProdutoMedidaServices, ProdutoMedidaServices>();
+            serviceCollection.AddTransient<IProdutoMedidaServices, ProdutoMedidaService>();
             serviceCollection.AddTransient<IProdutoTipoServices, ProdutoTipoServices>();
             serviceCollection.AddTransient<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
             serviceCollection.AddTransient<IPerfilUsuarioService, PerfilUsuarioService>();

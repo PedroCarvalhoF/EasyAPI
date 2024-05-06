@@ -15,7 +15,7 @@ namespace Api.Domain.Entities.Pedido
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? NumeroPedido { get; set; }
         //############################################################
-
+        
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]

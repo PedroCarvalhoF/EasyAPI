@@ -35,7 +35,7 @@ namespace Api.Service.Services.Pedido
 
                 if (result == null)
                 {
-                    responseDto.Error();
+                    responseDto.Erro();
                     return responseDto;
                 }
 

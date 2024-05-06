@@ -24,7 +24,7 @@ namespace Api.Controllers
         {
             try
             {
-                IEnumerable<ProdutoMedidaDto> dtos = await _produtoMedidaServices.GetAll();
+                var dtos = await _produtoMedidaServices.GetAll();
                 if (dtos == null)
                 {
                     return BadRequest("Não localizado");
@@ -48,7 +48,7 @@ namespace Api.Controllers
         {
             try
             {
-                ProdutoMedidaDto dto = await _produtoMedidaServices.Get(id);
+                var dto = await _produtoMedidaServices.Get(id);
                 if (dto == null)
                 {
                     return BadRequest("Não localizado");
@@ -73,7 +73,7 @@ namespace Api.Controllers
         {
             try
             {
-                IEnumerable<ProdutoMedidaDto> dtos = await _produtoMedidaServices.Get(descricao);
+                var dtos = await _produtoMedidaServices.Get(descricao);
                 if (dtos == null)
                 {
                     return BadRequest("Não localizado");
@@ -101,7 +101,7 @@ namespace Api.Controllers
 
             try
             {
-                ProdutoMedidaDto dto = await _produtoMedidaServices.Create(create);
+               var dto = await _produtoMedidaServices.Create(create);
                 if (dto == null)
                 {
                     return BadRequest("Não foi possível realizar tafefa");
@@ -129,7 +129,7 @@ namespace Api.Controllers
 
             try
             {
-                ProdutoMedidaDto dto = await _produtoMedidaServices.Update(update);
+                var dto = await _produtoMedidaServices.Update(update);
                 if (dto == null)
                 {
                     return BadRequest("Não foi possível realizar tafefa");

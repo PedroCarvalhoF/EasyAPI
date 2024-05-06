@@ -29,15 +29,39 @@
             this.Mensagem = $"Consulta realizada com sucesso! Localizados {qtd} registros.";
         }
 
-        public void Error()
+        public void Erro()
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar operação.";
         }
-        public void Error(string detalhes)
+        public void Erro(string detalhes)
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar operação: {detalhes}";
+        }
+
+        public void ErroConsulta()
+        {
+            this.Status = false;
+            this.Mensagem = $"Não foi possivel realizar operação.";
+        }
+
+        public void ErroCadastro()
+        {
+            this.Status = false;
+            this.Mensagem = $"Não foi possivel realizar cadastro.";
+        }
+
+        public void ErroUpdate()
+        {
+            this.Status = false;
+            this.Mensagem = $"Não foi possivel realizar update.";
+        }
+
+        public void ErroCadastro(string detalhes)
+        {
+            this.Status = false;
+            this.Mensagem = $"Erro.Detalhes: {detalhes}";
         }
     }
 }
