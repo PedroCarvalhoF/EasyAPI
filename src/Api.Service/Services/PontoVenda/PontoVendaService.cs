@@ -143,13 +143,20 @@ namespace Api.Service.Services.PontoVendaService
             resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                PontoVendaModel model = _mapper.Map<PontoVendaModel>(pontoVendaDtoCreate);
+                var model = _mapper.Map<PontoVendaModel>(pontoVendaDtoCreate);
                 model.AbrirPDV();
-                PontoVendaEntity entity = _mapper.Map<PontoVendaEntity>(model);
+                var entity = _mapper.Map<PontoVendaEntity>(model);
 
-                PontoVendaEntity result = await _repository.InsertAsync(entity);
+                var result = await _repository.InsertAsync(entity);
 
-                ResponseDto<List<PontoVendaDto>> pdvCreate = await GetByIdPdv(result.Id);
+                if (result == null)
+                {
+                    resposta.ErroCadastro();
+                    return resposta;
+                }
+
+                var pdvCreate = await GetByIdPdv(result.Id);
+                pdvCreate.CadastroOk();
 
                 return pdvCreate;
             }

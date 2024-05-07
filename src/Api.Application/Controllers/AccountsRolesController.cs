@@ -2,6 +2,7 @@ using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.IdentityRole;
 using Identity.Interfaces;
+using Identity.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -81,16 +82,16 @@ namespace Api.Application.Controllers
         }
 
         [HttpPost("role/create")]
-        public async Task<ActionResult<ResponseDto<string>>> CreateRole(string roleName)
+        public async Task<ActionResult<ResponseDto<string>>> CreateRole(RoleDtoCreate role)
         {
             ResponseDto<string> response = new ResponseDto<string>();
 
             try
             {
-                bool result = await _userRole.CreateRole(roleName);
+                bool result = await _userRole.CreateRole(role.RoleName);
                 if (result)
                 {
-                    response.Mensagem = $"Função {roleName.ToLower()} criada com sucesso.";
+                    response.Mensagem = $"Função {role.RoleName.ToLower()} criada com sucesso.";
                     response.Status = true;
                     response.Dados = $"Adicionar funções aos usuários.";
                     return Ok(response);

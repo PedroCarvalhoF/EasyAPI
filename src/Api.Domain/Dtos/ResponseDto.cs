@@ -11,6 +11,16 @@
             this.Status = true;
             this.Mensagem = $"Cadastro efetuado com sucesso";
         }
+        public void CadastroOk(string titulo)
+        {
+            this.Status = true;
+            this.Mensagem = $"{titulo}- Cadastro efetuado com sucesso";
+        }
+        public void CadastroOk(string titulo, string detalhes)
+        {
+            this.Status = true;
+            this.Mensagem = $"{titulo} - {detalhes}";
+        }
         public void AlteracaoOk()
         {
             this.Status = true;

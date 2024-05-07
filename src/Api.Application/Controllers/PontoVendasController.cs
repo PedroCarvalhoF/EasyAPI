@@ -9,7 +9,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PontoVendasController : ControllerBase
     {
         private readonly IPontoVendaService _service;
