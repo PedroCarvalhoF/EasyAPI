@@ -77,6 +77,9 @@ namespace Api.Service.Services.Pedido
 
                 var pedidoCriadoDto = await Get(result.Id);
 
+                pedidoCriadoDto.CadastroOk("Pedido", "Pedido gerado com sucesso.");
+
+
                 return pedidoCriadoDto;
             }
             catch (Exception ex)
@@ -139,13 +142,11 @@ namespace Api.Service.Services.Pedido
 
                 if (resultUpdate == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível cancelar o pedido";
+                    responseDto.ErroUpdate();
                     return responseDto;
                 }
 
-                responseDto.Status = true;
-                responseDto.Mensagem = $"Pedido cancelado com sucesso. {DateTime.Now}";
+                responseDto.AlteracaoOk("Pedido", $"cancelado com sucesso {DateTime.Now}");
 
                 return responseDto;
 

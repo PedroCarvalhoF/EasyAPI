@@ -27,6 +27,20 @@
             this.Mensagem = $"Alteração realizada com sucesso";
         }
 
+
+        public void AlteracaoOk(string titulo)
+        {
+            this.Status = true;
+            this.Mensagem = $"{titulo} - Alteração realizada com sucesso";
+        }
+
+        public void AlteracaoOk(string titulo, string detalhes)
+        {
+            this.Status = true;
+            this.Mensagem = $"{titulo} - {detalhes}";
+        }
+
+
         public void ConsultaOk()
         {
             this.Status = true;

@@ -9,36 +9,41 @@ namespace Domain.Entities.ItensPedido
 {
     public class ItemPedidoEntity : BaseEntity
     {
-        [Required]
+        [Required(ErrorMessage = "Informe o id do produto")]
         public Guid ProdutoEntityId { get; set; }
         public ProdutoEntity? ProdutoEntity { get; set; }
+        //###################################################
 
-        [Required]
+        [Required(ErrorMessage = "Informe o id do produto")]
         [Column(TypeName = "decimal(18,3)")]
         public decimal Quatidade { get; set; }
+        //###################################################
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Preco { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Desconto { get; set; }
-
+        //###################################################
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal SubTtotal { get; set; }
-
+        //###################################################
+        [Required]
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal Desconto { get; set; }
+        //###################################################
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalItem { get; set; }
+        //###################################################
 
         [MaxLength(200)]
         public string? ObservacaoItem { get; set; }
+        //###################################################
 
         [Required]
         public Guid PedidoEntityId { get; set; }
         public PedidoEntity? PedidoEntity { get; set; }
+        //###################################################
 
         [Required]
         public Guid PerfilUsuarioEntityRegistroId { get; set; }

@@ -14,7 +14,7 @@ namespace Api.Domain.Dtos.PedidoDtos
         // public Guid UserCreatePedidoId { get; set; }
         // public Guid? PontoVendaEntityId { get; set; }
         public string? Observacoes { get; set; }
-        public SituacaoPedidoDto? SituacaoPedidoDto { get; set; }
+        public SituacaoPedidoDto? SituacaoPedidoEntity { get; set; }
         public PerfilUsuarioDto? UserCreatePedido { get; set; }
         public PontoVendaDto? PontoVendaEntity { get; set; }
     }
