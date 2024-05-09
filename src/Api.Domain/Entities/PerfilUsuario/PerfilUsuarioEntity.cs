@@ -1,5 +1,6 @@
 ﻿using Api.Domain.Entities;
 using Api.Domain.Entities.PontoVenda;
+using Domain.Entities.ItensPedido;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,6 +23,7 @@ namespace Domain.Entities.UsuarioSistema
         //PONTO DE VENDA
         public IEnumerable<PontoVendaEntity>? PontoVendaEntitiesAbriu { get; set; }
         public IEnumerable<PontoVendaEntity>? PontoVendaEntitiesUtilizar { get; set; }
+        public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }
 
     }
 }

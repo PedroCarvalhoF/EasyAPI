@@ -54,125 +54,6 @@ namespace Api.Service.Services.Pedido
                 return responseDto;
             }
         }
-        public async Task<ResponseDto<List<PedidoDto>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
-        {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
-
-            try
-            {
-                var model = _mapper.Map<PedidoModel>(pedidoDtoCreate);
-
-                model.GerarPedido();
-
-                var entity = _mapper.Map<PedidoEntity>(model);
-                var result = await _repository.InsertAsync(entity);
-
-                if (result == null)
-                {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível criar pedido";
-                    return responseDto;
-                }
-
-                var pedidoCriadoDto = await Get(result.Id);
-
-                pedidoCriadoDto.CadastroOk("Pedido", "Pedido gerado com sucesso.");
-
-
-                return pedidoCriadoDto;
-            }
-            catch (Exception ex)
-            {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
-            }
-        }
-        public async Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido)
-        {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
-
-            try
-            {
-                var pedidoSelecionado = await _repository.SelectAsync(idPedido);
-
-                var model = _mapper.Map<PedidoModel>(pedidoSelecionado);
-
-                model.EncerrarPedido();
-
-                var entity = _mapper.Map<PedidoEntity>(model);
-                var resultUpdate = await _repository.UpdateAsync(entity);
-
-                if (resultUpdate == null)
-                {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível encerrar o pedido";
-                    return responseDto;
-                }
-
-                responseDto.Status = true;
-                responseDto.Mensagem = $"Pedido encerrado com sucesso. {DateTime.Now}";
-
-                return responseDto;
-
-            }
-            catch (Exception ex)
-            {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
-            }
-        }
-        public async Task<ResponseDto<List<PedidoDto>>> CancelarPedido(PedidoDtoCancelar cancelamentoPedido)
-        {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
-
-            try
-            {
-                var pedidoSelecionado = await _repository.SelectAsync(cancelamentoPedido.IdPedido);
-                var model = _mapper.Map<PedidoModel>(pedidoSelecionado);
-
-                model.CancelarPedido(cancelamentoPedido.MotivoCancelamento);
-
-                var entity = _mapper.Map<PedidoEntity>(model);
-                var resultUpdate = await _repository.UpdateAsync(entity);
-
-                if (resultUpdate == null)
-                {
-                    responseDto.ErroUpdate();
-                    return responseDto;
-                }
-
-                responseDto.AlteracaoOk("Pedido", $"cancelado com sucesso {DateTime.Now}");
-
-                return responseDto;
-
-            }
-            catch (Exception ex)
-            {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
-            }
-        }
-        public async Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true)
-        {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
-            }
-        }
         public async Task<ResponseDto<List<PedidoDto>>> GetAll(Guid idPdv)
         {
             ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
@@ -299,5 +180,132 @@ namespace Api.Service.Services.Pedido
                 return responseDto;
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
+        {
+            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
+            responseDto.Dados = new List<PedidoDto>();
+
+            try
+            {
+                var model = _mapper.Map<PedidoModel>(pedidoDtoCreate);
+
+                model.GerarPedido();
+
+                var entity = _mapper.Map<PedidoEntity>(model);
+                var result = await _repository.InsertAsync(entity);
+
+                if (result == null)
+                {
+                    responseDto.Status = false;
+                    responseDto.Mensagem = $"Erro.Não foi possível criar pedido";
+                    return responseDto;
+                }
+
+                var pedidoCriadoDto = await Get(result.Id);
+
+                pedidoCriadoDto.CadastroOk("Pedido", "Pedido gerado com sucesso.");
+
+
+                return pedidoCriadoDto;
+            }
+            catch (Exception ex)
+            {
+                responseDto.Status = false;
+                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return responseDto;
+            }
+        }
+        public async Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido)
+        {
+            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
+            responseDto.Dados = new List<PedidoDto>();
+
+            try
+            {
+                var pedidoSelecionado = await _repository.SelectAsync(idPedido);
+
+                var model = _mapper.Map<PedidoModel>(pedidoSelecionado);
+
+                model.EncerrarPedido();
+
+                var entity = _mapper.Map<PedidoEntity>(model);
+                var resultUpdate = await _repository.UpdateAsync(entity);
+
+                if (resultUpdate == null)
+                {
+                    responseDto.Status = false;
+                    responseDto.Mensagem = $"Erro.Não foi possível encerrar o pedido";
+                    return responseDto;
+                }
+
+                responseDto.Status = true;
+                responseDto.Mensagem = $"Pedido encerrado com sucesso. {DateTime.Now}";
+
+                return responseDto;
+
+            }
+            catch (Exception ex)
+            {
+                responseDto.Status = false;
+                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return responseDto;
+            }
+        }
+        public async Task<ResponseDto<List<PedidoDto>>> CancelarPedido(PedidoDtoCancelar cancelamentoPedido)
+        {
+            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
+            responseDto.Dados = new List<PedidoDto>();
+
+            try
+            {
+                var pedidoSelecionado = await _repository.SelectAsync(cancelamentoPedido.IdPedido);
+
+                if (pedidoSelecionado == null)
+                {
+                    responseDto.ErroConsulta();
+                    return responseDto;
+                }
+
+                var model = _mapper.Map<PedidoModel>(pedidoSelecionado);
+
+                model.CancelarPedido(cancelamentoPedido.MotivoCancelamento);
+
+                var entity = _mapper.Map<PedidoEntity>(model);
+                var resultUpdate = await _repository.UpdateAsync(entity);
+
+                if (resultUpdate == null)
+                {
+                    responseDto.ErroUpdate();
+                    return responseDto;
+                }
+
+                responseDto.AlteracaoOk("Pedido", $"cancelado com sucesso {DateTime.Now}");
+
+                return responseDto;
+
+            }
+            catch (Exception ex)
+            {
+                responseDto.Status = false;
+                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return responseDto;
+            }
+        }
+        public async Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true)
+        {
+            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
+            responseDto.Dados = new List<PedidoDto>();
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                responseDto.Status = false;
+                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return responseDto;
+            }
+        }
+       
     }
 }

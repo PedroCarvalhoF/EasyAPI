@@ -95,7 +95,15 @@ namespace Api.CrossCutting.Mappings
             CreateMap<PessoaTipoModel, PessoaTipoDto>().ReverseMap();
 
             CreateMap<PessoaDtoCreate, PessoasModel>()
-               .ConstructUsing(dto => new PessoasModel(dto.PrimeiroNome, dto.SegundoNome, dto.RgIE, dto.CpfCnpj, dto.Sexo, dto.DataNascimentoFundacao, dto.PessoaTipoEntityId));
+               .ConstructUsing(dto => new PessoasModel(
+                               dto.PrimeiroNome,
+                               dto.SegundoNome,
+                               dto.RgIE,
+                               dto.CpfCnpj,
+                               dto.Sexo,
+                               dto.DataNascimentoFundacao,
+                               dto.PessoaTipoEntityId));
+
             CreateMap<PessoaDtoUpdate, PessoasModel>()
               .ConstructUsing(dto => new PessoasModel(dto.Id, dto.PrimeiroNome, dto.SegundoNome, dto.RgIE, dto.CpfCnpj, dto.Sexo, dto.DataNascimentoFundacao, dto.PessoaTipoEntityId));
 

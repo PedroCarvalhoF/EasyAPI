@@ -2,6 +2,7 @@
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
 using Domain.Entities.CategoriaProduto;
+using Domain.Entities.ItensPedido;
 using Domain.Entities.ProdutoTipo;
 using System.ComponentModel.DataAnnotations;
 
@@ -42,6 +43,7 @@ namespace Domain.Entities.Produto
         public ProdutoTipoEntity? ProdutoTipoEntity { get; set; } //ok
         public string? ImgUrl { get; set; }
 
+        public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }
         public IEnumerable<PrecoProdutoEntity>? PrecoProdutoEntities { get; set; }
     }
 }

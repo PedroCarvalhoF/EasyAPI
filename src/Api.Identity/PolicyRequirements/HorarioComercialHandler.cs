@@ -7,7 +7,7 @@ namespace Api.Identity.PolicyRequirements
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, HorarioComercialRequirement requirement)
         {
             TimeOnly horarioAtual = TimeOnly.FromDateTime(DateTime.Now);
-            if (horarioAtual.Hour >= 8 && horarioAtual.Hour <= 18)
+            if (horarioAtual.Hour >= 8 && horarioAtual.Hour <= 22)
                 context.Succeed(requirement);
 
             return Task.CompletedTask;

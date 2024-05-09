@@ -21,7 +21,7 @@ namespace Api.Application.Controllers
         }
 
         [HttpGet("pedidos/{idPedido}/id")]
-        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GerarPedido(Guid idPedido)
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetPedidoById(Guid idPedido)
         {
             try
             {
@@ -112,7 +112,7 @@ namespace Api.Application.Controllers
             try
             {
                 var result = await _pedidoService.GetAllByUser(idPdv, idUserCreatePedido);
-              
+
                 if (!result.Status)
                     return BadRequest(result);
 

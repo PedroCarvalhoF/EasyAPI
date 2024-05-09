@@ -2,11 +2,8 @@
 
 namespace Domain.Dtos.ItemPedido
 {
-    public class ItemPedidoDtoUpdate
+    public class ItemPedidoDtoCreate
     {
-        [Required]
-        public Guid Id { get; set; }
-
         [Required]
         public Guid ProdutoEntityId { get; set; }
 
@@ -25,8 +22,8 @@ namespace Domain.Dtos.ItemPedido
 
         [Required]
         public Guid PedidoEntityId { get; set; }
-
         [Required]
-        public Guid UsuarioRestroId { get; set; }
+        public Guid PerfilUsuarioEntityId { get; set; }
+
     }
 }

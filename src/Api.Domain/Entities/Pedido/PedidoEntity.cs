@@ -1,5 +1,6 @@
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.PontoVenda;
+using Domain.Entities.ItensPedido;
 using Domain.Entities.PedidoSituacao;
 using Domain.Entities.UsuarioSistema;
 using System.ComponentModel;
@@ -15,7 +16,7 @@ namespace Api.Domain.Entities.Pedido
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? NumeroPedido { get; set; }
         //############################################################
-        
+
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
@@ -56,5 +57,9 @@ namespace Api.Domain.Entities.Pedido
         public Guid UserCreatePedidoId { get; set; }
         public PerfilUsuarioEntity? UserCreatePedido { get; set; }
         //############################################################
+
+
+        public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }
+        
     }
 }

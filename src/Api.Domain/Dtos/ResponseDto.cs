@@ -67,7 +67,18 @@
         public void ErroConsulta()
         {
             this.Status = false;
-            this.Mensagem = $"Não foi possivel realizar operação.";
+            this.Mensagem = $"Não foi possivel realizar consulta";
+        }
+        public void ErroConsulta(string titulo)
+        {
+            this.Status = false;
+            this.Mensagem = $"{titulo} Não foi possivel realizar consulta.";
+        }
+
+        public void ErroConsulta(string titulo, string detalhe)
+        {
+            this.Status = false;
+            this.Mensagem = $"{titulo}: {detalhe}";
         }
 
         public void ErroCadastro()

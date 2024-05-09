@@ -20,6 +20,7 @@ using Api.Service.Services.PontoVendaService;
 using Api.Service.Services.PrecoProduto;
 using Data.Implementations;
 using Data.Implementations.Pedido;
+using Data.Implementations.PedidoItem;
 using Data.Implementations.PedidoSituacao;
 using Data.Implementations.PerfilUsuario;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;

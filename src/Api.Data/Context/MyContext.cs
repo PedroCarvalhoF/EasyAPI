@@ -12,6 +12,7 @@ using Data.Mapping.PerfilUsuario;
 using Data.Mapping.PontoVena;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
+using Domain.Entities.ItensPedido;
 using Domain.Entities.PedidoSituacao;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
@@ -36,6 +37,8 @@ namespace Api.Data.Context
         public DbSet<FormaPagamentoEntity> FormasPagamentos { get; set; }
         public DbSet<SituacaoPedidoEntity> SituacoesPedidos { get; set; }
         public DbSet<PedidoEntity> Pedidos { get; set; }
+
+        public DbSet<ItemPedidoEntity> ItensPedidos { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {

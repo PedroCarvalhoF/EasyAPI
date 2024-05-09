@@ -1,3 +1,5 @@
+using Api.Domain.Models.PedidoModels;
+
 namespace Api.Domain.Models.PontoVendaModels
 {
     public class PontoVendaModel : ModelBase
@@ -7,6 +9,14 @@ namespace Api.Domain.Models.PontoVendaModels
         public Guid PeriodoPontoVendaEntityId { get; set; }
         public bool AbertoFechado { get; set; }
 
+
+
+        public int QtdPedidos { get; set; }
+
+        public void Calcular(IEnumerable<PedidoModel> pedidos)
+        {
+            this.QtdPedidos = pedidos.Count();
+        }
         public void AbrirPDV()
         {
             AbertoFechado = true;
@@ -16,5 +26,6 @@ namespace Api.Domain.Models.PontoVendaModels
         {
             AbertoFechado = false;
         }
+        public IEnumerable<PedidoModel> Pedidos { get; set; }
     }
 }

@@ -11,7 +11,6 @@ namespace Api.Domain.Entities.PontoVenda
         public Guid IdPerfilAbriuPDV { get; set; }
         public PerfilUsuarioEntity? PerfilUsuarioEntityAbrilPDV { get; set; }
 
-
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Perfil Utilizar o PDV")]
         public Guid IdPerfilUtilizarPDV { get; set; }
