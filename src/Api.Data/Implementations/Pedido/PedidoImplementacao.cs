@@ -16,7 +16,26 @@ namespace Data.Implementations.Pedido
             _dtSet = context.Set<PedidoEntity>();
             _dtSet.AsNoTracking();
         }
+        public async Task<IEnumerable<PedidoEntity>> GetAll()
+        {
+            try
+            {
+                IQueryable<PedidoEntity> query = _dtSet;
 
+                query = Includes(query);
+
+                //query = query.Where();
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
         public async Task<PedidoEntity> Get(Guid idPedido)
         {
             try
@@ -151,13 +170,27 @@ namespace Data.Implementations.Pedido
 
         private static IQueryable<PedidoEntity> Includes(IQueryable<PedidoEntity> query)
         {
+            //situacao pedido
             query = query.Include(sit => sit.SituacaoPedidoEntity);
 
-            query = query.Include(pdv => pdv.PontoVendaEntity);
-
+            //usuario registo
             query = query.Include(perfil_user => perfil_user.UserCreatePedido);
 
+            //categoria preco
             query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
+
+            //pdv
+            query = query.Include(pdv => pdv.PontoVendaEntity).ThenInclude(per => per.PeriodoPontoVendaEntity); ;
+
+
+            //itens do pedido
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.CategoriaProdutoEntity);
+
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoMedidaEntity);
+
+
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoTipoEntity);
+
 
 
             return query;

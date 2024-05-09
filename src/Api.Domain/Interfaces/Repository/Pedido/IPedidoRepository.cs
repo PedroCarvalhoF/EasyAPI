@@ -5,6 +5,7 @@ namespace Domain.Interfaces.Repository.Pedido
 {
     public interface IPedidoRepository
     {
+        Task<IEnumerable<PedidoEntity>> GetAll();
         Task<PedidoEntity> Get(Guid idPedido);
         Task<IEnumerable<PedidoEntity>> GetAll(Expression<Func<PedidoEntity, bool>> funcao, bool inlude = true);
         Task<IEnumerable<PedidoEntity>> GetAll(Guid idPdv);

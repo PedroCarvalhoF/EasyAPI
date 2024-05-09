@@ -7,6 +7,7 @@ namespace Api.Domain.Interfaces.Services.Pedido
 {
     public interface IPedidoService
     {
+        Task<ResponseDto<List<PedidoDto>>> GetAll();
         Task<ResponseDto<List<PedidoDto>>> Get(Guid idPedido);
         Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true);
         Task<ResponseDto<List<PedidoDto>>> GetAll(Guid idPdv);
@@ -17,5 +18,6 @@ namespace Api.Domain.Interfaces.Services.Pedido
         Task<ResponseDto<List<PedidoDto>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate);
         Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido);
         Task<ResponseDto<List<PedidoDto>>> CancelarPedido(PedidoDtoCancelar cancelamentoPedido);
+        
     }
 }

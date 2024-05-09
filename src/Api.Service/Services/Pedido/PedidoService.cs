@@ -24,7 +24,35 @@ namespace Api.Service.Services.Pedido
             _repository = repository;
             _implementacao = implementacao;
         }
+        public async Task<ResponseDto<List<PedidoDto>>> GetAll()
+        {
+            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
+            responseDto.Dados = new List<PedidoDto>();
+            try
+            {
+                var result = await _implementacao.GetAll();
 
+                if (result == null)
+                {
+                    responseDto.Erro();
+                    return responseDto;
+                }
+
+                var dtos = _mapper.Map<List<PedidoDto>>(result);
+
+                responseDto.Dados = dtos;
+
+                responseDto.ConsultaOk();
+
+                return responseDto;
+            }
+            catch (Exception ex)
+            {
+                responseDto.Status = false;
+                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return responseDto;
+            }
+        }
         public async Task<ResponseDto<List<PedidoDto>>> Get(Guid idPedido)
         {
             ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
@@ -306,6 +334,7 @@ namespace Api.Service.Services.Pedido
                 return responseDto;
             }
         }
-       
+
+
     }
 }
