@@ -18,6 +18,28 @@ namespace Api.Controllers
             _service = itemPedidoService;
         }
 
+        [HttpGet("itens-pedido")]
+        public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> GetAll()
+        {
+            try
+            {
+                var result = await _service.GetAll();
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
+                response.Erro(ex.Message);
+
+                return BadRequest(response);
+            }
+        }
+
+
         [HttpGet("itens-pedido/{id}/id")]
         public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> Get(Guid id)
         {

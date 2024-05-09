@@ -1,15 +1,13 @@
-﻿using Api.Domain.Dtos.CategoriaProdutoDtos;
+﻿using Api.Domain.Dtos;
+using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Dtos.ProdutoMedidaDtos;
 using Domain.Dtos.ProdutoTipo;
 
 namespace Domain.Dtos.ProdutoDtos
 {
-    public class ProdutoDto
+    public class ProdutoDto : BaseDto
     {
-        public Guid Id { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime UpdateAt { get; set; }
-        public bool Habilitado { get; set; }
+
         public string? NomeProduto { get; set; }
         public string? CodigoBarrasPersonalizado { get; set; }
         public string? Descricao { get; set; }

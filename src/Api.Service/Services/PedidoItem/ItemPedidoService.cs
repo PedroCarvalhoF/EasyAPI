@@ -21,7 +21,30 @@ namespace Service.Services.ItemPedidoService
             _repository = repository;
             _mapper = mapper;
         }
+        public async Task<ResponseDto<List<ItemPedidoDto>>> GetAll()
+        {
+            ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
+            response.Dados = new List<ItemPedidoDto>();
+            try
+            {
+                var entity = await _implementacao!.GetAll();
+                if (entity == null)
+                {
+                    response.ErroConsulta("Registro não encontrado");
+                    return response;
+                }
 
+                var dtos = _mapper.Map<List<ItemPedidoDto>>(entity);
+                response.Dados = dtos;
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.ErroConsulta("Item Pedido: ", ex.Message);
+                return response;
+            }
+        }
         public async Task<ResponseDto<List<ItemPedidoDto>>> Get(Guid id)
         {
             ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
@@ -163,6 +186,6 @@ namespace Service.Services.ItemPedidoService
             }
         }
 
-       
+
     }
 }

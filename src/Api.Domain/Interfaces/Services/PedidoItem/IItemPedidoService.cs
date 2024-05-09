@@ -9,6 +9,6 @@ namespace Domain.Interfaces.Services.ItemPedido
         Task<ResponseDto<List<ItemPedidoDto>>> GetByIdPedido(Guid idPedido);
         Task<ResponseDto<List<ItemPedidoDto>>> GerarItemPedido(ItemPedidoDtoCreate itemPedido);
         Task<ResponseDto<List<ItemPedidoDto>>> CancelarItemPedido(Guid id);
-        
+        Task<ResponseDto<List<ItemPedidoDto>>> GetAll();
     }
 }

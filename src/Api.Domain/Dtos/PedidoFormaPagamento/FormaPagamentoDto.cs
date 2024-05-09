@@ -1,12 +1,10 @@
-﻿namespace Domain.Dtos.FormaPagamentoDtos
+﻿using Api.Domain.Dtos;
+
+namespace Domain.Dtos.FormaPagamentoDtos
 {
-    public class FormaPagamentoDto
+    public class FormaPagamentoDto : BaseDto
     {
-        public Guid Id { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime? UpdateAt { get; set; }
-        public bool Habilitado { get; set; }
-        public string? DescricaoFormaPg { get; set; }
+               public string? DescricaoFormaPg { get; set; }
 
     }
 }
