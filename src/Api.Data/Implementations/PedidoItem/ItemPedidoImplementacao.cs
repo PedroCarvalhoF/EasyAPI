@@ -88,11 +88,20 @@ namespace Data.Implementations.PedidoItem
             query = query.Include(produto => produto.ProdutoEntity)
                           .ThenInclude(tp => tp.ProdutoTipoEntity);
 
+            //pedido
+            query = query.Include(pedido => pedido.PedidoEntity)
+                          .ThenInclude(sit_ped => sit_ped.SituacaoPedidoEntity);
+
+            query = query.Include(pedido => pedido.PedidoEntity)
+                          .ThenInclude(pdv => pdv.PontoVendaEntity).ThenInclude(per => per.PeriodoPontoVendaEntity);
 
 
+
+
+            //usuario
             query = query.Include(usuario => usuario.PerfilUsuarioEntity);
 
-            query = query.Include(pedido => pedido.PerfilUsuarioEntity);
+
 
             return query;
         }

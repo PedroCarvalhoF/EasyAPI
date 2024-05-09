@@ -36,7 +36,7 @@ namespace Service.Services.ItemPedidoService
 
                 var dtos = _mapper.Map<List<ItemPedidoDto>>(entity);
                 response.Dados = dtos;
-
+                response.ConsultaOk(dtos.Count()); 
                 return response;
             }
             catch (Exception ex)

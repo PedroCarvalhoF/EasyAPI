@@ -50,7 +50,7 @@
         public void ConsultaOk(int qtd)
         {
             this.Status = true;
-            this.Mensagem = $"Consulta realizada com sucesso! Localizados {qtd} registros.";
+            this.Mensagem = $"Consulta realizada com sucesso! Localizado(s) {qtd} registro(s).";
         }
 
         public void Erro()
