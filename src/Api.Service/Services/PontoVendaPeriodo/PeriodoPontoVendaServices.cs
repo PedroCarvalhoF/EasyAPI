@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Dtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Interfaces;
@@ -20,79 +21,111 @@ namespace Service.Services.PeriodoPontoVenda
             _implementacao = implementacao;
         }
 
-        public async Task<IEnumerable<PeriodoPontoVendaDto>> GetAll()
+        public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> GetAll()
         {
+            ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+            response.Dados = new List<PeriodoPontoVendaDto>();
             try
             {
-                IEnumerable<PeriodoPontoVendaEntity> entities = await _repository.SelectAsync();
-                IEnumerable<PeriodoPontoVendaDto> dtos = _mapper.Map<IEnumerable<PeriodoPontoVendaDto>>(entities);
-                return dtos;
-            }
-            catch (Exception)
-            {
+                var entities = await _repository.SelectAsync();
 
-                throw;
+                if (entities == null)
+                {
+                    response.ErroConsulta();
+                    return response;
+                }
+
+                var dtos = _mapper.Map<List<PeriodoPontoVendaDto>>(entities);
+
+                response.Dados = dtos;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<PeriodoPontoVendaDto> Get(Guid id)
+        public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> Get(Guid id)
         {
+            ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+            response.Dados = new List<PeriodoPontoVendaDto>();
             try
             {
-                PeriodoPontoVendaEntity entity = await _repository.SelectAsync(id);
-                PeriodoPontoVendaDto dto = _mapper.Map<PeriodoPontoVendaDto>(entity);
-                return dto;
-            }
-            catch (Exception)
-            {
+                var entity = await _repository.SelectAsync(id);
+                var dto = _mapper.Map<PeriodoPontoVendaDto>(entity);
 
-                throw;
+                response.Dados.Add(dto);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
             }
         }
-
-        public async Task<IEnumerable<PeriodoPontoVendaDto>> Get(string descricao)
+        public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> Get(string descricao)
         {
+            ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+            response.Dados = new List<PeriodoPontoVendaDto>();
+
             try
             {
-                IEnumerable<PeriodoPontoVendaEntity> entities = await _implementacao.Get(descricao);
-                IEnumerable<PeriodoPontoVendaDto> dtos = _mapper.Map<IEnumerable<PeriodoPontoVendaDto>>(entities);
-                return dtos;
-            }
-            catch (Exception)
-            {
+                var entities = await _implementacao.Get(descricao);
+                var dtos = _mapper.Map<List<PeriodoPontoVendaDto>>(entities);
 
-                throw;
+                response.Dados = dtos;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
             }
         }
-
-
-        public async Task<PeriodoPontoVendaDto> Create(PeriodoPontoVendaDtoCreate create)
+        public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> Create(PeriodoPontoVendaDtoCreate create)
         {
+            ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+            response.Dados = new List<PeriodoPontoVendaDto>();
+
             try
             {
-                PeriodoPontoVendaEntity entity = _mapper.Map<PeriodoPontoVendaEntity>(create);
-                PeriodoPontoVendaEntity result = await _repository.InsertAsync(entity);
-                PeriodoPontoVendaDto dto = _mapper.Map<PeriodoPontoVendaDto>(result);
-                return dto;
-            }
-            catch (Exception)
-            {
+                var entity = _mapper.Map<PeriodoPontoVendaEntity>(create);
+                var result = await _repository.InsertAsync(entity);
+                var dto = _mapper.Map<PeriodoPontoVendaDto>(result);
 
-                throw;
+                response.Dados.Add(dto);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
             }
         }
-
-
-        public async Task<bool> Desabilitar(Guid id)
+        public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> Desabilitar(Guid id)
         {
+            ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+            response.Dados = new List<PeriodoPontoVendaDto>();
+
             try
             {
-                bool result = await _repository.DesabilitarHabilitar(id);
-                return result;
+                var result = await _repository.DesabilitarHabilitar(id);
+                if (result)
+                {
+                    response.AlteracaoOk();
+                    return response;
+                }
+                else
+                {
+                    response.ErroUpdate();
+                    return response;
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
     }
