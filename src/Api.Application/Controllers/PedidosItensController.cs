@@ -8,7 +8,7 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class PedidosItensController : ControllerBase
     {
         private readonly IItemPedidoService _service;

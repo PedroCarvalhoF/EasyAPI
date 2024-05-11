@@ -10,7 +10,7 @@ namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    //[Authorize]
     public class AccountsRoleController : ControllerBase
     {
         private readonly IUserRole _userRole;

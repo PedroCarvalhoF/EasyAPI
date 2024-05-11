@@ -21,7 +21,8 @@ namespace Data.Implementations.PontoVenda
 
             query = Includes(query);
 
-            PontoVendaEntity[] result = await query.ToArrayAsync();
+            var result = await query.ToArrayAsync();
+
             return result;
         }
         public async Task<PontoVendaEntity> GetByIdPdv(Guid pdvId)
@@ -67,6 +68,7 @@ namespace Data.Implementations.PontoVenda
                          .Include(userPDV => userPDV.PerfilUsuarioEntityUtilizarPDV)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
+            query = query.Include(pdv => pdv.PedidoEntities);
 
             return query;
         }

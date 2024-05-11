@@ -15,7 +15,7 @@ namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IIdentityService _identityService;

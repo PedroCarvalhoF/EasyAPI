@@ -1,6 +1,7 @@
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.ItensPedido;
+using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
 using Domain.Entities.UsuarioSistema;
 using System.ComponentModel;
@@ -58,8 +59,8 @@ namespace Api.Domain.Entities.Pedido
         public PerfilUsuarioEntity? UserCreatePedido { get; set; }
         //############################################################
 
-
         public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }
-        
+        public IEnumerable<PagamentoPedidoEntity>? PagamentoPedidoEntities { get; set; }
+
     }
 }

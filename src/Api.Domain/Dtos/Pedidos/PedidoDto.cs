@@ -2,6 +2,7 @@ using Api.Domain.Dtos.PontoVendaDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PerfilUsuario;
+using Domain.Entities.PagamentoPedido;
 
 namespace Api.Domain.Dtos.PedidoDtos
 {
@@ -19,5 +20,7 @@ namespace Api.Domain.Dtos.PedidoDtos
         public PerfilUsuarioDto? UserCreatePedido { get; set; }
         public PontoVendaDto? PontoVendaEntity { get; set; }
         public IEnumerable<ItemPedidoDto>? ItensPedidoEntities { get; set; }
+
+        public IEnumerable<PagamentoPedidoEntity>? PagamentoPedidoEntities { get; set; }
     }
 }

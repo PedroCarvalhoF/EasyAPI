@@ -1,3 +1,4 @@
+using Api.Domain.Dtos.PedidoDtos;
 using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 
@@ -14,5 +15,7 @@ namespace Api.Domain.Dtos.PontoVendaDtos
         public PerfilUsuarioDto? PerfilUsuarioEntityUtilizarPDV { get; set; }
         public PeriodoPontoVendaDto? PeriodoPontoVendaEntity { get; set; }
         public bool AbertoFechado { get; set; }
+
+        public IEnumerable<PedidoDto>? PedidoEntities { get; set; }
     }
 }

@@ -2,14 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.Mapping
+namespace Data.Mapping.PedidoPagamento
 {
     public class PagamentoPedidoMap : IEntityTypeConfiguration<PagamentoPedidoEntity>
     {
         public void Configure(EntityTypeBuilder<PagamentoPedidoEntity> builder)
         {
-            builder.ToTable("PagamentoPedido");
-            builder.HasKey(pgt => pgt.Id);
+            builder.ToTable("PagamentosPedidos");
+            builder.HasKey(pgt => new { pgt.FormaPagamentoEntityId, pgt.PedidoEntityId });
 
             builder.Property(pgt => pgt.FormaPagamentoEntityId)
                    .IsRequired();

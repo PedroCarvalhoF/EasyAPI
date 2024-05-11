@@ -6,6 +6,7 @@ namespace Api.Controllers
     //[Authorize(Roles = $"{Roles.Gerente},{Roles.Admin},{Roles.Supervisor}")]
     [ApiController]
     [Route("api/[controller]")]
+    //[Authorize]
     class UsuarioRoleController : ControllerBase
     {
         private readonly IUserRole _userRole;

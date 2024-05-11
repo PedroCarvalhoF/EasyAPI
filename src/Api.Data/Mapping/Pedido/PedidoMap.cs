@@ -59,8 +59,9 @@ namespace Data.Mapping.Pedido
                 .IsRequired();
 
             builder.HasOne(ped => ped.PontoVendaEntity)
-                .WithMany()
-                .HasForeignKey(ped => ped.PontoVendaEntityId).OnDelete(DeleteBehavior.Restrict);
+                .WithMany(pdv => pdv.PedidoEntities)
+                .HasForeignKey(ped => ped.PontoVendaEntityId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             // CategoriaPrecoEntityId
             builder.Property(ped => ped.CategoriaPrecoEntityId)

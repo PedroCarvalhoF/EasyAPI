@@ -8,7 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class PedidosFormasPagamentosController : ControllerBase
     {
         private readonly IFormaPagamentoService _service;

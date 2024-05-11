@@ -6,7 +6,7 @@ namespace Domain.Dtos.PagamentoPedidoDtos
 {
     public class PagamentoPedidoDto : BaseDto
     {
-               public PedidoDto? PedidoEntity { get; set; }
+        public PedidoDto? PedidoEntity { get; set; }
         public FormaPagamentoDto? FormaPagamentoEntity { get; set; }
         public decimal ValorPago { get; set; }
     }

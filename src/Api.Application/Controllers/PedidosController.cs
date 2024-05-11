@@ -10,7 +10,7 @@ namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    //[Authorize]
     public class PedidosController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;

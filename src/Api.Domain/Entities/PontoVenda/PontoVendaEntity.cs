@@ -1,3 +1,4 @@
+using Api.Domain.Entities.Pedido;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.UsuarioSistema;
 using System.ComponentModel.DataAnnotations;
@@ -32,6 +33,8 @@ namespace Api.Domain.Entities.PontoVenda
         [Required(ErrorMessage = "Informe a {0}")]
         [Display(Name = "Situação do PDV")]
         public bool AbertoFechado { get; set; }
+
+        public IEnumerable<PedidoEntity>? PedidoEntities { get; set; }
 
     }
 }

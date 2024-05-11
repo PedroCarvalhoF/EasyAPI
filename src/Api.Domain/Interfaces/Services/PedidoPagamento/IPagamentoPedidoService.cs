@@ -1,14 +1,15 @@
-﻿using Api.Domain.Dtos.PedidoDtos;
+﻿using Domain.Dtos;
 using Domain.Dtos.PagamentoPedidoDtos;
+using Domain.Dtos.PedidoPagamento;
 
 namespace Domain.Interfaces.Services.PagamentoPedido
 {
     public interface IPagamentoPedidoService
     {
-        Task<IEnumerable<PagamentoPedidoDto>> ConsultarPagamentosPedidoByIdPedido(Guid idPedido);
-        Task<PedidoDto> InseririPagamentoPedido(PagamentoPedidoDtoCreate pagamentoPedidoDto);
-        Task<bool> InseririPagamentoPedidoLote(IEnumerable<PagamentoPedidoDtoCreate> pgts);
-        Task<IEnumerable<PagamentoPedidoDto>> RemoverPagamentosPedidoByIdPagamento(Guid idPagamento);
-        Task<bool> RemoverPagamentosPedidoByIdPedido(Guid idPedido);
+        Task<ResponseDto<List<PagamentoPedidoDto>>> GetAll();
+        Task<ResponseDto<List<PagamentoPedidoDto>>> GetPagamentoPedidoByIdPedido(Guid pedidoId);
+        Task<ResponseDto<List<PagamentoPedidoDto>>> CreatePagamentoPedido(PagamentoPedidoDtoCreate pgPedido);
+        Task<ResponseDto<List<PagamentoPedidoDto>>> UpdatePagamentoPedido(PagamentoPedidoDtoUpdate pgUpdate);
+
     }
 }

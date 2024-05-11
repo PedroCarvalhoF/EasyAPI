@@ -8,6 +8,7 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    //[Authorize]
     public class PerfisUsuariosController : ControllerBase
     {
         private readonly IPerfilUsuarioService _service;
