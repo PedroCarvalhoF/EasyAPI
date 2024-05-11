@@ -1,0 +1,33 @@
+               
+Api.Domain
+        1- Entities
+        2- Dtos
+        3- Models
+        4- Interfaces	  
+
+Api.CrossCutting
+        1- DtoToModelProfile
+        2- EntityToDtoProfile
+        3- ModelToEntityProfile
+
+Api.Data
+        1- Mapping Entities (Mapear as Entidades)
+        2- MyContext (Atualizar)
+        3- ef migrations/update
+
+Api.Domain
+        1-Interface Service
+        2-Interface  Implementations ( repository )
+
+Api.Data
+        1- Criar Implementations 
+
+Api.Service
+        2- Criar Services
+
+Api.CrossCutting
+        1- Configure Repository
+        2- Configure Service  
+
+Api.Application
+        1- Controller
