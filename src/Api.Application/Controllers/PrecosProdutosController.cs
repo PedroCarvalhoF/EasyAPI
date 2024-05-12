@@ -1,5 +1,7 @@
+using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Dtos.PrecoProdutoDtos;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
+using Domain.Dtos;
 using Domain.ExceptionsPersonalizadas;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +19,7 @@ namespace Api.Application.Controllers
         }
 
         [HttpGet("precos-produtos")]
-        public async Task<ActionResult<IEnumerable<PrecoProdutoDto>>> GetAll()
+        public async Task<ActionResult<ResponseDto<List<PrecoProdutoDto>>>> GetAll()
         {
             try
             {
