@@ -33,8 +33,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
-                response.Dados = new List<PedidoDto>();
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
                 response.Status = false;
                 response.Mensagem = $"Erro.Detalhes: {ex.Message}";
                 return BadRequest(response);
@@ -55,8 +55,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
-                response.Dados = new List<PedidoDto>();
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
                 response.Status = false;
                 response.Mensagem = $"Erro.Detalhes: {ex.Message}";
                 return BadRequest(response);
@@ -77,8 +77,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
-                response.Dados = new List<PedidoDto>();
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
                 response.Status = false;
                 response.Mensagem = $"Erro.Detalhes: {ex.Message}";
                 return BadRequest(response);
@@ -99,8 +99,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
-                response.Dados = new List<PedidoDto>();
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
                 response.Status = false;
                 response.Mensagem = $"Erro.Detalhes: {ex.Message}";
                 return BadRequest(response);
@@ -129,8 +129,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
-                response.Dados = new List<PedidoDto>();
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
                 response.Status = false;
                 response.Mensagem = $"Erro.Detalhes: {ex.Message}";
                 return BadRequest(response);
