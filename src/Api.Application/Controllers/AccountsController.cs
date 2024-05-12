@@ -78,17 +78,22 @@ namespace Api.Application.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<UsuarioCadastroResponse>> Login(UsuarioLoginRequest usuarioLogin)
+        public async Task<ActionResult<ResponseDto<UsuarioLoginResponse>>> Login(UsuarioLoginRequest usuarioLogin)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
             var resultado = await _identityService.Login(usuarioLogin);
 
-            if (resultado.Dados.Any())
+            if (resultado.Dados != null)
                 return Ok(resultado);
 
-            return Unauthorized(resultado);
+            ResponseDto<List<UsuarioLoginResponse>> response = new ResponseDto<List<UsuarioLoginResponse>>();
+            response.Dados = new List<UsuarioLoginResponse>();
+            response.Erro(resultado.Mensagem);
+
+            return BadRequest(response);
+
         }
 
 

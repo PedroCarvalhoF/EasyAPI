@@ -8,7 +8,7 @@ namespace Api.Domain.Interfaces.Services.Identity
     {
         Task<User> GetUserById(Guid id);
         Task<Guid> GetIdIdentityByName(string name);
-        Task<ResponseDto<List<UsuarioLoginResponse>>> Login(UsuarioLoginRequest usuarioLogin);
+        Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin);
         Task<ResponseDto<List<UsuarioCadastroResponse>>> Create(UsuarioCadastroRequest usuarioCadastro);
 
     }

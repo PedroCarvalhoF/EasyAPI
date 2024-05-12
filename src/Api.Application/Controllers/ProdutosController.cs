@@ -217,7 +217,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost("alterar-produto")]
+        [HttpPut("alterar-produto")]
         public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Update([FromBody] ProdutoDtoUpdate update)
         {
             if (!ModelState.IsValid)

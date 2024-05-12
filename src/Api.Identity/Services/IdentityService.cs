@@ -61,21 +61,29 @@ namespace Api.Identity.Services
 
             return resposta;
         }
-        public async Task<ResponseDto<List<UsuarioLoginResponse>>> Login(UsuarioLoginRequest usuarioLogin)
+        public async Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
 
-            ResponseDto<List<UsuarioLoginResponse>> resposta = new ResponseDto<List<UsuarioLoginResponse>>();
-            resposta.Dados = new List<UsuarioLoginResponse>();
+            ResponseDto<UsuarioLoginResponse> resposta = new ResponseDto<UsuarioLoginResponse>();
+            resposta.Dados = new UsuarioLoginResponse();
 
             var user = await _userManager.Users
                                             .SingleOrDefaultAsync(user => user.UserName == usuarioLogin.Email.ToLower());
+
+            if (user == null)
+            {
+                resposta.Status = false;
+                resposta.Erro("Login ou senha inválido");
+                return resposta;
+            }
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, usuarioLogin.Senha, false);
             if (result.Succeeded)
             {
                 resposta.Status = true;
                 resposta.Mensagem = "Login efetuado com sucesso.";
-                resposta.Dados.Add(await GerarCredenciais(usuarioLogin.Email));
+                var credenciais = await GerarCredenciais(usuarioLogin.Email);
+                resposta.Dados = (credenciais);
                 return resposta;
             }
 
