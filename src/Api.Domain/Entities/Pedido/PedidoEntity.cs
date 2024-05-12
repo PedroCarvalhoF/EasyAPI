@@ -3,7 +3,7 @@ using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
-using Domain.Entities.UsuarioSistema;
+using Domain.Identity.UserIdentity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -53,10 +53,9 @@ namespace Api.Domain.Entities.Pedido
         public CategoriaPrecoEntity? CategoriaPrecoEntity { get; set; }
         //############################################################
 
-        [DisplayName("Id PDV")]
-        [Required(ErrorMessage = "Informe o {0}")]
-        public Guid UserCreatePedidoId { get; set; }
-        public PerfilUsuarioEntity? UserCreatePedido { get; set; }
+        [Required(ErrorMessage = "Informe id usuario registro")]
+        public Guid UserRegistroId { get; set; }
+        public User? UserRegistro { get; set; }
         //############################################################
 
         public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }

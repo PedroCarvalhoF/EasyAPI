@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Domain.Identity.UserIdentity;
 
 namespace Identity.Interfaces
 {
@@ -6,6 +6,6 @@ namespace Identity.Interfaces
     {
         Task<bool> AddRole(Guid pessoaId, Guid roldId);
         Task<bool> CreateRole(string UserRole);
-        Task<IEnumerable<IdentityRole>> GetRoles();
+        Task<IEnumerable<Role>> GetRoles();
     }
 }

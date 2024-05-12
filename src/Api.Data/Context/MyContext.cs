@@ -9,7 +9,6 @@ using Data.Mapping.Pedido;
 using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
-using Data.Mapping.PerfilUsuario;
 using Data.Mapping.PontoVena;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
@@ -19,12 +18,16 @@ using Domain.Entities.PedidoSituacao;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
-using Domain.Entities.UsuarioSistema;
+using Domain.Identity.UserIdentity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data.Context
 {
-    public class MyContext : DbContext
+    public class MyContext : IdentityDbContext<User, Role, Guid,
+                                                       IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,
+                                                       IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
         //revisados
         public DbSet<CategoriaProdutoEntity>? CategoriasProdutos { get; set; }
@@ -34,7 +37,6 @@ namespace Api.Data.Context
         public DbSet<PeriodoPontoVendaEntity>? PeriodosPontosVendas { get; set; }
         public DbSet<CategoriaPrecoEntity>? CategoriasPrecos { get; set; }
         public DbSet<CategoriaPrecoEntity>? PrecosProdutos { get; set; }
-        public DbSet<PerfilUsuarioEntity>? PerfisUsuarios { get; set; }
         public DbSet<PontoVendaEntity> PontosVendas { get; set; }
         public DbSet<FormaPagamentoEntity> FormasPagamentos { get; set; }
         public DbSet<SituacaoPedidoEntity> SituacoesPedidos { get; set; }
@@ -51,6 +53,25 @@ namespace Api.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<UserRole>(userRole =>
+            {
+                userRole.HasKey(ur => new { ur.UserId, ur.RoleId });
+
+                userRole.HasOne(ur => ur.Role)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.RoleId)
+                    .IsRequired();
+
+                userRole.HasOne(ur => ur.User)
+                    .WithMany(r => r.UserRoles)
+                    .HasForeignKey(ur => ur.UserId)
+                    .IsRequired();
+            });
+
+
+         
+
+
 
             modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
             modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
@@ -59,7 +80,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
             modelBuilder.Entity<CategoriaPrecoEntity>(new CategoriaPrecoMap().Configure);
             modelBuilder.Entity<PrecoProdutoEntity>(new PrecoProdutoMap().Configure);
-            modelBuilder.Entity<PerfilUsuarioEntity>(new PerfilUsuarioMap().Configure);
+
             modelBuilder.Entity<PontoVendaEntity>(new PontoVendaMap().Configure);
             modelBuilder.Entity<FormaPagamentoEntity>(new FormaPagamentoMap().Configure);
             modelBuilder.Entity<SituacaoPedidoEntity>(new SituacaoPedidoMap().Configure);

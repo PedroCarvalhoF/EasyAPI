@@ -4,8 +4,8 @@ namespace Api.Domain.Models.PontoVendaModels
 {
     public class PontoVendaModel : ModelBase
     {
-        public Guid IdPerfilAbriuPDV { get; set; }
-        public Guid IdPerfilUtilizarPDV { get; set; }
+        public Guid UserPdvCreateId { get; set; }
+        public Guid UserPdvUsingId { get; set; }
         public Guid PeriodoPontoVendaEntityId { get; set; }
         public bool AbertoFechado { get; set; }
 

@@ -1,16 +1,17 @@
 using Api.Identity.Constants;
 using Api.Identity.Interfaces;
+using Domain.Identity.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Api.Identity.Services
 {
     public class SeedUserRoleInitial : ISeedUserRoleInitial
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
 
-        public SeedUserRoleInitial(UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+        public SeedUserRoleInitial(UserManager<User> userManager,
+            RoleManager<Role> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -22,51 +23,51 @@ namespace Api.Identity.Services
             string roleName = Roles.Programador;
             if (!await _roleManager.RoleExistsAsync(roleName))
             {
-                IdentityRole role = new IdentityRole();
+                Role role = new Role();
                 role.Name = roleName;
                 role.NormalizedName = roleName;
                 role.ConcurrencyStamp = Guid.NewGuid().ToString();
 
-                IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                var roleResult = await _roleManager.CreateAsync(role);
             }
 
 
             if (!await _roleManager.RoleExistsAsync(Roles.Admin))
             {
-                IdentityRole role = new IdentityRole();
+                Role role = new Role();
                 role.Name = Roles.Admin;
                 role.NormalizedName = Roles.Admin;
                 role.ConcurrencyStamp = Guid.NewGuid().ToString();
 
-                IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                var roleResult = await _roleManager.CreateAsync(role);
             }
 
             if (!await _roleManager.RoleExistsAsync(Roles.Gerente))
             {
-                IdentityRole role = new IdentityRole();
+                Role role = new Role();
                 role.Name = Roles.Gerente;
                 role.NormalizedName = Roles.Gerente;
                 role.ConcurrencyStamp = Guid.NewGuid().ToString();
-                IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                var roleResult = await _roleManager.CreateAsync(role);
             }
 
             if (!await _roleManager.RoleExistsAsync(Roles.Supervisor))
             {
-                IdentityRole role = new IdentityRole();
+                Role role = new Role();
                 role.Name = Roles.Supervisor;
                 role.NormalizedName = Roles.Supervisor;
                 role.ConcurrencyStamp = Guid.NewGuid().ToString();
-                IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                var roleResult = await _roleManager.CreateAsync(role);
             }
 
             if (!await _roleManager.RoleExistsAsync(Roles.OperadorCaixa))
             {
-                IdentityRole role = new IdentityRole();
+                Role role = new Role();
                 role.Name = Roles.OperadorCaixa;
                 role.NormalizedName = Roles.OperadorCaixa;
                 role.ConcurrencyStamp = Guid.NewGuid().ToString();
 
-                IdentityResult roleResult = await _roleManager.CreateAsync(role);
+                var roleResult = await _roleManager.CreateAsync(role);
             }
 
         }
@@ -77,7 +78,10 @@ namespace Api.Identity.Services
 
             if (await _userManager.FindByEmailAsync("admin@ec.com") == null)
             {
-                IdentityUser user = new IdentityUser();
+                User user = new User();
+                user.Nome = "Pedro ";
+                user.SobreNome = "Adolfo";
+                user.ImagemURL = string.Empty;
                 user.UserName = "admin@ec.com";
                 user.Email = "admin@ec.com";
                 user.NormalizedUserName = "admin@ec.com";
@@ -86,7 +90,7 @@ namespace Api.Identity.Services
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = await _userManager.CreateAsync(user, senha_padrao);
+                var result = await _userManager.CreateAsync(user, senha_padrao);
 
                 if (result.Succeeded)
                 {
@@ -97,7 +101,10 @@ namespace Api.Identity.Services
             //SUPERVISOR
             if (await _userManager.FindByEmailAsync("supervisor@ec.com") == null)
             {
-                IdentityUser user = new IdentityUser();
+                User user = new User();
+                user.Nome = "Joao ";
+                user.SobreNome = "Rodolfo";
+                user.ImagemURL = string.Empty;
                 user.UserName = "supervisor@ec.com";
                 user.Email = "supervisor@ec.com";
                 user.NormalizedUserName = "SUPERVISOR@EC.COM";
@@ -106,7 +113,7 @@ namespace Api.Identity.Services
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = await _userManager.CreateAsync(user, senha_padrao);
+                var result = await _userManager.CreateAsync(user, senha_padrao);
 
                 if (result.Succeeded)
                 {
@@ -117,7 +124,10 @@ namespace Api.Identity.Services
             //GERENTE
             if (await _userManager.FindByEmailAsync("gerente@ec.com") == null)
             {
-                IdentityUser user = new IdentityUser();
+                User user = new User();
+                user.Nome = "Marcos ";
+                user.SobreNome = "Rafael";
+                user.ImagemURL = string.Empty;
                 user.UserName = "gerente@ec.com";
                 user.Email = "gerente@ec.com";
                 user.NormalizedUserName = "GERENTE@EC.COM";
@@ -126,7 +136,7 @@ namespace Api.Identity.Services
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = await _userManager.CreateAsync(user, senha_padrao);
+                var result = await _userManager.CreateAsync(user, senha_padrao);
 
                 if (result.Succeeded)
                 {
@@ -137,7 +147,10 @@ namespace Api.Identity.Services
             //GERENTE
             if (await _userManager.FindByEmailAsync("operadorcaixa@ec.com") == null)
             {
-                IdentityUser user = new IdentityUser();
+                User user = new User();
+                user.Nome = "Benicio";
+                user.SobreNome = "Cardoso";
+                user.ImagemURL = string.Empty;
                 user.UserName = "operadorcaixa@ec.com";
                 user.Email = "operadorcaixa@ec.com";
                 user.NormalizedUserName = "OPERADORCAIXA@EC.COM";
@@ -146,7 +159,7 @@ namespace Api.Identity.Services
                 user.LockoutEnabled = false;
                 user.SecurityStamp = Guid.NewGuid().ToString();
 
-                IdentityResult result = await _userManager.CreateAsync(user, senha_padrao);
+                var result = await _userManager.CreateAsync(user, senha_padrao);
 
                 if (result.Succeeded)
                 {

@@ -72,12 +72,12 @@ namespace Data.Mapping.Pedido
                 .HasForeignKey(ped => ped.CategoriaPrecoEntityId).OnDelete(DeleteBehavior.Restrict);
 
             // UserCreatePedidoId
-            builder.Property(ped => ped.UserCreatePedidoId)
+            builder.Property(ped => ped.UserRegistroId)
                 .IsRequired();
 
-            builder.HasOne(ped => ped.UserCreatePedido)
+            builder.HasOne(ped => ped.UserRegistro)
                 .WithMany()
-                .HasForeignKey(ped => ped.UserCreatePedidoId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(ped => ped.UserRegistroId).OnDelete(DeleteBehavior.Restrict);
         }
 
 

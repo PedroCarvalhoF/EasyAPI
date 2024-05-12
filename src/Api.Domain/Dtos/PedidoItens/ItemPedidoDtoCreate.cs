@@ -23,7 +23,7 @@ namespace Domain.Dtos.ItemPedido
         [Required]
         public Guid PedidoEntityId { get; set; }
         [Required]
-        public Guid PerfilUsuarioEntityId { get; set; }
+        public Guid UserId { get; set; }
 
     }
 }

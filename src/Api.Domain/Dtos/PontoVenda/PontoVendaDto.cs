@@ -1,6 +1,6 @@
 using Api.Domain.Dtos.PedidoDtos;
-using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
+using Domain.Identity.UserIdentity;
 
 namespace Api.Domain.Dtos.PontoVendaDtos
 {
@@ -10,9 +10,8 @@ namespace Api.Domain.Dtos.PontoVendaDtos
         public DateTime CreateAt { get; set; }
         public DateTime UpdateAt { get; set; }
         public bool Habilitado { get; set; }
-
-        public PerfilUsuarioDto? PerfilUsuarioEntityAbrilPDV { get; set; }
-        public PerfilUsuarioDto? PerfilUsuarioEntityUtilizarPDV { get; set; }
+        public User? UserPdvCreate { get; set; }
+        public User? UserPdvUsing { get; set; }
         public PeriodoPontoVendaDto? PeriodoPontoVendaEntity { get; set; }
         public bool AbertoFechado { get; set; }
 

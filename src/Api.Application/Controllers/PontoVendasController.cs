@@ -105,7 +105,7 @@ namespace Api.Controllers
 
             try
             {
-                pontoVendaDtoCreate.IdPerfilAbriuPDV = User.GetUserId();
+                pontoVendaDtoCreate.UserPdvCreateId = User.GetUserId();
                 return await _service.Create(pontoVendaDtoCreate);
             }
             catch (Exception ex)

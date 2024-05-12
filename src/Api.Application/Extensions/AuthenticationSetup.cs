@@ -52,11 +52,12 @@ namespace Api.Extensions
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
             }).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = tokenValidationParameters;
-            });
-
+            })
+            .AddCookie();
 
             AddAuthorizationPolicies(services);
         }

@@ -4,7 +4,7 @@ namespace Domain.Models.ItemPedidoModels
 {
     public class ItemPedidoModel : ModelBase
     {
-        public ItemPedidoModel(Guid produtoEntityId, decimal quatidade, decimal preco, decimal desconto, string? observacaoItem, Guid perfilUsuarioEntityId, Guid pedidoEntityId)
+        public ItemPedidoModel(Guid produtoEntityId, decimal quatidade, decimal preco, decimal desconto, string? observacaoItem, Guid userId, Guid pedidoEntityId)
         {
 
             if (quatidade < 0)
@@ -26,10 +26,8 @@ namespace Domain.Models.ItemPedidoModels
             Preco = preco;
             Desconto = desconto;
             ObservacaoItem = observacaoItem;
-            PerfilUsuarioEntityId = perfilUsuarioEntityId;
+            UserId = UserId;
             PedidoEntityId = pedidoEntityId;
-
-
         }
 
         public Guid ProdutoEntityId { get; private set; }
@@ -39,7 +37,7 @@ namespace Domain.Models.ItemPedidoModels
         public decimal SubTotal { get; private set; }
         public decimal Total { get; private set; }
         public string? ObservacaoItem { get; private set; }
-        public Guid PerfilUsuarioEntityId { get; private set; }
+        public Guid UserId { get; private set; }
         public Guid PedidoEntityId { get; private set; }
 
 
