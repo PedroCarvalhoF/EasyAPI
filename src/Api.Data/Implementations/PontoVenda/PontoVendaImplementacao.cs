@@ -37,15 +37,15 @@ namespace Data.Implementations.PontoVenda
             return result;
         }
 
-        public async Task<IEnumerable<PontoVendaEntity>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV)
+        public async Task<IEnumerable<PontoVendaEntity>> GetByIdPerfilUsuario(Guid idUser)
         {
             IQueryable<PontoVendaEntity> query = _dbSet;
 
             query = Includes(query);
 
-            query = query.Where(pdv => pdv.IdPerfilUtilizarPDV.Equals(IdPerfilUtilizarPDV));
+            query = query.Where(pdv => pdv.UserPdvUsingId.Equals(idUser));
 
-            PontoVendaEntity[] result = await query.ToArrayAsync();
+            var result = await query.ToArrayAsync();
             return result;
         }
 
@@ -64,8 +64,8 @@ namespace Data.Implementations.PontoVenda
         private IQueryable<PontoVendaEntity> Includes(IQueryable<PontoVendaEntity> query)
         {
 
-            query = query.Include(userAbriu => userAbriu.PerfilUsuarioEntityAbrilPDV)
-                         .Include(userPDV => userPDV.PerfilUsuarioEntityUtilizarPDV)
+            query = query.Include(userAbriu => userAbriu.UserPdvCreate)
+                         .Include(userPDV => userPDV.UserPdvUsing)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
             query = query.Include(pdv => pdv.PedidoEntities);

@@ -1,6 +1,6 @@
-using Api.Domain.Dtos.IdentityDto;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
+using Domain.UserIdentity;
 
 namespace Api.Domain.Interfaces.Services.Identity
 {

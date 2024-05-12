@@ -1,10 +1,8 @@
 using Api.Application.Shared;
-using Api.Domain.Dtos.IdentityDto;
 using Api.Domain.Interfaces.Services.Identity;
 using Domain.Dtos;
-using Domain.Dtos.PerfilUsuario;
 using Domain.Identity.UserIdentity;
-using Domain.Interfaces.Services.PerfilUsuario;
+using Domain.UserIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -17,12 +15,12 @@ namespace Api.Application.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IIdentityService _identityService;
-        private readonly IPerfilUsuarioService _perfilUsuarioService;
 
-        public AccountsController(IIdentityService identityService, IPerfilUsuarioService perfilUsuarioService)
+
+        public AccountsController(IIdentityService identityService)
         {
             _identityService = identityService;
-            _perfilUsuarioService = perfilUsuarioService;
+
         }
 
 
@@ -62,22 +60,11 @@ namespace Api.Application.Controllers
 
             if (resultado.Status)
             {
-                //cadastra no sistema interno - criando perfil
-
-                var idIdentity = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
-
-                PerfilUsuarioDtoCreate perfilCreate = new PerfilUsuarioDtoCreate
-                {
-                    Nome = usuarioCadastro.Nome,
-                    IdentityId = idIdentity
-                };
-
-                ResponseDto<List<PerfilUsuarioDto>> perfilResult = await _perfilUsuarioService.Create(perfilCreate);
-
-                resultado.Mensagem += "Perfil de Usuário também cadastrado.";
-
+                resultado.CadastroOk("User cadastrado com sucesso!");
                 return Ok(resultado);
             }
+
+
 
 
             else if (resultado.Dados[0].Erros.Count > 0)

@@ -155,7 +155,7 @@ namespace Data.Implementations.Pedido
 
                 query = query.Where
                     (pedido => pedido.PontoVendaEntityId.Equals(idPdv)
-                    && pedido.UserCreatePedidoId.Equals(idUserCreatePedido));
+                    && pedido.UserRegistroId.Equals(idUserCreatePedido));
 
                 var entities = await query.ToArrayAsync();
 
@@ -174,7 +174,7 @@ namespace Data.Implementations.Pedido
             query = query.Include(sit => sit.SituacaoPedidoEntity);
 
             //usuario registo
-            query = query.Include(perfil_user => perfil_user.UserCreatePedido);
+            query = query.Include(user => user.UserRegistro);
 
             //categoria preco
             query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);

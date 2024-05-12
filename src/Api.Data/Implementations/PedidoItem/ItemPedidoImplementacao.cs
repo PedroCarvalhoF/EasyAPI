@@ -99,7 +99,7 @@ namespace Data.Implementations.PedidoItem
 
 
             //usuario
-            query = query.Include(usuario => usuario.PerfilUsuarioEntity);
+            query = query.Include(usuario => usuario.User);
 
 
 

@@ -1,9 +1,8 @@
-using Api.Domain.Dtos.IdentityDto;
 using Api.Domain.Interfaces.Services.Identity;
 using Api.Identity.Configurations;
 using Domain.Dtos;
-using Domain.Dtos.IdentityDto;
 using Domain.Identity.UserIdentity;
+using Domain.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

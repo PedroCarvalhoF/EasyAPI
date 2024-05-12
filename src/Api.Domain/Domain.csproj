@@ -9,7 +9,5 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.11" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Domain.Identity\Domain.Identity.csproj" />
-  </ItemGroup>
+  
 </Project>

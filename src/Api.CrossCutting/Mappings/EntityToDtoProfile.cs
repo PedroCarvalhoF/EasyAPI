@@ -14,12 +14,10 @@ using Api.Domain.Entities.ProdutoMedida;
 using AutoMapper;
 using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
-using Domain.Dtos.Identity;
 using Domain.Dtos.IdentityRole;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoSituacao;
-using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.ProdutoDtos;
@@ -33,7 +31,7 @@ using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
-using Domain.Entities.UsuarioSistema;
+using Domain.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Api.CrossCutting.Mappings
@@ -45,9 +43,7 @@ namespace Api.CrossCutting.Mappings
             CreateMap<UserIdentityDto, IdentityUser>();
             CreateMap<RoleDto, IdentityRole>().ReverseMap();
             //
-            CreateMap<SituacaoPedidoDto, SituacaoPedidoEntity>().ReverseMap();
-            //
-            CreateMap<PerfilUsuarioDto, PerfilUsuarioEntity>().ReverseMap();
+            CreateMap<SituacaoPedidoDto, SituacaoPedidoEntity>().ReverseMap();            
             //
             CreateMap<CategoriaProdutoDto, CategoriaProdutoEntity>().ReverseMap();
             CreateMap<CategoriaProdutoDtoCreateResult, CategoriaProdutoEntity>().ReverseMap();

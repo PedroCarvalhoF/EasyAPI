@@ -65,13 +65,13 @@ namespace Data.Mapping.PedidoItem
             builder.Property(item => item.ObservacaoItem)
                 .HasMaxLength(200);
 
-            //public Guid PerfilUsuarioEntityId { get; set; }
-            builder.Property(item => item.PerfilUsuarioEntityId)
+            //public Guid UserId { get; set; }
+            builder.Property(item => item.UserId)
                .IsRequired();
 
-            builder.HasOne(item => item.PerfilUsuarioEntity)
-                .WithMany(perfil => perfil.ItensPedidoEntities)
-                .HasForeignKey(item => item.PerfilUsuarioEntityId)
+            builder.HasOne(item => item.User)
+                .WithMany(user => user.ItemPedidoEntitiesCreate)
+                .HasForeignKey(item => item.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 

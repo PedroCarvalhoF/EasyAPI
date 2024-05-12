@@ -1,6 +1,8 @@
 ﻿using Api.Domain.Entities.PontoVenda;
+using Domain.Identity.UserIdentity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace Data.Mapping.PontoVena
 {
@@ -13,24 +15,6 @@ namespace Data.Mapping.PontoVena
             //Id 
             builder.HasKey(pdv => pdv.Id);
 
-            //PerfilUsuarioEntityAbrilPDV
-            builder.Property(p => p.IdPerfilAbriuPDV)
-                .IsRequired();
-
-            builder.HasOne(pdv => pdv.PerfilUsuarioEntityAbrilPDV)
-                .WithMany(perfil => perfil.PontoVendaEntitiesAbriu)
-                .HasForeignKey(pdv => pdv.IdPerfilAbriuPDV)
-                .OnDelete(DeleteBehavior.NoAction);
-
-
-            //PerfilUsuarioEntityUtilizarPDV
-            builder.Property(pdv => pdv.IdPerfilUtilizarPDV)
-                .IsRequired();
-            builder.HasOne(pdv => pdv.PerfilUsuarioEntityUtilizarPDV)
-                .WithMany(perfil => perfil.PontoVendaEntitiesUtilizar)
-                .HasForeignKey(pdv => pdv.IdPerfilUtilizarPDV)
-                .OnDelete(DeleteBehavior.NoAction);
-
             //PeriodoPontoVendaEntity
             builder.Property(pdv => pdv.PeriodoPontoVendaEntityId)
                 .IsRequired();
@@ -38,6 +22,25 @@ namespace Data.Mapping.PontoVena
             //AbertoFechado
             builder.Property(pdv => pdv.AbertoFechado)
                 .IsRequired();
+
+
+            //PerfilUsuarioEntityAbrilPDV
+            builder.Property(p => p.UserPdvCreateId)
+                .IsRequired();
+
+            builder.HasOne(pdv => pdv.UserPdvCreate)
+                .WithMany(perfil => perfil.UserPontoVendaCreate)
+                .HasForeignKey(pdv => pdv.UserPdvCreateId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            //PerfilUsuarioEntityUtilizarPDV
+            builder.Property(pdv => pdv.UserPdvUsingId)
+                .IsRequired();
+            builder.HasOne(pdv => pdv.UserPdvUsing)
+                .WithMany(perfil => perfil.UserPontoVendaUsing)
+                .HasForeignKey(pdv => pdv.UserPdvUsingId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

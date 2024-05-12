@@ -18,7 +18,6 @@ using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoSituacao;
-using Domain.Dtos.PerfilUsuario;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.ProdutoDtos;
@@ -27,7 +26,6 @@ using Domain.Models.FormaPagamentoModels;
 using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
 using Domain.Models.PedidoSituacao;
-using Domain.Models.PerfilUsuario;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
 using Domain.Models.ProdutoModels;
@@ -43,11 +41,6 @@ namespace Api.CrossCutting.Mappings
             CreateMap<SituacaoPedidoModel, SituacaoPedidoDto>().ReverseMap();
             CreateMap<SituacaoPedidoModel, SituacaoPedidoDtoCreate>().ReverseMap();
             CreateMap<SituacaoPedidoModel, SituacaoPedidoDtoUpdate>().ReverseMap();
-
-
-            CreateMap<PerfilUsuarioModel, PerfilUsuarioDto>().ReverseMap();
-            CreateMap<PerfilUsuarioModel, PerfilUsuarioDtoCreate>().ReverseMap();
-            CreateMap<PerfilUsuarioModel, PerfilUsuarioDtoUpdate>().ReverseMap();
 
             CreateMap<PrecoProdutoModel, PrecoProdutoDto>();
             CreateMap<PrecoProdutoModel, PrecoProdutoDtoCreate>();

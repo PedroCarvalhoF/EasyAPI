@@ -1,4 +1,4 @@
-namespace Api.Domain.Dtos.IdentityDto
+namespace Domain.UserIdentity
 {
     public class UsuarioCadastroResponse
     {

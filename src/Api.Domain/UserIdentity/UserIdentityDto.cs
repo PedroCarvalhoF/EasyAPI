@@ -1,4 +1,4 @@
-﻿namespace Domain.Dtos.Identity
+﻿namespace Domain.UserIdentity
 {
     public class UserIdentityDto
     {

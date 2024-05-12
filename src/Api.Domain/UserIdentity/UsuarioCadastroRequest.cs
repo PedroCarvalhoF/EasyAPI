@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Domain.Dtos.IdentityDto
+namespace Domain.UserIdentity
 {
     public class UsuarioCadastroRequest
     {
