@@ -8,6 +8,10 @@ namespace Api.Domain.Dtos.IdentityDto
         public string? Nome { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public string? SobreNome { get; set; }
+
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [EmailAddress(ErrorMessage = "O campo {0} é inválido")]
         public string? Email { get; set; }
 

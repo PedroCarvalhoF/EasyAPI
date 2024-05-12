@@ -1,13 +1,11 @@
 using Api.Application.Shared;
 using Api.Domain.Dtos.IdentityDto;
 using Api.Domain.Interfaces.Services.Identity;
-using Api.Extensions;
 using Domain.Dtos;
-using Domain.Dtos.IdentityDto;
 using Domain.Dtos.PerfilUsuario;
+using Domain.Identity.UserIdentity;
 using Domain.Interfaces.Services.PerfilUsuario;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -27,11 +25,11 @@ namespace Api.Application.Controllers
             _perfilUsuarioService = perfilUsuarioService;
         }
 
-        
+
         [HttpGet("get-user/{id}")]
-        public async Task<ActionResult<UsuarioDto>> GetId(Guid id)
+        public async Task<ActionResult<User>> GetId(Guid id)
         {
-            UsuarioDto usuarioDto = await _identityService.GetUserById(id);
+            var usuarioDto = await _identityService.GetUserById(id);
             if (usuarioDto.Id == Guid.Empty)
                 return BadRequest("Usuário não encontrado");
             return Ok(usuarioDto);

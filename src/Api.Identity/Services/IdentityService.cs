@@ -3,6 +3,7 @@ using Api.Domain.Interfaces.Services.Identity;
 using Api.Identity.Configurations;
 using Domain.Dtos;
 using Domain.Dtos.IdentityDto;
+using Domain.Identity.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -13,12 +14,12 @@ namespace Api.Identity.Services
 {
     public class IdentityService : IIdentityService
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
         private readonly JwtOptions _jwtOptions;
 
-        public IdentityService(SignInManager<IdentityUser> signInManager,
-                               UserManager<IdentityUser> userManager,
+        public IdentityService(SignInManager<User> signInManager,
+                               UserManager<User> userManager,
                                IOptions<JwtOptions> jwtOptions)
         {
             _signInManager = signInManager;
@@ -29,14 +30,17 @@ namespace Api.Identity.Services
         {
             ResponseDto<List<UsuarioCadastroResponse>> resposta = new ResponseDto<List<UsuarioCadastroResponse>>();
             resposta.Dados = new List<UsuarioCadastroResponse>();
-            IdentityUser identityUser = new IdentityUser
+            User identityUser = new User
             {
+                Nome = usuarioCadastro.Nome,
+                SobreNome = usuarioCadastro.SobreNome,
                 UserName = usuarioCadastro.Email,
                 Email = usuarioCadastro.Email,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                ImagemURL = string.Empty
             };
 
-            IdentityResult result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
+            var result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
             if (result.Succeeded)
             {
                 await _userManager.SetLockoutEnabledAsync(identityUser, false);
@@ -64,7 +68,10 @@ namespace Api.Identity.Services
             ResponseDto<List<UsuarioLoginResponse>> resposta = new ResponseDto<List<UsuarioLoginResponse>>();
             resposta.Dados = new List<UsuarioLoginResponse>();
 
-            SignInResult result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
+            var user = await _userManager.Users
+                                            .SingleOrDefaultAsync(user => user.UserName == usuarioLogin.Email.ToLower());
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, usuarioLogin.Senha, false);
             if (result.Succeeded)
             {
                 resposta.Status = true;
@@ -93,36 +100,29 @@ namespace Api.Identity.Services
 
             return resposta;
         }
-       
-        public async Task<UsuarioDto> GetUserById(Guid id)
-        {
-            IdentityUser? usuarioName = await _userManager.FindByIdAsync(id.ToString());
-            if (usuarioName == null)
-                return new UsuarioDto();
 
-            UsuarioDto user = new UsuarioDto
-            {
-                Email = usuarioName.Email,
-                Id = Guid.Parse(usuarioName.Id),
-                Nome = usuarioName.UserName
-            };
+        public async Task<User> GetUserById(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+                return new User();
 
             return user;
         }
 
         public async Task<Guid> GetIdIdentityByName(string name)
         {
-            IdentityUser? userName = await _userManager.FindByNameAsync(name);
+            var userName = await _userManager.FindByNameAsync(name);
             if (userName == null)
                 return Guid.Empty;
 
-            return Guid.Parse(userName.Id);
+            return Guid.Parse(userName.Id.ToString());
         }
 
 
         private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
         {
-            IdentityUser? user = await _userManager.FindByEmailAsync(email.ToLower());
+            var user = await _userManager.FindByEmailAsync(email.ToLower());
 
             if (user == null)
             {
@@ -158,11 +158,11 @@ namespace Api.Identity.Services
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
-        private async Task<IList<Claim>> ObterClaims(IdentityUser user, bool adicionarClaimsUsuario)
+        private async Task<IList<Claim>> ObterClaims(User user, bool adicionarClaimsUsuario)
         {
             List<Claim> claims = new List<Claim>();
 
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
+            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()));

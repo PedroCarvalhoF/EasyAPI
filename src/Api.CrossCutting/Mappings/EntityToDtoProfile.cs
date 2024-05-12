@@ -94,9 +94,6 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<PeriodoPontoVendaDto, PeriodoPontoVendaEntity>().ReverseMap();
             CreateMap<PeriodoPontoVendaDtoCreate, PeriodoPontoVendaEntity>().ReverseMap();
-
-
-
         }
     }
 }

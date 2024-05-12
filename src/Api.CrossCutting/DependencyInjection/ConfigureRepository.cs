@@ -29,6 +29,7 @@ using Data.Implementations.Pessoas.PessoasTipoImplementacao;
 using Data.Implementations.PontoVenda;
 using Data.Implementations.PontoVendaPeriodo;
 using Data.Implementations.Produto;
+using Domain.Identity.UserIdentity;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
 using Domain.Interfaces.Repository.Pedido;
@@ -85,10 +86,13 @@ namespace CrossCutting.DependencyInjection
                 AddDbContext<IdentityDataContext>(options =>
                              options.UseMySql(connectionString, serverVersion));
 
-            serviceCollection.AddDefaultIdentity<IdentityUser>()
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<IdentityDataContext>()
-            .AddDefaultTokenProviders();
+            serviceCollection.AddIdentityCore<User>()
+           .AddRoles<Role>()
+           .AddRoleManager<RoleManager<Role>>()
+           .AddSignInManager<SignInManager<User>>()
+           .AddRoleValidator<RoleValidator<Role>>()
+           .AddEntityFrameworkStores<IdentityDataContext>()
+           .AddDefaultTokenProviders();
 
             serviceCollection.AddScoped<IIdentityService, IdentityService>();
             serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
@@ -130,7 +134,7 @@ namespace CrossCutting.DependencyInjection
 
 
 
-            serviceCollection.AddTransient<IUserRole, UserRole>();
+            serviceCollection.AddTransient<IUserRole, UserRoleServices>();
             serviceCollection.AddTransient<IPessoaTipoServices, PessoaTipoServices>();
             serviceCollection.AddTransient<IPessoaServices, PessoaServices>();
         }

@@ -1,15 +1,16 @@
-﻿using Identity.Interfaces;
+﻿using Domain.Identity.UserIdentity;
+using Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Identity.Services
 {
-    public class UserRole : IUserRole
+    public class UserRoleServices : IUserRole
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<Role> _roleManager;
+        private readonly UserManager<User> _userManager;
 
-        public UserRole(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager
+        public UserRoleServices(RoleManager<Role> roleManager, UserManager<User> userManager
             )
         {
             this._roleManager = roleManager;
@@ -20,11 +21,11 @@ namespace Identity.Services
         {
             try
             {
-                IdentityUser? user = await _userManager.FindByIdAsync(pessoaId.ToString());
-                IdentityRole? role = await _roleManager.FindByIdAsync(roleId.ToString());
+                var user = await _userManager.FindByIdAsync(pessoaId.ToString());
+                var role = await _roleManager.FindByIdAsync(roleId.ToString());
 
 
-                IdentityResult result = await _userManager.AddToRoleAsync(user, role.Name);
+                var result = await _userManager.AddToRoleAsync(user, role.Name);
 
                 if (result.Succeeded)
                     return true;
@@ -46,7 +47,7 @@ namespace Identity.Services
 
             if (!await _roleManager.RoleExistsAsync(role))
             {
-                IdentityRole identityRole = new IdentityRole();
+                Role identityRole = new Role();
                 identityRole.Name = role;
                 identityRole.NormalizedName = role;
                 identityRole.ConcurrencyStamp = Guid.NewGuid().ToString();
@@ -61,9 +62,9 @@ namespace Identity.Services
                 throw new Exception("Função ja exíste");
         }
 
-        public async Task<IEnumerable<IdentityRole>> GetRoles()
+        public async Task<IEnumerable<Role>> GetRoles()
         {
-            IdentityRole[] roles = await _roleManager.Roles.ToArrayAsync();
+            var roles = await _roleManager.Roles.ToArrayAsync();
 
             return roles;
 
