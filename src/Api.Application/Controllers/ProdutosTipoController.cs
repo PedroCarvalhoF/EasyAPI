@@ -1,5 +1,5 @@
-﻿using Domain.Dtos.ProdutoTipo;
-using Domain.ExceptionsPersonalizadas;
+﻿using Domain.Dtos;
+using Domain.Dtos.ProdutoTipo;
 using Domain.Interfaces.Services.ProdutoTipo;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,165 +10,135 @@ namespace Api.Controllers
     //[Authorize]
     public class ProdutosTipoController : ControllerBase
     {
-        private readonly IProdutoTipoServices _services;
+        private readonly IProdutoTipoServices _service;
 
         public ProdutosTipoController(IProdutoTipoServices services)
         {
-            _services = services;
+            _service = services;
         }
-
 
         [HttpGet("tipos-produtos")]
-        public async Task<ActionResult<IEnumerable<ProdutoTipoDto>>> GetAll()
+        public async Task<ActionResult<ResponseDto<List<ProdutoTipoDto>>>> GetAll()
         {
             try
             {
-                IEnumerable<ProdutoTipoDto> dtos = await _services.GetAll();
-                if (dtos == null)
-                {
-                    return BadRequest("Não localizado");
-                }
-                return Ok(dtos);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.GetAll();
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
-
         }
-
         [HttpGet("tipos-produtos/{id}/id")]
-        public async Task<ActionResult<ProdutoTipoDto>> Get(Guid id)
+        public async Task<ActionResult<ResponseDto<List<ProdutoTipoDto>>>> Get(Guid id)
         {
             try
             {
-                ProdutoTipoDto dto = await _services.Get(id);
-                if (dto == null)
-                {
-                    return BadRequest("Não localizado");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Get(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
-
-
-
         [HttpGet("tipos-produtos/{descricao}")]
-        public async Task<ActionResult<IEnumerable<ProdutoTipoDto>>> Get(string descricao)
+        public async Task<ActionResult<ResponseDto<List<ProdutoTipoDto>>>> Get(string descricao)
         {
             try
             {
-                IEnumerable<ProdutoTipoDto> dtos = await _services.Get(descricao);
-                if (dtos == null)
-                {
-                    return BadRequest("Não localizado");
-                }
-                return Ok(dtos);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Get(descricao);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
-
         }
-
 
         [HttpPost("cadastrar-tipos-produtos")]
-        public async Task<ActionResult<ProdutoTipoDto>> Post(ProdutoTipoDtoCreate create)
+        public async Task<ActionResult<ResponseDto<List<ProdutoTipoDto>>>> Post(ProdutoTipoDtoCreate create)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                ProdutoTipoDto dto = await _services.Create(create);
-                if (dto == null)
-                {
-                    return BadRequest("Não foi possível realizar tafefa");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Create(create);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
         [HttpPut("alterar-tipos-produtos")]
-        public async Task<ActionResult<ProdutoTipoDto>> Update(ProdutoTipoDtoUpdate update)
+        public async Task<ActionResult<ResponseDto<List<ProdutoTipoDto>>>> Update(ProdutoTipoDtoUpdate update)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             try
             {
-                ProdutoTipoDto dto = await _services.Update(update);
-                if (dto == null)
-                {
-                    return BadRequest("Não foi possível realizar tafefa");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Update(update);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
         [HttpPut("tipos-produtos/{id}/desabilitar")]
-        public async Task<ActionResult<bool>> Desabilitar(Guid id)
+        public async Task<ActionResult<ResponseDto<List<ProdutoTipoDto>>>> Desabilitar(Guid id)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             try
             {
-                bool dto = await _services.Desabilitar(id);
-                if (!dto)
-                {
-                    return BadRequest("Não foi possível realizar tafefa");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Desabilitar(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
-
     }
 }

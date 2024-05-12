@@ -33,8 +33,7 @@ namespace Api.Application.Controllers
             catch (Exception ex)
             {
                 ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
         }
@@ -53,8 +52,7 @@ namespace Api.Application.Controllers
             catch (Exception ex)
             {
                 ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
         }
@@ -73,8 +71,7 @@ namespace Api.Application.Controllers
             catch (Exception ex)
             {
                 ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
         }
@@ -94,8 +91,7 @@ namespace Api.Application.Controllers
             catch (Exception ex)
             {
                 ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
 
@@ -116,8 +112,7 @@ namespace Api.Application.Controllers
             catch (Exception ex)
             {
                 ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
         }
@@ -136,8 +131,7 @@ namespace Api.Application.Controllers
             catch (Exception ex)
             {
                 ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
         }
