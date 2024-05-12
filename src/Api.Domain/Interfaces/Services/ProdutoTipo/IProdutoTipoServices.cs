@@ -1,15 +1,16 @@
-﻿using Domain.Dtos.ProdutoTipo;
+﻿using Domain.Dtos;
+using Domain.Dtos.ProdutoTipo;
 
 namespace Domain.Interfaces.Services.ProdutoTipo
 {
     public interface IProdutoTipoServices
     {
-        Task<IEnumerable<ProdutoTipoDto>> GetAll();
-        Task<ProdutoTipoDto> Get(Guid id);
-        Task<IEnumerable<ProdutoTipoDto>> Get(string descricao);
-        Task<ProdutoTipoDto> Create(ProdutoTipoDtoCreate create);
-        Task<ProdutoTipoDto> Update(ProdutoTipoDtoUpdate update);
-        Task<bool> Desabilitar(Guid id);
+        Task<ResponseDto<List<ProdutoTipoDto>>> GetAll();
+        Task<ResponseDto<List<ProdutoTipoDto>>> Get(Guid id);
+        Task<ResponseDto<List<ProdutoTipoDto>>> Get(string descricao);
+        Task<ResponseDto<List<ProdutoTipoDto>>> Create(ProdutoTipoDtoCreate create);
+        Task<ResponseDto<List<ProdutoTipoDto>>> Update(ProdutoTipoDtoUpdate update);
+        Task<ResponseDto<List<ProdutoTipoDto>>> Desabilitar(Guid id);
 
     }
 }

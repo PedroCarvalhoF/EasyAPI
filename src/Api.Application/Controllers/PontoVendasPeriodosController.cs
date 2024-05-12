@@ -1,6 +1,6 @@
 ﻿using Api.Domain.Dtos.ProdutoMedidaDtos;
+using Domain.Dtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
-using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,30 +18,24 @@ namespace Api.Controllers
             _service = service;
         }
 
-
-
         [HttpGet("periodos-pontos-vendas")]
         public async Task<ActionResult<IEnumerable<PeriodoPontoVendaDto>>> GetAll()
         {
             try
             {
-                IEnumerable<PeriodoPontoVendaDto> dtos = await _service.GetAll();
+                var dtos = await _service.GetAll();
                 if (dtos == null)
-                {
-                    return BadRequest("Não localizado");
-                }
+                    return BadRequest(dtos);
+
                 return Ok(dtos);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+                response.Dados = new List<PeriodoPontoVendaDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
-
         }
 
         [HttpGet("periodos-pontos-vendas/{id}/id")]
@@ -49,21 +43,18 @@ namespace Api.Controllers
         {
             try
             {
-                PeriodoPontoVendaDto dto = await _service.Get(id);
-                if (dto == null)
-                {
-                    return BadRequest("Não localizado");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var dtos = await _service.Get(id);
+                if (dtos == null)
+                    return BadRequest(dtos);
+
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+                response.Dados = new List<PeriodoPontoVendaDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
@@ -72,23 +63,19 @@ namespace Api.Controllers
         {
             try
             {
-                IEnumerable<PeriodoPontoVendaDto> dtos = await _service.Get(descricao);
+                var dtos = await _service.Get(descricao);
                 if (dtos == null)
-                {
-                    return BadRequest("Não localizado");
-                }
+                    return BadRequest(dtos);
+
                 return Ok(dtos);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+                response.Dados = new List<PeriodoPontoVendaDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
-
         }
 
 
@@ -100,52 +87,40 @@ namespace Api.Controllers
 
             try
             {
-                PeriodoPontoVendaDto dto = await _service.Create(create);
-                if (dto == null)
-                {
-                    return BadRequest("Não foi possível realizar tafefa");
-                }
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var dtos = await _service.Create(create);
+                if (dtos == null)
+                    return BadRequest(dtos);
+
+                return Ok(dtos);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+                response.Dados = new List<PeriodoPontoVendaDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
-
 
         [HttpPut("desabilitar/periodos-pontos-vendas/{id}")]
         public async Task<ActionResult> Desabilitar(Guid id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        {           
             try
             {
-                bool result = await _service.Desabilitar(id);
-                if (result)
+                var dtos = await _service.Desabilitar(id);
+                if (dtos == null)
+                    return BadRequest(dtos);
 
-                    return Ok(result);
-                else
-                    return BadRequest("Não foi possível realizar alteração");
+                return Ok(dtos);
 
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
+                response.Dados = new List<PeriodoPontoVendaDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
-
     }
 }

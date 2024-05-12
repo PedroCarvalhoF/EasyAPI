@@ -2,6 +2,8 @@ using Api.Domain.Dtos.CategoriaPrecoDtos;
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Interfaces.Services.CategoriaPreco;
 using AutoMapper;
+using Domain.Dtos;
+using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
 
@@ -19,78 +21,106 @@ namespace Api.Service.Services.CategoriaPreco
             _mapper = mapper;
             _imprementacao = categoriaPrecoRepository;
         }
-
-        public async Task<IEnumerable<CategoriaPrecoDto>> GetAll()
+        public async Task<ResponseDto<List<CategoriaPrecoDto>>> GetAll()
         {
+            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
+            response.Dados = new List<CategoriaPrecoDto>();
+
             try
             {
-                IEnumerable<CategoriaPrecoEntity> entities = await _repository.SelectAsync();
-                IEnumerable<CategoriaPrecoDto> dtos = _mapper.Map<IEnumerable<CategoriaPrecoDto>>(entities);
-                return dtos;
+                var entities = await _repository.SelectAsync();
+                var dtos = _mapper.Map<List<CategoriaPrecoDto>>(entities);
+                response.ConsultaOk();
+                response.Dados = dtos;
+                return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<CategoriaPrecoDto> Get(Guid id)
+        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Get(Guid id)
         {
+            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
+            response.Dados = new List<CategoriaPrecoDto>();
+
             try
             {
-                CategoriaPrecoEntity entity = await _repository.SelectAsync(id);
-                CategoriaPrecoDto dto = _mapper.Map<CategoriaPrecoDto>(entity);
-                return dto;
-            }
-            catch (Exception)
-            {
+                var entity = await _repository.SelectAsync(id);
+                var dto = _mapper.Map<CategoriaPrecoDto>(entity);
 
-                throw;
+                response.Dados.Add(dto);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<CategoriaPrecoDto> Create(CategoriaPrecoDtoCreate create)
+        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Create(CategoriaPrecoDtoCreate create)
         {
+            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
+            response.Dados = new List<CategoriaPrecoDto>();
+
             try
             {
-                CategoriaPrecoEntity entity = _mapper.Map<CategoriaPrecoEntity>(create);
-                CategoriaPrecoEntity result = await _repository.InsertAsync(entity);
-                CategoriaPrecoDto dto = _mapper.Map<CategoriaPrecoDto>(result);
-                return dto;
+                var entity = _mapper.Map<CategoriaPrecoEntity>(create);
+                var result = await _repository.InsertAsync(entity);
+                var dto = _mapper.Map<CategoriaPrecoDto>(result);
+                
+                response.Dados.Add(dto);
+                return response;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<CategoriaPrecoDto> Update(CategoriaPrecoDtoUpdate update)
+        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Update(CategoriaPrecoDtoUpdate update)
         {
+            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
+            response.Dados = new List<CategoriaPrecoDto>();
+
             try
             {
-                CategoriaPrecoEntity entity = _mapper.Map<CategoriaPrecoEntity>(update);
-                CategoriaPrecoEntity result = await _repository.UpdateAsync(entity);
-                CategoriaPrecoEntity dto = _mapper.Map<CategoriaPrecoEntity>(result);
-
+                var entity = _mapper.Map<CategoriaPrecoEntity>(update);
+                var result = await _repository.UpdateAsync(entity);
+                var dto = _mapper.Map<CategoriaPrecoEntity>(result);
 
                 return await Get(result.Id);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<bool> Desabilitar(Guid id)
+        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Desabilitar(Guid id)
         {
+            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
+            response.Dados = new List<CategoriaPrecoDto>();
+
             try
             {
-                bool result = await _repository.DesabilitarHabilitar(id);
-                return result;
+                var result = await _repository.DesabilitarHabilitar(id);
+                if (result)
+                {
+                    response.AlteracaoOk();
+                    return response;
+                }
+                else
+                {
+                    response.ErroUpdate();
+                    return response;
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
     }

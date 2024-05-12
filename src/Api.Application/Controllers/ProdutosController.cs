@@ -1,4 +1,6 @@
-﻿using Domain.Dtos.ProdutoDtos;
+﻿using Api.Domain.Dtos.CategoriaPrecoDtos;
+using Domain.Dtos;
+using Domain.Dtos.ProdutoDtos;
 using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces.Services.Produto;
 using Microsoft.AspNetCore.Mvc;
@@ -20,233 +22,203 @@ namespace Api.Controllers
         }
 
         [HttpGet("produtos")]
-        public async Task<ActionResult> GetProdutos()
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetProdutos()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<ProdutoDto>? produtoDto = await _service.Get();
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Get();
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
         [HttpGet("produtos/{id}/id")]
-        public async Task<ActionResult> GetId(Guid id)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetId(Guid id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                ProdutoDto? produtoDto = await _service.Get(id);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Get(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
 
         [HttpGet("produtos/{codigoPersonalizado}/codigo-personalizado")]
-        public async Task<ActionResult> GetCodigo(string codigoPersonalizado)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetCodigo(string codigoPersonalizado)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                ProdutoDto produtoDto = await _service.GetCodigo(codigoPersonalizado);
-                if (produtoDto == null)
-                    return BadRequest("Não localizado.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.GetCodigo(codigoPersonalizado);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
 
         [HttpGet("produtos/{nomeProduto}/nome")]
-        public async Task<ActionResult> GetNomeProduto(string nomeProduto)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetNomeProduto(string nomeProduto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<ProdutoDto>? produtoDto = await _service.Get(nomeProduto);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.Get(nomeProduto);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
         [HttpGet("produtos/{categoriaId}/id-categoria")]
-        public async Task<ActionResult> GetCategoriaId(Guid categoriaId)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetCategoriaId(Guid categoriaId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<ProdutoDto>? produtoDto = await _service.GetCategoria(categoriaId);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.GetCategoria(categoriaId);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
         [HttpGet("produtos/{medidaId}/id-medida")]
-        public async Task<ActionResult> GetMedida(Guid medidaId)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetMedida(Guid medidaId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<ProdutoDto>? produtoDto = await _service.GetMedida(medidaId);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                var result = await _service.GetMedida(medidaId);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
         }
 
         [HttpGet("produtos/{produtoTipoId}/id-tipo")]
-        public async Task<ActionResult> GetProdutoTipo(Guid produtoTipoId)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetProdutoTipo(Guid produtoTipoId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             try
             {
-                IEnumerable<ProdutoDto>? produtoDto = await _service.GetProdutoTipo(produtoTipoId);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
+                var result = await _service.GetProdutoTipo(produtoTipoId);
 
+                if (!result.Status)
+                    return BadRequest(result);
 
-
-        [HttpPut("produtos/{habilitado}/habilitado")]
-        public async Task<ActionResult> GetHabilitadoNaoHabilitado(bool habilitado)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                IEnumerable<ProdutoDto>? produtoDto = await _service.GetHabilitadoNaoHabilitado(habilitado);
-                if (produtoDto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(produtoDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
-
-
-
-        [HttpPost("cadastrar-produto")]
-        public async Task<ActionResult> Post([FromBody] ProdutoDtoCreate create)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            try
-            {
-                ProdutoDto result = await _service.Cadastrar(create);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação");
                 return Ok(result);
             }
-            catch (ModelsExceptions ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("produtos/{habilitado}/habilitado")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetHabilitadoNaoHabilitado(bool habilitado)
+        {
+            try
+            {
+                var result = await _service.GetHabilitadoNaoHabilitado(habilitado);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPost("cadastrar-produto")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Post([FromBody] ProdutoDtoCreate create)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
+            try
+            {
+                var result = await _service.Cadastrar(create);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
         }
 
         [HttpPost("alterar-produto")]
-        public async Task<ActionResult> Update([FromBody] ProdutoDtoUpdate update)
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Update([FromBody] ProdutoDtoUpdate update)
         {
             if (!ModelState.IsValid)
             {
@@ -255,24 +227,21 @@ namespace Api.Controllers
 
             try
             {
-                ProdutoDto result = await _service.Alterar(update);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação");
+                var result = await _service.Alterar(update);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
                 return Ok(result);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
             }
-
         }
-
-
 
         [NonAction]
         public async Task<string> SaveImage(IFormFile imageFile)

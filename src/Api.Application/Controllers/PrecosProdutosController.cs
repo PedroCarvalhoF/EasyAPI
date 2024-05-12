@@ -1,5 +1,8 @@
+using Api.Domain.Dtos.PedidoDtos;
+using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Dtos.PrecoProdutoDtos;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
+using Domain.Dtos;
 using Domain.ExceptionsPersonalizadas;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,78 +20,90 @@ namespace Api.Application.Controllers
         }
 
         [HttpGet("precos-produtos")]
-        public async Task<ActionResult<IEnumerable<PrecoProdutoDto>>> GetAll()
+        public async Task<ActionResult<ResponseDto<List<PrecoProdutoDto>>>> GetAll()
         {
             try
             {
-                IEnumerable<PrecoProdutoDto> result = await _service.GetAll();
-                if (result == null)
-                    return BadRequest("Não encontrado");
+                var result = await _service.GetAll();
+
+                if (!result.Status)
+                    return BadRequest(result);
 
                 return Ok(result);
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
 
         [HttpGet("precos-produtos/{id}/id")]
-        public async Task<ActionResult<PrecoProdutoDto>> Get(Guid id)
+        public async Task<ActionResult<ResponseDto<List<PrecoProdutoDto>>>> Get(Guid id)
         {
             try
             {
-                PrecoProdutoDto result = await _service.Get(id);
-                if (result == null)
-                    return BadRequest("Não encontrado");
+                var result = await _service.Get(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
 
                 return Ok(result);
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
 
         [HttpGet("precos-produtos/{id}/produto-id")]
-        public async Task<ActionResult<IEnumerable<PrecoProdutoDto>>> GetProdutoId(Guid id)
+        public async Task<ActionResult<ResponseDto<List<PrecoProdutoDto>>>> GetProdutoId(Guid id)
         {
             try
             {
-                IEnumerable<PrecoProdutoDto> result = await _service.GetProdutoId(id);
-                if (result == null)
-                    return BadRequest("Não encontrado");
+                var result = await _service.GetProdutoId(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
 
                 return Ok(result);
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
 
         [HttpGet("precos-produtos/{id}/categoria-preco-id")]
-        public async Task<ActionResult<IEnumerable<PrecoProdutoDto>>> GetCategoriaPrecoId(Guid id)
+        public async Task<ActionResult<ResponseDto<List<PrecoProdutoDto>>>> GetCategoriaPrecoId(Guid id)
         {
             try
             {
-                IEnumerable<PrecoProdutoDto> result = await _service.GetCategoriaPrecoId(id);
-                if (result == null)
-                    return BadRequest("Não encontrado");
+                var result = await _service.GetCategoriaPrecoId(id);
+
+                if (!result.Status)
+                    return BadRequest(result);
 
                 return Ok(result);
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
 
@@ -105,22 +120,21 @@ namespace Api.Application.Controllers
 
             try
             {
-                PrecoProdutoDto result = await _service.CreateUpdate(create);
-                if (result == null)
-                    return BadRequest("Não foi possível realizar operação");
+                var result = await _service.CreateUpdate(create);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
                 return Ok(result);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+                response.Dados = new List<PrecoProdutoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
             }
         }
-
-
     }
 }

@@ -3,6 +3,7 @@ using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
 using Api.Domain.Models.PrecoProdutoModels;
 using AutoMapper;
+using Domain.Dtos;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
 
@@ -20,78 +21,103 @@ namespace Api.Service.Services.PrecoProduto
             _repository = repository;
             _implementacao = precoProdutoRepository;
         }
-        public async Task<IEnumerable<PrecoProdutoDto>> GetAll()
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetAll()
         {
+            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            response.Dados = new List<PrecoProdutoDto>();
+
             try
             {
-                IEnumerable<PrecoProdutoEntity> entities = await _implementacao.GetAll();
-                IEnumerable<PrecoProdutoDto> dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
-                return dtos;
-            }
-            catch (Exception)
-            {
+                var entities = await _implementacao.GetAll();
+                var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
 
-                throw;
+                response.Dados = dtos;
+                response.ConsultaOk();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<PrecoProdutoDto> Get(Guid id)
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> Get(Guid id)
         {
+            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            response.Dados = new List<PrecoProdutoDto>();
+
             try
             {
-                PrecoProdutoEntity entity = await _implementacao.Get(id);
-                PrecoProdutoDto dto = _mapper.Map<PrecoProdutoDto>(entity);
-                return dto;
-            }
-            catch (Exception)
-            {
+                var entity = await _implementacao.Get(id);
+                var dto = _mapper.Map<PrecoProdutoDto>(entity);
 
-                throw;
+                response.Dados.Add(dto);
+                response.ConsultaOk();
+                return response;
             }
-        }
-
-        public async Task<IEnumerable<PrecoProdutoDto>> GetProdutoId(Guid id)
-        {
-            try
+            catch (Exception ex)
             {
-                IEnumerable<PrecoProdutoEntity> entities = await _implementacao.GetProdutoId(id);
-                IEnumerable<PrecoProdutoDto> dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
-                return dtos;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-        public async Task<IEnumerable<PrecoProdutoDto>> GetCategoriaPrecoId(Guid id)
-        {
-            try
-            {
-                IEnumerable<PrecoProdutoEntity> entities = await _implementacao.GetCategoriaPrecoId(id);
-                IEnumerable<PrecoProdutoDto> dtos = _mapper.Map<IEnumerable<PrecoProdutoDto>>(entities);
-                return dtos;
-            }
-            catch (Exception)
-            {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
 
-        public async Task<PrecoProdutoDto> CreateUpdate(PrecoProdutoDtoCreate createUpdate)
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetProdutoId(Guid id)
         {
+            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            response.Dados = new List<PrecoProdutoDto>();
+
             try
             {
-                PrecoProdutoModel model = _mapper.Map<PrecoProdutoModel>(createUpdate);
-                PrecoProdutoEntity entidade = _mapper.Map<PrecoProdutoEntity>(model);
-                PrecoProdutoEntity? precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
+                var entities = await _implementacao.GetProdutoId(id);
+                var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
 
+                response.Dados = dtos;
+                response.ConsultaOk();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
+            }
+        }
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetCategoriaPrecoId(Guid id)
+        {
+            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            response.Dados = new List<PrecoProdutoDto>();
 
+            try
+            {
+                var entities = await _implementacao.GetCategoriaPrecoId(id);
+                var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
+
+                response.Dados = dtos;
+                response.ConsultaOk();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
+            }
+        }
+
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> CreateUpdate(PrecoProdutoDtoCreate createUpdate)
+        {
+            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            response.Dados = new List<PrecoProdutoDto>();
+
+            try
+            {
+                var model = _mapper.Map<PrecoProdutoModel>(createUpdate);
+                var entidade = _mapper.Map<PrecoProdutoEntity>(model);
+                var precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
 
                 if (precoExists is null)
                 {
                     //cadastrar                    
-                    PrecoProdutoEntity result = await _repository.InsertAsync(entidade);
+                     var result = await _repository.InsertAsync(entidade);
                     return await Get(result.Id);
                 }
                 else
@@ -99,19 +125,15 @@ namespace Api.Service.Services.PrecoProduto
                     //alterar
                     entidade.Id = precoExists.Id;
                     entidade.Habilitado = true;
-                    PrecoProdutoEntity result = await _repository.UpdateAsync(entidade);
+                    var result = await _repository.UpdateAsync(entidade);
                     return await Get(result.Id);
                 }
-
-
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.Erro(ex.Message);
+                return response;
             }
         }
-
-
     }
 }
