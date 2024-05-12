@@ -1,0 +1,18 @@
+feat: 	Um novo recurso para a aplicação, e não precisa ser algo grande, mas apenas algo que não existia antes e que a pessoa final irá acessar.
+fix: 	Correções de bugs
+docs:	Alterações em arquivos relacionados à documentações
+style: 	Alterações de estilização, formatação etc
+refactor:  Um codigo de refatoração, ou seja, que foi alterado, que tem uma mudança transparente para o usuário final, porém uma mudança real para a aplicação
+perf: 	Alterações relacionadas à performance
+test: 	Criação ou modificação de testes
+chore:     	 Alterações em arquivos de configuração, build, distribuição, CI, ou qualquer outra coisa que não envolva diretamente o código da aplicação para o usuário final
+
+
+1- git branch		  - verificar se esta na branch correta.
+2- git checkout "nome_branch" - navegar para branch 
+3- git pull 		  - ANTES DE COMEÇAR CODIGO - sempre trabalhar com a branch atualizada - evita conflitos.
+4- git status		  - verifica arquivos alterados.
+5- git log 			  - verificar ultimos commit - manter padrao das mensagens.	
+6- git add .		  - prepara os arquivos para commit
+7- git commit -m "[prefixo da alteracao (feat/fix/etc)]: Detalhe Princiapal"
+8- git push
