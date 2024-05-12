@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Domain.Dtos;
 using Domain.Dtos.ProdutoTipo;
 using Domain.Entities.ProdutoTipo;
 using Domain.Interfaces;
@@ -20,87 +21,136 @@ namespace Service.Services.ProdutoTipoService
             _mapper = mapper;
             _implementacao = implementacao;
         }
-        public async Task<IEnumerable<ProdutoTipoDto>> GetAll()
+        public async Task<ResponseDto<List<ProdutoTipoDto>>> GetAll()
         {
+            ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+            response.Dados = new List<ProdutoTipoDto>();
+
             try
             {
-                IEnumerable<ProdutoTipoEntity> entities = await _repository.SelectAsync();
-                IEnumerable<ProdutoTipoDto> dtos = _mapper.Map<IEnumerable<ProdutoTipoDto>>(entities);
-                dtos = dtos.OrderBy(t => t.DescricaoTipoProduto);
-                return dtos;
-            }
-            catch (Exception ex)
-            {
+                var entities = await _repository.SelectAsync();
+                var dtos = _mapper.Map<List<ProdutoTipoDto>>(entities);
+                dtos = dtos.OrderBy(t => t.DescricaoTipoProduto).ToList();
 
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<ProdutoTipoDto> Get(Guid id)
-        {
-            try
-            {
-                ProdutoTipoEntity entity = await _repository.SelectAsync(id);
-                ProdutoTipoDto dto = _mapper.Map<ProdutoTipoDto>(entity);
-
-                return dto;
+                response.ConsultaOk();
+                response.Dados = dtos;
+                return response;
 
             }
             catch (Exception ex)
             {
-
-                throw new Exception(ex.Message);
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public Task<IEnumerable<ProdutoTipoDto>> Get(string descricao)
+        public async Task<ResponseDto<List<ProdutoTipoDto>>> Get(Guid id)
+        {
+            ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+            response.Dados = new List<ProdutoTipoDto>();
+
+            try
+            {
+                var entity = await _repository.SelectAsync(id);
+                var dto = _mapper.Map<ProdutoTipoDto>(entity);
+
+                response.ConsultaOk();
+                response.Dados.Add(dto);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
+            }
+        }
+        public async Task<ResponseDto<List<ProdutoTipoDto>>> Get(string descricao)
         {
             throw new NotImplementedException();
         }
-        public async Task<ProdutoTipoDto> Create(ProdutoTipoDtoCreate create)
+        public async Task<ResponseDto<List<ProdutoTipoDto>>> Create(ProdutoTipoDtoCreate create)
         {
+            ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+            response.Dados = new List<ProdutoTipoDto>();
+
             try
             {
-                ProdutoTipoModel model = _mapper.Map<ProdutoTipoModel>(create);
-                ProdutoTipoEntity entity = _mapper.Map<ProdutoTipoEntity>(model);
-                ProdutoTipoEntity result = await _repository.InsertAsync(entity);
+                var model = _mapper.Map<ProdutoTipoModel>(create);
+                var entity = _mapper.Map<ProdutoTipoEntity>(model);
+                var result = await _repository.InsertAsync(entity);
                 if (result != null)
-                    return _mapper.Map<ProdutoTipoDto>(result);
+                {
+
+                    var resultCreate = _mapper.Map<ProdutoTipoDto>(result);
+
+                    response.CadastroOk();
+                    response.Dados.Add(resultCreate);
+                    return response;
+                }
                 else
-                    throw new Exception("ERRO.");
+                {
+                    response.ErroCadastro();
+                    return response;
+                }
             }
             catch (Exception ex)
             {
-
-                throw new Exception(ex.Message);
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<ProdutoTipoDto> Update(ProdutoTipoDtoUpdate update)
+        public async Task<ResponseDto<List<ProdutoTipoDto>>> Update(ProdutoTipoDtoUpdate update)
         {
+            ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+            response.Dados = new List<ProdutoTipoDto>();
+
             try
             {
-                ProdutoTipoModel model = _mapper.Map<ProdutoTipoModel>(update);
-                ProdutoTipoEntity entity = _mapper.Map<ProdutoTipoEntity>(model);
-                ProdutoTipoEntity result = await _repository.UpdateAsync(entity);
+                var model = _mapper.Map<ProdutoTipoModel>(update);
+                var entity = _mapper.Map<ProdutoTipoEntity>(model);
+                var result = await _repository.UpdateAsync(entity);
                 if (result != null)
-                    return _mapper.Map<ProdutoTipoDto>(result);
+                {
+                    var dto = _mapper.Map<ProdutoTipoDto>(result);
+                  
+                    response.AlteracaoOk();
+                    response.Dados.Add(dto);
+                    return response;
+                }
                 else
-                    throw new Exception("ERRO.");
+                {
+                    response.ErroCadastro();
+                    return response;
+                }
             }
             catch (Exception ex)
             {
-
-                throw new Exception(ex.Message);
+                response.Erro(ex.Message);
+                return response;
             }
         }
-        public async Task<bool> Desabilitar(Guid id)
+        public async Task<ResponseDto<List<ProdutoTipoDto>>> Desabilitar(Guid id)
         {
+            ResponseDto<List<ProdutoTipoDto>> response = new ResponseDto<List<ProdutoTipoDto>>();
+            response.Dados = new List<ProdutoTipoDto>();
+
             try
             {
-                return await _repository.DesabilitarHabilitar(id);
+                var result = await _repository.DesabilitarHabilitar(id);
+                if (result)
+                {
+                    response.AlteracaoOk();
+                    return response;
+                }
+                else
+                {
+                    response.ErroUpdate();
+                    return response;
+                }
             }
             catch (Exception ex)
             {
-
-                throw new Exception(ex.Message);
+                response.Erro(ex.Message);
+                return response;
             }
         }
     }
