@@ -90,7 +90,7 @@ namespace CrossCutting.DependencyInjection
            .AddEntityFrameworkStores<IdentityDataContext>()
            .AddDefaultTokenProviders();
 
-            serviceCollection.AddScoped<IIdentityService, IdentityService>();
+            serviceCollection.AddScoped<IIdentityService, UserService>();
             serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
 

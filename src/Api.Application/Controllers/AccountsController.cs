@@ -1,10 +1,12 @@
 using Api.Application.Shared;
+using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Interfaces.Services.Identity;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
 using Domain.UserIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Net;
 
 namespace Api.Application.Controllers
@@ -23,6 +25,27 @@ namespace Api.Application.Controllers
 
         }
 
+        [HttpGet("get-user")]
+        public async Task<ActionResult<ResponseDto<List<User>>>> GetAll()
+        {
+            try
+            {
+                var users = await _identityService.GetAll();
+
+                if (users.Status)
+                    return Ok(users);
+                else
+                    return BadRequest(users);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDto<List<User>>();
+                response.Dados = new List<User>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
 
         [HttpGet("get-user/{id}")]
         public async Task<ActionResult<User>> GetId(Guid id)
@@ -32,6 +55,30 @@ namespace Api.Application.Controllers
                 return BadRequest("Usuário não encontrado");
             return Ok(usuarioDto);
         }
+
+
+        [HttpGet("get-user/{idRole}/id-role")]
+        public async Task<ActionResult<ResponseDto<List<User>>>> GetByIdRole(Guid idRole)
+        {
+            try
+            {
+                var users = await _identityService.GetByIdRole(idRole);
+
+                if (users.Status)
+                    return Ok(users);
+                else
+                    return BadRequest(users);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDto<List<User>>();
+                response.Dados = new List<User>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
+
 
         [AllowAnonymous]
         [HttpPost("cadastrar")]

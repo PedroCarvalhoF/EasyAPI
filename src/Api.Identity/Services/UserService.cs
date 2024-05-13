@@ -1,5 +1,6 @@
 using Api.Domain.Interfaces.Services.Identity;
 using Api.Identity.Configurations;
+using Api.Identity.Constants;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
 using Domain.UserIdentity;
@@ -11,19 +12,67 @@ using System.Security.Claims;
 
 namespace Api.Identity.Services
 {
-    public class IdentityService : IIdentityService
+    public class UserService : IIdentityService
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly JwtOptions _jwtOptions;
 
-        public IdentityService(SignInManager<User> signInManager,
+        public UserService(SignInManager<User> signInManager,
                                UserManager<User> userManager,
                                IOptions<JwtOptions> jwtOptions)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
+        }
+
+        public async Task<User> GetUserById(Guid id)
+        {
+            var user = await _userManager.Users.Include(r => r.UserRoles).ThenInclude(r => r.Role).Where(u => u.Id.Equals(id)).FirstOrDefaultAsync();
+            if (user == null)
+                return new User();
+
+            return user;
+        }
+        public async Task<ResponseDto<List<User>>> GetByIdRole(Guid idRole)
+        {
+            var resposta = new ResponseDto<List<User>>();
+            resposta.Dados = new List<User>();
+
+            try
+            {
+                var users = await _userManager.Users.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).Where(u => u.UserRoles.Any(ur => ur.RoleId == idRole)).ToListAsync();
+                if (users == null)
+                {
+                    resposta.ErroConsulta();
+                    return resposta;
+                }
+
+                resposta.Dados = users;
+                return resposta;
+            }
+            catch (Exception ex)
+            {
+                resposta.Erro(ex.Message);
+                return resposta;
+            }
+        }
+        public async Task<ResponseDto<List<User>>> GetAll()
+        {
+            var resposta = new ResponseDto<List<User>>();
+            resposta.Dados = new List<User>();
+            try
+            {
+                var users = await _userManager.Users.Include(r => r.UserRoles).ThenInclude(r => r.Role).ToArrayAsync();
+                resposta.Dados = users.ToList();
+                return resposta;
+            }
+            catch (Exception ex)
+            {
+                resposta.Erro(ex.Message);
+                return resposta;
+            }
         }
         public async Task<ResponseDto<List<UsuarioCadastroResponse>>> Create(UsuarioCadastroRequest usuarioCadastro)
         {
@@ -108,14 +157,7 @@ namespace Api.Identity.Services
             return resposta;
         }
 
-        public async Task<User> GetUserById(Guid id)
-        {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user == null)
-                return new User();
 
-            return user;
-        }
 
         public async Task<Guid> GetIdIdentityByName(string name)
         {
@@ -188,6 +230,7 @@ namespace Api.Identity.Services
 
             return claims;
         }
+
 
     }
 }
