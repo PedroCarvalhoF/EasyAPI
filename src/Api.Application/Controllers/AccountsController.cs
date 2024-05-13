@@ -1,12 +1,10 @@
 using Api.Application.Shared;
-using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Interfaces.Services.Identity;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
 using Domain.UserIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Net;
 
 namespace Api.Application.Controllers
@@ -16,10 +14,10 @@ namespace Api.Application.Controllers
     //[Authorize]
     public class AccountsController : ControllerBase
     {
-        private readonly IIdentityService _identityService;
+        private readonly IUserService _identityService;
 
 
-        public AccountsController(IIdentityService identityService)
+        public AccountsController(IUserService identityService)
         {
             _identityService = identityService;
 
@@ -46,16 +44,15 @@ namespace Api.Application.Controllers
             }
         }
 
-
         [HttpGet("get-user/{id}")]
-        public async Task<ActionResult<User>> GetId(Guid id)
+        public async Task<ActionResult<ResponseDto<List<User>>>> GetId(Guid id)
         {
             var usuarioDto = await _identityService.GetUserById(id);
-            if (usuarioDto.Id == Guid.Empty)
-                return BadRequest("Usuário não encontrado");
-            return Ok(usuarioDto);
-        }
+            if (usuarioDto.Status)
+                return Ok(usuarioDto);
 
+            return BadRequest(usuarioDto);
+        }
 
         [HttpGet("get-user/{idRole}/id-role")]
         public async Task<ActionResult<ResponseDto<List<User>>>> GetByIdRole(Guid idRole)
@@ -78,8 +75,6 @@ namespace Api.Application.Controllers
             }
         }
 
-
-
         [AllowAnonymous]
         [HttpPost("cadastrar")]
         public async Task<IActionResult> Cadastrar(UsuarioCadastroRequest usuarioCadastro)
@@ -89,7 +84,7 @@ namespace Api.Application.Controllers
 
             var guidExists = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
 
-            if (guidExists != Guid.Empty)
+            if (guidExists.Dados[0] != Guid.Empty)
             {
                 ResponseDto<List<string>> resposta = new ResponseDto<List<string>>();
                 resposta.Dados = new List<string>();
@@ -110,9 +105,6 @@ namespace Api.Application.Controllers
                 resultado.CadastroOk("User cadastrado com sucesso!");
                 return Ok(resultado);
             }
-
-
-
 
             else if (resultado.Dados[0].Erros.Count > 0)
             {
