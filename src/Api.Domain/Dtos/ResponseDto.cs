@@ -1,4 +1,8 @@
-﻿namespace Domain.Dtos
+﻿using Domain.Identity.UserIdentity;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Domain.Dtos
 {
     public class ResponseDto<T>
     {
@@ -97,6 +101,23 @@
         {
             this.Status = false;
             this.Mensagem = $"Erro.Detalhes: {detalhes}";
+        }
+
+        public ResponseDto<T> Retorno(T dados)
+        {
+            this.Dados = dados;
+            this.Status = true;
+            if (dados is IList lista)
+            {
+                this.Mensagem = $"Sucesso- Número de registros: {lista.Count}";
+            }
+            else
+            if (dados is T)
+            {
+                this.Mensagem = $"Sucesso:{1}";
+            }
+
+            return this;
         }
     }
 }

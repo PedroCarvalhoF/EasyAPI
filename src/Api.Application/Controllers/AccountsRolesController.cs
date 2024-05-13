@@ -23,30 +23,20 @@ namespace Api.Application.Controllers
         [HttpGet("roles")]
         public async Task<ActionResult<ResponseDto<List<IdentityRole>>>> GetRoles()
         {
-            ResponseDto<List<Role>> response = new ResponseDto<List<Role>>();
-            response.Dados = new List<Role>();
+
             try
             {
                 var result = await _userRole.GetRoles();
-                if (result == null)
-                {
-                    response.Mensagem = $"Não foi possível consultar funções";
-                    response.Status = false;
-                    return BadRequest(response);
-                }
+                if (result.Status)
+                    return Ok(result);
 
-                
+                return BadRequest(result);
 
-                response.Dados = result.ToList();
-                response.Status = true;
-                response.Mensagem = $"Consulta realizada com sucesso!Localizadas: {response.Dados.Count}";
-
-                return Ok(response);
             }
             catch (Exception ex)
             {
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
+                var response = new ResponseDto<List<Role>>();
+                response.Erro(ex.Message);
                 return BadRequest(response);
             }
         }
@@ -54,60 +44,62 @@ namespace Api.Application.Controllers
         [HttpPost("role/add-role-user")]
         public async Task<ActionResult<ResponseDto<bool>>> AddRole(UserRoleDtoAdd user)
         {
-            ResponseDto<string> response = new ResponseDto<string>();
-            try
-            {
-                var result = await _userRole.AddRole(user.PessoaId, user.RoleId);
+            return Ok();
+            //ResponseDto<string> response = new ResponseDto<string>();
+            //try
+            //{
+            //    var result = await _userRole.AddRole(user.PessoaId, user.RoleId);
 
-                if (result)
-                {
-                    response.Mensagem = $"Função aplicada.";
-                    response.Status = true;
-                    response.Dados = $"Função aplicada com sucesso! Usuário tem a permissão atribuída.";
-                    return Ok(response);
-                }
+            //    if (result)
+            //    {
+            //        response.Mensagem = $"Função aplicada.";
+            //        response.Status = true;
+            //        response.Dados = $"Função aplicada com sucesso! Usuário tem a permissão atribuída.";
+            //        return Ok(response);
+            //    }
 
-                response.Mensagem = $"Não foi possível criar.";
-                response.Status = false;                
-                return BadRequest(response);
-            }
-            catch (Exception ex)
-            {
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}.";
-                response.Status = false;
-                return BadRequest(response);
-            }
+            //    response.Mensagem = $"Não foi possível criar.";
+            //    response.Status = false;
+            //    return BadRequest(response);
+            //}
+            //catch (Exception ex)
+            //{
+            //    response.Mensagem = $"Erro.Detalhes: {ex.Message}.";
+            //    response.Status = false;
+            //    return BadRequest(response);
+            //}
         }
 
         [HttpPost("role/create")]
         public async Task<ActionResult<ResponseDto<string>>> CreateRole(RoleDtoCreate role)
         {
-            ResponseDto<string> response = new ResponseDto<string>();
+            return Ok();
+            //ResponseDto<string> response = new ResponseDto<string>();
 
-            try
-            {
-                bool result = await _userRole.CreateRole(role.RoleName);
-                if (result)
-                {
-                    response.Mensagem = $"Função {role.RoleName.ToLower()} criada com sucesso.";
-                    response.Status = true;
-                    response.Dados = $"Adicionar funções aos usuários.";
-                    return Ok(response);
-                }
+            //try
+            //{
+            //    bool result = await _userRole.CreateRole(role.RoleName);
+            //    if (result)
+            //    {
+            //        response.Mensagem = $"Função {role.RoleName.ToLower()} criada com sucesso.";
+            //        response.Status = true;
+            //        response.Dados = $"Adicionar funções aos usuários.";
+            //        return Ok(response);
+            //    }
 
-                response.Mensagem = $"Não foi possível criar.";
-                response.Status = false;
-                response.Dados = $"Não foi possível criar.";
+            //    response.Mensagem = $"Não foi possível criar.";
+            //    response.Status = false;
+            //    response.Dados = $"Não foi possível criar.";
 
-                return BadRequest(response);
-            }
-            catch (Exception ex)
-            {
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                response.Status = false;
-                response.Dados = $"Erro ao Executar Operacao.";
-                return BadRequest(response);
-            }
+            //    return BadRequest(response);
+            //}
+            //catch (Exception ex)
+            //{
+            //    response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+            //    response.Status = false;
+            //    response.Dados = $"Erro ao Executar Operacao.";
+            //    return BadRequest(response);
+            //}
         }
     }
 }

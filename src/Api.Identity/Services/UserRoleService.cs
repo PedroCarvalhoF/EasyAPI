@@ -1,7 +1,9 @@
-﻿using Domain.Identity.UserIdentity;
+﻿using Domain.Dtos;
+using Domain.Identity.UserIdentity;
 using Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Identity.Services
 {
@@ -17,7 +19,29 @@ namespace Identity.Services
             this._userManager = userManager;
         }
 
-        public async Task<bool> AddRole(Guid pessoaId, Guid roleId)
+        public async Task<ResponseDto<List<Role>>> GetRoles()
+        {
+            ResponseDto<List<Role>> resposta = new ResponseDto<List<Role>>();
+            // resposta.Dados = new List<Role>();
+            try
+            {
+                var roles = await _roleManager.Roles.ToArrayAsync();
+                if (roles == null)
+                {
+                    resposta.ErroConsulta();
+                    return resposta;
+                }
+
+                return resposta.Retorno(roles.ToList());
+            }
+            catch (Exception ex)
+            {
+                resposta.Erro(ex.Message);
+                return resposta;
+
+            }
+        }
+        public async Task<ResponseDto<List<Role>>> AddRole(Guid pessoaId, Guid roleId)
         {
             try
             {
@@ -27,10 +51,12 @@ namespace Identity.Services
 
                 var result = await _userManager.AddToRoleAsync(user, role.Name);
 
-                if (result.Succeeded)
-                    return true;
-                else
-                    throw new Exception(result.Errors.FirstOrDefault().Description);
+                return new ResponseDto<List<Role>>();
+
+                //if (result.Succeeded)
+                //    return true;
+                //else
+                //    throw new Exception(result.Errors.FirstOrDefault().Description);
 
 
             }
@@ -41,7 +67,7 @@ namespace Identity.Services
             }
         }
 
-        public async Task<bool> CreateRole(string role)
+        public async Task<ResponseDto<List<Role>>> CreateRole(string role)
         {
             role = role.ToUpper();
 
@@ -53,21 +79,17 @@ namespace Identity.Services
                 identityRole.ConcurrencyStamp = Guid.NewGuid().ToString();
 
                 IdentityResult roleResult = await _roleManager.CreateAsync(identityRole);
-                if (roleResult.Succeeded)
-                    return true;
-                else
-                    return false;
+                return new ResponseDto<List<Role>>();
+
+                //if (roleResult.Succeeded)
+                //    return true;
+                //else
+                //    return false;
             }
             else
                 throw new Exception("Função ja exíste");
         }
 
-        public async Task<IEnumerable<Role>> GetRoles()
-        {
-            var roles = await _roleManager.Roles.ToArrayAsync();
 
-            return roles;
-
-        }
     }
 }

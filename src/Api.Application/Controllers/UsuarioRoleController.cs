@@ -19,12 +19,13 @@ namespace Api.Controllers
         [HttpPost("CadastrarRole")]
         public async Task<ActionResult<bool>> CadastrarRole(string nameRole)
         {
+            return Ok();
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            //if (!ModelState.IsValid)
+            //    return BadRequest(ModelState);
 
-            bool result = await _userRole.CreateRole(nameRole);
-            return result;
+            //bool result = await _userRole.CreateRole(nameRole);
+            //return result;
         }
 
 
@@ -37,13 +38,15 @@ namespace Api.Controllers
         [HttpPost("AplicarRolesUser")]
         public async Task<ActionResult> AplicarRoleUser(Guid pessoaId, Guid roldId)
         {
-            Boolean resultado = await _userRole.AddRole(pessoaId, roldId);
+
+            return Ok();
+            //Boolean resultado = await _userRole.AddRole(pessoaId, roldId);
 
 
-            if (resultado)
-                return Ok(resultado);
-            else
-                return BadRequest("Não foi possível aplicar função ao usuário.");
+            //if (resultado)
+            //    return Ok(resultado);
+            //else
+            //    return BadRequest("Não foi possível aplicar função ao usuário.");
         }
 
 
