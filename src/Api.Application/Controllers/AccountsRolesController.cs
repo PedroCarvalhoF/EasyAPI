@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.IdentityRole;
+using Domain.Identity.UserIdentity;
 using Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,11 @@ namespace Api.Application.Controllers
 
             _userRole = userRole; _mapper = mapper;
         }
-        [HttpGet("role")]
+        [HttpGet("roles")]
         public async Task<ActionResult<ResponseDto<List<IdentityRole>>>> GetRoles()
         {
-            ResponseDto<List<RoleDto>> response = new ResponseDto<List<RoleDto>>();
-            response.Dados = new List<RoleDto>();
+            ResponseDto<List<Role>> response = new ResponseDto<List<Role>>();
+            response.Dados = new List<Role>();
             try
             {
                 var result = await _userRole.GetRoles();
@@ -34,9 +35,9 @@ namespace Api.Application.Controllers
                     return BadRequest(response);
                 }
 
-                var dto = _mapper.Map<List<RoleDto>>(result.ToList());
+                
 
-                response.Dados = dto;
+                response.Dados = result.ToList();
                 response.Status = true;
                 response.Mensagem = $"Consulta realizada com sucesso!Localizadas: {response.Dados.Count}";
 
@@ -67,9 +68,7 @@ namespace Api.Application.Controllers
                 }
 
                 response.Mensagem = $"Não foi possível criar.";
-                response.Status = false;
-                response.Dados = $"Não foi possível criar.";
-
+                response.Status = false;                
                 return BadRequest(response);
             }
             catch (Exception ex)
