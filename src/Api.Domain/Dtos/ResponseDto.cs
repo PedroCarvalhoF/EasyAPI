@@ -62,10 +62,11 @@ namespace Domain.Dtos
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar operação.";
         }
-        public void Erro(string detalhes)
+        public ResponseDto<T> Erro(string detalhes)
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar operação: {detalhes}";
+            return this;
         }
 
         public void ErroConsulta()
