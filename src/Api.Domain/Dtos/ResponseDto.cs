@@ -1,6 +1,4 @@
-﻿using Domain.Identity.UserIdentity;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace Domain.Dtos
 {
@@ -30,37 +28,37 @@ namespace Domain.Dtos
             this.Status = true;
             this.Mensagem = $"Alteração realizada com sucesso";
         }
-
-
         public void AlteracaoOk(string titulo)
         {
             this.Status = true;
             this.Mensagem = $"{titulo} - Alteração realizada com sucesso";
         }
-
         public void AlteracaoOk(string titulo, string detalhes)
         {
             this.Status = true;
             this.Mensagem = $"{titulo} - {detalhes}";
         }
-
-
         public void ConsultaOk()
         {
             this.Status = true;
             this.Mensagem = $"Consulta realizada com sucesso!";
         }
-
         public void ConsultaOk(int qtd)
         {
             this.Status = true;
             this.Mensagem = $"Consulta realizada com sucesso! Localizado(s) {qtd} registro(s).";
         }
-
         public void Erro()
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar operação.";
+        }
+
+        public ResponseDto<T> Erro(Exception ex)
+        {
+            this.Status = false;
+            this.Mensagem = $"Erro.Detalhes: {ex.Message}";
+            return this;
         }
         public ResponseDto<T> Erro(string detalhes)
         {
@@ -103,7 +101,6 @@ namespace Domain.Dtos
             this.Status = false;
             this.Mensagem = $"Erro.Detalhes: {detalhes}";
         }
-
         public ResponseDto<T> Retorno(T dados)
         {
             this.Dados = dados;
@@ -117,7 +114,6 @@ namespace Domain.Dtos
             {
                 this.Mensagem = $"Sucesso:{1}";
             }
-
             return this;
         }
     }

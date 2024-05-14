@@ -15,6 +15,18 @@ namespace Data.Implementations
             _dtSet.AsNoTracking();
 
         }
+
+        private IQueryable<PrecoProdutoEntity> Includes(IQueryable<PrecoProdutoEntity> query)
+        {
+            query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
+
+            query = query.Include(prod => prod.ProdutoEntity)
+                         .Include(cat => cat.ProdutoEntity.CategoriaProdutoEntity)
+                         .Include(pm => pm.ProdutoEntity.ProdutoMedidaEntity)
+                         .Include(pt => pt.ProdutoEntity.ProdutoTipoEntity);
+
+            return query;
+        }
         public async Task<IEnumerable<PrecoProdutoEntity>> GetAll()
         {
             try
@@ -25,10 +37,9 @@ namespace Data.Implementations
 
                 return await query.ToArrayAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         public async Task<PrecoProdutoEntity> Get(Guid id)
@@ -43,10 +54,9 @@ namespace Data.Implementations
 
                 return await query.SingleAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         public async Task<IEnumerable<PrecoProdutoEntity>> GetProdutoId(Guid id)
@@ -61,10 +71,9 @@ namespace Data.Implementations
 
                 return await query.ToArrayAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
         }
         public async Task<IEnumerable<PrecoProdutoEntity>> GetCategoriaPrecoId(Guid id)
@@ -79,14 +88,11 @@ namespace Data.Implementations
 
                 return await query.ToArrayAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
         }
-
-
         public async Task<PrecoProdutoEntity> PrecoExists(Guid produtoEntityId, Guid categoriaPrecoEntityId)
         {
             try
@@ -98,24 +104,10 @@ namespace Data.Implementations
                 PrecoProdutoEntity? result = await query.FirstOrDefaultAsync();
                 return result;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
         }
-        private IQueryable<PrecoProdutoEntity> Includes(IQueryable<PrecoProdutoEntity> query)
-        {
-            query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
-
-            query = query.Include(prod => prod.ProdutoEntity)
-                         .Include(cat => cat.ProdutoEntity.CategoriaProdutoEntity)
-                         .Include(pm => pm.ProdutoEntity.ProdutoMedidaEntity)
-                         .Include(pt => pt.ProdutoEntity.ProdutoTipoEntity);
-
-            return query;
-        }
-
-
     }
 }

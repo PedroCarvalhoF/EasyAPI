@@ -23,27 +23,21 @@ namespace Api.Service.Services.PrecoProduto
         }
         public async Task<ResponseDto<List<PrecoProdutoDto>>> GetAll()
         {
-            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
-            response.Dados = new List<PrecoProdutoDto>();
-
+            var response = new ResponseDto<List<PrecoProdutoDto>>();
             try
             {
                 var entities = await _implementacao.GetAll();
                 var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
-
-                response.Dados = dtos;
-                response.ConsultaOk();
-                return response;
+                return response.Retorno(dtos);
             }
             catch (Exception ex)
             {
-                response.Erro(ex.Message);
-                return response;
+                return response.Erro(ex.Message);
             }
         }
         public async Task<ResponseDto<List<PrecoProdutoDto>>> Get(Guid id)
         {
-            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            var response = new ResponseDto<List<PrecoProdutoDto>>();
             response.Dados = new List<PrecoProdutoDto>();
 
             try
@@ -62,9 +56,9 @@ namespace Api.Service.Services.PrecoProduto
             }
         }
 
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetProdutoId(Guid id)
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetIdProduto(Guid id)
         {
-            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            var response = new ResponseDto<List<PrecoProdutoDto>>();
             response.Dados = new List<PrecoProdutoDto>();
 
             try
@@ -82,9 +76,9 @@ namespace Api.Service.Services.PrecoProduto
                 return response;
             }
         }
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetCategoriaPrecoId(Guid id)
+        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetIdCategoriaPreco(Guid id)
         {
-            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            var response = new ResponseDto<List<PrecoProdutoDto>>();
             response.Dados = new List<PrecoProdutoDto>();
 
             try
@@ -117,7 +111,7 @@ namespace Api.Service.Services.PrecoProduto
                 if (precoExists is null)
                 {
                     //cadastrar                    
-                     var result = await _repository.InsertAsync(entidade);
+                    var result = await _repository.InsertAsync(entidade);
                     return await Get(result.Id);
                 }
                 else

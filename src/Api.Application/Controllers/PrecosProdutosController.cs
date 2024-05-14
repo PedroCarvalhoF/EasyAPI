@@ -33,11 +33,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
-                response.Dados = new List<PrecoProdutoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<PrecoProdutoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -55,11 +52,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
-                response.Dados = new List<PrecoProdutoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<PrecoProdutoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -68,7 +62,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetProdutoId(id);
+                var result = await _service.GetIdProduto(id);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -77,11 +71,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
-                response.Dados = new List<PrecoProdutoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<PrecoProdutoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -90,7 +81,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetCategoriaPrecoId(id);
+                var result = await _service.GetIdCategoriaPreco(id);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -99,15 +90,10 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
-                response.Dados = new List<PrecoProdutoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<PrecoProdutoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
-
-
 
         [HttpPost("CreateUpdate/precos-produtos")]
         public async Task<ActionResult<PrecoProdutoDto>> CreateUpdate(PrecoProdutoDtoCreate create)
@@ -129,11 +115,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
-                response.Dados = new List<PrecoProdutoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<PrecoProdutoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
     }
