@@ -99,7 +99,7 @@ namespace Api.Service.Services.PrecoProduto
 
         public async Task<ResponseDto<List<PrecoProdutoDto>>> CreateUpdate(PrecoProdutoDtoCreate createUpdate)
         {
-            ResponseDto<List<PrecoProdutoDto>> response = new ResponseDto<List<PrecoProdutoDto>>();
+            var response = new ResponseDto<List<PrecoProdutoDto>>();
             response.Dados = new List<PrecoProdutoDto>();
 
             try
@@ -112,7 +112,13 @@ namespace Api.Service.Services.PrecoProduto
                 {
                     //cadastrar                    
                     var result = await _repository.InsertAsync(entidade);
-                    return await Get(result.Id);
+                    var responseCreateResult = await Get(result.Id);
+                    if (responseCreateResult.Status)
+                    {
+                        responseCreateResult.Mensagem = "Preço cadastrado com sucesso!";
+                    }
+
+                    return responseCreateResult;
                 }
                 else
                 {
@@ -120,7 +126,13 @@ namespace Api.Service.Services.PrecoProduto
                     entidade.Id = precoExists.Id;
                     entidade.Habilitado = true;
                     var result = await _repository.UpdateAsync(entidade);
-                    return await Get(result.Id);
+                    var responseUpdateResult = await Get(result.Id);
+                    if (responseUpdateResult.Status)
+                    {
+                        responseUpdateResult.Mensagem = "Preço alterado com sucesso!";
+                    }
+
+                    return responseUpdateResult;
                 }
             }
             catch (Exception ex)

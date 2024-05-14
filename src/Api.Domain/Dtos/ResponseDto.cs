@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Api.Domain.Dtos.CategoriaPrecoDtos;
+using System.Collections;
 
 namespace Domain.Dtos
 {
@@ -114,6 +115,13 @@ namespace Domain.Dtos
             {
                 this.Mensagem = $"Sucesso:{1}";
             }
+            return this;
+        }
+
+        public ResponseDto<T> EntitiesNull()
+        {
+            this.Status = false;
+            this.Mensagem = "Não encontrado.";
             return this;
         }
     }

@@ -1,8 +1,6 @@
 using Api.Domain.Dtos.CategoriaPrecoDtos;
-using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Interfaces.Services.CategoriaPreco;
 using Domain.Dtos;
-using Domain.ExceptionsPersonalizadas;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
@@ -11,10 +9,10 @@ namespace Api.Application.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize]
-    public class ProdutosCategoriasPrecosController : ControllerBase
+    public class PrecosProdutosCategoriasController : ControllerBase
     {
         private readonly ICategoriaPrecoService _service;
-        public ProdutosCategoriasPrecosController(ICategoriaPrecoService categoriaPrecoService)
+        public PrecosProdutosCategoriasController(ICategoriaPrecoService categoriaPrecoService)
         {
             _service = categoriaPrecoService;
         }
@@ -33,11 +31,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-                response.Dados = new List<CategoriaPrecoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaPrecoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -55,11 +50,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-                response.Dados = new List<CategoriaPrecoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaPrecoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -82,11 +74,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-                response.Dados = new List<CategoriaPrecoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaPrecoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -107,11 +96,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-                response.Dados = new List<CategoriaPrecoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaPrecoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
 
@@ -129,11 +115,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-                response.Dados = new List<CategoriaPrecoDto>();
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaPrecoDto>>();
+                return BadRequest(response.Erro(ex));
             }
         }
     }

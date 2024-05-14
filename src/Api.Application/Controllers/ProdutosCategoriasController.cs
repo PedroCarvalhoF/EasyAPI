@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
 {
-
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize]
@@ -32,9 +31,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Erro(ex.Message);
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
             }
         }
         [HttpGet("categorias/{id}/id")]
@@ -51,9 +49,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Erro(ex.Message);
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
             }
         }
         [HttpGet("categorias/{categoria}/categoria")]
@@ -70,9 +67,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Erro(ex.Message);
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
             }
         }
 
@@ -90,9 +86,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Erro(ex.Message);
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
             }
 
         }
@@ -111,9 +106,8 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Erro(ex.Message);
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
             }
         }
         [HttpPut("categorias/{id}/desabilitar")]
@@ -130,11 +124,9 @@ namespace Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
-                response.Erro(ex.Message);
-                return BadRequest(response);
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
             }
         }
-
     }
 }

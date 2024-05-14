@@ -101,7 +101,8 @@ namespace Data.Implementations
 
                 query = query.Where(preco => preco.ProdutoEntity.Id.Equals(produtoEntityId) && preco.CategoriaPrecoEntity.Id.Equals(categoriaPrecoEntityId));
 
-                PrecoProdutoEntity? result = await query.FirstOrDefaultAsync();
+                var result = await query.FirstOrDefaultAsync();
+
                 return result;
             }
             catch (Exception ex)
