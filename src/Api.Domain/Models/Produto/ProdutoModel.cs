@@ -15,6 +15,11 @@
         public Guid? ProdutoTipoEntityId { get; set; }
         public string? ImgUrl { get; set; }
 
+        public void Desabilitar()
+        {
+            this.Habilitado = false;
+            this.Observacoes = $"Produto desabilitado em: {DateTime.Now}";
+        }
 
         public void Update()
         {

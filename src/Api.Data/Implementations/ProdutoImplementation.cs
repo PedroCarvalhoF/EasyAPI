@@ -46,7 +46,7 @@ namespace Api.Data.Implementations
 
                 query = QueryIncludes(query);
 
-                ProdutoEntity? entity = await query.FirstOrDefaultAsync();
+                var entity = await query.FirstOrDefaultAsync();
 
                 return entity;
 

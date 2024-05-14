@@ -170,12 +170,17 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPut("produtos/{habilitado}/habilitado")]
-        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetHabilitadoNaoHabilitado(bool habilitado)
+        [HttpPost("cadastrar-produto")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Post([FromBody] ProdutoDtoCreate create)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
-                var result = await _service.GetHabilitadoNaoHabilitado(habilitado);
+                var result = await _service.Cadastrar(create);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -190,18 +195,12 @@ namespace Api.Controllers
                 return BadRequest(response);
             }
         }
-
-        [HttpPost("cadastrar-produto")]
-        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Post([FromBody] ProdutoDtoCreate create)
+        [HttpPut("produtos/{habilitado}/habilitado")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetHabilitadoNaoHabilitado(bool habilitado)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var result = await _service.Cadastrar(create);
+                var result = await _service.GetHabilitadoNaoHabilitado(habilitado);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -228,6 +227,27 @@ namespace Api.Controllers
             try
             {
                 var result = await _service.Alterar(update);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("produtos/{id}/desabilitar")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Desabilitar(Guid id)
+        {
+            try
+            {
+                var result = await _service.Desabilitar(id);
 
                 if (!result.Status)
                     return BadRequest(result);

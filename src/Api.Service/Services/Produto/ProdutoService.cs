@@ -50,10 +50,10 @@ namespace Service.Services.Produto
             try
             {
                 var entities = await _implementacao.Get(id);
-                var dtos = _mapper.Map<List<ProdutoDto>>(entities);
+                var dto = _mapper.Map<ProdutoDto>(entities);
 
                 response.ConsultaOk();
-                response.Dados = dtos;
+                response.Dados.Add(dto);
                 return response;
             }
             catch (Exception ex)
@@ -240,5 +240,55 @@ namespace Service.Services.Produto
             }
         }
 
+        public async Task<ResponseDto<List<ProdutoDto>>> Desabilitar(Guid id)
+        {
+            var response = new ResponseDto<List<ProdutoDto>>();
+            response.Dados = new List<ProdutoDto>();
+
+            try
+            {
+                var entity = await _repository.SelectAsync(id);
+
+                if (entity == null)
+                {
+                    response.Erro("Produto não localizado");
+                    return response;
+                }
+
+                if (!entity.Habilitado)
+                {
+                    response.Erro("Produto já está desabilitado");
+                    return response;
+                }
+
+                var model = _mapper.Map<ProdutoModel>(entity);
+                model.Desabilitar();
+                entity = _mapper.Map<ProdutoEntity>(model);
+
+                var resultUpdate = await _repository.UpdateAsync(entity);
+
+                if (resultUpdate == null)
+                {
+                    response.Erro("Não foi possível realizar alteração");
+                    return response;
+                }
+
+                var confirmaUpdate = await Get(resultUpdate.Id);
+                if (confirmaUpdate.Status)
+                    if (confirmaUpdate!.Dados!.FirstOrDefault()!.Habilitado == false)
+                    {
+                        confirmaUpdate.Mensagem = "Produto desabilitado";
+                        return confirmaUpdate;
+                    }
+
+                response.Erro("Não foi possível realizar alteração");
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Erro(ex.Message);
+                return response;
+            }
+        }
     }
 }
