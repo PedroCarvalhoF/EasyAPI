@@ -7,6 +7,7 @@ namespace Api.Domain.Entities.PontoVenda
 {
     public class PontoVendaEntity : BaseEntity
     {
+        //save commit
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Perfil Abertura")]
         public Guid UserPdvCreateId { get; set; }
