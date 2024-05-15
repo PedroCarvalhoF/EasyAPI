@@ -21,5 +21,6 @@ namespace Domain.UserIdentity
 
         [Compare(nameof(Senha), ErrorMessage = "As senhas devem ser iguais")]
         public string? SenhaConfirmacao { get; set; }
+
     }
 }

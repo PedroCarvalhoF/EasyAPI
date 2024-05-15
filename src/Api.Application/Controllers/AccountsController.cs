@@ -77,42 +77,17 @@ namespace Api.Application.Controllers
 
         [AllowAnonymous]
         [HttpPost("cadastrar")]
-        public async Task<IActionResult> Cadastrar(UsuarioCadastroRequest usuarioCadastro)
+        public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> Cadastrar(UsuarioCadastroRequest usuarioCadastro)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var guidExists = await _identityService.GetIdIdentityByName(usuarioCadastro.Email);
-
-            if (guidExists.Dados[0] != Guid.Empty)
-            {
-                ResponseDto<List<string>> resposta = new ResponseDto<List<string>>();
-                resposta.Dados = new List<string>();
-                resposta.Status = false;
-                resposta.Mensagem = "Atenção usuário ja existe";
-                return BadRequest(resposta);
-            }
-
-
             var resultado = await _identityService.Create(usuarioCadastro);
-            if (!resultado.Status)
-            {
-                return BadRequest(resultado);
-            }
-
             if (resultado.Status)
-            {
-                resultado.CadastroOk("User cadastrado com sucesso!");
                 return Ok(resultado);
-            }
 
-            else if (resultado.Dados[0].Erros.Count > 0)
-            {
-                CustomProblemDetails problemDetails = new CustomProblemDetails(HttpStatusCode.BadRequest, Request, errors: resultado.Dados[0].Erros);
-                return BadRequest(problemDetails);
-            }
 
-            return StatusCode(StatusCodes.Status500InternalServerError);
+            return BadRequest(resultado);
         }
 
         [AllowAnonymous]

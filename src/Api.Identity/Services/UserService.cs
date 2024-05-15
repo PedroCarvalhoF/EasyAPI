@@ -180,38 +180,50 @@ namespace Api.Identity.Services
         public async Task<ResponseDto<List<UsuarioCadastroResponse>>> Create(UsuarioCadastroRequest usuarioCadastro)
         {
             var resposta = new ResponseDto<List<UsuarioCadastroResponse>>();
-            resposta.Dados = new List<UsuarioCadastroResponse>();
-            User identityUser = new User
+            try
             {
-                Nome = usuarioCadastro.Nome,
-                SobreNome = usuarioCadastro.SobreNome,
-                UserName = usuarioCadastro.Email,
-                Email = usuarioCadastro.Email,
-                EmailConfirmed = true,
-                ImagemURL = string.Empty
-            };
+                var exists = await _userManager.Users.FirstOrDefaultAsync(u => u.Email.Equals(usuarioCadastro.Email));
 
-            var result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
-            if (result.Succeeded)
-            {
-                await _userManager.SetLockoutEnabledAsync(identityUser, false);
+                if (exists != null)
+                {
+                    return resposta.Erro("Usuário já cadastrado");
+                }
 
-                resposta.Status = true;
-                resposta.Mensagem = $"Usuário Idendity Cadastrado com sucesso.";
+                User identityUser = new User
+                {
+                    Nome = usuarioCadastro.Nome,
+                    SobreNome = usuarioCadastro.SobreNome,
+                    UserName = usuarioCadastro.Email,
+                    Email = usuarioCadastro.Email,
+                    EmailConfirmed = true,
+                    ImagemURL = string.Empty
+                };
+
+                var result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
+
+                if (result.Succeeded)
+                {
+                    var userCreate = await _userManager.SetLockoutEnabledAsync(identityUser, false);
+
+                    resposta.CadastroOk();
+                    return resposta;
+                }
+
+                var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
+                if (!result.Succeeded && result.Errors.Count() > 0)
+                    usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
+
+                resposta.Dados.Add(usuarioCadastroResponse);
+                resposta.Status = false;
+                resposta.Mensagem = $"{usuarioCadastroResponse.Erros.FirstOrDefault()}";
+
                 return resposta;
+
             }
-
-
-            var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
-            if (!result.Succeeded && result.Errors.Count() > 0)
-                usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
-
-            resposta.Dados.Add(usuarioCadastroResponse);
-            resposta.Status = false;
-            resposta.Mensagem = $"{usuarioCadastroResponse.Erros.FirstOrDefault()}";
-
-
-            return resposta;
+            catch (Exception ex)
+            {
+                return resposta.Erro(ex);
+            }
         }
         public async Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
