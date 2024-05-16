@@ -1,5 +1,4 @@
-﻿using Api.Domain.Dtos.CategoriaPrecoDtos;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Domain.Dtos
 {
@@ -9,10 +8,11 @@ namespace Domain.Dtos
         public string Mensagem { get; set; } = string.Empty;
         public T? Dados { get; set; }
 
-        public void CadastroOk()
+        public ResponseDto<T> CadastroOk()
         {
             this.Status = true;
             this.Mensagem = $"Cadastro efetuado com sucesso";
+            return this;
         }
         public void CadastroOk(string titulo)
         {
@@ -39,10 +39,11 @@ namespace Domain.Dtos
             this.Status = true;
             this.Mensagem = $"{titulo} - {detalhes}";
         }
-        public void ConsultaOk()
+        public ResponseDto<T> ConsultaOk()
         {
             this.Status = true;
             this.Mensagem = $"Consulta realizada com sucesso!";
+            return this;
         }
         public void ConsultaOk(int qtd)
         {
@@ -85,10 +86,11 @@ namespace Domain.Dtos
             this.Mensagem = $"{titulo}: {detalhe}";
         }
 
-        public void ErroCadastro()
+        public ResponseDto<T> ErroCadastro()
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar cadastro.";
+            return this;
         }
 
         public void ErroUpdate()
@@ -121,7 +123,7 @@ namespace Domain.Dtos
         public ResponseDto<T> EntitiesNull()
         {
             this.Status = false;
-            this.Mensagem = "Não encontrado.";
+            this.Mensagem = "Nenhum registro encontrado.";
             return this;
         }
     }

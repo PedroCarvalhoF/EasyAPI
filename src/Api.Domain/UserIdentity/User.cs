@@ -1,5 +1,6 @@
 ﻿using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.ItensPedido;
+using Domain.Entities.PontoVendaUser;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -16,5 +17,8 @@ namespace Domain.Identity.UserIdentity
 
         public IEnumerable<PontoVendaEntity>? UserPontoVendaCreate { get; set; }
         public IEnumerable<PontoVendaEntity>? UserPontoVendaUsing { get; set; }
+
+        //
+        public UsuarioPontoVendaEntity? UsuarioPontoVendaEntity { get; set; }
     }
 }

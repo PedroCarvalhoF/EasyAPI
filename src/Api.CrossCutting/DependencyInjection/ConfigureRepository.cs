@@ -27,6 +27,7 @@ using Data.Implementations.Pessoas.PessoaImplentetacoes;
 using Data.Implementations.Pessoas.PessoasTipoImplementacao;
 using Data.Implementations.PontoVenda;
 using Data.Implementations.PontoVendaPeriodo;
+using Data.Implementations.PontoVendaUser;
 using Data.Implementations.Produto;
 using Domain.Identity.UserIdentity;
 using Domain.Interfaces;
@@ -38,6 +39,7 @@ using Domain.Interfaces.Repository.PedidoSituacao;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Repository.PessoaRepositorys.PessoaTipo;
 using Domain.Interfaces.Repository.PontoVenda;
+using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Interfaces.Services.ItemPedido;
@@ -45,6 +47,7 @@ using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Interfaces.Services.PedidoSituacao;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
+using Domain.Interfaces.Services.PontoVendaUser;
 using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
 using Identity.Interfaces;
@@ -59,6 +62,7 @@ using Service.Services.PagamentoPedidoServices;
 using Service.Services.PedidoSituacao;
 using Service.Services.PeriodoPontoVenda;
 using Service.Services.Pessoas.Pessoa;
+using Service.Services.PontoVendaUser;
 using Service.Services.Produto;
 using Service.Services.ProdutoMedidaService;
 using Service.Services.ProdutoTipoService;
@@ -109,8 +113,8 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
             serviceCollection.AddScoped<ISituacaoPedidoRepository, SituacaoPedidoImplementacao>();
             serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
+            serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
 
-         
 
 
             serviceCollection.AddTransient<IPontoVendaService, PontoVendaService>();
@@ -126,7 +130,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddTransient<IProdutoTipoServices, ProdutoTipoServices>();
             serviceCollection.AddTransient<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
             serviceCollection.AddTransient<ISituacaoPedidoService, SituacaoPedidoService>();
-
+            serviceCollection.AddTransient<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
 
 
             serviceCollection.AddTransient<IUserRole, UserRoleServices>();

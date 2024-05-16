@@ -23,7 +23,6 @@ namespace Api.Application.Controllers
         [HttpGet("roles")]
         public async Task<ActionResult<ResponseDto<List<IdentityRole>>>> GetRoles()
         {
-
             try
             {
                 var result = await _userRole.GetRoles();

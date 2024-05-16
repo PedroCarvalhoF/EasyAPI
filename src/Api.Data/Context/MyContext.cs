@@ -10,12 +10,14 @@ using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
 using Data.Mapping.PontoVena;
+using Data.Mapping.PontoVendaUser;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
 using Domain.Entities.PontoVendaPeriodoVenda;
+using Domain.Entities.PontoVendaUser;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
 using Domain.Identity.UserIdentity;
@@ -25,11 +27,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data.Context
 {
-    public class MyContext : IdentityDbContext<User, Role, Guid,
-                                                       IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>,
-                                                       IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
+    public class MyContext : IdentityDbContext<User,
+                                               Role,
+                                               Guid,
+                                               IdentityUserClaim<Guid>,
+                                               UserRole,
+                                               IdentityUserLogin<Guid>,
+                                               IdentityRoleClaim<Guid>,
+                                               IdentityUserToken<Guid>>
     {
-        //revisados
         public DbSet<CategoriaProdutoEntity>? CategoriasProdutos { get; set; }
         public DbSet<ProdutoTipoEntity>? TiposProdutos { get; set; }
         public DbSet<ProdutoMedidaEntity>? ProdutosMedidas { get; set; }
@@ -37,14 +43,13 @@ namespace Api.Data.Context
         public DbSet<PeriodoPontoVendaEntity>? PeriodosPontosVendas { get; set; }
         public DbSet<CategoriaPrecoEntity>? CategoriasPrecos { get; set; }
         public DbSet<CategoriaPrecoEntity>? PrecosProdutos { get; set; }
-        public DbSet<PontoVendaEntity> PontosVendas { get; set; }
-        public DbSet<FormaPagamentoEntity> FormasPagamentos { get; set; }
-        public DbSet<SituacaoPedidoEntity> SituacoesPedidos { get; set; }
-        public DbSet<PedidoEntity> Pedidos { get; set; }
-
-        public DbSet<PagamentoPedidoEntity> PagamentosPedidos { get; set; }
-
-        public DbSet<ItemPedidoEntity> ItensPedidos { get; set; }
+        public DbSet<PontoVendaEntity>? PontosVendas { get; set; }
+        public DbSet<FormaPagamentoEntity>? FormasPagamentos { get; set; }
+        public DbSet<SituacaoPedidoEntity>? SituacoesPedidos { get; set; }
+        public DbSet<PedidoEntity>? Pedidos { get; set; }
+        public DbSet<PagamentoPedidoEntity>? PagamentosPedidos { get; set; }
+        public DbSet<ItemPedidoEntity>? ItensPedidos { get; set; }
+        public DbSet<UsuarioPontoVendaEntity>? UsuariosPontoVendas { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -68,11 +73,6 @@ namespace Api.Data.Context
                     .IsRequired();
             });
 
-
-         
-
-
-
             modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
             modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
             modelBuilder.Entity<ProdutoMedidaEntity>(new ProdutoMedidaMap().Configure);
@@ -80,13 +80,12 @@ namespace Api.Data.Context
             modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
             modelBuilder.Entity<CategoriaPrecoEntity>(new CategoriaPrecoMap().Configure);
             modelBuilder.Entity<PrecoProdutoEntity>(new PrecoProdutoMap().Configure);
-
             modelBuilder.Entity<PontoVendaEntity>(new PontoVendaMap().Configure);
             modelBuilder.Entity<FormaPagamentoEntity>(new FormaPagamentoMap().Configure);
             modelBuilder.Entity<SituacaoPedidoEntity>(new SituacaoPedidoMap().Configure);
             modelBuilder.Entity<PedidoEntity>(new PedidoMap().Configure);
             modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
+            modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
         }
-
     }
 }

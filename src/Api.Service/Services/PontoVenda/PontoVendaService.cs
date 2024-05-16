@@ -38,7 +38,7 @@ namespace Api.Service.Services.PontoVendaService
                     return resposta;
                 }
 
-                List<PontoVendaDto> dtos = _mapper.Map<List<PontoVendaDto>>(entities);
+                var dtos = _mapper.Map<List<PontoVendaDto>>(entities);
                 resposta.Dados = dtos;
                 resposta.Mensagem = $"PDVs Localizados: {dtos.Count} ";
                 return resposta;
@@ -52,7 +52,7 @@ namespace Api.Service.Services.PontoVendaService
         }
         public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId)
         {
-            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            var resposta = new ResponseDto<List<PontoVendaDto>>();
             resposta.Dados = new List<PontoVendaDto>();
             try
             {
