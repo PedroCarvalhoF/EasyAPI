@@ -2,7 +2,7 @@
 
 namespace Domain.Models.FormaPagamentoModels
 {
-    public class FormaPagamentoModel : ModelBase
+    public class FormaPagamentoModel : BaseModel
     {
         private string? _descricaoFormaPg;
 

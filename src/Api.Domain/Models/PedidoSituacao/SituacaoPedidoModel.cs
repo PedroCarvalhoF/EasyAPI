@@ -2,7 +2,7 @@
 
 namespace Domain.Models.PedidoSituacao
 {
-    public class SituacaoPedidoModel : ModelBase
+    public class SituacaoPedidoModel : BaseModel
     {
         public string? DescricaoSituacao { get; set; }
     }

@@ -1,6 +1,6 @@
 namespace Api.Domain.Models.CategoriaPreco
 {
-    public class CategoriaPrecoModel : ModelBase
+    public class CategoriaPrecoModel : BaseModel
     {
         private string? _descricaoCategoria;
 

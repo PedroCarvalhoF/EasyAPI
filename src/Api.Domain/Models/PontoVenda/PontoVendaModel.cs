@@ -2,7 +2,7 @@ using Api.Domain.Models.PedidoModels;
 
 namespace Api.Domain.Models.PontoVendaModels
 {
-    public class PontoVendaModel : ModelBase
+    public class PontoVendaModel : BaseModel
     {
         public Guid UserPdvCreateId { get; set; }
         public Guid UserPdvUsingId { get; set; }

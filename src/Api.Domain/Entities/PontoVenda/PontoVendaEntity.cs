@@ -6,8 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Api.Domain.Entities.PontoVenda
 {
     public class PontoVendaEntity : BaseEntity
-    {
-        //save commit
+    {        
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Perfil Abertura")]
         public Guid UserPdvCreateId { get; set; }
@@ -21,7 +20,6 @@ namespace Api.Domain.Entities.PontoVenda
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Periodo do PDV")]
         public Guid PeriodoPontoVendaEntityId { get; set; }
-        [Required]
         public PeriodoPontoVendaEntity? PeriodoPontoVendaEntity { get; set; }
 
 

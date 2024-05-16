@@ -2,7 +2,7 @@
 
 namespace Domain.Models.PontoVendaUser
 {
-    public class UsuarioPontoVendaModel : ModelBase
+    public class UsuarioPontoVendaModel : BaseModel
     {
         public Guid UserId { get; set; }
     }

@@ -2,7 +2,7 @@
 
 namespace Domain.Models.ItemPedidoModels
 {
-    public class ItemPedidoModel : ModelBase
+    public class ItemPedidoModel : BaseModel
     {
         public ItemPedidoModel(Guid produtoEntityId, decimal quatidade, decimal preco, decimal desconto, string? observacaoItem, Guid userId, Guid pedidoEntityId)
         {

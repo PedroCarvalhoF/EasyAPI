@@ -1,6 +1,6 @@
 namespace Api.Domain.Models.PedidoModels
 {
-    public class PedidoModel : ModelBase
+    public class PedidoModel : BaseModel
     {
         public Guid SituacaoPedidoEntityId { get; set; }
         public Guid? PontoVendaEntityId { get; set; }

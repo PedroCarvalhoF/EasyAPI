@@ -99,6 +99,14 @@ namespace Service.Services.PontoVendaUser
 
             try
             {
+                var existsUser = await GetByIdUser(userCreate.UserId);
+                if (existsUser.Status)
+                {
+                    existsUser.Mensagem = "Usuário já está registrado para vendas.";
+                    existsUser.Status = false;
+                    return existsUser;
+                }
+
                 var model = _mapper.Map<UsuarioPontoVendaModel>(userCreate);
                 var entity = _mapper.Map<UsuarioPontoVendaEntity>(model);
 

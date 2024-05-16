@@ -1,6 +1,6 @@
 namespace Api.Domain.Models
 {
-    public abstract class ModelBase
+    public abstract class BaseModel
     {
         public Guid Id { get; set; }
         public DateTime CreateAt { get; set; }

@@ -2,14 +2,30 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.Mapping
+namespace Data.Mapping.PontoVendaPeriodo
 {
     public class PeriodoPontoVendaMap : IEntityTypeConfiguration<PeriodoPontoVendaEntity>
     {
         public void Configure(EntityTypeBuilder<PeriodoPontoVendaEntity> builder)
-        {
+        { 
+            //tabela
             builder.ToTable("PeriodosPontosVendas");
-            builder.HasKey(tipo => tipo.Id);
+           
+            //chave primaria
+            builder.HasKey(pr => pr.Id);
+
+            //CreateAt
+            builder.Property(pr => pr.CreateAt)
+                .IsRequired()
+                .HasColumnType("datetime");
+
+            //UpdateAt
+            builder.Property(pr => pr.UpdateAt)
+               .HasColumnType("datetime");
+
+            // Habilitado
+            builder.Property(pr => pr.Habilitado)
+                .IsRequired();
 
             builder.HasIndex(tipo => tipo.DescricaoPeriodo)
                    .IsUnique();
