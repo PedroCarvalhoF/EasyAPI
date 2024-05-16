@@ -1,7 +1,7 @@
 ﻿using Api.Domain.Dtos;
 using Api.Domain.Dtos.PedidoDtos;
+using Domain.Dtos.PontoVendaUser;
 using Domain.Dtos.ProdutoDtos;
-using Domain.Identity.UserIdentity;
 
 
 namespace Domain.Dtos.ItemPedido
@@ -15,7 +15,7 @@ namespace Domain.Dtos.ItemPedido
         public decimal Desconto { get; set; }
         public decimal Total { get; set; }
         public string? ObservacaoItem { get; set; }
-        public User? User { get; set; }
+        public UsuarioPontoVendaDto? User { get; set; }
         public PedidoDto? PedidoEntity { get; set; }
     }
 }

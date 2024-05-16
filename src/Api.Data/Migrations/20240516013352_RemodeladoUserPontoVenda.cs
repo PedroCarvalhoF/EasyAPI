@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Inicial : Migration
+    public partial class RemodeladoUserPontoVenda : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -316,37 +316,22 @@ namespace Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "PontosVendas",
+                name: "UsuariosPontoVendas",
                 columns: table => new
                 {
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserPdvCreateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserPdvUsingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    PeriodoPontoVendaEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    AbertoFechado = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    CreateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    UpdateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
                     Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PontosVendas", x => x.Id);
+                    table.PrimaryKey("PK_UsuariosPontoVendas", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_PontosVendas_AspNetUsers_UserPdvCreateId",
-                        column: x => x.UserPdvCreateId,
+                        name: "FK_UsuariosPontoVendas_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PontosVendas_AspNetUsers_UserPdvUsingId",
-                        column: x => x.UserPdvUsingId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PontosVendas_PeriodosPontosVendas_PeriodoPontoVendaEntityId",
-                        column: x => x.PeriodoPontoVendaEntityId,
-                        principalTable: "PeriodosPontosVendas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -396,51 +381,39 @@ namespace Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Pedidos",
+                name: "PontosVendas",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    NumeroPedido = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    ValorDesconto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    ValorPedido = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Observacoes = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    SituacaoPedidoEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    PontoVendaEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CategoriaPrecoEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UserRegistroId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    UserPdvCreateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserPdvUsingId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PeriodoPontoVendaEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    AbertoFechado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    UpdateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pedidos", x => x.Id);
+                    table.PrimaryKey("PK_PontosVendas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pedidos_AspNetUsers_UserRegistroId",
-                        column: x => x.UserRegistroId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pedidos_CategoriasPrecos_CategoriaPrecoEntityId",
-                        column: x => x.CategoriaPrecoEntityId,
-                        principalTable: "CategoriasPrecos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pedidos_PontosVendas_PontoVendaEntityId",
-                        column: x => x.PontoVendaEntityId,
-                        principalTable: "PontosVendas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Pedidos_SituacoesPedidos_SituacaoPedidoEntityId",
-                        column: x => x.SituacaoPedidoEntityId,
-                        principalTable: "SituacoesPedidos",
+                        name: "FK_PontosVendas_PeriodosPontosVendas_PeriodoPontoVendaEntityId",
+                        column: x => x.PeriodoPontoVendaEntityId,
+                        principalTable: "PeriodosPontosVendas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PontosVendas_UsuariosPontoVendas_UserPdvCreateId",
+                        column: x => x.UserPdvCreateId,
+                        principalTable: "UsuariosPontoVendas",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PontosVendas_UsuariosPontoVendas_UserPdvUsingId",
+                        column: x => x.UserPdvUsingId,
+                        principalTable: "UsuariosPontoVendas",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -473,6 +446,55 @@ namespace Data.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Pedidos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    NumeroPedido = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ValorDesconto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ValorPedido = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Observacoes = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SituacaoPedidoEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    PontoVendaEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CategoriaPrecoEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserRegistroId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pedidos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pedidos_CategoriasPrecos_CategoriaPrecoEntityId",
+                        column: x => x.CategoriaPrecoEntityId,
+                        principalTable: "CategoriasPrecos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pedidos_PontosVendas_PontoVendaEntityId",
+                        column: x => x.PontoVendaEntityId,
+                        principalTable: "PontosVendas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pedidos_SituacoesPedidos_SituacaoPedidoEntityId",
+                        column: x => x.SituacaoPedidoEntityId,
+                        principalTable: "SituacoesPedidos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Pedidos_UsuariosPontoVendas_UserRegistroId",
+                        column: x => x.UserRegistroId,
+                        principalTable: "UsuariosPontoVendas",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "ItensPedidos",
                 columns: table => new
                 {
@@ -485,8 +507,9 @@ namespace Data.Migrations
                     Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ObservacaoItem = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UsuarioPontoVendaEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     PedidoEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                     CreateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     UpdateAt = table.Column<DateTime>(type: "datetime(6)", nullable: true),
                     Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false)
@@ -498,8 +521,7 @@ namespace Data.Migrations
                         name: "FK_ItensPedidos_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_ItensPedidos_Pedidos_PedidoEntityId",
                         column: x => x.PedidoEntityId,
@@ -511,6 +533,12 @@ namespace Data.Migrations
                         column: x => x.ProdutoEntityId,
                         principalTable: "Produtos",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItensPedidos_UsuariosPontoVendas_UsuarioPontoVendaEntityId",
+                        column: x => x.UsuarioPontoVendaEntityId,
+                        principalTable: "UsuariosPontoVendas",
+                        principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -550,9 +578,9 @@ namespace Data.Migrations
                 columns: new[] { "Id", "CreateAt", "DescricaoCategoria", "Habilitado", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("5533b87c-72d5-4033-85c4-ae44f5a3210c"), new DateTime(2024, 5, 12, 13, 15, 3, 312, DateTimeKind.Local).AddTicks(526), "IFood", true, new DateTime(2024, 5, 12, 13, 15, 3, 312, DateTimeKind.Local).AddTicks(529) },
-                    { new Guid("710bd8dd-1853-43a1-8708-ca1f259d71ad"), new DateTime(2024, 5, 12, 13, 15, 3, 312, DateTimeKind.Local).AddTicks(507), "Balcão", true, new DateTime(2024, 5, 12, 13, 15, 3, 312, DateTimeKind.Local).AddTicks(524) },
-                    { new Guid("ed65a4e3-a0b0-40a7-b7ae-3397a965d924"), new DateTime(2024, 5, 12, 13, 15, 3, 312, DateTimeKind.Local).AddTicks(546), "Lojista", true, new DateTime(2024, 5, 12, 13, 15, 3, 312, DateTimeKind.Local).AddTicks(548) }
+                    { new Guid("5533b87c-72d5-4033-85c4-ae44f5a3210c"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(3227), "IFood", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(3229) },
+                    { new Guid("710bd8dd-1853-43a1-8708-ca1f259d71ad"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(3195), "Balcão", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(3222) },
+                    { new Guid("ed65a4e3-a0b0-40a7-b7ae-3397a965d924"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(3231), "Lojista", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(3234) }
                 });
 
             migrationBuilder.InsertData(
@@ -560,24 +588,24 @@ namespace Data.Migrations
                 columns: new[] { "Id", "CreateAt", "DescricaoCategoria", "Habilitado", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"), new DateTime(2024, 5, 12, 16, 15, 3, 309, DateTimeKind.Utc).AddTicks(9934), "Executivos", true, new DateTime(2024, 5, 12, 16, 15, 3, 309, DateTimeKind.Utc).AddTicks(9930) },
-                    { new Guid("d9d229c4-9a64-4836-af41-2f111f229c46"), new DateTime(2024, 5, 12, 16, 15, 3, 309, DateTimeKind.Utc).AddTicks(9955), "Bebidas", true, new DateTime(2024, 5, 12, 16, 15, 3, 309, DateTimeKind.Utc).AddTicks(9954) }
+                    { new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"), new DateTime(2024, 5, 16, 1, 33, 52, 230, DateTimeKind.Utc).AddTicks(8846), "Executivos", true, new DateTime(2024, 5, 16, 1, 33, 52, 230, DateTimeKind.Utc).AddTicks(8842) },
+                    { new Guid("d9d229c4-9a64-4836-af41-2f111f229c46"), new DateTime(2024, 5, 16, 1, 33, 52, 230, DateTimeKind.Utc).AddTicks(8867), "Bebidas", true, new DateTime(2024, 5, 16, 1, 33, 52, 230, DateTimeKind.Utc).AddTicks(8866) }
                 });
 
             migrationBuilder.InsertData(
                 table: "FormasPagamentos",
                 columns: new[] { "Id", "CreateAt", "DescricaoFormaPg", "Habilitado", "UpdateAt" },
-                values: new object[] { new Guid("92008957-f185-4563-9d9e-7b71f4ea2691"), new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(4188), "Dinheiro", true, new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(4225) });
+                values: new object[] { new Guid("92008957-f185-4563-9d9e-7b71f4ea2691"), new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(6926), "Dinheiro", true, new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(6958) });
 
             migrationBuilder.InsertData(
                 table: "PeriodosPontosVendas",
                 columns: new[] { "Id", "CreateAt", "DescricaoPeriodo", "Habilitado", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("567906bb-6eb4-42e9-b890-10e6da214766"), new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8525), "Almoço", true, new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8532) },
-                    { new Guid("7e107de8-c97a-435b-9976-7a689ca28bb7"), new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8545), "Noturno", true, new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8546) },
-                    { new Guid("f14c83df-1fa4-4a83-8070-b16ecb19aa77"), new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8541), "Dia Todo", true, new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8542) },
-                    { new Guid("fc6a5d67-8356-4270-b9e6-7749b553dcf3"), new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8536), "Janta", true, new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(8538) }
+                    { new Guid("567906bb-6eb4-42e9-b890-10e6da214766"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1114), "Almoço", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1121) },
+                    { new Guid("7e107de8-c97a-435b-9976-7a689ca28bb7"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1134), "Noturno", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1135) },
+                    { new Guid("f14c83df-1fa4-4a83-8070-b16ecb19aa77"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1130), "Dia Todo", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1132) },
+                    { new Guid("fc6a5d67-8356-4270-b9e6-7749b553dcf3"), new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1127), "Janta", true, new DateTime(2024, 5, 15, 22, 33, 52, 233, DateTimeKind.Local).AddTicks(1128) }
                 });
 
             migrationBuilder.InsertData(
@@ -585,8 +613,8 @@ namespace Data.Migrations
                 columns: new[] { "Id", "CreateAt", "Descricao", "Habilitado", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("2f943e86-f06f-4f7d-babf-48d0d2d8f3ac"), new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(3707), "Caixa", true, new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(3706) },
-                    { new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"), new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(3696), "Unidade", true, new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(3695) }
+                    { new Guid("2f943e86-f06f-4f7d-babf-48d0d2d8f3ac"), new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(3358), "Caixa", true, new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(3357) },
+                    { new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"), new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(3341), "Unidade", true, new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(3338) }
                 });
 
             migrationBuilder.InsertData(
@@ -594,9 +622,9 @@ namespace Data.Migrations
                 columns: new[] { "Id", "CreateAt", "DescricaoSituacao", "Habilitado", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("11b17cc5-c8b1-48f9-b9fd-886339441328"), new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(5615), "Cancelado", true, new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(5617) },
-                    { new Guid("185b07da-7e82-43d1-b61f-912d8b29a34c"), new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(5607), "Fechado", true, new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(5610) },
-                    { new Guid("abc0f0f9-3295-439c-a468-795b071b7f22"), new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(5594), "Aberto", true, new DateTime(2024, 5, 12, 13, 15, 3, 320, DateTimeKind.Local).AddTicks(5600) }
+                    { new Guid("11b17cc5-c8b1-48f9-b9fd-886339441328"), new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(8167), "Cancelado", true, new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(8168) },
+                    { new Guid("185b07da-7e82-43d1-b61f-912d8b29a34c"), new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(8164), "Fechado", true, new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(8165) },
+                    { new Guid("abc0f0f9-3295-439c-a468-795b071b7f22"), new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(8156), "Aberto", true, new DateTime(2024, 5, 15, 22, 33, 52, 241, DateTimeKind.Local).AddTicks(8160) }
                 });
 
             migrationBuilder.InsertData(
@@ -604,14 +632,14 @@ namespace Data.Migrations
                 columns: new[] { "Id", "CreateAt", "DescricaoTipoProduto", "Habilitado", "UpdateAt" },
                 values: new object[,]
                 {
-                    { new Guid("1e11b25a-8bf5-4d57-80b7-396d09cbfcf1"), new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(1895), "Materia Prima", true, new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(1898) },
-                    { new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"), new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(1863), "Venda", true, new DateTime(2024, 5, 12, 16, 15, 3, 310, DateTimeKind.Utc).AddTicks(1892) }
+                    { new Guid("1e11b25a-8bf5-4d57-80b7-396d09cbfcf1"), new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(777), "Materia Prima", true, new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(780) },
+                    { new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"), new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(756), "Venda", true, new DateTime(2024, 5, 16, 1, 33, 52, 231, DateTimeKind.Utc).AddTicks(775) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Produtos",
                 columns: new[] { "Id", "CategoriaProdutoEntityId", "CodigoBarrasPersonalizado", "CreateAt", "Descricao", "Habilitado", "ImgUrl", "NomeProduto", "Observacoes", "ProdutoMedidaEntityId", "ProdutoTipoEntityId", "UpdateAt" },
-                values: new object[] { new Guid("f0e75a80-0b64-4b2b-9f53-f3dce3f6d126"), new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"), "01", new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(6424), "", true, "", "Agua sem gas", "", new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"), new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"), new DateTime(2024, 5, 12, 13, 15, 3, 311, DateTimeKind.Local).AddTicks(6458) });
+                values: new object[] { new Guid("f0e75a80-0b64-4b2b-9f53-f3dce3f6d126"), new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"), "01", new DateTime(2024, 5, 15, 22, 33, 52, 232, DateTimeKind.Local).AddTicks(9268), "", true, "", "Agua sem gas", "", new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"), new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"), new DateTime(2024, 5, 15, 22, 33, 52, 232, DateTimeKind.Local).AddTicks(9282) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -682,6 +710,11 @@ namespace Data.Migrations
                 name: "IX_ItensPedidos_UserId",
                 table: "ItensPedidos",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItensPedidos_UsuarioPontoVendaEntityId",
+                table: "ItensPedidos",
+                column: "UsuarioPontoVendaEntityId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PagamentosPedidos_PedidoEntityId",
@@ -783,6 +816,12 @@ namespace Data.Migrations
                 table: "TiposProdutos",
                 column: "DescricaoTipoProduto",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsuariosPontoVendas_UserId",
+                table: "UsuariosPontoVendas",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -843,10 +882,13 @@ namespace Data.Migrations
                 name: "TiposProdutos");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "PeriodosPontosVendas");
 
             migrationBuilder.DropTable(
-                name: "PeriodosPontosVendas");
+                name: "UsuariosPontoVendas");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

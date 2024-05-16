@@ -1,6 +1,5 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
-using Api.Domain.Entities.Pedido;
 using Domain.Entities.ItensPedido;
 using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -95,13 +94,8 @@ namespace Data.Implementations.PedidoItem
             query = query.Include(pedido => pedido.PedidoEntity)
                           .ThenInclude(pdv => pdv.PontoVendaEntity).ThenInclude(per => per.PeriodoPontoVendaEntity);
 
-
-
-
             //usuario
-            query = query.Include(usuario => usuario.User);
-
-
+            query = query.Include(usuario => usuario.UsuarioPontoVendaEntity);
 
             return query;
         }

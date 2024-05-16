@@ -39,20 +39,15 @@ namespace Domain.Models.ItemPedidoModels
         public string? ObservacaoItem { get; private set; }
         public Guid UserId { get; private set; }
         public Guid PedidoEntityId { get; private set; }
-
-
-
         public void Calular()
         {
             this.SubTotal = this.Quatidade * this.Preco;
             this.Total = this.SubTotal - this.Desconto;
         }
-
         public void CancelarItemPedido()
         {
             this.Habilitado = false;
         }
-
         public void GerarItemPedido()
         {
             this.Habilitado = true;

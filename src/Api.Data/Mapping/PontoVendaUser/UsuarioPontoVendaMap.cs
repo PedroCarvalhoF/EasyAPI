@@ -12,7 +12,7 @@ namespace Data.Mapping.PontoVendaUser
             builder.ToTable("UsuariosPontoVendas");
 
             //chave primaria
-            builder.HasKey(ped => ped.Id);
+            builder.HasKey(ped => ped.UserId);
 
             //CreateAt
             builder.Property(ped => ped.CreateAt)
@@ -33,6 +33,7 @@ namespace Data.Mapping.PontoVendaUser
 
             builder.HasOne(updv => updv.User)
                 .WithOne(updv => updv.UsuarioPontoVendaEntity);
+                
         }
     }
 }

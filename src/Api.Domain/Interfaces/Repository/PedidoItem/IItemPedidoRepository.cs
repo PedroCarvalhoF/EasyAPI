@@ -1,5 +1,4 @@
-﻿using Api.Domain.Entities.Pedido;
-using Domain.Entities.ItensPedido;
+﻿using Domain.Entities.ItensPedido;
 
 namespace Domain.Interfaces.Repository
 {

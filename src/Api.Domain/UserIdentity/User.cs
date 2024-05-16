@@ -1,5 +1,4 @@
-﻿using Api.Domain.Entities.PontoVenda;
-using Domain.Entities.ItensPedido;
+﻿using Domain.Entities.ItensPedido;
 using Domain.Entities.PontoVendaUser;
 using Microsoft.AspNetCore.Identity;
 

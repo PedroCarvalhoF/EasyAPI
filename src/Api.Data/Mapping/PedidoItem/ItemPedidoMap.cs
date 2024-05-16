@@ -66,12 +66,12 @@ namespace Data.Mapping.PedidoItem
                 .HasMaxLength(200);
 
             //public Guid UserId { get; set; }
-            builder.Property(item => item.UserId)
+            builder.Property(item => item.UsuarioPontoVendaEntityId)
                .IsRequired();
 
-            builder.HasOne(item => item.User)
-                .WithMany(user => user.ItemPedidoEntitiesCreate)
-                .HasForeignKey(item => item.UserId)
+            builder.HasOne(item => item.UsuarioPontoVendaEntity)
+                .WithMany(user => user.ItemPedidoEntities)
+                .HasForeignKey(item => item.UsuarioPontoVendaEntityId)
                 .OnDelete(DeleteBehavior.Restrict);
 
 

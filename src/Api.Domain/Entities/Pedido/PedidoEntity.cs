@@ -3,6 +3,7 @@ using Api.Domain.Entities.PontoVenda;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.PontoVendaUser;
 using Domain.Identity.UserIdentity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -55,7 +56,7 @@ namespace Api.Domain.Entities.Pedido
 
         [Required(ErrorMessage = "Informe id usuario registro")]
         public Guid UserRegistroId { get; set; }
-        public User? UserRegistro { get; set; }
+        public UsuarioPontoVendaEntity? UserRegistro { get; set; }
         //############################################################
 
         public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }

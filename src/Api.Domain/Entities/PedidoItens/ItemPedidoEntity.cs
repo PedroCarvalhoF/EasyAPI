@@ -1,7 +1,7 @@
 ﻿using Api.Domain.Entities;
 using Api.Domain.Entities.Pedido;
+using Domain.Entities.PontoVendaUser;
 using Domain.Entities.Produto;
-using Domain.Identity.UserIdentity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -44,8 +44,8 @@ namespace Domain.Entities.ItensPedido
         //###################################################
 
         [Required(ErrorMessage = "Informe id usuario registro")]
-        public Guid UserId { get; set; }
-        public User? User { get; set; }
+        public Guid UsuarioPontoVendaEntityId { get; set; }
+        public UsuarioPontoVendaEntity? UsuarioPontoVendaEntity { get; set; }
         //###################################################
 
         [Required(ErrorMessage = "Informe codigo do pedido")]

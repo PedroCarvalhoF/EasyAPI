@@ -1,5 +1,4 @@
 ﻿using Api.Domain.Entities.PontoVenda;
-using Domain.Identity.UserIdentity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Reflection.Emit;
