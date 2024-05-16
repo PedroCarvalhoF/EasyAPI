@@ -58,28 +58,6 @@ namespace Api.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            //modelBuilder.Entity<ItemPedidoEntity>()
-            //.HasOne(ip => ip.UsuarioPontoVendaEntity)
-            //.WithMany(u => u.UsuarioPontoVendaEntities)
-            //.HasForeignKey(ip => ip.UsuarioPontoVendaEntityId);
-
-            //modelBuilder.Entity<ItemPedidoEntity>()
-            //    .HasOne(ip => ip.PedidoEntity)
-            //    .WithMany(p => p.ItensPedidoEntities)
-            //    .HasForeignKey(ip => ip.PedidoEntityId);
-
-            //modelBuilder.Entity<PontoVendaEntity>()
-            //    .HasOne(pv => pv.UserPdvCreate)
-            //    .WithMany(u => u.UserPontoVendaCreate)
-            //    .HasForeignKey(pv => pv.UserPdvCreateId);
-
-            //modelBuilder.Entity<PontoVendaEntity>()
-            //    .HasOne(pv => pv.UserPdvUsing)
-            //    .WithMany(u => u.UserPontoVendaUsing)
-            //    .HasForeignKey(pv => pv.UserPdvUsingId);
-
-
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserRole>(userRole =>
