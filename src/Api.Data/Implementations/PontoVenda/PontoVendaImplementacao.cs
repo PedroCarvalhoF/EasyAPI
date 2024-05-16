@@ -33,7 +33,7 @@ namespace Data.Implementations.PontoVenda
 
             query = query.Where(pdv => pdv.Id.Equals(pdvId));
 
-            PontoVendaEntity? result = await query.FirstOrDefaultAsync();
+            var result = await query.FirstOrDefaultAsync();
             return result;
         }
 
@@ -57,7 +57,7 @@ namespace Data.Implementations.PontoVenda
 
             query = query.Where(pdv => pdv.AbertoFechado == abertoFechado);
 
-            PontoVendaEntity[] result = await query.ToArrayAsync();
+            var result = await query.ToArrayAsync();
             return result;
         }
 

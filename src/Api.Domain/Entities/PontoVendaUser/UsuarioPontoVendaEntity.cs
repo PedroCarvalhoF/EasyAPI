@@ -1,4 +1,5 @@
 ﻿using Api.Domain.Entities;
+using Api.Domain.Entities.PontoVenda;
 using Domain.Identity.UserIdentity;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,5 +11,8 @@ namespace Domain.Entities.PontoVendaUser
         [Display(Name = "Id usuário")]
         public Guid UserId { get; set; }
         public User? User { get; set; }
+
+        public IEnumerable<PontoVendaEntity>? UserPontoVendaCreate { get; set; }
+        public IEnumerable<PontoVendaEntity>? UserPontoVendaUsing { get; set; }
     }
 }

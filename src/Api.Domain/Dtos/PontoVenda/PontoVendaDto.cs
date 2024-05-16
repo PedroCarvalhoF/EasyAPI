@@ -1,17 +1,13 @@
 using Api.Domain.Dtos.PedidoDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
-using Domain.Identity.UserIdentity;
+using Domain.Entities.PontoVendaUser;
 
 namespace Api.Domain.Dtos.PontoVendaDtos
 {
-    public class PontoVendaDto
-    {
-        public Guid Id { get; set; }
-        public DateTime CreateAt { get; set; }
-        public DateTime UpdateAt { get; set; }
-        public bool Habilitado { get; set; }
-        public User? UserPdvCreate { get; set; }
-        public User? UserPdvUsing { get; set; }
+    public class PontoVendaDto : BaseDto
+    {        
+        public UsuarioPontoVendaEntity? UserPdvCreate { get; set; }
+        public UsuarioPontoVendaEntity? UserPdvUsing { get; set; }
         public PeriodoPontoVendaDto? PeriodoPontoVendaEntity { get; set; }
         public bool AbertoFechado { get; set; }
 

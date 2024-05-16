@@ -1,6 +1,6 @@
 using Api.Domain.Entities.Pedido;
 using Domain.Entities.PontoVendaPeriodoVenda;
-using Domain.Identity.UserIdentity;
+using Domain.Entities.PontoVendaUser;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Entities.PontoVenda
@@ -11,12 +11,12 @@ namespace Api.Domain.Entities.PontoVenda
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Perfil Abertura")]
         public Guid UserPdvCreateId { get; set; }
-        public User? UserPdvCreate { get; set; }
+        public UsuarioPontoVendaEntity? UserPdvCreate { get; set; }
 
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Perfil Utilizar o PDV")]
         public Guid UserPdvUsingId { get; set; }
-        public User? UserPdvUsing { get; set; }
+        public UsuarioPontoVendaEntity? UserPdvUsing { get; set; }
 
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Periodo do PDV")]

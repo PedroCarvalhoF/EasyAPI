@@ -13,11 +13,7 @@ namespace Domain.Identity.UserIdentity
         public string? ImagemURL { get; set; }
        
         public IEnumerable<UserRole>? UserRoles { get; set; }
-        public IEnumerable<ItemPedidoEntity>? ItemPedidoEntitiesCreate { get; set; }
-
-        public IEnumerable<PontoVendaEntity>? UserPontoVendaCreate { get; set; }
-        public IEnumerable<PontoVendaEntity>? UserPontoVendaUsing { get; set; }
-
+        public IEnumerable<ItemPedidoEntity>? ItemPedidoEntitiesCreate { get; set; }      
         //
         public UsuarioPontoVendaEntity? UsuarioPontoVendaEntity { get; set; }
     }
