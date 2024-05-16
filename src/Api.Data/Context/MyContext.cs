@@ -10,6 +10,7 @@ using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
 using Data.Mapping.PontoVena;
+using Data.Mapping.PontoVendaPeriodo;
 using Data.Mapping.PontoVendaUser;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
@@ -95,15 +96,6 @@ namespace Api.Data.Context
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
-
-           
-
-            //modelBuilder.Entity<ItemPedidoEntity>()
-            //    .HasOne(ip => ip.PedidoEntity)
-            //    .WithMany(p => p.PedidoEntities)
-            //    .HasForeignKey(ip => ip.PedidoEntityId);
-
-          
 
             modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
             modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
