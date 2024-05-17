@@ -1,7 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Interfaces.Services.FormaPagamento;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -23,15 +22,16 @@ namespace Api.Controllers
         {
             try
             {
-                ResponseDto<List<FormaPagamentoDto>> result = await _service.GetAll();
-                return result;
+                var respostaService = await _service.GetAll();
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
 
         }
@@ -40,37 +40,35 @@ namespace Api.Controllers
         {
             try
             {
-                ResponseDto<List<FormaPagamentoDto>> result = await _service.GetById(id);
-                return result;
+                var respostaService = await _service.GetById(id);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
-
-
         [HttpGet("forma-pagamento/{descricao}/descricao")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> GetByDescricao(string descricao)
         {
             try
             {
-                ResponseDto<List<FormaPagamentoDto>> result = await _service.GetByDescricao(descricao);
-                return Ok(result);
+                var respostaService = await _service.GetByDescricao(descricao);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
+                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
-
-
         [HttpPost("forma-pagamento/create")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
         {
@@ -78,17 +76,19 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             try
             {
-                ResponseDto<List<FormaPagamentoDto>> result = await _service.Create(formaPagamentoDtoCreate);
-                return result;
+                var respostaService = await _service.Create(formaPagamentoDtoCreate);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
         [HttpPut("forma-pagamento/update")]
@@ -100,32 +100,33 @@ namespace Api.Controllers
             }
             try
             {
-                ResponseDto<List<FormaPagamentoDto>> result = await _service.Update(formaPagamentoDtoUpdate);
-                return result;
+                var respostaService = await _service.Update(formaPagamentoDtoUpdate);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
-
-        [HttpPut("forma-pagamento/{id}/desabilitar")]
+        [HttpPut("forma-pagamento/{id }/desabilitar")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> DesabilitarHabilitar(Guid id)
         {
             try
             {
-                ResponseDto<List<FormaPagamentoDto>> result = await _service.DesabilitarHabilitar(id);
-                return result;
+                var respostaService = await _service.DesabilitarHabilitar(id);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
 
