@@ -8,9 +8,6 @@ namespace Api.Domain.Models.PontoVendaModels
         public Guid UserPdvUsingId { get; set; }
         public Guid PeriodoPontoVendaEntityId { get; set; }
         public bool AbertoFechado { get; set; }
-
-
-
         public int QtdPedidos { get; set; }
 
         public void Calcular(IEnumerable<PedidoModel> pedidos)
@@ -26,6 +23,6 @@ namespace Api.Domain.Models.PontoVendaModels
         {
             AbertoFechado = false;
         }
-        public IEnumerable<PedidoModel> Pedidos { get; set; }
+        public IEnumerable<PedidoModel>? Pedidos { get; set; }
     }
 }

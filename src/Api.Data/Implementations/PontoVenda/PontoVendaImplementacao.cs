@@ -1,6 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Api.Domain.Entities.PontoVenda;
+using Domain.Dtos.PontoVenda.Filtros;
 using Domain.Interfaces.Repository.PontoVenda;
 using Microsoft.EntityFrameworkCore;
 
@@ -60,17 +61,30 @@ namespace Data.Implementations.PontoVenda
             var result = await query.ToArrayAsync();
             return result;
         }
+        public async Task<IEnumerable<PontoVendaEntity>> FiltrarByData(PontoVendaDtoFiltrarData data)
+        {
+            IQueryable<PontoVendaEntity> query = _dbSet;
 
+            query = query.Where(pdv => pdv.CreateAt.Value.Date >= data.DataInicial && pdv.CreateAt.Value.Date <= data.DataFinal);
+
+            query = Includes(query);
+
+            var result = await query.ToArrayAsync();
+
+            return result;
+        }
         private IQueryable<PontoVendaEntity> Includes(IQueryable<PontoVendaEntity> query)
         {
 
-            query = query.Include(userAbriu => userAbriu.UserPdvCreate)
-                         .Include(userPDV => userPDV.UserPdvUsing)
+            query = query.Include(userAbriu => userAbriu.UserPdvCreate).ThenInclude(u => u.User)
+                         .Include(userPDV => userPDV.UserPdvUsing).ThenInclude(u => u.User)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
             query = query.Include(pdv => pdv.PedidoEntities);
 
             return query;
         }
+
+
     }
 }

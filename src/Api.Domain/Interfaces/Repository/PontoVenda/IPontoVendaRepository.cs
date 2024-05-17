@@ -1,4 +1,5 @@
 ﻿using Api.Domain.Entities.PontoVenda;
+using Domain.Dtos.PontoVenda.Filtros;
 
 namespace Domain.Interfaces.Repository.PontoVenda
 {
@@ -8,5 +9,6 @@ namespace Domain.Interfaces.Repository.PontoVenda
         Task<PontoVendaEntity> GetByIdPdv(Guid pdvId);
         Task<IEnumerable<PontoVendaEntity>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV);
         Task<IEnumerable<PontoVendaEntity>> AbertosFechados(bool abertoFechado);
+        Task<IEnumerable<PontoVendaEntity>> FiltrarByData(PontoVendaDtoFiltrarData data);
     }
 }
