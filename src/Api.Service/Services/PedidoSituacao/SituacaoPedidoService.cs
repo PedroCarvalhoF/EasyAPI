@@ -23,178 +23,146 @@ namespace Service.Services.PedidoSituacao
         }
         public async Task<ResponseDto<List<SituacaoPedidoDto>>> GetAll()
         {
-            ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-            resposta.Dados = new List<SituacaoPedidoDto>();
+            var resposta = new ResponseDto<List<SituacaoPedidoDto>>();
+
             try
             {
-                IEnumerable<SituacaoPedidoEntity> entities = await _repository.SelectAsync();
-                if (entities == null)
+                var entities = await _repository.SelectAsync();
+
+                if (entities == null || entities.Count() == 0)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = $"Nenhuma situação de pedido localizada.";
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                List<SituacaoPedidoDto> dtos = _mapper.Map<List<SituacaoPedidoDto>>(entities);
-                resposta.Dados = dtos;
-
-                return resposta;
+                return resposta.Retorno(_mapper.Map<List<SituacaoPedidoDto>>(entities));
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes:{ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<SituacaoPedidoDto>>> Get(Guid id)
         {
-            ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-            resposta.Dados = new List<SituacaoPedidoDto>();
+            var resposta = new ResponseDto<List<SituacaoPedidoDto>>();
             try
             {
-                SituacaoPedidoEntity entity = await _repository.SelectAsync(id);
+                var entity = await _repository.SelectAsync(id);
                 if (entity == null)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = $"Nenhuma situação de pedido localizada com este id {id}.";
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                SituacaoPedidoDto dto = _mapper.Map<SituacaoPedidoDto>(entity);
-                resposta.Dados.Add(dto);
-                resposta.Mensagem = $"Localizado com sucesso.";
+                var dto = _mapper.Map<SituacaoPedidoDto>(entity);
+                resposta.Dados = new List<SituacaoPedidoDto>() { dto };
 
-                return resposta;
+                return resposta.ConsultaOk();
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes:{ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
 
         public async Task<ResponseDto<List<SituacaoPedidoDto>>> Get(string descricao)
         {
-            ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-            resposta.Dados = new List<SituacaoPedidoDto>();
+            var resposta = new ResponseDto<List<SituacaoPedidoDto>>();
+
             try
             {
-                IEnumerable<SituacaoPedidoEntity> entities = await _implementacao.Get(descricao);
-                if (entities == null)
+                var entities = await _implementacao.Get(descricao);
+
+                if (entities == null || entities.Count() == 0)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = $"Nenhuma situação de pedido localizada com está descrição: {descricao}.";
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                List<SituacaoPedidoDto> dtos = _mapper.Map<List<SituacaoPedidoDto>>(entities);
-                resposta.Dados = dtos;
-                resposta.Mensagem = $"Consulta realizada com sucesso!";
-
-                return resposta;
+                return resposta.Retorno(_mapper.Map<List<SituacaoPedidoDto>>(entities));
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes:{ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
 
         public async Task<ResponseDto<List<SituacaoPedidoDto>>> Create(SituacaoPedidoDtoCreate create)
         {
-            ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-            resposta.Dados = new List<SituacaoPedidoDto>();
+            var resposta = new ResponseDto<List<SituacaoPedidoDto>>();
+
             try
             {
-                SituacaoPedidoModel model = _mapper.Map<SituacaoPedidoModel>(create);
-                SituacaoPedidoEntity entity = _mapper.Map<SituacaoPedidoEntity>(model);
+                var model = _mapper.Map<SituacaoPedidoModel>(create);
+                var entity = _mapper.Map<SituacaoPedidoEntity>(model);
 
-                SituacaoPedidoEntity resultCreate = await _repository.InsertAsync(entity);
+                var resultCreate = await _repository.InsertAsync(entity);
 
                 if (resultCreate == null)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = $"Não foi possível cadastrar";
-                    return resposta;
-
+                    return resposta.EntitiesNull();
                 }
 
-                ResponseDto<List<SituacaoPedidoDto>> created = await Get(resultCreate.Id);
-                if (!created.Status)
+                var verificaCreate = await Get(resultCreate.Id);
+
+                if (verificaCreate.Status)
                 {
-                    created.Mensagem = "Não foi possíve realizar cadastrado";
-                    created.Status = false;
-                    return created;
+                    return verificaCreate.CadastroOk();
                 }
-                created.Mensagem = "Situação cadastrada com sucesso!";
-                return created;
-
+                else
+                {
+                    return verificaCreate.ErroCadastro();
+                }
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes:{ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
-
         }
 
         public async Task<ResponseDto<List<SituacaoPedidoDto>>> Update(SituacaoPedidoDtoUpdate update)
         {
-            ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-            resposta.Dados = new List<SituacaoPedidoDto>();
+            var resposta = new ResponseDto<List<SituacaoPedidoDto>>();
+
             try
             {
-                SituacaoPedidoModel model = _mapper.Map<SituacaoPedidoModel>(update);
-                SituacaoPedidoEntity entity = _mapper.Map<SituacaoPedidoEntity>(model);
-                SituacaoPedidoEntity resultUpdate = await _repository.UpdateAsync(entity);
+                var model = _mapper.Map<SituacaoPedidoModel>(update);
+                var entity = _mapper.Map<SituacaoPedidoEntity>(model);
+                var resultUpdate = await _repository.UpdateAsync(entity);
+
                 if (resultUpdate == null)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = "Não foi possível realizar alteração.";
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
                 resposta = await Get(resultUpdate.Id);
-                resposta.Mensagem = $"Situação alterada com sucesso!";
-
-                return resposta;
+                if (resposta.Status)
+                    return resposta.UpdateOk();
+                else
+                    return resposta.ErroUpdate();
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes:{ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<SituacaoPedidoDto>>> Desabilitar(Guid id)
         {
-            ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-            resposta.Dados = new List<SituacaoPedidoDto>();
+            var resposta = new ResponseDto<List<SituacaoPedidoDto>>();
+
             try
             {
                 bool result = await _repository.DesabilitarHabilitar(id);
+                
                 if (result)
                 {
-                    resposta.Status = true;
-                    resposta.Mensagem = "Situação Desabilitada";
-                    return resposta;
+                    return resposta.AlteracaoOk();
                 }
                 else
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = "Não foi possível desabilitar";
-                    return resposta;
+                    return resposta.ErroUpdate();
                 }
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes:{ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
     }

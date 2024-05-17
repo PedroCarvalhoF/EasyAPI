@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos.FormaPagamentoDtos;
+using Domain.Dtos.PedidoSituacao;
 using System.Collections;
 
 namespace Domain.Dtos
@@ -98,7 +99,7 @@ namespace Domain.Dtos
         public ResponseDto<T> ErroUpdate()
         {
             this.Status = false;
-            this.Mensagem = $"Não foi possivel realizar update.";
+            this.Mensagem = $"Não foi possivel realizar alteração.";
             return this;
         }
 
@@ -130,5 +131,11 @@ namespace Domain.Dtos
             return this;
         }
 
+        public ResponseDto<T> UpdateOk()
+        {
+            this.Status = true;
+            this.Mensagem = $"Alteração realizada com sucesso";
+            return this;
+        }
     }
 }
