@@ -22,17 +22,16 @@ namespace Api.Controllers
         {
             try
             {
-                ResponseDto<List<SituacaoPedidoDto>> result = await _service.GetAll();
-                return Ok(result);
+                var respostaService = await _service.GetAll();
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
-
+                return BadRequest(new ResponseDto<List<SituacaoPedidoDto>>().Erro(ex));
             }
         }
         [HttpGet("situacao-pedido/{id}/id")]
@@ -40,17 +39,16 @@ namespace Api.Controllers
         {
             try
             {
-                ResponseDto<List<SituacaoPedidoDto>> result = await _service.Get(id);
-                return Ok(result);
+                var respostaService = await _service.Get(id);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
-
+                return BadRequest(new ResponseDto<List<SituacaoPedidoDto>>().Erro(ex));
             }
         }
         [HttpGet("situacao-pedido/{descricao}/descricao")]
@@ -58,21 +56,16 @@ namespace Api.Controllers
         {
             try
             {
-                ResponseDto<List<SituacaoPedidoDto>> result = await _service.Get(descricao);
-                if (!result.Status)
-                {
-                    return BadRequest(result);
-                }
-                return Ok(result);
+                var respostaService = await _service.Get(descricao);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
-
+                return BadRequest(new ResponseDto<List<SituacaoPedidoDto>>().Erro(ex));
             }
         }
         [HttpPost("situacao-pedido/create")]
@@ -85,21 +78,16 @@ namespace Api.Controllers
 
             try
             {
-                ResponseDto<List<SituacaoPedidoDto>> result = await _service.Create(create);
-                if (!result.Status)
-                {
-                    return BadRequest(result);
-                }
-                return Ok(result);
+                var respostaService = await _service.Create(create);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
-
+                return BadRequest(new ResponseDto<List<SituacaoPedidoDto>>().Erro(ex));
             }
         }
         [HttpPut("situacao-pedido/update")]
@@ -112,21 +100,16 @@ namespace Api.Controllers
 
             try
             {
-                ResponseDto<List<SituacaoPedidoDto>> result = await _service.Update(update);
-                if (!result.Status)
-                {
-                    return BadRequest(result);
-                }
-                return Ok(result);
+                var respostaService = await _service.Update(update);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
-
+                return BadRequest(new ResponseDto<List<SituacaoPedidoDto>>().Erro(ex));
             }
         }
         [HttpPut("situacao-pedido/{id}/desabilitar")]
@@ -134,22 +117,16 @@ namespace Api.Controllers
         {
             try
             {
-                ResponseDto<List<SituacaoPedidoDto>> result = await _service.Desabilitar(id);
+                var respostaService = await _service.Desabilitar(id);
 
-                if (!result.Status)
-                {
-                    return BadRequest(result);
-                }
-                return Ok(result);
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
-                ResponseDto<List<SituacaoPedidoDto>> resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta = new ResponseDto<List<SituacaoPedidoDto>>();
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return BadRequest(resposta);
-
+                return BadRequest(new ResponseDto<List<SituacaoPedidoDto>>().Erro(ex));
             }
         }
     }
