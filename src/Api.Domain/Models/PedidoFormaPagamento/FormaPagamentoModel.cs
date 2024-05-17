@@ -10,13 +10,12 @@ namespace Domain.Models.FormaPagamentoModels
         {
             get
             {
-                //AQUI VOLTA PRA PROGRAMA
+
                 return _descricaoFormaPg.ToUpper();
             }
             set
             {
-                //AQUI VAI PRO BANCO
-                _descricaoFormaPg = value.ToLower()+" Luis";
+                _descricaoFormaPg = value.ToLower();
             }
         }
 

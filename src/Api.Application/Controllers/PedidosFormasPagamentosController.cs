@@ -112,7 +112,7 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
-        [HttpPut("forma-pagamento/{id }/desabilitar")]
+        [HttpPut("forma-pagamento/{id}/desabilitar")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> DesabilitarHabilitar(Guid id)
         {
             try

@@ -23,182 +23,145 @@ namespace Service.Services.FormaPagamento
         }
         public async Task<ResponseDto<List<FormaPagamentoDto>>> GetAll()
         {
-            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-            resposta.Dados = new List<FormaPagamentoDto>();
+            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
+
             try
             {
-                IEnumerable<FormaPagamentoEntity> entities = await _repository.SelectAsync();
+                var entities = await _repository.SelectAsync();
                 if (entities == null)
                 {
-                    resposta.Mensagem = "Nenhuma forma de pagamento localizada.";
-                    resposta.Status = false;
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                List<FormaPagamentoDto> dtos = _mapper.Map<List<FormaPagamentoDto>>(entities);
-                resposta.Dados = dtos;
-                resposta.Mensagem = $"Formas de pagamentos localizadas: {dtos.Count}";
-
-                return resposta;
-
+                var dtos = _mapper.Map<List<FormaPagamentoDto>>(entities);
+                return resposta.Retorno(dtos);
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<FormaPagamentoDto>>> GetById(Guid id)
         {
-            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-            resposta.Dados = new List<FormaPagamentoDto>();
+            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
-                FormaPagamentoEntity entity = await _repository.SelectAsync(id);
+                var entity = await _repository.SelectAsync(id);
                 if (entity == null)
                 {
-                    resposta.Mensagem = $"Nenhuma forma de pagamento com este id: {id} localizado.";
-                    resposta.Status = false;
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                FormaPagamentoDto dto = _mapper.Map<FormaPagamentoDto>(entity);
-                resposta.Dados.Add(dto);
-                resposta.Mensagem = $"Forma de pagamento localizada.";
-
+                var dto = _mapper.Map<FormaPagamentoDto>(entity);
+                resposta.Dados = new List<FormaPagamentoDto> { dto };
                 return resposta;
-
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<FormaPagamentoDto>>> GetByDescricao(string descricao)
         {
-            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-            resposta.Dados = new List<FormaPagamentoDto>();
+            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
-                IEnumerable<FormaPagamentoEntity> entities = await _implementacao.GetByDescricao(descricao);
+                var entities = await _implementacao.GetByDescricao(descricao);
                 if (entities == null)
                 {
-                    resposta.Mensagem = $"Nenhuma forma de pagamento localizada com esta descricao {descricao}";
-                    resposta.Status = false;
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                List<FormaPagamentoDto> dto = _mapper.Map<List<FormaPagamentoDto>>(entities);
-                resposta.Dados = dto;
-                resposta.Mensagem = $"Forma de pagamento localizada.";
+                if (entities.Count() == 0)
+                {
+                    return resposta.EntitiesNull();
+                }
 
-                return resposta;
+                var dto = _mapper.Map<List<FormaPagamentoDto>>(entities);
+                return resposta.Retorno(dto);
 
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<FormaPagamentoDto>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
         {
-            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-            resposta.Dados = new List<FormaPagamentoDto>();
+            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
             try
             {
 
-                FormaPagamentoModel model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoCreate);
-                FormaPagamentoEntity entity = _mapper.Map<FormaPagamentoEntity>(model);
-                FormaPagamentoEntity resultCreate = await _repository.InsertAsync(entity);
+                var model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoCreate);
+                var entity = _mapper.Map<FormaPagamentoEntity>(model);
+                var resultCreate = await _repository.InsertAsync(entity);
 
                 if (resultCreate == null)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = "Não foi possível cadastrar forma de pagamento";
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                ResponseDto<List<FormaPagamentoDto>> respostaCreate = await GetById(resultCreate.Id);
+                var respostaCreate = await GetById(resultCreate.Id);
 
-                respostaCreate.Mensagem = "Forma de pagamento cadastrada com sucesso!";
-                respostaCreate.Status = true;
+                if (respostaCreate.Status)
+                {
+                    return respostaCreate.CadastroOk();
+                }
+                else
+                {
+                    return resposta.ErroCadastro();
+                }
 
-                return respostaCreate;
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<FormaPagamentoDto>>> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate)
         {
-            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-            resposta.Dados = new List<FormaPagamentoDto>();
+            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
-                FormaPagamentoModel model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoUpdate);
-                FormaPagamentoEntity entity = _mapper.Map<FormaPagamentoEntity>(model);
-                FormaPagamentoEntity resultUpdate = await _repository.UpdateAsync(entity);
+                var model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoUpdate);
+                var entity = _mapper.Map<FormaPagamentoEntity>(model);
+                var resultUpdate = await _repository.UpdateAsync(entity);
 
                 if (resultUpdate == null)
                 {
-                    resposta.Status = false;
-                    resposta.Mensagem = "Não foi possível realizar alteração";
-                    return resposta;
+                    return resposta.EntitiesNull();
                 }
 
-                ResponseDto<List<FormaPagamentoDto>> respostaCreate = await GetById(resultUpdate.Id);
-                respostaCreate.Mensagem = $"Forma pagamento alterada com sucesso!";
-                resposta.Status = true;
-
-                return respostaCreate;
+                var respostaCreate = await GetById(resultUpdate.Id);
+                if (respostaCreate.Status)
+                    return respostaCreate;
+                else
+                    return respostaCreate.ErroUpdate();
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<FormaPagamentoDto>>> DesabilitarHabilitar(Guid id)
         {
-            ResponseDto<List<FormaPagamentoDto>> resposta = new ResponseDto<List<FormaPagamentoDto>>();
-            resposta.Dados = new List<FormaPagamentoDto>();
+            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
                 bool result = await _repository.DesabilitarHabilitar(id);
                 if (result)
-                {
-                    resposta.Mensagem = "Alteração realizada com sucesso!";
-                    resposta.Status = true;
-                    return resposta;
-                }
+                    return resposta.AlteracaoOk();
                 else
-                {
-                    resposta.Mensagem = "Não foi possível realizar alteração.";
-                    resposta.Status = false;
-                    return resposta;
-                }
+                    return resposta.ErroUpdate();
             }
             catch (Exception ex)
             {
-                resposta.Status = false;
-                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return resposta;
+                return resposta.Erro(ex);
             }
         }
-
-
     }
 }

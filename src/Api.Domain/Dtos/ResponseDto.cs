@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Domain.Dtos.FormaPagamentoDtos;
+using System.Collections;
 
 namespace Domain.Dtos
 {
@@ -24,10 +25,11 @@ namespace Domain.Dtos
             this.Status = true;
             this.Mensagem = $"{titulo} - {detalhes}";
         }
-        public void AlteracaoOk()
+        public ResponseDto<T> AlteracaoOk()
         {
             this.Status = true;
             this.Mensagem = $"Alteração realizada com sucesso";
+            return this;
         }
         public void AlteracaoOk(string titulo)
         {
@@ -93,10 +95,11 @@ namespace Domain.Dtos
             return this;
         }
 
-        public void ErroUpdate()
+        public ResponseDto<T> ErroUpdate()
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar update.";
+            return this;
         }
 
         public void ErroCadastro(string detalhes)
@@ -126,5 +129,6 @@ namespace Domain.Dtos
             this.Mensagem = "Nenhum registro encontrado.";
             return this;
         }
+
     }
 }
