@@ -112,6 +112,11 @@ namespace Api.Controllers
         [HttpPost("pdv/create")]
         public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
                 pontoVendaDtoCreate.UserPdvCreateId = User.GetUserId();
