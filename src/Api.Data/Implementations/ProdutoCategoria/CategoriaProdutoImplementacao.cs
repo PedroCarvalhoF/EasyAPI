@@ -23,7 +23,7 @@ namespace Data.Implementations
             {
                 categoria = categoria.ToLower();
 
-                IQueryable<CategoriaProdutoEntity> query = _dataset;
+                IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
 
                 query = query.Where(cat => cat.DescricaoCategoria!.ToLower().Contains(categoria));
 

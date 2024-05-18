@@ -18,7 +18,7 @@ namespace Data.Implementations.PontoVendaUser
         {
             try
             {
-                IQueryable<UsuarioPontoVendaEntity> query = _dbSet;
+                IQueryable<UsuarioPontoVendaEntity> query = _dbSet.AsNoTracking();
 
                 query = Include(query);
 
@@ -32,11 +32,11 @@ namespace Data.Implementations.PontoVendaUser
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<UsuarioPontoVendaEntity> Get(Guid id)
+        public async Task<UsuarioPontoVendaEntity> Get(Guid id) 
         {
             try
             {
-                IQueryable<UsuarioPontoVendaEntity> query = _dbSet;
+                IQueryable<UsuarioPontoVendaEntity> query = _dbSet.AsNoTracking();
 
                 query = Include(query);
 
@@ -56,7 +56,7 @@ namespace Data.Implementations.PontoVendaUser
         {
             try
             {
-                IQueryable<UsuarioPontoVendaEntity> query = _dbSet;
+                IQueryable<UsuarioPontoVendaEntity> query = _dbSet.AsNoTracking();
 
                 query = Include(query);
 

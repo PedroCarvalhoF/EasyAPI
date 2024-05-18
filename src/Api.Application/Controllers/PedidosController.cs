@@ -1,5 +1,6 @@
 using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Interfaces.Services.Pedido;
+using Api.Extensions;
 using Domain.Dtos;
 using Domain.Dtos.Pedidos;
 using Microsoft.AspNetCore.Mvc;
@@ -155,6 +156,11 @@ namespace Api.Application.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest();
+
+                pedidoDtoCreate.UserRegistroId = User.GetUserId();
+
                 var result = await _pedidoService.GerarPedido(pedidoDtoCreate);
                 if (!result.Status)
                     return BadRequest(result);

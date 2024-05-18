@@ -17,7 +17,7 @@ namespace Data.Implementations
 
         public async Task<IEnumerable<FormaPagamentoEntity>> GetByDescricao(string descricao)
         {
-            IQueryable<FormaPagamentoEntity> query = _dataset;
+            IQueryable<FormaPagamentoEntity> query = _dataset.AsNoTracking();
 
             query = query.Where(forma => forma.DescricaoFormaPg.ToLower().Contains(descricao));
 

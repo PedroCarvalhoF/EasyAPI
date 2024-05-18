@@ -5,7 +5,7 @@ namespace Api.Domain.Models.PedidoModels
         public Guid SituacaoPedidoEntityId { get; set; }
         public Guid? PontoVendaEntityId { get; set; }
         public Guid? CategoriaPrecoEntityId { get; set; }
-        public Guid? UserCreatePedidoId { get; set; }
+        public Guid? UserRegistroId { get; set; }
 
 
         private string? _numeroPedido;

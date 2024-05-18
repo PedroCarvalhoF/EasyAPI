@@ -18,7 +18,7 @@ namespace Data.Implementations.PontoVendaPeriodo
         {
             try
             {
-                IQueryable<PeriodoPontoVendaEntity> query = _dataset;
+                IQueryable<PeriodoPontoVendaEntity> query = _dataset.AsNoTracking();
 
 
                 query = query.Where(p => p.DescricaoPeriodo.Contains(descricao));

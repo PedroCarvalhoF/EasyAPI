@@ -14,11 +14,11 @@ namespace Data.Implementations.PontoVenda
         public PontoVendaImplementacao(MyContext context) : base(context)
         {
             _dbSet = context.Set<PontoVendaEntity>();
-            _dbSet.AsNoTracking();
+           
         }
         public async Task<IEnumerable<PontoVendaEntity>> GetPdvs()
         {
-            IQueryable<PontoVendaEntity> query = _dbSet;
+            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
             query = Includes(query);
 
@@ -28,7 +28,7 @@ namespace Data.Implementations.PontoVenda
         }
         public async Task<PontoVendaEntity> GetByIdPdv(Guid pdvId)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet;
+            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
             query = Includes(query);
 
@@ -40,7 +40,7 @@ namespace Data.Implementations.PontoVenda
 
         public async Task<IEnumerable<PontoVendaEntity>> GetByIdPerfilUsuario(Guid idUser)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet;
+            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
             query = Includes(query);
 
@@ -52,7 +52,7 @@ namespace Data.Implementations.PontoVenda
 
         public async Task<IEnumerable<PontoVendaEntity>> AbertosFechados(bool abertoFechado)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet;
+            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
             query = Includes(query);
 
@@ -63,7 +63,7 @@ namespace Data.Implementations.PontoVenda
         }
         public async Task<IEnumerable<PontoVendaEntity>> FiltrarByData(PontoVendaDtoFiltrarData data)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet;
+            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
             query = query.Where(pdv => pdv.CreateAt.Value.Date >= data.DataInicial && pdv.CreateAt.Value.Date <= data.DataFinal);
 

@@ -53,7 +53,7 @@ namespace Api.Domain.Dtos.PedidoDtos
 
         [DisplayName("Id PDV")]
         [Required(ErrorMessage = "Informe o {0}")]
-        public Guid UserCreatePedidoId { get; set; }
+        public Guid UserRegistroId { get; set; }
         //############################################################
 
     }

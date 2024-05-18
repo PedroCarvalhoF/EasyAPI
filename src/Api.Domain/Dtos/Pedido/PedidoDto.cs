@@ -8,6 +8,7 @@ namespace Api.Domain.Dtos.PedidoDtos
 {
     public class PedidoDto : BaseDto
     {
+       
         public string? NumeroPedido { get; set; }
         public decimal? ValorDesconto { get; set; }
         public decimal? ValorPedido { get; set; }
@@ -17,7 +18,7 @@ namespace Api.Domain.Dtos.PedidoDtos
         // public Guid? PontoVendaEntityId { get; set; }
         public string? Observacoes { get; set; }
         public SituacaoPedidoDto? SituacaoPedidoEntity { get; set; }
-        public UsuarioPontoVendaDto? UserCreatePedido { get; set; }
+        public UsuarioPontoVendaDto? UserRegistro { get; set; }
         public PontoVendaDto? PontoVendaEntity { get; set; }
         public IEnumerable<ItemPedidoDto>? ItensPedidoEntities { get; set; }
 

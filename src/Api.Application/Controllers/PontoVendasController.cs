@@ -39,6 +39,7 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
             }
         }
+
         [HttpGet("pdv/{id}/id")]
         public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetByIdPdv(Guid id)
         {

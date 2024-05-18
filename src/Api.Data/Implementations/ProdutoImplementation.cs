@@ -20,7 +20,7 @@ namespace Api.Data.Implementations
         {
             try
             {
-                IQueryable<ProdutoEntity> query = _dataset;
+                IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
 
 
                 query = QueryIncludes(query);
@@ -40,7 +40,7 @@ namespace Api.Data.Implementations
         {
             try
             {
-                IQueryable<ProdutoEntity> query = _dataset;
+                IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
 
                 query = query.Where(p => p.Id.Equals(id));
 
@@ -60,7 +60,7 @@ namespace Api.Data.Implementations
 
         public async Task<IEnumerable<ProdutoEntity>> Get(string nomeProduto)
         {
-            IQueryable<ProdutoEntity> query = _dataset;
+            IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
 
             query = query.Where(p => p.NomeProduto.ToLower().Contains(nomeProduto.ToLower()));
 
@@ -77,7 +77,7 @@ namespace Api.Data.Implementations
         {
             try
             {
-                IQueryable<ProdutoEntity> query = _dataset;
+                IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
                 query = query.Where(p => p.CategoriaProdutoEntityId.Equals(categoriaId));
 
                 query = QueryIncludes(query);
@@ -97,7 +97,7 @@ namespace Api.Data.Implementations
         {
             try
             {
-                IQueryable<ProdutoEntity> query = _dataset;
+                IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
                 query = query.Where(p => p.CodigoBarrasPersonalizado.Equals(codigoPersonalizado));
 
                 query = QueryIncludes(query);
@@ -115,7 +115,7 @@ namespace Api.Data.Implementations
 
         public async Task<IEnumerable<ProdutoEntity>> GetHabilitadoNaoHabilitado(bool habilitado)
         {
-            IQueryable<ProdutoEntity> query = _dataset;
+            IQueryable<ProdutoEntity> query = _dataset.AsNoTracking()   ;
             query = query.Where(p => p.Habilitado.Equals(habilitado));
 
             query = QueryIncludes(query);
@@ -126,7 +126,7 @@ namespace Api.Data.Implementations
 
         public async Task<IEnumerable<ProdutoEntity>> GetMedida(Guid id)
         {
-            IQueryable<ProdutoEntity> query = _dataset;
+            IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
             query = query.Where(p => p.ProdutoMedidaEntityId.Equals(id));
 
             query = QueryIncludes(query);
@@ -137,7 +137,7 @@ namespace Api.Data.Implementations
 
         public async Task<IEnumerable<ProdutoEntity>> GetProdutoTipo(Guid id)
         {
-            IQueryable<ProdutoEntity> query = _dataset;
+            IQueryable<ProdutoEntity> query = _dataset.AsNoTracking();
             query = query.Where(p => p.ProdutoTipoEntityId.Equals(id));
 
             query = QueryIncludes(query);

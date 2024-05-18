@@ -18,7 +18,7 @@ namespace Data.Implementations.PedidoItem
         {
             try
             {
-                IQueryable<ItemPedidoEntity>? query = _dtSet;
+                IQueryable<ItemPedidoEntity>? query = _dtSet.AsNoTracking();
 
                 query = Include(query);
 
@@ -37,7 +37,7 @@ namespace Data.Implementations.PedidoItem
         {
             try
             {
-                IQueryable<ItemPedidoEntity>? query = _dtSet;
+                IQueryable<ItemPedidoEntity>? query = _dtSet.AsNoTracking();
 
                 query = Include(query);
 
@@ -59,7 +59,7 @@ namespace Data.Implementations.PedidoItem
         {
             try
             {
-                IQueryable<ItemPedidoEntity>? query = _dtSet;
+                IQueryable<ItemPedidoEntity>? query = _dtSet.AsNoTracking();
 
                 query = Include(query);
 

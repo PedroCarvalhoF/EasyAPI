@@ -24,25 +24,32 @@ namespace Api.Service.Services.PontoVendaService
             _mapper = mapper;
             _implementacao = pontoVendaRepository;
         }
+   
         public async Task<ResponseDto<List<PontoVendaDto>>> GetPdvs()
         {
-            var resposta = new ResponseDto<List<PontoVendaDto>>();
-
+            ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
+            resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                var entities = await _implementacao.GetPdvs();
+                IEnumerable<PontoVendaEntity> entities = await _implementacao.GetPdvs();
 
                 if (entities == null)
                 {
-                    return resposta.EntitiesNull();
+                    resposta.Status = true;
+                    resposta.Mensagem = "Ponto de Venda não localizado";
+                    return resposta;
                 }
 
-                var dtos = _mapper.Map<List<PontoVendaDto>>(entities);
-                return resposta.Retorno(dtos);
+                List<PontoVendaDto> dtos = _mapper.Map<List<PontoVendaDto>>(entities);
+                resposta.Dados = dtos;
+                resposta.Mensagem = $"PDVs Localizados: {dtos.Count} ";
+                return resposta;
             }
             catch (Exception ex)
             {
-                return resposta.Erro(ex);
+                resposta.Status = false;
+                resposta.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return resposta;
             }
         }
         public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId)

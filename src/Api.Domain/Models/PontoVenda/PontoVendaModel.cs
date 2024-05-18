@@ -4,6 +4,7 @@ namespace Api.Domain.Models.PontoVendaModels
 {
     public class PontoVendaModel : BaseModel
     {
+        
         public Guid UserPdvCreateId { get; set; }
         public Guid UserPdvUsingId { get; set; }
         public Guid PeriodoPontoVendaEntityId { get; set; }

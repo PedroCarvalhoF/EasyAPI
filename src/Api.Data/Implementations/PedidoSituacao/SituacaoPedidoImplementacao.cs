@@ -19,7 +19,7 @@ namespace Data.Implementations.PedidoSituacao
         {
             try
             {
-                IQueryable<SituacaoPedidoEntity> query = _dbSet;
+                IQueryable<SituacaoPedidoEntity> query = _dbSet.AsNoTracking();
 
                 query = query.Where(sit => sit.DescricaoSituacao.ToLower().Contains(descricao.ToLower()));
 

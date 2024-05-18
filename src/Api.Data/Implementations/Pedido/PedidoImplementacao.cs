@@ -20,7 +20,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -40,7 +40,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -60,7 +60,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -81,7 +81,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -103,7 +103,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -126,7 +126,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -149,7 +149,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
-                IQueryable<PedidoEntity> query = _dtSet;
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
 
@@ -174,7 +174,7 @@ namespace Data.Implementations.Pedido
             query = query.Include(sit => sit.SituacaoPedidoEntity);
 
             //usuario registo
-            query = query.Include(user => user.UserRegistro);
+            query = query.Include(user => user.UserRegistro).ThenInclude(u => u.User);
 
             //categoria preco
             query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
