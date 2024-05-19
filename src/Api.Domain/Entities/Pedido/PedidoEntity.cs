@@ -17,30 +17,30 @@ namespace Api.Domain.Entities.Pedido
         [Required(ErrorMessage = "Informe o {0}")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? NumeroPedido { get; set; }
-        //############################################################
+        
 
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? ValorDesconto { get; set; }
-        //############################################################
+       
 
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? ValorPedido { get; set; }
-        //############################################################
+        
 
         [DisplayName("Observações")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? Observacoes { get; set; } 
-        //############################################################
+      
 
         [DisplayName("Id Situação")]
         [Required(ErrorMessage = "Informe o {0}")]
         public Guid SituacaoPedidoEntityId { get; set; }
         public SituacaoPedidoEntity? SituacaoPedidoEntity { get; set; }
-        //############################################################
+        
 
         [DisplayName("Id PDV")]
         [Required(ErrorMessage = "Informe o {0}")]

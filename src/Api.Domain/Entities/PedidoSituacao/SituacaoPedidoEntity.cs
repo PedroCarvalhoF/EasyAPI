@@ -1,4 +1,5 @@
 ﻿using Api.Domain.Entities;
+using Api.Domain.Entities.Pedido;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities.PedidoSituacao
@@ -9,5 +10,6 @@ namespace Domain.Entities.PedidoSituacao
         [Required(ErrorMessage = "Informe a {0}")]
         [MaxLength(80, ErrorMessage = "Quantidae de caracteres deve ser menor ou igual {0}")]
         public string? DescricaoSituacao { get; set; }
+        public IEnumerable<PedidoEntity>? PedidoEntities { get; set; }
     }
 }

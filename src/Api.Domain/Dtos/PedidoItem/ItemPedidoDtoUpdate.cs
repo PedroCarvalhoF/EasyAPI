@@ -24,6 +24,6 @@ namespace Domain.Dtos.ItemPedido
         public string? ObservacaoItem { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public Guid UsuarioPontoVendaEntityId { get; set; }
     }
 }

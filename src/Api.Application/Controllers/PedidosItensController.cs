@@ -1,7 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Interfaces.Services.ItemPedido;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -38,7 +37,6 @@ namespace Api.Controllers
                 return BadRequest(response);
             }
         }
-
 
         [HttpGet("itens-pedido/{id}/id")]
         public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> Get(Guid id)

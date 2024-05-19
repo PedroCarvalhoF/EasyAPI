@@ -1,11 +1,15 @@
-﻿using AutoMapper;
+﻿using Api.Domain.Entities.Pedido;
+using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Entities.ItensPedido;
+using Domain.Entities.Produto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Models.ItemPedidoModels;
+using System.Diagnostics;
 
 namespace Service.Services.ItemPedidoService
 {
@@ -15,94 +19,128 @@ namespace Service.Services.ItemPedidoService
         private readonly IRepository<ItemPedidoEntity>? _repository;
         private readonly IMapper? _mapper;
 
-        public ItemPedidoService(IItemPedidoRepository? implementacao, IRepository<ItemPedidoEntity>? repository, IMapper? mapper)
+        private readonly IRepository<ProdutoEntity> _produtoRepository;
+        private readonly IRepository<PedidoEntity> _pedidoRepository;
+        private readonly IUsuarioPontoVendaRepository _usuarioPontoVendaRepository;
+
+        public ItemPedidoService(IItemPedidoRepository? implementacao, IRepository<ItemPedidoEntity>? repository, IMapper? mapper, IRepository<ProdutoEntity> produtoRepository, IRepository<PedidoEntity> pedidoRepository, IUsuarioPontoVendaRepository usuarioPontoVendaRepository)
         {
             _implementacao = implementacao;
             _repository = repository;
             _mapper = mapper;
+            _produtoRepository = produtoRepository;
+            _pedidoRepository = pedidoRepository;
+            _usuarioPontoVendaRepository = usuarioPontoVendaRepository;
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> GetAll()
         {
-            ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-            response.Dados = new List<ItemPedidoDto>();
+            var response = new ResponseDto<List<ItemPedidoDto>>();
+
             try
             {
                 var entity = await _implementacao!.GetAll();
-                if (entity == null)
+                if (entity == null || entity.Count() == 0)
                 {
-                    response.ErroConsulta("Registro não encontrado");
+                    response.EntitiesNull();
                     return response;
                 }
 
                 var dtos = _mapper.Map<List<ItemPedidoDto>>(entity);
-                response.Dados = dtos;
-                response.ConsultaOk(dtos.Count()); 
-                return response;
+                return response.Retorno(dtos);
             }
             catch (Exception ex)
             {
-                response.ErroConsulta("Item Pedido: ", ex.Message);
-                return response;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> Get(Guid id)
         {
-            ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-            response.Dados = new List<ItemPedidoDto>();
+            var response = new ResponseDto<List<ItemPedidoDto>>();
+
             try
             {
                 var entity = await _implementacao!.Get(id);
                 if (entity == null)
                 {
-                    response.ErroConsulta("Registro não encontrado");
+                    response.EntitiesNull();
                     return response;
                 }
 
                 var dto = _mapper.Map<ItemPedidoDto>(entity);
                 response.Dados.Add(dto);
-
-                return response;
+                return response.ConsultaOk();
             }
             catch (Exception ex)
             {
-                response.ErroConsulta("Item Pedido: ", ex.Message);
-                return response;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> GetByIdPedido(Guid idPedido)
         {
-            ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-            response.Dados = new List<ItemPedidoDto>();
+            var response = new ResponseDto<List<ItemPedidoDto>>();
+
             try
             {
                 var entity = await _implementacao!.GetByIdPedido(idPedido);
                 if (entity == null)
                 {
-                    response.ErroConsulta("Registro não encontrado");
+                    response.EntitiesNull();
                     return response;
                 }
 
                 var dto = _mapper.Map<ItemPedidoDto>(entity);
                 response.Dados.Add(dto);
-
-                return response;
+                return response.ConsultaOk();
             }
             catch (Exception ex)
             {
-                response.ErroConsulta("Item Pedido: ", ex.Message);
-                return response;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> GerarItemPedido(ItemPedidoDtoCreate itemPedidoCreate)
         {
-            ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-            response.Dados = new List<ItemPedidoDto>();
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            var response = new ResponseDto<List<ItemPedidoDto>>();
+
+            if (itemPedidoCreate.UsuarioPontoVendaEntityId == Guid.Empty)
+            {
+                return response.Erro("Usuário não localizado");
+            }
+
             try
             {
                 var model = _mapper.Map<ItemPedidoModel>(itemPedidoCreate);
-
                 model.GerarItemPedido();
-                model.Calular();
+
+                //verificar se produto existe
+                var produtoExits = await _produtoRepository.ExistAsync(itemPedidoCreate.ProdutoEntityId);
+                if (!produtoExits)
+                {
+                    return response.Erro("Produto não localizado");
+                }
+
+                // verificar se pedido existe e se esta aberto
+                var pedidoExists = await _pedidoRepository.ExistAsync(itemPedidoCreate.PedidoEntityId);
+                if (!pedidoExists)
+                {
+                    return response.Erro("Pedido não localizado");
+                }
+
+                var pedido = await _pedidoRepository.SelectAsync(itemPedidoCreate.PedidoEntityId);
+                //NAO ALTERAR GUID!!!!!!!
+                if (pedido.SituacaoPedidoEntityId == Guid.Parse("11b17cc5-c8b1-48f9-b9fd-886339441328"))
+                {
+                    return response.Erro("Não é possivel inserir item em um pedido cancelado.");
+                }
+
+                //verificar se usuario ponto de venda existe
+
+                var user = await _usuarioPontoVendaRepository.GetByIdUser(itemPedidoCreate.UsuarioPontoVendaEntityId);
+                if (user == null)
+                {
+                    return response.Erro("Usuário não localizado.");
+                }
 
                 var entity = _mapper.Map<ItemPedidoEntity>(model);
 
@@ -122,23 +160,36 @@ namespace Service.Services.ItemPedidoService
                     return response;
                 }
 
+
+                //APOS INSERIR ITEM - PRECISA ALTUALIZAR VALOR DO PEDIDO
+                //VALOR = VALOR + Total Item Inserido
+
+                pedido.ValorPedido += entity.Total;
+
+                var pedidoValorAlterado = await _pedidoRepository.UpdateAsync(pedido);
+                if (pedidoValorAlterado == null)
+                {
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi inserido com sucesso, porém ao atualizar valor do pedido não foi possível. Atualize o pedido para resolver pendencia.");
+                }
+
+
                 var dto = _mapper.Map<ItemPedidoDto>(result);
 
+                response.Dados = new List<ItemPedidoDto>() { dto };
                 response.CadastroOk();
-                response.Dados.Add(dto);
 
+                stopwatch.Stop();
                 return response;
             }
             catch (Exception ex)
             {
-                response.ErroConsulta("Item Pedido: ", ex.Message);
-                return response;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> CancelarItemPedido(Guid id)
         {
-            ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-            response.Dados = new List<ItemPedidoDto>();
+            var response = new ResponseDto<List<ItemPedidoDto>>();
+
             try
             {
                 var entity = await _repository!.SelectAsync(id);
@@ -181,11 +232,8 @@ namespace Service.Services.ItemPedidoService
             }
             catch (Exception ex)
             {
-                response.ErroConsulta("Item Pedido: ", ex.Message);
-                return response;
+                return response.Erro(ex);
             }
         }
-
-
     }
 }

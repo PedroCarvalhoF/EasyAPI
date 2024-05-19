@@ -17,7 +17,7 @@ namespace CrossCutting.Mappings.PedidoItem
                     model.Preco,
                     model.Desconto,
                     model.ObservacaoItem,
-                    model.UserId,
+                    model.UsuarioPontoVendaEntityId,
                     model.PedidoEntityId
                 ));
 

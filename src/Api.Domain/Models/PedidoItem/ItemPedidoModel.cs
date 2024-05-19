@@ -4,10 +4,10 @@ namespace Domain.Models.ItemPedidoModels
 {
     public class ItemPedidoModel : BaseModel
     {
-        public ItemPedidoModel(Guid produtoEntityId, decimal quatidade, decimal preco, decimal desconto, string? observacaoItem, Guid userId, Guid pedidoEntityId)
+        public ItemPedidoModel(Guid produtoEntityId, decimal quatidade, decimal preco, decimal desconto, string? observacaoItem, Guid usuarioPontoVendaEntityId, Guid pedidoEntityId)
         {
 
-            if (quatidade < 0)
+            if (quatidade <= 0)
             {
                 throw new Exception("Quantidade não pode ser menor que zero");
             }
@@ -26,7 +26,7 @@ namespace Domain.Models.ItemPedidoModels
             Preco = preco;
             Desconto = desconto;
             ObservacaoItem = observacaoItem;
-            UserId = UserId;
+            UsuarioPontoVendaEntityId = usuarioPontoVendaEntityId;
             PedidoEntityId = pedidoEntityId;
         }
 
@@ -37,9 +37,9 @@ namespace Domain.Models.ItemPedidoModels
         public decimal SubTotal { get; private set; }
         public decimal Total { get; private set; }
         public string? ObservacaoItem { get; private set; }
-        public Guid UserId { get; private set; }
+        public Guid UsuarioPontoVendaEntityId { get; private set; }
         public Guid PedidoEntityId { get; private set; }
-        public void Calular()
+        private void Calular()
         {
             this.SubTotal = this.Quatidade * this.Preco;
             this.Total = this.SubTotal - this.Desconto;
