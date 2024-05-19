@@ -46,6 +46,9 @@ namespace Domain.Models.ItemPedidoModels
         }
         public void CancelarItemPedido()
         {
+            if (!this.Habilitado)
+                throw new Exception("Item do pedido ja está cancelado");
+
             this.Habilitado = false;
         }
         public void GerarItemPedido()

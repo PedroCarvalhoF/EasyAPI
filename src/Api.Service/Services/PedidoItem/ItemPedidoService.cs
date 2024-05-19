@@ -179,6 +179,8 @@ namespace Service.Services.ItemPedidoService
                 response.CadastroOk();
 
                 stopwatch.Stop();
+
+
                 return response;
             }
             catch (Exception ex)
@@ -196,23 +198,34 @@ namespace Service.Services.ItemPedidoService
 
                 if (entity == null)
                 {
-
-                    response.ErroConsulta("Não localizado item do pedido");
-                    return response;
+                    return response.EntitiesNull();
                 }
+
+
                 var model = _mapper.Map<ItemPedidoModel>(entity);
 
+                if(!model.Habilitado)
+                    return response.Erro("Item do pedido ja está cancelado");
+
                 model.CancelarItemPedido();
-
-
                 var entityUpdate = _mapper.Map<ItemPedidoEntity>(model);
 
-                var entityUpdateResult = await _repository!.UpdateAsync(entity);
-
+                var entityUpdateResult = await _repository!.UpdateAsync(entityUpdate);
                 if (entityUpdateResult == null)
                 {
                     response.ErroCadastro();
                     return response;
+                }
+
+                //apos remover item  alterar o valor do pedido                
+
+                var pedido = await _pedidoRepository.SelectAsync(entity.PedidoEntityId);
+                pedido.ValorPedido -= entity.Total;
+
+                var pedidoUpdate = await _pedidoRepository.UpdateAsync(pedido);
+                if (pedidoUpdate == null)
+                {
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi removido com sucesso, porém ao atualizar valor do pedido não foi possível. Atualize o pedido para resolver pendencia.");
                 }
 
                 var result = await _implementacao!.Get(entityUpdateResult.Id);
@@ -224,11 +237,7 @@ namespace Service.Services.ItemPedidoService
                 }
 
                 var dto = _mapper.Map<ItemPedidoDto>(result);
-
-                response.CadastroOk();
-                response.Dados.Add(dto);
-
-                return response;
+                return response.Retorno(new List<ItemPedidoDto>() { dto });
             }
             catch (Exception ex)
             {
