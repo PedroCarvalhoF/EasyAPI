@@ -22,18 +22,18 @@ namespace Api.Domain.Entities.Pedido
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? ValorDesconto { get; set; } = 0;
+        public decimal? ValorDesconto { get; set; }
         //############################################################
 
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
-        public decimal? ValorPedido { get; set; } = 0;
+        public decimal? ValorPedido { get; set; }
         //############################################################
 
         [DisplayName("Observações")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
-        public string? Observacoes { get; set; } = string.Empty;
+        public string? Observacoes { get; set; } 
         //############################################################
 
         [DisplayName("Id Situação")]
