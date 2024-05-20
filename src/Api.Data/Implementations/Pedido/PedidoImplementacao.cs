@@ -191,6 +191,8 @@ namespace Data.Implementations.Pedido
 
             query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoTipoEntity);
 
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(user => user.UsuarioPontoVendaEntity).ThenInclude(us => us.User);
+
             query = query.Include(pgt => pgt.PagamentoPedidoEntities).ThenInclude(forma => forma.FormaPagamentoEntity);
 
             return query;

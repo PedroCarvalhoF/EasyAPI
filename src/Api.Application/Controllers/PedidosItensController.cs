@@ -1,4 +1,5 @@
-﻿using Domain.Dtos;
+﻿using Api.Extensions;
+using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Interfaces.Services.ItemPedido;
 using Microsoft.AspNetCore.Mvc;
@@ -85,6 +86,7 @@ namespace Api.Controllers
         {
             try
             {
+                itemPedido.UsuarioPontoVendaEntityId = User.GetUserId();
                 var result = await _service.GerarItemPedido(itemPedido);
 
                 if (!result.Status)

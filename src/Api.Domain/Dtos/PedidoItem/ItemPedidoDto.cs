@@ -15,7 +15,7 @@ namespace Domain.Dtos.ItemPedido
         public decimal Desconto { get; set; }
         public decimal Total { get; set; }
         public string? ObservacaoItem { get; set; }
-        public UsuarioPontoVendaDto? User { get; set; }
+        public UsuarioPontoVendaDto? UsuarioPontoVendaEntity { get; set; }
         public PedidoDto? PedidoEntity { get; set; }
     }
 }

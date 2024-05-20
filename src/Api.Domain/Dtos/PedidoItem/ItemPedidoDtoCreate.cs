@@ -22,7 +22,7 @@ namespace Domain.Dtos.ItemPedido
 
         [Required]
         public Guid PedidoEntityId { get; set; }
-        [Required]
+      
         public Guid UsuarioPontoVendaEntityId { get; set; }
 
     }
