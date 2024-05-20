@@ -6,6 +6,10 @@ namespace Domain.Dtos.PedidoPagamento
 {
     public class PagamentoPedidoDtoUpdate
     {
+        [DisplayName("Id")]
+        [Required(ErrorMessage = "Informe o {0}")]
+        public Guid Id { get; set; }
+
         [DisplayName("Id do Pedido")]
         [Required(ErrorMessage = "Informe o {0}")]
         public Guid PedidoEntityId { get; set; }

@@ -1,6 +1,4 @@
-﻿using Domain.Dtos.FormaPagamentoDtos;
-using Domain.Dtos.PedidoSituacao;
-using System.Collections;
+﻿using System.Collections;
 
 namespace Domain.Dtos
 {
@@ -13,13 +11,13 @@ namespace Domain.Dtos
         public ResponseDto<T> CadastroOk()
         {
             this.Status = true;
-            this.Mensagem = $"Cadastro efetuado com sucesso";
+            this.Mensagem = $"Cadastro efetuado com sucesso.";
             return this;
         }
         public void CadastroOk(string titulo)
         {
             this.Status = true;
-            this.Mensagem = $"{titulo}- Cadastro efetuado com sucesso";
+            this.Mensagem = $"{titulo}- Cadastro efetuado com sucesso.";
         }
         public void CadastroOk(string titulo, string detalhes)
         {
@@ -29,18 +27,18 @@ namespace Domain.Dtos
         public ResponseDto<T> AlteracaoOk()
         {
             this.Status = true;
-            this.Mensagem = $"Alteração realizada com sucesso";
+            this.Mensagem = $"Alteração realizada com sucesso.";
             return this;
         }
         public void AlteracaoOk(string titulo)
         {
             this.Status = true;
-            this.Mensagem = $"{titulo} - Alteração realizada com sucesso";
+            this.Mensagem = $"{titulo} - Alteração realizada com sucesso.";
         }
         public void AlteracaoOk(string titulo, string detalhes)
         {
             this.Status = true;
-            this.Mensagem = $"{titulo} - {detalhes}";
+            this.Mensagem = $"{titulo} - {detalhes}.";
         }
         public ResponseDto<T> ConsultaOk()
         {
@@ -62,20 +60,20 @@ namespace Domain.Dtos
         public ResponseDto<T> Erro(Exception ex)
         {
             this.Status = false;
-            this.Mensagem = $"Erro.Detalhes: {ex.Message}";
+            this.Mensagem = $"Erro.Detalhes: {ex.Message}.";
             return this;
         }
         public ResponseDto<T> Erro(string detalhes)
         {
             this.Status = false;
-            this.Mensagem = $"Não foi possivel realizar operação: {detalhes}";
+            this.Mensagem = $"Não foi possivel realizar operação: {detalhes}.";
             return this;
         }
 
         public void ErroConsulta()
         {
             this.Status = false;
-            this.Mensagem = $"Não foi possivel realizar consulta";
+            this.Mensagem = $"Não foi possivel realizar consulta.";
         }
         public void ErroConsulta(string titulo)
         {
@@ -86,7 +84,7 @@ namespace Domain.Dtos
         public void ErroConsulta(string titulo, string detalhe)
         {
             this.Status = false;
-            this.Mensagem = $"{titulo}: {detalhe}";
+            this.Mensagem = $"{titulo}: {detalhe} .";
         }
 
         public ResponseDto<T> ErroCadastro()
@@ -106,7 +104,7 @@ namespace Domain.Dtos
         public void ErroCadastro(string detalhes)
         {
             this.Status = false;
-            this.Mensagem = $"Erro.Detalhes: {detalhes}";
+            this.Mensagem = $"Erro.Detalhes: {detalhes} .";
         }
         public ResponseDto<T> Retorno(T dados)
         {
@@ -114,12 +112,12 @@ namespace Domain.Dtos
             this.Status = true;
             if (dados is IList lista)
             {
-                this.Mensagem = $"Sucesso- Número de registros: {lista.Count}";
+                this.Mensagem = $"Total Registro: {lista.Count} .";
             }
             else
             if (dados is T)
             {
-                this.Mensagem = $"Sucesso:{1}";
+                this.Mensagem = $"Sucesso:{1} .";
             }
             return this;
         }
@@ -134,7 +132,14 @@ namespace Domain.Dtos
         public ResponseDto<T> UpdateOk()
         {
             this.Status = true;
-            this.Mensagem = $"Alteração realizada com sucesso";
+            this.Mensagem = $"Alteração realizada com sucesso.";
+            return this;
+        }
+
+        public ResponseDto<T> DeleteOK()
+        {
+            this.Status = true;
+            this.Mensagem = $"Registro apagado com sucesso.";
             return this;
         }
     }

@@ -1,14 +1,20 @@
-﻿using Api.Domain.Dtos.PedidoDtos;
-using Domain.Dtos.FormaPagamentoDtos;
+﻿using Api.Domain.Models;
 
 namespace Domain.Models.PagamentoPedidoModels
 {
-    public class PagamentoPedidoModel
+    public class PagamentoPedidoModel : BaseModel
     {
-        public Guid? PedidoEntityId { get; set; }
-        public PedidoDto? PedidoEntity { get; set; }
-        public Guid? FormaPagamentoEntityId { get; set; }
-        public FormaPagamentoDto? FormaPagamentoEntity { get; set; }
-        public decimal ValorPago { get; set; }
+        public PagamentoPedidoModel(Guid? id, Guid pedidoEntityId, Guid formaPagamentoEntityId, decimal valorPago)
+        {
+            PedidoEntityId = pedidoEntityId;
+            FormaPagamentoEntityId = formaPagamentoEntityId;
+            ValorPago = valorPago;
+            if (ValorPago <= 0)
+                throw new Exception("O valor informado não pode ser menor ou igual a zero.");
+        }
+
+        public Guid PedidoEntityId { get; private set; }
+        public Guid FormaPagamentoEntityId { get; private set; }
+        public decimal ValorPago { get; private set; }       
     }
 }

@@ -17,6 +17,7 @@ using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
+using Domain.Dtos.PedidoPagamento;
 using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
@@ -39,7 +40,7 @@ namespace Api.CrossCutting.Mappings
     {
         public DtoToModelProfile()
         {
-
+            PagamentoPedidoDtoProfileModel();
 
             CreateMap<UsuarioPontoVendaModel, UsuarioPontoVendaDto>().ReverseMap();
             CreateMap<UsuarioPontoVendaModel, UsuarioPontoVendaDtoCreate>().ReverseMap();
@@ -88,8 +89,12 @@ namespace Api.CrossCutting.Mappings
             CreateMap<FormaPagamentoModel, FormaPagamentoDtoCreate>().ReverseMap();
             CreateMap<FormaPagamentoModel, FormaPagamentoDtoUpdate>().ReverseMap();
 
-            CreateMap<PagamentoPedidoModel, PagamentoPedidoDto>().ReverseMap();
-            CreateMap<PagamentoPedidoModel, PagamentoPedidoDtoCreate>().ReverseMap();
+
+
+
+
+
+
 
             CreateMap<PessoaTipoModel, PessoaTipoDto>().ReverseMap();
 
@@ -123,5 +128,15 @@ namespace Api.CrossCutting.Mappings
 
         }
 
+        private void PagamentoPedidoDtoProfileModel()
+        {
+            CreateMap<PagamentoPedidoDtoCreate, PagamentoPedidoModel>()
+             .ConstructUsing(
+             dto => new PagamentoPedidoModel(null, dto.PedidoEntityId, dto.FormaPagamentoEntityId, dto.ValorPago));
+
+            CreateMap<PagamentoPedidoDtoUpdate, PagamentoPedidoModel>()
+               .ConstructUsing(
+               dto => new PagamentoPedidoModel(dto.Id, dto.PedidoEntityId, dto.FormaPagamentoEntityId, dto.ValorPago));
+        }
     }
 }

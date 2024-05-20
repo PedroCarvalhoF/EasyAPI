@@ -12,4 +12,7 @@
     <ProjectReference Include="..\Api.Data\Data.csproj" />
     
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Mappings\PagamentoPedido\" />
+  </ItemGroup>
 </Project>

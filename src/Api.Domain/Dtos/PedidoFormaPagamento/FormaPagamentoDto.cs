@@ -4,7 +4,6 @@ namespace Domain.Dtos.FormaPagamentoDtos
 {
     public class FormaPagamentoDto : BaseDto
     {
-               public string? DescricaoFormaPg { get; set; }
-
+        public string? DescricaoFormaPg { get; set; }
     }
 }
