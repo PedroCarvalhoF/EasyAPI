@@ -1,6 +1,7 @@
 ﻿using Api.Extensions;
 using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
+using Domain.Dtos.PedidoItem;
 using Domain.Interfaces.Services.ItemPedido;
 using Microsoft.AspNetCore.Mvc;
 
@@ -88,6 +89,28 @@ namespace Api.Controllers
             {
                 itemPedido.UsuarioPontoVendaEntityId = User.GetUserId();
                 var result = await _service.GerarItemPedido(itemPedido);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
+                response.Erro(ex.Message);
+
+                return BadRequest(response);
+            }
+        }
+
+        [HttpPut("itens-pedido-editar-observacao")]
+        public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> EditarObservacao(ItemPedidoDtoEditarObservacao observacao)
+        {
+            try
+            {
+                
+                var result = await _service.EditarObservacao(observacao);
 
                 if (!result.Status)
                     return BadRequest(result);

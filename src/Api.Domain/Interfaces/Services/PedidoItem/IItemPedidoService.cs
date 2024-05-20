@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
+using Domain.Dtos.PedidoItem;
 
 namespace Domain.Interfaces.Services.ItemPedido
 {
@@ -10,5 +11,6 @@ namespace Domain.Interfaces.Services.ItemPedido
         Task<ResponseDto<List<ItemPedidoDto>>> GerarItemPedido(ItemPedidoDtoCreate itemPedido);
         Task<ResponseDto<List<ItemPedidoDto>>> CancelarItemPedido(Guid id);
         Task<ResponseDto<List<ItemPedidoDto>>> GetAll();
+        Task<ResponseDto<List<ItemPedidoDto>>> EditarObservacao(ItemPedidoDtoEditarObservacao observacao);
     }
 }

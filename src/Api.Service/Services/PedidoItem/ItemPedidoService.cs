@@ -2,6 +2,7 @@
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
+using Domain.Dtos.PedidoItem;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.Produto;
 using Domain.Interfaces;
@@ -67,7 +68,7 @@ namespace Service.Services.ItemPedidoService
                 }
 
                 var dto = _mapper.Map<ItemPedidoDto>(entity);
-                response.Dados.Add(dto);
+                response.Dados = new List<ItemPedidoDto>() { dto };
                 return response.ConsultaOk();
             }
             catch (Exception ex)
@@ -188,6 +189,41 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
+        public async Task<ResponseDto<List<ItemPedidoDto>>> EditarObservacao(ItemPedidoDtoEditarObservacao observacao)
+        {
+            var response = new ResponseDto<List<ItemPedidoDto>>();
+
+            try
+            {
+                var entity = await _repository.SelectAsync(observacao.Id);
+                if (entity == null)
+                {
+                    return response.EntitiesNull();
+                }
+
+                entity.ObservacaoItem = observacao.ObservacaoItem;
+
+                var entityUpdate = await _repository.UpdateAsync(entity);
+                if (entityUpdate == null)
+                {
+                    return response.EntitiesNull();
+                }
+
+                var resultUpdateDto = await Get(entityUpdate.Id);
+                if (resultUpdateDto.Status)
+                {
+                    response.Mensagem = "Observação alterada";
+                    return response;
+                }
+
+                return response.ErroUpdate();
+
+            }
+            catch (Exception ex)
+            {
+                return response.Erro(ex);
+            }
+        }
         public async Task<ResponseDto<List<ItemPedidoDto>>> CancelarItemPedido(Guid id)
         {
             var response = new ResponseDto<List<ItemPedidoDto>>();
@@ -204,7 +240,7 @@ namespace Service.Services.ItemPedidoService
 
                 var model = _mapper.Map<ItemPedidoModel>(entity);
 
-                if(!model.Habilitado)
+                if (!model.Habilitado)
                     return response.Erro("Item do pedido ja está cancelado");
 
                 model.CancelarItemPedido();
@@ -244,5 +280,7 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
+
+
     }
 }
