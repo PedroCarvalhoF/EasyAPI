@@ -67,7 +67,25 @@ namespace Api.Controllers
             }
         }
 
-        
+        [HttpPost("pagamento-pedido/create-array")]
+        public async Task<ActionResult<ResponseDto<List<PagamentoPedidoDto>>>> InserirArrayPagamentoPedido(List<PagamentoPedidoDtoCreate> listPagamentoCreate)
+        {
+            try
+            {
+                var result = await _service.InserirArrayPagamentoPedido(listPagamentoCreate);
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseDto<List<PagamentoPedidoDto>>().Erro(ex));
+            }
+        }
+
+
+
         [HttpDelete("pagamento-pedido/{idPagamento}/remover-pagamento")]
         public async Task<ActionResult<ResponseDto<List<PagamentoPedidoDto>>>> RemoverPagamentoPedido(Guid idPagamento)
         {

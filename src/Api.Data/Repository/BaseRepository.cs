@@ -120,7 +120,7 @@ namespace Api.Data.Repository
                 }
 
                 await _dataset.AddRangeAsync(items);
-                await _context.SaveChangesAsync();
+                var result = await _context.SaveChangesAsync();
 
                 await transaction.CommitAsync();
             }

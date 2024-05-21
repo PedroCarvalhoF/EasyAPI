@@ -5,9 +5,13 @@ using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.PagamentoPedido;
 using Domain.Interfaces;
+using Domain.Interfaces.Repository.Pedido;
 using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Models.PagamentoPedidoModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.DependencyInjection;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Service.Services.PagamentoPedidoServices
 {
@@ -16,12 +20,12 @@ namespace Service.Services.PagamentoPedidoServices
         private readonly IMapper _mapper;
         private readonly IPagamentoPedidoRepository _implementacao;
         private readonly IRepository<PagamentoPedidoEntity> _repository;
-        private readonly IRepository<PedidoEntity> _pedidoRepository;
+        private readonly IPedidoRepository _pedidoRepository;
         private readonly IRepository<FormaPagamentoEntity> _formaPgmtRespository;
         public PagamentoPedidoService(IMapper mapper,
                                       IPagamentoPedidoRepository pagamentoPedidoRepository,
                                       IRepository<PagamentoPedidoEntity> repository,
-                                      IRepository<PedidoEntity> pedidoRepository,
+                                      IPedidoRepository pedidoRepository,
                                       IRepository<FormaPagamentoEntity> formaPgmtRepository)
         {
             _mapper = mapper;
@@ -99,7 +103,7 @@ namespace Service.Services.PagamentoPedidoServices
             {
                 var model = _mapper.Map<PagamentoPedidoModel>(pgPedido);
 
-                var pedidoExists = await _pedidoRepository.SelectAsync(model.PedidoEntityId);
+                var pedidoExists = await _pedidoRepository.Get(model.PedidoEntityId);
                 if (pedidoExists == null)
                 {
                     return response.Erro("Pedido não localizado.");
@@ -126,6 +130,40 @@ namespace Service.Services.PagamentoPedidoServices
                     return response.Erro("Forma de pagamento informada não esta habilitada.");
 
 
+                decimal? valor_pago = 0;
+
+                if (pedidoExists.PagamentoPedidoEntities != null)
+                {
+
+                    if (pedidoExists.PagamentoPedidoEntities.Count() > 0)
+                    {
+                        valor_pago = pedidoExists.PagamentoPedidoEntities.Sum(p => p.ValorPago);
+                        if (valor_pago >= pedidoExists.ValorPedido)
+                        {
+                            response.Mensagem = "Atençao!Não é necessário realizar mais recebimentos de pagamento para este pedido!";
+                            response.Status = false;
+                            return response;
+                        }
+                    }
+                    else
+                    {
+                        valor_pago = model.ValorPago;
+                    }
+                }
+                else
+                {
+                    valor_pago = model.ValorPago;
+                }
+
+
+                decimal? troco = pedidoExists.ValorPedido - valor_pago;
+                bool pagamento_completo = false;
+                if (troco < 0)
+                {
+                    model.AjustarValorTroco(troco);
+                    pagamento_completo = true;
+                }
+
                 var pagamentoEntity = _mapper.Map<PagamentoPedidoEntity>(model);
 
                 var pagamentoEntityResult = await _repository.InsertAsync(pagamentoEntity);
@@ -142,8 +180,85 @@ namespace Service.Services.PagamentoPedidoServices
                 }
 
                 result.Mensagem = "Pagamento inserido com sucesso.";
-
+                if (pagamento_completo)
+                {
+                    result.Mensagem = "Pagamento inserido com sucesso.Não é necessário mais pagamentos!";
+                }
                 return result;
+            }
+            catch (Exception ex)
+            {
+                return response.Erro(ex);
+            }
+        }
+        public async Task<ResponseDto<List<PagamentoPedidoDto>>> InserirArrayPagamentoPedido(List<PagamentoPedidoDtoCreate> listPagamentoCreate)
+        {
+            var response = new ResponseDto<List<PagamentoPedidoDto>>();
+
+            try
+            {
+                var models = _mapper.Map<List<PagamentoPedidoModel>>(listPagamentoCreate);
+                var total_pedido_models = models.Sum(pgmodel => pgmodel.ValorPago);
+
+
+                var pedidoExists = await _pedidoRepository.Get(models[0].PedidoEntityId);
+                if (pedidoExists == null)
+                {
+                    return response.Erro("Pedido não localizado.");
+                }
+
+                if (pedidoExists.SituacaoPedidoEntityId == Guid.Parse("11b17cc5-c8b1-48f9-b9fd-886339441328"))
+                {
+                    return response.Erro("Não é possivel inserir forma de pagamento em um pedido cancelado.");
+                }
+
+                if (!pedidoExists.Habilitado)
+                {
+                    return response.Erro("Não é possivel inserir pagamento em um pedido finalizado.");
+                }
+
+
+
+                foreach (var pgmentoModel in models)
+                {
+
+
+                    var formaPagamentoExists = await _formaPgmtRespository.SelectAsync(pgmentoModel.FormaPagamentoEntityId);
+                    if (formaPagamentoExists == null)
+                    {
+                        return response.Erro("Forma de pagamento não localizado.");
+                    }
+
+                    if (!formaPagamentoExists.Habilitado)
+                        return response.Erro("Forma de pagamento informada não esta habilitada.");
+                }
+
+                var entities = _mapper.Map<List<PagamentoPedidoEntity>>(models);
+
+                var resultEntities = await _repository.InsertAsync(entities);
+
+                if (resultEntities == null)
+                {
+                    return response.Erro("Não foi possível inserir o(s) pagamento(s).");
+                }
+
+                if (entities.Count() != resultEntities.Count())
+                {
+                    return response.Erro("Não foi possível inserir o(s) pagamento(s).");
+                }
+
+                var result = await GetByIdPedido(models[0].PedidoEntityId);
+
+                if (result.Status)
+                {
+                    response.Mensagem = "Pagamentos inseridos com sucesso.";
+                    response.Status = true;
+                    return response;
+                }
+
+                return response.Erro();
+
+
             }
             catch (Exception ex)
             {
@@ -159,7 +274,7 @@ namespace Service.Services.PagamentoPedidoServices
                 var pagamento = await _repository.SelectAsync(idPagamento);
 
 
-                var pedido = await _pedidoRepository.SelectAsync(pagamento.PedidoEntityId);
+                var pedido = await _pedidoRepository.Get(pagamento.PedidoEntityId);
                 if (pedido == null)
                 {
                     return response.Erro("Pedido não localizado.");
@@ -200,5 +315,7 @@ namespace Service.Services.PagamentoPedidoServices
                 return response.Erro(ex);
             }
         }
+
+
     }
 }

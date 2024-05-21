@@ -182,7 +182,7 @@ namespace Data.Implementations.Pedido
             //pdv
             query = query.Include(pdv => pdv.PontoVendaEntity).ThenInclude(per => per.PeriodoPontoVendaEntity); ;
 
-
+          
             //itens do pedido
             query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.CategoriaProdutoEntity);
 

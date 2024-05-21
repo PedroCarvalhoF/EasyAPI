@@ -15,6 +15,11 @@ namespace Domain.Models.PagamentoPedidoModels
 
         public Guid PedidoEntityId { get; private set; }
         public Guid FormaPagamentoEntityId { get; private set; }
-        public decimal ValorPago { get; private set; }       
+        public decimal? ValorPago { get; private set; }
+
+        public void AjustarValorTroco(decimal? troco)
+        {
+            ValorPago += troco;
+        }
     }
 }

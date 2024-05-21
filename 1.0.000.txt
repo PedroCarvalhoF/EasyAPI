@@ -1,3 +1,0 @@
-Controle de Versao
-
-1.0 - 13/05/2024 - Modelo para Desenvolvimento

@@ -10,5 +10,6 @@ namespace Domain.Interfaces.Services.PagamentoPedido
         Task<ResponseDto<List<PagamentoPedidoDto>>> GetByIdPedido(Guid idPedido);
         Task<ResponseDto<List<PagamentoPedidoDto>>> InserirPagamentoPedido(PagamentoPedidoDtoCreate pgPedido);
         Task<ResponseDto<List<PagamentoPedidoDto>>> RemoverPagamentoPedido(Guid idPagamento);
+        Task<ResponseDto<List<PagamentoPedidoDto>>> InserirArrayPagamentoPedido(List<PagamentoPedidoDtoCreate> listPagamentoCreate);
     }
 }

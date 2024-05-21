@@ -51,10 +51,11 @@ namespace Domain.Dtos
             this.Status = true;
             this.Mensagem = $"Consulta realizada com sucesso! Localizado(s) {qtd} registro(s).";
         }
-        public void Erro()
+        public ResponseDto<T> Erro()
         {
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar operação.";
+            return this;
         }
 
         public ResponseDto<T> Erro(Exception ex)
@@ -136,10 +137,10 @@ namespace Domain.Dtos
             return this;
         }
 
-        public ResponseDto<T> DeleteOK()
+        public ResponseDto<T> DeleteOK(string detalhes)
         {
             this.Status = true;
-            this.Mensagem = $"Registro apagado com sucesso.";
+            this.Mensagem = $"detalhes";
             return this;
         }
     }
