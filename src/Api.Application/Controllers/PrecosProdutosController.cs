@@ -64,6 +64,7 @@ namespace Api.Application.Controllers
             {
                 var result = await _service.GetIdProduto(id);
 
+
                 if (!result.Status)
                     return BadRequest(result);
 

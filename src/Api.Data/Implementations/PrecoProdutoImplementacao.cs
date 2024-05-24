@@ -65,7 +65,7 @@ namespace Data.Implementations
             {
                 IQueryable<PrecoProdutoEntity> query = _dtSet.AsNoTracking();
 
-                query = query.Where(preco => preco.ProdutoEntityId.Equals(id));
+                query = query.Where(preco => preco.ProdutoEntity.Id.Equals(id));
 
                 query = Includes(query);
 
