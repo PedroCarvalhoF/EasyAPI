@@ -258,6 +258,9 @@ namespace Service.Services.ItemPedidoService
                 var pedido = await _pedidoRepository.SelectAsync(entity.PedidoEntityId);
                 pedido.ValorPedido -= entity.Total;
 
+                if (pedido.ValorPedido < 0)
+                    pedido.ValorPedido = 0;
+
                 var pedidoUpdate = await _pedidoRepository.UpdateAsync(pedido);
                 if (pedidoUpdate == null)
                 {

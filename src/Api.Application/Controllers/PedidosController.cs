@@ -177,6 +177,29 @@ namespace Api.Application.Controllers
             }
         }
 
+
+        [HttpPut("pedidos/atualizar-valor-pedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> AtualizarValorPedido(Guid idPedido)
+        {
+            try
+            {
+                var result = await _pedidoService.AtualizarValorPedido(idPedido);
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+
         [HttpPut("pedidos/{idPedido}/encerrar-pedido")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> EncerrarPedido(Guid idPedido)
         {

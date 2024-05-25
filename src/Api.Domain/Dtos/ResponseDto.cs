@@ -102,6 +102,13 @@ namespace Domain.Dtos
             return this;
         }
 
+        public ResponseDto<T> ErroUpdate(string detalhes)
+        {
+            this.Status = false;
+            this.Mensagem = $"Não foi possivel realizar alteração.Detalhes: {detalhes}";
+            return this;
+        }
+
         public void ErroCadastro(string detalhes)
         {
             this.Status = false;

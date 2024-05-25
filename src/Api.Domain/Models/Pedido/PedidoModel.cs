@@ -1,3 +1,9 @@
+using Api.Domain.Entities.CategoriaPreco;
+using Api.Domain.Entities.PontoVenda;
+using Domain.Entities.ItensPedido;
+using Domain.Entities.PagamentoPedido;
+using Domain.Entities.PontoVendaUser;
+
 namespace Api.Domain.Models.PedidoModels
 {
     public class PedidoModel : BaseModel
@@ -7,6 +13,11 @@ namespace Api.Domain.Models.PedidoModels
         public Guid? CategoriaPrecoEntityId { get; set; }
         public Guid? UserRegistroId { get; set; }
 
+        public PontoVendaEntity? PontoVendaEntity { get; set; }
+        public CategoriaPrecoEntity? CategoriaPrecoEntity { get; set; }
+        public UsuarioPontoVendaEntity? UserRegistro { get; set; }
+        public IEnumerable<ItemPedidoEntity>? ItensPedidoEntities { get; set; }
+        public IEnumerable<PagamentoPedidoEntity>? PagamentoPedidoEntities { get; set; }
 
         private string? _numeroPedido;
 
@@ -87,6 +98,17 @@ namespace Api.Domain.Models.PedidoModels
             //nao alterar!!!!
             this.SituacaoPedidoEntityId = Guid.Parse("11b17cc5-c8b1-48f9-b9fd-886339441328");
             this.Observacoes = $"Pedido cancelado: {motivo}";
+        }
+
+        public void AtualizarValorPedido()
+        {
+            var pedidos_validos = ItensPedidoEntities.Where(item => item.Habilitado == true);
+
+            var total_desconto = pedidos_validos.Sum(item => item.Desconto);
+            var total_item = pedidos_validos.Sum(item => item.SubTotal);
+            var total_pedido = total_item - total_desconto;
+
+            this.ValorPedido = total_pedido;
         }
     }
 }

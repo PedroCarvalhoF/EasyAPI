@@ -243,6 +243,44 @@ namespace Api.Service.Services.Pedido
                 return responseDto;
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> AtualizarValorPedido(Guid idPedido)
+        {
+            var response = new ResponseDto<List<PedidoDto>>();
+
+            try
+            {
+                var entitie = await _implementacao.Get(idPedido);
+                if (entitie == null)
+                {
+                    return response.EntitiesNull();
+                }
+
+                var model = _mapper.Map<PedidoModel>(entitie);
+                model.AtualizarValorPedido();
+                var entityUpdate = _mapper.Map<PedidoEntity>(model);
+
+                var resultUpdate = _repository.UpdateAsync(entityUpdate);
+                if(resultUpdate == null)
+                {
+                   return  response.ErroUpdate("Não foi possível realizar alteração.");
+                }
+
+
+                var updateVerifica = await Get(idPedido);
+
+                if(updateVerifica.Status)
+                {
+                   return updateVerifica.UpdateOk();
+                }
+
+                return response;
+
+            }
+            catch (Exception ex)
+            {
+                return response.Erro(ex);
+            }
+        }
         public async Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido)
         {
             ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
