@@ -1,4 +1,5 @@
 ﻿using Api.Domain.Entities.Pedido;
+using Api.Domain.Interfaces.Services.Pedido;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
@@ -23,8 +24,15 @@ namespace Service.Services.ItemPedidoService
         private readonly IRepository<ProdutoEntity> _produtoRepository;
         private readonly IRepository<PedidoEntity> _pedidoRepository;
         private readonly IUsuarioPontoVendaRepository _usuarioPontoVendaRepository;
+        private readonly IPedidoService _pedidoService;
 
-        public ItemPedidoService(IItemPedidoRepository? implementacao, IRepository<ItemPedidoEntity>? repository, IMapper? mapper, IRepository<ProdutoEntity> produtoRepository, IRepository<PedidoEntity> pedidoRepository, IUsuarioPontoVendaRepository usuarioPontoVendaRepository)
+        public ItemPedidoService(IItemPedidoRepository? implementacao,
+                                 IRepository<ItemPedidoEntity>? repository,
+                                 IMapper? mapper,
+                                 IRepository<ProdutoEntity> produtoRepository,
+                                 IRepository<PedidoEntity> pedidoRepository,
+                                 IUsuarioPontoVendaRepository usuarioPontoVendaRepository,
+                                 IPedidoService pedidoService)
         {
             _implementacao = implementacao;
             _repository = repository;
@@ -32,6 +40,7 @@ namespace Service.Services.ItemPedidoService
             _produtoRepository = produtoRepository;
             _pedidoRepository = pedidoRepository;
             _usuarioPontoVendaRepository = usuarioPontoVendaRepository;
+            _pedidoService = pedidoService;
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> GetAll()
         {
@@ -98,10 +107,8 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<ItemPedidoDto>>> GerarItemPedido(ItemPedidoDtoCreate itemPedidoCreate)
+        public async Task<ResponseDto<List<ItemPedidoDto>>> InserirItemNoPedido(ItemPedidoDtoCreate itemPedidoCreate)
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-
             var response = new ResponseDto<List<ItemPedidoDto>>();
 
             if (itemPedidoCreate.UsuarioPontoVendaEntityId == Guid.Empty)
@@ -161,16 +168,16 @@ namespace Service.Services.ItemPedidoService
                     return response;
                 }
 
-
                 //APOS INSERIR ITEM - PRECISA ALTUALIZAR VALOR DO PEDIDO
-                //VALOR = VALOR + Total Item Inserido
+                var pedidoAtualizar = await _pedidoService.AtualizarValorPedido(itemPedidoCreate.PedidoEntityId);
 
-                pedido.ValorPedido += entity.Total;
-
-                var pedidoValorAlterado = await _pedidoRepository.UpdateAsync(pedido);
-                if (pedidoValorAlterado == null)
+                if (pedidoAtualizar == null)
                 {
-                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi inserido com sucesso, porém ao atualizar valor do pedido não foi possível. Atualize o pedido para resolver pendencia.");
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi inserido com sucesso, porém ao atualizar valor do pedido não foi possível.");
+                }
+                if (!pedidoAtualizar.Status)
+                {
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi inserido com sucesso, porém ao atualizar valor do pedido não foi possível.");
                 }
 
 
@@ -178,9 +185,6 @@ namespace Service.Services.ItemPedidoService
 
                 response.Dados = new List<ItemPedidoDto>() { dto };
                 response.CadastroOk();
-
-                stopwatch.Stop();
-
 
                 return response;
             }
@@ -253,18 +257,16 @@ namespace Service.Services.ItemPedidoService
                     return response;
                 }
 
-                //apos remover item  alterar o valor do pedido                
+                //APOS INSERIR ITEM - PRECISA ALTUALIZAR VALOR DO PEDIDO
+                var pedidoAtualizar = await _pedidoService.AtualizarValorPedido(entity.PedidoEntityId);
 
-                var pedido = await _pedidoRepository.SelectAsync(entity.PedidoEntityId);
-                pedido.ValorPedido -= entity.Total;
-
-                if (pedido.ValorPedido < 0)
-                    pedido.ValorPedido = 0;
-
-                var pedidoUpdate = await _pedidoRepository.UpdateAsync(pedido);
-                if (pedidoUpdate == null)
+                if (pedidoAtualizar == null)
                 {
-                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi removido com sucesso, porém ao atualizar valor do pedido não foi possível. Atualize o pedido para resolver pendencia.");
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi removido com sucesso, porém ao atualizar valor do pedido não foi possível.");
+                }
+                if (!pedidoAtualizar.Status)
+                {
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi removido com sucesso, porém ao atualizar valor do pedido não foi possível.");
                 }
 
                 var result = await _implementacao!.Get(entityUpdateResult.Id);
@@ -283,7 +285,5 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
-
-
     }
 }
