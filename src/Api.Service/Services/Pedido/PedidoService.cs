@@ -26,66 +26,60 @@ namespace Api.Service.Services.Pedido
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAll()
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
+
             try
             {
                 var result = await _implementacao.GetAll();
 
                 if (result == null)
                 {
-                    responseDto.Erro();
-                    return responseDto;
+                    response.Erro();
+                    return response;
                 }
 
                 var dtos = _mapper.Map<List<PedidoDto>>(result);
 
-                responseDto.Dados = dtos;
+                response.Dados = dtos;
 
-                responseDto.ConsultaOk();
+                response.ConsultaOk();
 
-                return responseDto;
+                return response;
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> Get(Guid idPedido)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
+
             try
             {
                 PedidoEntity result = await _implementacao.Get(idPedido);
 
                 if (result == null)
                 {
-                    responseDto.Erro();
-                    return responseDto;
+                    response.Erro();
+                    return response;
                 }
 
                 var pedidoDto = _mapper.Map<PedidoDto>(result);
 
-                responseDto.Dados.Add(pedidoDto);
+                response.Dados = new List<PedidoDto>() { pedidoDto };
+                response.ConsultaOk();
 
-                responseDto.ConsultaOk();
-
-                return responseDto;
+                return response;
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAll(Guid idPdv)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -93,30 +87,27 @@ namespace Api.Service.Services.Pedido
 
                 if (entities == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível consultar";
-                    return responseDto;
+                    response.Status = false;
+                    response.Mensagem = $"Erro.Não foi possível consultar";
+                    return response;
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
-                responseDto.Dados = pedidoDto;
+                response.Dados = pedidoDto;
 
-                responseDto.ConsultaOk(pedidoDto.Count);
+                response.ConsultaOk(pedidoDto.Count);
 
-                return responseDto;
+                return response;
 
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoriaPreco)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -124,30 +115,27 @@ namespace Api.Service.Services.Pedido
 
                 if (entities == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível consultar";
-                    return responseDto;
+                    response.Status = false;
+                    response.Mensagem = $"Erro.Não foi possível consultar";
+                    return response;
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
 
-                responseDto.Status = true;
-                responseDto.Dados = pedidoDto;
-                responseDto.Mensagem = $"Consulta realizada com sucesso. Registros: {pedidoDto.Count}";
+                response.Status = true;
+                response.Dados = pedidoDto;
+                response.Mensagem = $"Consulta realizada com sucesso. Registros: {pedidoDto.Count}";
 
-                return responseDto;
+                return response;
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAllBySituacao(Guid idPdv, Guid idSituacao)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -155,31 +143,28 @@ namespace Api.Service.Services.Pedido
 
                 if (entities == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível consultar";
-                    return responseDto;
+                    response.Status = false;
+                    response.Mensagem = $"Erro.Não foi possível consultar";
+                    return response;
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
 
-                responseDto.Status = true;
-                responseDto.Dados = pedidoDto;
-                responseDto.Mensagem = $"Consulta realizada com sucesso. Registros: {pedidoDto.Count}";
+                response.Status = true;
+                response.Dados = pedidoDto;
+                response.Mensagem = $"Consulta realizada com sucesso. Registros: {pedidoDto.Count}";
 
-                return responseDto;
+                return response;
 
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAllByUser(Guid idPdv, Guid idUserCreatePedido)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -187,31 +172,28 @@ namespace Api.Service.Services.Pedido
 
                 if (entities == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível consultar";
-                    return responseDto;
+                    response.Status = false;
+                    response.Mensagem = $"Erro.Não foi possível consultar";
+                    return response;
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
 
-                responseDto.Status = true;
-                responseDto.Dados = pedidoDto;
-                responseDto.Mensagem = $"Consulta realizada com sucesso. Registros: {pedidoDto.Count}";
+                response.Status = true;
+                response.Dados = pedidoDto;
+                response.Mensagem = $"Consulta realizada com sucesso. Registros: {pedidoDto.Count}";
 
-                return responseDto;
+                return response;
 
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -224,9 +206,9 @@ namespace Api.Service.Services.Pedido
 
                 if (result == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível criar pedido";
-                    return responseDto;
+                    response.Status = false;
+                    response.Mensagem = $"Erro.Não foi possível criar pedido";
+                    return response;
                 }
 
                 var pedidoCriadoDto = await Get(result.Id);
@@ -238,9 +220,7 @@ namespace Api.Service.Services.Pedido
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> AtualizarValorPedido(Guid idPedido)
@@ -260,17 +240,17 @@ namespace Api.Service.Services.Pedido
                 var entityUpdate = _mapper.Map<PedidoEntity>(model);
 
                 var resultUpdate = _repository.UpdateAsync(entityUpdate);
-                if(resultUpdate == null)
+                if (resultUpdate == null)
                 {
-                   return  response.ErroUpdate("Não foi possível realizar alteração.");
+                    return response.ErroUpdate("Não foi possível realizar alteração.");
                 }
 
 
                 var updateVerifica = await Get(idPedido);
 
-                if(updateVerifica.Status)
+                if (updateVerifica.Status)
                 {
-                   return updateVerifica.UpdateOk();
+                    return updateVerifica.UpdateOk();
                 }
 
                 return response;
@@ -283,8 +263,7 @@ namespace Api.Service.Services.Pedido
         }
         public async Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -299,28 +278,27 @@ namespace Api.Service.Services.Pedido
 
                 if (resultUpdate == null)
                 {
-                    responseDto.Status = false;
-                    responseDto.Mensagem = $"Erro.Não foi possível encerrar o pedido";
-                    return responseDto;
+                    response.Status = false;
+                    response.Mensagem = $"Erro.Não foi possível encerrar o pedido";
+                    return response;
                 }
 
-                responseDto.Status = true;
-                responseDto.Mensagem = $"Pedido encerrado com sucesso. {DateTime.Now}";
+                response.Status = true;
+                response.Mensagem = $"Pedido encerrado com sucesso. {DateTime.Now}";
 
-                return responseDto;
+                return response;
 
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return response;
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> CancelarPedido(PedidoDtoCancelar cancelamentoPedido)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
 
             try
             {
@@ -328,8 +306,8 @@ namespace Api.Service.Services.Pedido
 
                 if (pedidoSelecionado == null)
                 {
-                    responseDto.ErroConsulta();
-                    return responseDto;
+                    response.ErroConsulta();
+                    return response;
                 }
 
                 var model = _mapper.Map<PedidoModel>(pedidoSelecionado);
@@ -341,38 +319,34 @@ namespace Api.Service.Services.Pedido
 
                 if (resultUpdate == null)
                 {
-                    responseDto.ErroUpdate();
-                    return responseDto;
+                    response.ErroUpdate();
+                    return response;
                 }
 
-                responseDto.AlteracaoOk("Pedido", $"cancelado com sucesso {DateTime.Now}");
+                response.AlteracaoOk("Pedido", $"cancelado com sucesso {DateTime.Now}");
 
-                return responseDto;
+                return response;
 
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                return response.Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true)
         {
-            ResponseDto<List<PedidoDto>> responseDto = new ResponseDto<List<PedidoDto>>();
-            responseDto.Dados = new List<PedidoDto>();
+            var response = new ResponseDto<List<PedidoDto>>();
+
             try
             {
                 throw new NotImplementedException();
             }
             catch (Exception ex)
             {
-                responseDto.Status = false;
-                responseDto.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return responseDto;
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return response;
             }
         }
-
-
     }
 }
