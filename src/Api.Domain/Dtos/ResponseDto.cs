@@ -30,10 +30,11 @@ namespace Domain.Dtos
             this.Mensagem = $"Alteração realizada com sucesso.";
             return this;
         }
-        public void AlteracaoOk(string titulo)
+        public ResponseDto<T> AlteracaoOk(string detalhes)
         {
             this.Status = true;
-            this.Mensagem = $"{titulo} - Alteração realizada com sucesso.";
+            this.Mensagem = $"Alteração: {detalhes}";
+            return this;
         }
         public void AlteracaoOk(string titulo, string detalhes)
         {

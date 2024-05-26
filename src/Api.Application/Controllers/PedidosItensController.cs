@@ -33,10 +33,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-                response.Erro(ex.Message);
-
-                return BadRequest(response);
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
             }
         }
 
@@ -54,10 +51,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-                response.Erro(ex.Message);
-
-                return BadRequest(response);
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
             }
         }
 
@@ -75,20 +69,17 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-                response.Erro(ex.Message);
-
-                return BadRequest(response);
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
             }
         }
 
         [HttpPost("itens-pedido")]
-        public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> GerarItemPedido(ItemPedidoDtoCreate itemPedido)
+        public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> InserirItemNoPedido(ItemPedidoDtoCreate itemPedido)
         {
             try
             {
                 itemPedido.UsuarioPontoVendaEntityId = User.GetUserId();
-                var result = await _service.GerarItemPedido(itemPedido);
+                var result = await _service.InserirItemNoPedido(itemPedido);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -97,10 +88,26 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-                response.Erro(ex.Message);
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
+            }
+        }
 
-                return BadRequest(response);
+        [HttpPost("itens-pedido-return-pedido")]
+        public async Task<ActionResult<ResponseDto<List<ItemPedidoDto>>>> InserirItemNoPedidoReturnPedido(ItemPedidoDtoCreate itemPedido)
+        {
+            try
+            {
+                itemPedido.UsuarioPontoVendaEntityId = User.GetUserId();
+                var result = await _service.InserirItemNoPedidoReturnPedido(itemPedido);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
             }
         }
 
@@ -109,7 +116,7 @@ namespace Api.Controllers
         {
             try
             {
-                
+
                 var result = await _service.EditarObservacao(observacao);
 
                 if (!result.Status)
@@ -119,10 +126,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-                response.Erro(ex.Message);
-
-                return BadRequest(response);
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
             }
         }
 
@@ -140,10 +144,7 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                ResponseDto<List<ItemPedidoDto>> response = new ResponseDto<List<ItemPedidoDto>>();
-                response.Erro(ex.Message);
-
-                return BadRequest(response);
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
             }
         }
     }

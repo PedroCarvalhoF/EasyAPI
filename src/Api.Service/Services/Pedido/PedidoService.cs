@@ -239,7 +239,7 @@ namespace Api.Service.Services.Pedido
                 model.AtualizarValorPedido();
                 var entityUpdate = _mapper.Map<PedidoEntity>(model);
 
-                var resultUpdate = _repository.UpdateAsync(entityUpdate);
+                var resultUpdate = await _repository.UpdateAsync(entityUpdate);
                 if (resultUpdate == null)
                 {
                     return response.ErroUpdate("Não foi possível realizar alteração.");

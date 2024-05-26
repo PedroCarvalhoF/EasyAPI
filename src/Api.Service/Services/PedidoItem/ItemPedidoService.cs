@@ -1,4 +1,5 @@
-﻿using Api.Domain.Entities.Pedido;
+﻿using Api.Domain.Dtos.PedidoDtos;
+using Api.Domain.Entities.Pedido;
 using Api.Domain.Interfaces.Services.Pedido;
 using AutoMapper;
 using Domain.Dtos;
@@ -193,6 +194,97 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> InserirItemNoPedidoReturnPedido(ItemPedidoDtoCreate itemPedidoCreate)
+        {
+
+            var response = new ResponseDto<List<PedidoDto>>();
+
+            if (itemPedidoCreate.UsuarioPontoVendaEntityId == Guid.Empty)
+            {
+                return response.Erro("Usuário não localizado");
+            }
+
+            try
+            {
+                Stopwatch stop = Stopwatch.StartNew();
+
+                var model = _mapper.Map<ItemPedidoModel>(itemPedidoCreate);
+                model.GerarItemPedido();
+
+
+                //verificar se produto existe
+                var produtoExits = await _produtoRepository.ExistAsync(itemPedidoCreate.ProdutoEntityId);
+                if (!produtoExits)
+                {
+                    return response.Erro("Produto não localizado");
+                }
+
+                // verificar se pedido existe e se esta aberto
+                var pedidoExists = await _pedidoRepository.ExistAsync(itemPedidoCreate.PedidoEntityId);
+                if (!pedidoExists)
+                {
+                    return response.Erro("Pedido não localizado");
+                }
+
+                var pedido = await _pedidoRepository.SelectAsync(itemPedidoCreate.PedidoEntityId);
+                //NAO ALTERAR GUID!!!!!!!
+                if (pedido.SituacaoPedidoEntityId == Guid.Parse("11b17cc5-c8b1-48f9-b9fd-886339441328"))
+                {
+                    return response.Erro("Não é possivel inserir item em um pedido cancelado.");
+                }
+
+                //verificar se usuario ponto de venda existe
+
+                var user = await _usuarioPontoVendaRepository.GetByIdUser(itemPedidoCreate.UsuarioPontoVendaEntityId);
+                if (user == null)
+                {
+                    return response.Erro("Usuário não localizado.");
+                }
+
+                var entity = _mapper.Map<ItemPedidoEntity>(model);
+
+                var entityResult = await _repository!.InsertAsync(entity);
+
+                if (entityResult == null)
+                {
+                    response.ErroCadastro();
+                    return response;
+                }
+
+                var result = await _implementacao!.Get(entityResult.Id);
+
+                if (result == null)
+                {
+                    response.ErroCadastro();
+                    return response;
+                }
+
+                //APOS INSERIR ITEM - PRECISA ALTUALIZAR VALOR DO PEDIDO
+                var pedidoAtualizar = await _pedidoService.AtualizarValorPedido(itemPedidoCreate.PedidoEntityId);
+
+                if (pedidoAtualizar == null)
+                {
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi inserido com sucesso, porém ao atualizar valor do pedido não foi possível.");
+                }
+                if (!pedidoAtualizar.Status)
+                {
+                    return response.Erro("Erro CRITICO. Inconsistência no sistema. Item do pedido foi inserido com sucesso, porém ao atualizar valor do pedido não foi possível.");
+                }
+
+
+                stop.Stop();
+
+                Console.WriteLine($"time: {stop.ElapsedMilliseconds}");
+
+                return pedidoAtualizar.AlteracaoOk("Item inserido com sucesso. Retorno com PedidoAtualizado");
+
+
+            }
+            catch (Exception ex)
+            {
+                return response.Erro(ex);
+            }
+        }
         public async Task<ResponseDto<List<ItemPedidoDto>>> EditarObservacao(ItemPedidoDtoEditarObservacao observacao)
         {
             var response = new ResponseDto<List<ItemPedidoDto>>();
@@ -285,5 +377,7 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
+
+
     }
 }
