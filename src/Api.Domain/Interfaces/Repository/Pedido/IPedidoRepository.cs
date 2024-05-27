@@ -13,5 +13,7 @@ namespace Domain.Interfaces.Repository.Pedido
         Task<IEnumerable<PedidoEntity>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoriaPreco);
         Task<IEnumerable<PedidoEntity>> GetAllByUser(Guid idPdv, Guid idUserCreatePedido);
         Task<IEnumerable<PedidoEntity>> GetAllByPagamento(Guid idPdv, Guid idFormaPagamento);
+        Task<IEnumerable<PedidoEntity>> GetAllByPdvByProdutoAsync(Guid idPdv, Guid idProduto);
+        Task<IEnumerable<PedidoEntity>> GetAllByPdvByNumeroPedidoContains(Guid idPdv, string numeroPedido);
     }
 }

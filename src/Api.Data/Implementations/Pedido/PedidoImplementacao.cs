@@ -125,6 +125,26 @@ namespace Data.Implementations.Pedido
                 throw new Exception(ex.Message);
             }
         }
+        public async Task<IEnumerable<PedidoEntity>> GetAllByPdvByNumeroPedidoContains(Guid idPdv, string numeroPedido)
+        {
+            try
+            {
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
+
+                query = Includes(query);
+
+                query = query.Where(p => p.PontoVendaEntityId == idPdv && p.NumeroPedido.Contains(numeroPedido));
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
         public async Task<IEnumerable<PedidoEntity>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoriaPreco)
         {
             try
@@ -191,7 +211,6 @@ namespace Data.Implementations.Pedido
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<IEnumerable<PedidoEntity>> GetAllByPagamento(Guid idPdv, Guid idFormaPagamento)
         {
             try
@@ -201,6 +220,26 @@ namespace Data.Implementations.Pedido
                 query = Includes(query);
 
                 query = query.Where(pedidos => pedidos.PontoVendaEntityId == idPdv && pedidos.PagamentoPedidoEntities.Any(pg => pg.FormaPagamentoEntityId == idFormaPagamento));
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<IEnumerable<PedidoEntity>> GetAllByPdvByProdutoAsync(Guid idPdv, Guid idProduto)
+        {
+            try
+            {
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
+
+                query = Includes(query);
+
+                query = query.Where(p => p.PontoVendaEntityId == idPdv && p.ItensPedidoEntities.Any(item => item.ProdutoEntityId == idProduto));
 
                 var entities = await query.ToArrayAsync();
 

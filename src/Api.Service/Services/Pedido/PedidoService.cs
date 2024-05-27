@@ -124,6 +124,24 @@ namespace Api.Service.Services.Pedido
                 return response.Erro(ex);
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> GetAllByPdvByNumeroPedidoContains(Guid idPdv, string numeroPedido)
+        {
+            try
+            {
+                var entities = await _implementacao.GetAllByPdvByNumeroPedidoContains(idPdv, numeroPedido);
+
+                if (entities == null)
+                {
+                    return new ResponseDto<List<PedidoDto>>().EntitiesNull();
+                }
+
+                return new ResponseDto<List<PedidoDto>>().Retorno(_mapper.Map<List<PedidoDto>>(entities));
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<PedidoDto>>().Erro(ex);
+            }
+        }
         public async Task<ResponseDto<List<PedidoDto>>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoriaPreco)
         {
             var response = new ResponseDto<List<PedidoDto>>();
@@ -228,6 +246,24 @@ namespace Api.Service.Services.Pedido
             catch (Exception ex)
             {
                 return response.Erro(ex);
+            }
+        }
+        public async Task<ResponseDto<List<PedidoDto>>> GetAllByPdvByProdutoAsync(Guid idPdv, Guid idProduto)
+        {
+            try
+            {
+                var entities = await _implementacao.GetAllByPdvByProdutoAsync(idPdv, idProduto);
+
+                if (entities == null)
+                {
+                    return new ResponseDto<List<PedidoDto>>().EntitiesNull();
+                }
+
+                return new ResponseDto<List<PedidoDto>>().Retorno(_mapper.Map<List<PedidoDto>>(entities));
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<PedidoDto>>().Erro(ex);
             }
         }
 
@@ -374,7 +410,5 @@ namespace Api.Service.Services.Pedido
                 return response.Erro(ex);
             }
         }
-
-
     }
 }

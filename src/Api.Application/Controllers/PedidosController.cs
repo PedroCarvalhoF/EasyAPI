@@ -90,6 +90,28 @@ namespace Api.Application.Controllers
             }
         }
 
+        [HttpGet("pedidos/{idPdv}/{numeroPedido}/numero-pedido-contains")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByPdvByNumeroPedidoContains(Guid idPdv, string numeroPedido)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllByPdvByNumeroPedidoContains(idPdv, numeroPedido);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
         [HttpGet("pedidos/{idPdv}/{idCategoria}/categoria-preco")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoria)
         {
@@ -176,23 +198,29 @@ namespace Api.Application.Controllers
             }
         }
 
+        [HttpGet("pedidos/{idPdv}/{idProduto}/produto")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByPdvByProdutoAsync(Guid idPdv, Guid idProduto)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllByPdvByProdutoAsync(idPdv, idProduto);
 
+                if (!result.Status)
+                    return BadRequest(result);
 
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //MÉTODOS
         [HttpPost("pedidos/gerar-pedido")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
         {
