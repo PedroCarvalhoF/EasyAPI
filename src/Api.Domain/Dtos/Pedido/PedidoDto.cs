@@ -11,7 +11,7 @@ namespace Api.Domain.Dtos.PedidoDtos
     {
        
         public string? NumeroPedido { get; set; }
-        public decimal? ValorDesconto { get; set; }
+        public decimal ValorDesconto { get; set; }
         public decimal ValorPedido { get; set; }
         public string? Observacoes { get; set; }
         
