@@ -24,6 +24,8 @@ namespace Api.Service.Services.Pedido
             _repository = repository;
             _implementacao = implementacao;
         }
+
+        //CONSULTAS GENERICAS
         public async Task<ResponseDto<List<PedidoDto>>> GetAll()
         {
             var response = new ResponseDto<List<PedidoDto>>();
@@ -77,6 +79,23 @@ namespace Api.Service.Services.Pedido
                 return response.Erro(ex);
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true)
+        {
+            var response = new ResponseDto<List<PedidoDto>>();
+
+            try
+            {
+                throw new NotImplementedException();
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return response;
+            }
+        }
+
+        //CONSULTAS POR PDVS
         public async Task<ResponseDto<List<PedidoDto>>> GetAll(Guid idPdv)
         {
             var response = new ResponseDto<List<PedidoDto>>();
@@ -191,6 +210,28 @@ namespace Api.Service.Services.Pedido
                 return response.Erro(ex);
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> GetAllByPagamento(Guid idPdv, Guid idFormaPagamento)
+        {
+            var response = new ResponseDto<List<PedidoDto>>();
+
+            try
+            {
+                var entities = await _implementacao.GetAllByPagamento(idPdv, idFormaPagamento);
+
+                if (entities == null)
+                {
+                    return response.EntitiesNull();
+                }
+
+                return response.Retorno(_mapper.Map<List<PedidoDto>>(entities));
+            }
+            catch (Exception ex)
+            {
+                return response.Erro(ex);
+            }
+        }
+
+        //MÉTODOS
         public async Task<ResponseDto<List<PedidoDto>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
         {
             var response = new ResponseDto<List<PedidoDto>>();
@@ -333,20 +374,7 @@ namespace Api.Service.Services.Pedido
                 return response.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PedidoDto>>> GetAll(Expression<Func<PedidoDto, bool>> funcao, bool inlude = true)
-        {
-            var response = new ResponseDto<List<PedidoDto>>();
 
-            try
-            {
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-                response.Status = false;
-                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
-                return response;
-            }
-        }
+
     }
 }

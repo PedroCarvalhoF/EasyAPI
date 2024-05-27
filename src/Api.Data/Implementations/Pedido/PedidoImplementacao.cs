@@ -3,7 +3,6 @@ using Api.Data.Repository;
 using Api.Domain.Entities.Pedido;
 using Domain.Interfaces.Repository.Pedido;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq.Expressions;
 
 namespace Data.Implementations.Pedido
@@ -15,6 +14,35 @@ namespace Data.Implementations.Pedido
         {
             _dtSet = context.Set<PedidoEntity>();
             _dtSet.AsNoTracking();
+        }
+        private static IQueryable<PedidoEntity> Includes(IQueryable<PedidoEntity> query)
+        {
+            //situacao pedido
+            query = query.Include(sit => sit.SituacaoPedidoEntity);
+
+            //usuario registo
+            query = query.Include(user => user.UserRegistro).ThenInclude(u => u.User);
+
+            //categoria preco
+            query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
+
+            //pdv
+            query = query.Include(pdv => pdv.PontoVendaEntity).ThenInclude(per => per.PeriodoPontoVendaEntity); ;
+
+
+            //itens do pedido
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.CategoriaProdutoEntity);
+
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoMedidaEntity);
+
+
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoTipoEntity);
+
+            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(user => user.UsuarioPontoVendaEntity).ThenInclude(us => us.User);
+
+            query = query.Include(pgt => pgt.PagamentoPedidoEntities).ThenInclude(forma => forma.FormaPagamentoEntity);
+
+            return query;
         }
         public async Task<IEnumerable<PedidoEntity>> GetAll()
         {
@@ -76,7 +104,6 @@ namespace Data.Implementations.Pedido
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<IEnumerable<PedidoEntity>> GetAll(Guid idPdv)
         {
             try
@@ -98,7 +125,6 @@ namespace Data.Implementations.Pedido
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<IEnumerable<PedidoEntity>> GetAllByCategoriaPreco(Guid idPdv, Guid idCategoriaPreco)
         {
             try
@@ -121,7 +147,6 @@ namespace Data.Implementations.Pedido
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<IEnumerable<PedidoEntity>> GetAllBySituacao(Guid idPdv, Guid idSituacao)
         {
             try
@@ -144,7 +169,6 @@ namespace Data.Implementations.Pedido
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<IEnumerable<PedidoEntity>> GetAllByUser(Guid idPdv, Guid idUserCreatePedido)
         {
             try
@@ -168,36 +192,25 @@ namespace Data.Implementations.Pedido
             }
         }
 
-        private static IQueryable<PedidoEntity> Includes(IQueryable<PedidoEntity> query)
+        public async Task<IEnumerable<PedidoEntity>> GetAllByPagamento(Guid idPdv, Guid idFormaPagamento)
         {
-            //situacao pedido
-            query = query.Include(sit => sit.SituacaoPedidoEntity);
+            try
+            {
+                IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
-            //usuario registo
-            query = query.Include(user => user.UserRegistro).ThenInclude(u => u.User);
+                query = Includes(query);
 
-            //categoria preco
-            query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
+                query = query.Where(pedidos => pedidos.PontoVendaEntityId == idPdv && pedidos.PagamentoPedidoEntities.Any(pg => pg.FormaPagamentoEntityId == idFormaPagamento));
 
-            //pdv
-            query = query.Include(pdv => pdv.PontoVendaEntity).ThenInclude(per => per.PeriodoPontoVendaEntity); ;
+                var entities = await query.ToArrayAsync();
 
-          
-            //itens do pedido
-            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.CategoriaProdutoEntity);
+                return entities;
+            }
+            catch (Exception ex)
+            {
 
-            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoMedidaEntity);
-
-
-            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity).ThenInclude(per => per.ProdutoTipoEntity);
-
-            query = query.Include(itens => itens.ItensPedidoEntities).ThenInclude(user => user.UsuarioPontoVendaEntity).ThenInclude(us => us.User);
-
-            query = query.Include(pgt => pgt.PagamentoPedidoEntities).ThenInclude(forma => forma.FormaPagamentoEntity);
-
-            return query;
+                throw new Exception(ex.Message);
+            }
         }
-
-
     }
 }

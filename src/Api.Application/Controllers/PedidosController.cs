@@ -65,6 +65,9 @@ namespace Api.Application.Controllers
             }
         }
 
+
+
+        //CONSULTAS POR PDVS
         [HttpGet("pedidos/{idPdv}/pdv")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAll(Guid idPdv)
         {
@@ -150,6 +153,45 @@ namespace Api.Application.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("pedidos/{idPdv}/{idFormaPagamento}/pagamento")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByPagamento(Guid idPdv, Guid idFormaPagamento)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllByPagamento(idPdv, idFormaPagamento);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<PedidoDto>> response = new ResponseDto<List<PedidoDto>>();
+                response.Dados = new List<PedidoDto>();
+                response.Status = false;
+                response.Mensagem = $"Erro.Detalhes: {ex.Message}";
+                return BadRequest(response);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         [HttpPost("pedidos/gerar-pedido")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GerarPedido(PedidoDtoCreate pedidoDtoCreate)
