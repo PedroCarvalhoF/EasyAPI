@@ -12,5 +12,6 @@ namespace Domain.Interfaces.Repository
         Task<IEnumerable<ProdutoEntity>> GetMedida(Guid categoriaId);
         Task<IEnumerable<ProdutoEntity>> GetProdutoTipo(Guid categoriaId);
         Task<IEnumerable<ProdutoEntity>> GetHabilitadoNaoHabilitado(bool habilitado);
+        Task<IEnumerable<ProdutoEntity>> GetProdutosByPdvAsync(Guid idPdv);
     }
 }

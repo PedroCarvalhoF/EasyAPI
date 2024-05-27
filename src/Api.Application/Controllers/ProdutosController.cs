@@ -170,6 +170,29 @@ namespace Api.Controllers
             }
         }
 
+        [HttpGet("produtos/{idPdv}/get-produtos-by-pdv")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetProdutosByPdvAsync(Guid idPdv)
+        {
+            try
+            {
+                var result = await _service.GetProdutosByPdvAsync(idPdv);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
+
+        //MÉTODOS
         [HttpPost("cadastrar-produto")]
         public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> Post([FromBody] ProdutoDtoCreate create)
         {

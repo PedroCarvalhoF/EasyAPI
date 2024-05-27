@@ -4,7 +4,7 @@ using Api.Domain.Entities.CategoriaPreco;
 using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Implementations
+namespace Data.Implementations.PrecoCategoria
 {
     public class CategoriaPrecoImplementacao : BaseRepository<CategoriaPrecoEntity>, ICategoriaPrecoRepository
     {

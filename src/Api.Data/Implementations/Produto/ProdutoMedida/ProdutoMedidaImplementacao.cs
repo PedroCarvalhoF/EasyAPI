@@ -5,7 +5,7 @@ using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace Data.Implementations
+namespace Data.Implementations.Produto.ProdutoMedida
 {
     public class ProdutoMedidaImplementacao : BaseRepository<ProdutoMedidaEntity>, IProdutoMedidaRepository
     {

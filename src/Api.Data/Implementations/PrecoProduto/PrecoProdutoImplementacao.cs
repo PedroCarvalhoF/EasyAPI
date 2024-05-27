@@ -4,7 +4,7 @@ using Api.Domain.Entities.PrecoProduto;
 using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Implementations
+namespace Data.Implementations.PrecoProduto
 {
     public class PrecoProdutoImplementacao : BaseRepository<PrecoProdutoEntity>, IPrecoProdutoRepository
     {

@@ -188,6 +188,20 @@ namespace Service.Services.Produto
                 return response;
             }
         }
+        public async Task<ResponseDto<List<ProdutoDto>>> GetProdutosByPdvAsync(Guid idPdv)
+        {
+            try
+            {
+                var entities = await _implementacao.GetProdutosByPdvAsync(idPdv);
+                var dtos = _mapper.Map<List<ProdutoDto>>(entities);
+                return new ResponseDto<List<ProdutoDto>>().Retorno(dtos);
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<ProdutoDto>>().Erro(ex);
+            }
+        }
+        //MÉTODOS
         public async Task<ResponseDto<List<ProdutoDto>>> Cadastrar(ProdutoDtoCreate produtoDtoCreate)
         {
             ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
@@ -290,5 +304,7 @@ namespace Service.Services.Produto
                 return response;
             }
         }
+
+
     }
 }

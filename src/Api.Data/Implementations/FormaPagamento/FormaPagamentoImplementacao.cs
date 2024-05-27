@@ -4,7 +4,7 @@ using Domain.Entities.FormaPagamento;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Implementations
+namespace Data.Implementations.FormaPagamento
 {
     public class FormaPagamentoImplementacao : BaseRepository<FormaPagamentoEntity>, IFormaPagamentoRepository
     {
