@@ -46,6 +46,7 @@ using Domain.Interfaces.Repository.PontoVenda;
 using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.FormaPagamento;
+using Domain.Interfaces.Services.HGApis;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Interfaces.Services.PedidoSituacao;
@@ -61,6 +62,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Services.FormaPagamento;
+using Service.Services.HGApis;
 using Service.Services.ItemPedidoService;
 using Service.Services.PagamentoPedidoServices;
 using Service.Services.PedidoSituacao;
@@ -119,6 +121,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
             serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
 
+            serviceCollection.AddScoped<ITaxasCDISelicService, TaxasCDISelicService>();
 
 
             serviceCollection.AddTransient<IPontoVendaService, PontoVendaService>();
