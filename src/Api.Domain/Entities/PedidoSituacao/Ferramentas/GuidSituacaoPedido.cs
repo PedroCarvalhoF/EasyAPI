@@ -1,6 +1,6 @@
 ﻿namespace Domain.Entities.PedidoSituacao.Ferramentas
 {
-    public static class GuidSituacaoPedido2
+    public static class GuidSituacaoPedido
     {
         public static Guid SituacaoAbertoID
         {

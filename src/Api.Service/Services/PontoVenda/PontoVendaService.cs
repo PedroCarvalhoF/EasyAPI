@@ -227,6 +227,10 @@ namespace Api.Service.Services.PontoVendaService
                 dash.Faturamento = DashPontoVendaCalculator<PontoVendaDto>.Total(result);
                 dash.QuantidadePedidos = DashPontoVendaCalculator<PontoVendaDto>.QtdPedidos(result, true);
                 dash.TicktMedido = dash.Faturamento / dash.QuantidadePedidos;
+
+                dash.ResumoPagamento = DashPontoVendaCalculator<PontoVendaDto>.ResumoPagamentos(result);
+                dash.ResumoProdutos = DashPontoVendaCalculator<PontoVendaDto>.ResumoProdutos(result);
+
                 dash.ResumoVendasByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PedidosByCategoriaPreco(result);
                 dash.ProdutosByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.ProdutosByCategoriaPreco(result);
                 dash.PagamentoByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PagamentosByCategoriaPreco(result);

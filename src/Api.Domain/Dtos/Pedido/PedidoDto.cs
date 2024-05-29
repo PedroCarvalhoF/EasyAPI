@@ -4,7 +4,6 @@ using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PontoVendaUser;
-using Domain.Entities.PagamentoPedido;
 
 namespace Api.Domain.Dtos.PedidoDtos
 {

@@ -10,14 +10,14 @@ namespace Domain.Dtos.PontoVenda.Dashboards
         static IEnumerable<PedidoDto> GetPedidosValidos(T pdv)
         {
             var pedidos_validos = from pedido in pdv.PedidoEntities
-                                  where pedido.Habilitado == true && pedido.SituacaoPedidoEntity.Id == GuidSituacaoPedido2.SituacaoFechadoID
+                                  where pedido.Habilitado == true && pedido.SituacaoPedidoEntity.Id == GuidSituacaoPedido.SituacaoFechadoID
                                   select pedido;
             return pedidos_validos;
         }
         static IEnumerable<PedidoDto> GetPedidosCancelados(T pdv)
         {
             var pedidos_validos = from pedido in pdv.PedidoEntities
-                                  where pedido.Habilitado == false || pedido.SituacaoPedidoEntity.Id != GuidSituacaoPedido2.SituacaoFechadoID
+                                  where pedido.Habilitado == false || pedido.SituacaoPedidoEntity.Id != GuidSituacaoPedido.SituacaoFechadoID
                                   select pedido;
             return pedidos_validos;
         }
@@ -79,6 +79,40 @@ namespace Domain.Dtos.PontoVenda.Dashboards
             return tm;
 
         }
+        public static IEnumerable<ResumoPagamento> ResumoPagamentos(T pdv)
+        {
+            var pedidos_validos = GetPedidosValidos(pdv);
+
+            var result = from pedido in pedidos_validos
+                         from pagamento in pedido.PagamentoPedidoEntities
+                         group pagamento by pagamento.FormaPagamentoEntity.DescricaoFormaPg into pagamentoGroup
+                         select new ResumoPagamento
+                         {
+                             FormaPagamento = pagamentoGroup.Key,
+                             ValorPagoInformado = pagamentoGroup.Sum(p => p.ValorPago)
+                         };
+
+            result = result.OrderBy(f => f.FormaPagamento);
+            return result;
+        }
+        public static IEnumerable<ResumoProdutos> ResumoProdutos(T pdv)
+        {
+            var pedidos_validos = GetPedidosValidos(pdv);
+            var result = from pedidos in pedidos_validos
+                         from itens in pedidos.ItensPedidoEntities.Where(i => i.Habilitado)
+                         group itens by itens.ProdutoEntity.NomeProduto into itensGroup
+                         select new ResumoProdutos
+                         {
+                             NomeProduto = itensGroup.Key,
+                             TotalProdutos = itensGroup.Sum(p => p.Quatidade)
+                         };
+
+            result = result.OrderBy(p => p.NomeProduto).ThenByDescending(p => p.TotalProdutos);
+
+            return result;
+        }
+
+        //consultas por categoria de preço
         public static IEnumerable<CategoriaPrecoGroupBy>? PedidosByCategoriaPreco(T pdv)
         {
             var pedidos_validos = GetPedidosValidos(pdv);
@@ -92,6 +126,8 @@ namespace Domain.Dtos.PontoVenda.Dashboards
                                             QuantidadePedido = categoriaGroup.Count(),
                                             TicketMedio = categoriaGroup.Average(p => p.ValorPedido)
                                         };
+
+            CategoriaPrecoGroupBy = CategoriaPrecoGroupBy.OrderBy(cat => cat.Categoria);
             return CategoriaPrecoGroupBy;
         }
         public static IEnumerable<ProdutosByCategoriaGroupBy>? ProdutosByCategoriaPreco(T pdv)
@@ -110,6 +146,7 @@ namespace Domain.Dtos.PontoVenda.Dashboards
                              SomaTotal = produtoGroup.Sum(i => i.Total)
                          };
 
+            result = result.OrderBy(cat => cat.CategoriaPreco).ThenBy(p => p.NomeProduto).ThenBy(pr => pr.Preco).ThenBy(qtd => qtd.QuantidadeTotal);
             return result;
         }
         public static IEnumerable<PagamentoByCategoriaPreco>? PagamentosByCategoriaPreco(T pdv)
@@ -123,10 +160,14 @@ namespace Domain.Dtos.PontoVenda.Dashboards
                          {
                              CategoriaPreco = pagamentoGroup.Key.DescricaoCategoria,
                              FormaPagamento = pagamentoGroup.Key.DescricaoFormaPg,
+                             QtdPagamentoGroup = pagamentoGroup.Count(p=>p.Habilitado),
                              SomaValorPago = pagamentoGroup.Sum(p => p.ValorPago)
                          };
+
+            result = result.OrderBy(cat => cat.CategoriaPreco).ThenBy(cat => cat.FormaPagamento);
             return result;
         }
+
 
     }
 }
