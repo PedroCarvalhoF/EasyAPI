@@ -25,40 +25,23 @@ namespace Api.Controllers
         }
 
 
-        [HttpGet("TESTE-PDV-DASH/{idPdv}")]
-        public async Task<ActionResult> TesteDash(Guid idPdv)
+        [HttpGet("{idPdv}/dashboard-pdv")]
+        public async Task<ActionResult> GetDashPdvById(Guid idPdv)
         {
             try
             {
-                var result = (await _service.GetByIdPdv(idPdv)).Dados.Single();
+                var respostaService = await _service.GetDashPdvById(idPdv);
 
-                DashPontoVendaResult dash = new DashPontoVendaResult();
-
-                dash.DataAbertura = DashPontoVendaCalculator<PontoVendaDto>.GetDataPdvAbertura(result);
-                dash.DataEncerramento = DashPontoVendaCalculator<PontoVendaDto>.GetDataPdvEncerramento(result);
-                dash.Periodo = DashPontoVendaCalculator<PontoVendaDto>.GetPeriodoPdv(result);
-                dash.Situacao = DashPontoVendaCalculator<PontoVendaDto>.GetSituacaoPdv(result);
-                dash.ResponsavelAbertura = DashPontoVendaCalculator<PontoVendaDto>.GetUsuarioResponsavelAberturaCaixa(result);
-                dash.ResponsavelOperador = DashPontoVendaCalculator<PontoVendaDto>.GetUsuarioOperadorCaixa(result);
-                dash.Faturamento = DashPontoVendaCalculator<PontoVendaDto>.Total(result);
-                dash.QuantidadePedidos = DashPontoVendaCalculator<PontoVendaDto>.QtdPedidos(result, true);
-                dash.TicktMedido = dash.Faturamento / dash.QuantidadePedidos;
-
-                dash.ResumoVendasByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PedidosByCategoriaPreco(result);
-                dash.ProdutosByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.ProdutosByCategoriaPreco(result);
-                dash.PagamentoByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PagamentosByCategoriaPreco(result);
-
-                return Ok(dash);
-
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
             }
             catch (Exception ex)
             {
                 return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
             }
         }
-
-
-
 
         [HttpGet("pdv")]
         public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs()

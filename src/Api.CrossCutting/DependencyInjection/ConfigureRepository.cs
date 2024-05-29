@@ -49,6 +49,7 @@ using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Interfaces.Services.HGApis;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Interfaces.Services.PagamentoPedido;
+using Domain.Interfaces.Services.PDF;
 using Domain.Interfaces.Services.PedidoSituacao;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
@@ -65,6 +66,7 @@ using Service.Services.FormaPagamento;
 using Service.Services.HGApis;
 using Service.Services.ItemPedidoService;
 using Service.Services.PagamentoPedidoServices;
+using Service.Services.PDF;
 using Service.Services.PedidoSituacao;
 using Service.Services.PeriodoPontoVenda;
 using Service.Services.Pessoas.Pessoa;
@@ -120,6 +122,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<ISituacaoPedidoRepository, SituacaoPedidoImplementacao>();
             serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
             serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
+           
 
             serviceCollection.AddScoped<ITaxasCDISelicService, TaxasCDISelicService>();
 
@@ -138,7 +141,9 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddTransient<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
             serviceCollection.AddTransient<ISituacaoPedidoService, SituacaoPedidoService>();
             serviceCollection.AddTransient<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
-
+            
+            serviceCollection.AddTransient<IPDFRepository, PDFRepository>();
+           // serviceCollection.AddTransient<IPDFRepositoryFactory, PDFRepositoryFactory>();
 
             serviceCollection.AddTransient<IUserRole, UserRoleServices>();
             serviceCollection.AddTransient<IPessoaTipoServices, PessoaTipoServices>();

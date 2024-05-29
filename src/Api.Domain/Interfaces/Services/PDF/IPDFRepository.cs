@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using System.Text;
-using System.Threading.Tasks;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Domain.Interfaces.Services.PDF
 {
     public interface IPDFRepository
     {
-        //Document CriarPDF(string nomeArquivo, int tamanho);
-        //Document GetDocumentPdf();
-
-        ////escritas
-        //void AdicinarTitulo(string titulo, iTextSharp.text.Font font = null);
-        //PdfPTable CriarTabela(int qtd_colunas);
-        //PdfPCell CriarCelulaTabela(string textoCelula, int horizontalAlignment = 0, int verticalAlingnment = 1, iTextSharp.text.Font fonteCelula = null);
-        //PdfPTable AdicinarCelulaTabela(PdfPCell celula, PdfPTable tabela);
-
-        //void DivPDF();
+        void Initialize(string nomeArquivo, int tamanho);
+        Document CriarPDF(string nomeArquivo, int tamanho);
+        Document GetDocumentPdf();
+        void AdicinarTitulo(string titulo, Font font = null);
+        PdfPTable CriarTabela(int qtd_colunas);
+        PdfPCell CriarCelulaTabela(string textoCelula, int horizontalAlignment = 0, int verticalAlingnment = 1, Font fonteCelula = null);
+        PdfPTable AdicinarCelulaTabela(PdfPCell celula, PdfPTable tabela);
+        void DivPDF();
     }
 }

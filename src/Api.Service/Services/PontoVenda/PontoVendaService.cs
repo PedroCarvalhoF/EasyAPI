@@ -4,6 +4,7 @@ using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Domain.Models.PontoVendaModels;
 using AutoMapper;
 using Domain.Dtos;
+using Domain.Dtos.PontoVenda.Dashboards;
 using Domain.Dtos.PontoVenda.Filtros;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.PontoVenda;
@@ -24,7 +25,7 @@ namespace Api.Service.Services.PontoVendaService
             _mapper = mapper;
             _implementacao = pontoVendaRepository;
         }
-   
+
         public async Task<ResponseDto<List<PontoVendaDto>>> GetPdvs()
         {
             ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
@@ -206,5 +207,38 @@ namespace Api.Service.Services.PontoVendaService
             }
         }
 
+        public async Task<ResponseDto<List<DashPontoVendaResult>>> GetDashPdvById(Guid idPdv)
+        {
+            try
+            {
+                var result = (await GetByIdPdv(idPdv)).Dados.SingleOrDefault();
+                if (result == null)
+                {
+                    return new ResponseDto<List<DashPontoVendaResult>>().EntitiesNull();
+                }
+
+                DashPontoVendaResult dash = new DashPontoVendaResult();
+                dash.DataAbertura = DashPontoVendaCalculator<PontoVendaDto>.GetDataPdvAbertura(result);
+                dash.DataEncerramento = DashPontoVendaCalculator<PontoVendaDto>.GetDataPdvEncerramento(result);
+                dash.Periodo = DashPontoVendaCalculator<PontoVendaDto>.GetPeriodoPdv(result);
+                dash.Situacao = DashPontoVendaCalculator<PontoVendaDto>.GetSituacaoPdv(result);
+                dash.ResponsavelAbertura = DashPontoVendaCalculator<PontoVendaDto>.GetUsuarioResponsavelAberturaCaixa(result);
+                dash.ResponsavelOperador = DashPontoVendaCalculator<PontoVendaDto>.GetUsuarioOperadorCaixa(result);
+                dash.Faturamento = DashPontoVendaCalculator<PontoVendaDto>.Total(result);
+                dash.QuantidadePedidos = DashPontoVendaCalculator<PontoVendaDto>.QtdPedidos(result, true);
+                dash.TicktMedido = dash.Faturamento / dash.QuantidadePedidos;
+                dash.ResumoVendasByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PedidosByCategoriaPreco(result);
+                dash.ProdutosByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.ProdutosByCategoriaPreco(result);
+                dash.PagamentoByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PagamentosByCategoriaPreco(result);
+
+                return new ResponseDto<List<DashPontoVendaResult>>().Retorno(new List<DashPontoVendaResult>() { dash });
+
+            }
+            catch (Exception ex)
+            {
+
+                return new ResponseDto<List<DashPontoVendaResult>>().Erro(ex);
+            }
+        }
     }
 }

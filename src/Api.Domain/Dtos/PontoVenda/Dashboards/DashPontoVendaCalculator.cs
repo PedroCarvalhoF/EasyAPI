@@ -12,7 +12,6 @@ namespace Domain.Dtos.PontoVenda.Dashboards
             var pedidos_validos = from pedido in pdv.PedidoEntities
                                   where pedido.Habilitado == true && pedido.SituacaoPedidoEntity.Id == GuidSituacaoPedido2.SituacaoFechadoID
                                   select pedido;
-
             return pedidos_validos;
         }
         static IEnumerable<PedidoDto> GetPedidosCancelados(T pdv)
@@ -20,7 +19,6 @@ namespace Domain.Dtos.PontoVenda.Dashboards
             var pedidos_validos = from pedido in pdv.PedidoEntities
                                   where pedido.Habilitado == false || pedido.SituacaoPedidoEntity.Id != GuidSituacaoPedido2.SituacaoFechadoID
                                   select pedido;
-
             return pedidos_validos;
         }
         public static string GetPeriodoPdv(T pdv)
@@ -94,7 +92,6 @@ namespace Domain.Dtos.PontoVenda.Dashboards
                                             QuantidadePedido = categoriaGroup.Count(),
                                             TicketMedio = categoriaGroup.Average(p => p.ValorPedido)
                                         };
-
             return CategoriaPrecoGroupBy;
         }
         public static IEnumerable<ProdutosByCategoriaGroupBy>? ProdutosByCategoriaPreco(T pdv)
