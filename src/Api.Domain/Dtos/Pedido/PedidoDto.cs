@@ -1,6 +1,7 @@
 using Api.Domain.Dtos.CategoriaPrecoDtos;
 using Api.Domain.Dtos.PontoVendaDtos;
 using Domain.Dtos.ItemPedido;
+using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PontoVendaUser;
 using Domain.Entities.PagamentoPedido;
@@ -20,6 +21,6 @@ namespace Api.Domain.Dtos.PedidoDtos
         public UsuarioPontoVendaDto? UserRegistro { get; set; }
         public PontoVendaDto? PontoVendaEntity { get; set; }
         public IEnumerable<ItemPedidoDto>? ItensPedidoEntities { get; set; }
-        public IEnumerable<PagamentoPedidoEntity>? PagamentoPedidoEntities { get; set; }
+        public IEnumerable<PagamentoPedidoDto>? PagamentoPedidoEntities { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Data.Implementations.PontoVenda
         public PontoVendaImplementacao(MyContext context) : base(context)
         {
             _dbSet = context.Set<PontoVendaEntity>();
-           
+
         }
         public async Task<IEnumerable<PontoVendaEntity>> GetPdvs()
         {
@@ -80,7 +80,10 @@ namespace Data.Implementations.PontoVenda
                          .Include(userPDV => userPDV.UserPdvUsing).ThenInclude(u => u.User)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
-            query = query.Include(pdv => pdv.PedidoEntities);
+            query = query.Include(pdv => pdv.PedidoEntities).ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity);
+            query = query.Include(pdv => pdv.PedidoEntities).ThenInclude(item => item.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity);
+
+            query = query.Include(pdv => pdv.PedidoEntities).ThenInclude(pgt => pgt.PagamentoPedidoEntities).ThenInclude(forma => forma.FormaPagamentoEntity);
 
             return query;
         }
