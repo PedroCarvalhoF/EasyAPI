@@ -1,11 +1,13 @@
 using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Entities.PontoVenda;
+using Api.Domain.Interfaces.Services.Pedido;
 using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Domain.Models.PontoVendaModels;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.PontoVenda.Dashboards;
 using Domain.Dtos.PontoVenda.Filtros;
+using Domain.Entities.PedidoSituacao.Ferramentas;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.PontoVenda;
 
@@ -13,17 +15,19 @@ namespace Api.Service.Services.PontoVendaService
 {
     public class PontoVendaService : IPontoVendaService
     {
-        private readonly IRepository<PontoVendaEntity> _repository;
-        private readonly IMapper _mapper;
-        private readonly IPontoVendaRepository _implementacao;
+        private readonly IRepository<PontoVendaEntity>? _repository;
+        private readonly IMapper? _mapper;
+        private readonly IPontoVendaRepository? _implementacao;
+        private readonly IPedidoService? _pedidoService;
 
         public PontoVendaService(IRepository<PontoVendaEntity> repository,
                                  IMapper mapper,
-                                 IPontoVendaRepository pontoVendaRepository)
+                                 IPontoVendaRepository pontoVendaRepository, IPedidoService pedidoService)
         {
             _repository = repository;
             _mapper = mapper;
             _implementacao = pontoVendaRepository;
+            _pedidoService = pedidoService;
         }
 
         public async Task<ResponseDto<List<PontoVendaDto>>> GetPdvs()
@@ -177,6 +181,13 @@ namespace Api.Service.Services.PontoVendaService
             resposta.Dados = new List<PontoVendaDto>();
             try
             {
+                var pedidos_pdv = await _pedidoService.GetAllBySituacao(pontoVendaId, GuidSituacaoPedido.SituacaoAbertoID);
+                if (pedidos_pdv.Status)
+                {
+                    return resposta.Erro("Finalize todos os pedidos");
+                }
+
+
                 var pdvSelecionado = await _repository.SelectAsync(pontoVendaId);
 
                 var model = _mapper.Map<PontoVendaModel>(pdvSelecionado);
@@ -206,7 +217,6 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-
         public async Task<ResponseDto<List<DashPontoVendaResult>>> GetDashPdvById(Guid idPdv)
         {
             try

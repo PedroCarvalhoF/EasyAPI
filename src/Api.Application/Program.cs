@@ -66,4 +66,3 @@ CriaPerfilIdentity criaPerfilIdentity = new();
 await criaPerfilIdentity.CriarPerfisUsuariosAsync(app);
 
 app.Run();
-

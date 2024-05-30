@@ -30,7 +30,7 @@ namespace Api.Application.Extensions
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = @"Cabeçalho de autorização JWT usando o esquema Bearer.
+                    Description = @"Autorização JWT usando o esquema Bearer.
                                     Digite 'Bearer' [espaço] e depois seu token na entrada de texto abaixo.
                                     Exemplo: 'Portador 12345abcdef'",
                     Name = "Authorization",
@@ -82,4 +82,3 @@ namespace Api.Application.Extensions
         }
     }
 }
-

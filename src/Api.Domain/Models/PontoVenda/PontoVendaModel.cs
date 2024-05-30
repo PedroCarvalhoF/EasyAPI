@@ -22,6 +22,9 @@ namespace Api.Domain.Models.PontoVendaModels
 
         public void FinalizarPDV()
         {
+            if (AbertoFechado)
+                throw new Exception("PDV já está fechado");
+
             AbertoFechado = false;
         }
         public IEnumerable<PedidoModel>? Pedidos { get; set; }
