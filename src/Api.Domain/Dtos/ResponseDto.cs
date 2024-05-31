@@ -77,10 +77,11 @@ namespace Domain.Dtos
             this.Status = false;
             this.Mensagem = $"Não foi possivel realizar consulta.";
         }
-        public void ErroConsulta(string titulo)
+        public ResponseDto<T> ErroConsulta(string detalhes)
         {
             this.Status = false;
-            this.Mensagem = $"{titulo} Não foi possivel realizar consulta.";
+            this.Mensagem = $"{detalhes}.";
+            return this;
         }
 
         public void ErroConsulta(string titulo, string detalhe)

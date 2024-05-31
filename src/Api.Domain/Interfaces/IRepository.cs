@@ -8,11 +8,11 @@ namespace Domain.Interfaces
         Task<IEnumerable<T>> InsertAsync(IEnumerable<T> itens);
         Task<T> UpdateAsync(T item);
         Task<bool> DeleteAsync(Guid id);
+        Task<int> DeleteAsync(IEnumerable<Guid> ids);
+        Task<int> DeleteAsync(IEnumerable<T> itens);
         Task<T> SelectAsync(Guid id);
         Task<IEnumerable<T>> SelectAsync();
-        Task<bool> ExistAsync(Guid id);
-        Task<int> DeleteAsync(IEnumerable<Guid> ids);
-
+        Task<bool> ExistAsync(Guid id);      
         Task<bool> DesabilitarHabilitar(Guid id);
     }
 }

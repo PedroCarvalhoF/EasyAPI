@@ -178,11 +178,9 @@ namespace Api.Service.Services.Pedido
             {
                 var entities = await _implementacao.GetAllBySituacao(idPdv, idSituacao);
 
-                if (entities == null)
+                if (entities == null || entities.Count() == 0)
                 {
-                    response.Status = false;
-                    response.Mensagem = $"Erro.Não foi possível consultar";
-                    return response;
+                    return response.EntitiesNull();
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
@@ -207,11 +205,9 @@ namespace Api.Service.Services.Pedido
             {
                 var entities = await _implementacao.GetAllByUser(idPdv, idUserCreatePedido);
 
-                if (entities == null)
+                if (entities == null || entities.Count() == 0)
                 {
-                    response.Status = false;
-                    response.Mensagem = $"Erro.Não foi possível consultar";
-                    return response;
+                    return response.EntitiesNull();
                 }
 
                 var pedidoDto = _mapper.Map<List<PedidoDto>>(entities);
@@ -236,7 +232,7 @@ namespace Api.Service.Services.Pedido
             {
                 var entities = await _implementacao.GetAllByPagamento(idPdv, idFormaPagamento);
 
-                if (entities == null)
+                if (entities == null || entities.Count() == 0)
                 {
                     return response.EntitiesNull();
                 }
@@ -254,7 +250,7 @@ namespace Api.Service.Services.Pedido
             {
                 var entities = await _implementacao.GetAllByPdvByProdutoAsync(idPdv, idProduto);
 
-                if (entities == null)
+                if (entities == null || entities.Count() == 0)
                 {
                     return new ResponseDto<List<PedidoDto>>().EntitiesNull();
                 }

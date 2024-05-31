@@ -228,6 +228,7 @@ namespace Api.Service.Services.PontoVendaService
                 }
 
                 DashPontoVendaResult dash = new DashPontoVendaResult();
+                dash.IdPdv = DashPontoVendaCalculator<PontoVendaDto>.GetIdPdv(result);
                 dash.DataAbertura = DashPontoVendaCalculator<PontoVendaDto>.GetDataPdvAbertura(result);
                 dash.DataEncerramento = DashPontoVendaCalculator<PontoVendaDto>.GetDataPdvEncerramento(result);
                 dash.Periodo = DashPontoVendaCalculator<PontoVendaDto>.GetPeriodoPdv(result);
@@ -245,6 +246,7 @@ namespace Api.Service.Services.PontoVendaService
                 dash.ProdutosByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.ProdutosByCategoriaPreco(result);
                 dash.PagamentoByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PagamentosByCategoriaPreco(result);
 
+                dash.ResumoProdutosQtdPrecoTotalByAvulso = DashPontoVendaCalculator<PontoVendaDto>.GetResumoProdutosQtdPrecoTotalByAvulso(result);
                 return new ResponseDto<List<DashPontoVendaResult>>().Retorno(new List<DashPontoVendaResult>() { dash });
 
             }

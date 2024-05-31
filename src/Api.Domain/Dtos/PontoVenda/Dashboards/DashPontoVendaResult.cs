@@ -3,6 +3,7 @@ namespace Domain.Dtos.PontoVenda.Dashboards
 {
     public class DashPontoVendaResult
     {
+        public Guid IdPdv { get; set; }
         public DateTime DataAbertura { get; set; }
         public DateTime? DataEncerramento { get; set; }
         public string? Periodo { get; set; }
@@ -15,8 +16,10 @@ namespace Domain.Dtos.PontoVenda.Dashboards
         public IEnumerable<ResumoPagamento>? ResumoPagamento { get; set; }
         public IEnumerable<ResumoProdutos>? ResumoProdutos { get; set; }
         public IEnumerable<CategoriaPrecoGroupBy>? ResumoVendasByCategoriaPrecoGroupBy { get; set; }
+        public IEnumerable<ProdutosByCategoriaGroupBy>? ResumoProdutosQtdPrecoTotalByAvulso { get; set; }
         public IEnumerable<ProdutosByCategoriaGroupBy>? ProdutosByCategoriaPrecoGroupBy { get; set; }
         public IEnumerable<PagamentoByCategoriaPreco>? PagamentoByCategoriaPrecoGroupBy { get; set; }
+       
     }
 
 
@@ -31,11 +34,19 @@ namespace Domain.Dtos.PontoVenda.Dashboards
         public string? NomeProduto { get; set; }
         public decimal TotalProdutos { get; set; }
     }
+    public class PagamentoByCategoriaPreco
+    {
+        public string? CategoriaPreco { get; set; }
+        public string? FormaPagamento { get; set; }
+        public int QtdPagamentoGroup { get; set; }
+        public decimal SomaValorPago { get; set; }
+
+    }
     public class CategoriaPrecoGroupBy
     {
         public string? Categoria { get; set; }
-        public decimal SomaValorPedido { get; set; }
         public int QuantidadePedido { get; set; }
+        public decimal SomaValorPedido { get; set; }
         public decimal TicketMedio { get; set; }
     }
 
@@ -47,12 +58,6 @@ namespace Domain.Dtos.PontoVenda.Dashboards
         public decimal QuantidadeTotal { get; set; }
         public decimal SomaTotal { get; set; }
     }
-    public class PagamentoByCategoriaPreco
-    {
-        public string? CategoriaPreco { get; set; }
-        public string? FormaPagamento { get; set; }
-        public decimal SomaValorPago { get; set; }
-        public int QtdPagamentoGroup { get; set; }
-    }
+
 
 }

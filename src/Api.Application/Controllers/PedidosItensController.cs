@@ -1,4 +1,5 @@
-﻿using Api.Extensions;
+﻿using Api.Domain.Dtos.PedidoDtos;
+using Api.Extensions;
 using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PedidoItem;
@@ -145,6 +146,24 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
+            }
+        }
+
+        [HttpDelete("itens-pedido/{idPedido}/remover-all-itens-idPedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> RemoverAllItensByIdPedido(Guid idPedido)
+        {
+            try
+            {
+                var result = await _service.RemoverAllItensByIdPedido(idPedido);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseDto<List<PedidoDto>>().Erro(ex));
             }
         }
     }

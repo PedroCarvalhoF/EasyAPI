@@ -6,9 +6,11 @@ using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PedidoItem;
 using Domain.Entities.ItensPedido;
+using Domain.Entities.PedidoSituacao.Ferramentas;
 using Domain.Entities.Produto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.Pedido;
 using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Models.ItemPedidoModels;
@@ -24,6 +26,7 @@ namespace Service.Services.ItemPedidoService
 
         private readonly IRepository<ProdutoEntity> _produtoRepository;
         private readonly IRepository<PedidoEntity> _pedidoRepository;
+        private readonly IPedidoRepository _pedidoImplementacao;
         private readonly IUsuarioPontoVendaRepository _usuarioPontoVendaRepository;
         private readonly IPedidoService _pedidoService;
 
@@ -32,6 +35,7 @@ namespace Service.Services.ItemPedidoService
                                  IMapper? mapper,
                                  IRepository<ProdutoEntity> produtoRepository,
                                  IRepository<PedidoEntity> pedidoRepository,
+                                 IPedidoRepository pedidoImplementacao,
                                  IUsuarioPontoVendaRepository usuarioPontoVendaRepository,
                                  IPedidoService pedidoService)
         {
@@ -42,6 +46,7 @@ namespace Service.Services.ItemPedidoService
             _pedidoRepository = pedidoRepository;
             _usuarioPontoVendaRepository = usuarioPontoVendaRepository;
             _pedidoService = pedidoService;
+            _pedidoImplementacao = pedidoImplementacao;
         }
         public async Task<ResponseDto<List<ItemPedidoDto>>> GetAll()
         {
@@ -137,6 +142,7 @@ namespace Service.Services.ItemPedidoService
                 }
 
                 var pedido = await _pedidoRepository.SelectAsync(itemPedidoCreate.PedidoEntityId);
+
                 //NAO ALTERAR GUID!!!!!!!
                 if (pedido.SituacaoPedidoEntityId == Guid.Parse("11b17cc5-c8b1-48f9-b9fd-886339441328"))
                 {
@@ -378,6 +384,51 @@ namespace Service.Services.ItemPedidoService
             }
         }
 
+        public async Task<ResponseDto<List<PedidoDto>>> RemoverAllItensByIdPedido(Guid idPedido)
+        {
+            try
+            {
+                var pedidoExit = await _pedidoRepository.ExistAsync(idPedido);
+                if (!pedidoExit)
+                {
+                    return new ResponseDto<List<PedidoDto>>().ErroConsulta("Pedido não localizado");
+                }
 
+                var pedido = await _pedidoImplementacao.Get(idPedido);
+
+                if(pedido.SituacaoPedidoEntityId ==GuidSituacaoPedido.SituacaoFechadoID
+                || pedido.SituacaoPedidoEntityId ==GuidSituacaoPedido.SituacaoCanceladoID)
+                {
+                    return new ResponseDto<List<PedidoDto>>()
+                        .ErroConsulta("Pedido deve estar aberto para remover os itens");
+                }
+
+                if (!pedido.ItensPedidoEntities.Any())
+                {
+                    return new ResponseDto<List<PedidoDto>>().ErroConsulta("Pedido não contém itens para ser removido");
+                }
+
+                var result = await _repository.DeleteAsync(pedido.ItensPedidoEntities);
+                
+                if(result>0)
+                {
+                    var pedidoAtualizado = await _pedidoService.AtualizarValorPedido(idPedido);
+                    if(pedidoAtualizado.Status)
+                    {
+                        pedidoAtualizado.Mensagem = "Itens removidos com sucesso.Pedido atualizado de retorno   ";
+                        return pedidoAtualizado;
+                    }
+
+                    return new ResponseDto<List<PedidoDto>>().DeleteOK("Itens removidos");
+                }
+
+                return new ResponseDto<List<PedidoDto>>().Erro("Não foi possível realizar operação");
+               
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<PedidoDto>>().Erro(ex);
+            }
+        }
     }
 }

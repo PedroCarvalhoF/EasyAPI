@@ -21,6 +21,11 @@ namespace Domain.Dtos.PontoVenda.Dashboards
                                   select pedido;
             return pedidos_validos;
         }
+
+        public static Guid GetIdPdv(T pdv)
+        {
+            return pdv.Id;
+        }
         public static string GetPeriodoPdv(T pdv)
         {
             var periodo = pdv.PeriodoPontoVendaEntity.DescricaoPeriodo;
@@ -160,7 +165,7 @@ namespace Domain.Dtos.PontoVenda.Dashboards
                          {
                              CategoriaPreco = pagamentoGroup.Key.DescricaoCategoria,
                              FormaPagamento = pagamentoGroup.Key.DescricaoFormaPg,
-                             QtdPagamentoGroup = pagamentoGroup.Count(p=>p.Habilitado),
+                             QtdPagamentoGroup = pagamentoGroup.Count(p => p.Habilitado),
                              SomaValorPago = pagamentoGroup.Sum(p => p.ValorPago)
                          };
 
@@ -168,6 +173,26 @@ namespace Domain.Dtos.PontoVenda.Dashboards
             return result;
         }
 
+        public static IEnumerable<ProdutosByCategoriaGroupBy>? GetResumoProdutosQtdPrecoTotalByAvulso(T pdv)
+        {
+            var pedidos_validos = GetPedidosValidos(pdv).Where(pedido=>pedido.NumeroPedido=="avulso");
+
+            var result = from pedido in pedidos_validos
+                         from item in pedido.ItensPedidoEntities
+                         group item by new { pedido.CategoriaPrecoEntity.DescricaoCategoria, item.ProdutoEntity.NomeProduto, item.Preco } into produtoGroup
+                         select new ProdutosByCategoriaGroupBy
+                         {
+                             CategoriaPreco = produtoGroup.Key.DescricaoCategoria,
+                             NomeProduto = produtoGroup.Key.NomeProduto,
+                             Preco = produtoGroup.Key.Preco,
+                             QuantidadeTotal = produtoGroup.Sum(i => i.Quatidade),
+                             SomaTotal = produtoGroup.Sum(i => i.Total)
+                         };
+
+            result = result.OrderBy(cat => cat.CategoriaPreco).ThenBy(p => p.NomeProduto).ThenBy(pr => pr.Preco).ThenBy(qtd => qtd.QuantidadeTotal);
+
+            return result;
+        }
 
     }
 }
