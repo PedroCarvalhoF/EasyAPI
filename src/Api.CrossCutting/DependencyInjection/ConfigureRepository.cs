@@ -85,7 +85,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
             MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-            string? connectionString = configuration.GetConnectionString("DefaultConnection");
+            string? connectionString = configuration.GetConnectionString("TestUmbler");
             serviceCollection.
                 AddDbContext<MyContext>(options =>
                              options.UseMySql(connectionString, serverVersion));

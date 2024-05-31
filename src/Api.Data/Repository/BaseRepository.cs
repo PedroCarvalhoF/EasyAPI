@@ -67,6 +67,33 @@ namespace Api.Data.Repository
 
             return item;
         }
+        public async Task<int> InsertArrayAsync(IEnumerable<T> entity)
+        {
+            try
+            {
+                foreach (var item in entity)
+                {
+                    if (item.Id == Guid.Empty)
+                        item.Id = Guid.NewGuid();
+                    item.CreateAt = DateTime.Now;
+                    item.UpdateAt = DateTime.Now;
+                    item.Habilitado = true;
+                }
+
+                _dataset.AddRange(entity);
+
+                return await _context.SaveChangesAsync();
+
+            }
+            catch (DbUpdateException ex)
+            {
+                throw new Exception(ex.InnerException.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items)
         {
             using Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction = await _context.Database.BeginTransactionAsync();
@@ -185,5 +212,7 @@ namespace Api.Data.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+
     }
 }

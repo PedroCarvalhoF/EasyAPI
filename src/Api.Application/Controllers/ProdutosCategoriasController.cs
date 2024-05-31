@@ -91,6 +91,27 @@ namespace Api.Application.Controllers
             }
 
         }
+
+        [HttpPost("categorias/create-lote")]
+        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Create(IEnumerable<CategoriaProdutoDtoCreate> lista)
+        {
+            try
+            {
+                var result = await _service.CreateLote(lista);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                var response = new ResponseDto<List<CategoriaProdutoDto>>();
+                return BadRequest(response.Erro(ex.Message));
+            }
+
+        }
+
         [HttpPut("categorias/update")]
         public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Update(CategoriaProdutoDtoUpdate categoriaProdutoDtoUpdate)
         {

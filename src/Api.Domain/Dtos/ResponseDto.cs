@@ -14,10 +14,11 @@ namespace Domain.Dtos
             this.Mensagem = $"Cadastro efetuado com sucesso.";
             return this;
         }
-        public void CadastroOk(string titulo)
+        public ResponseDto<T> CadastroOk(string titulo)
         {
             this.Status = true;
-            this.Mensagem = $"{titulo}- Cadastro efetuado com sucesso.";
+            this.Mensagem = $"{titulo}.";
+            return this;
         }
         public void CadastroOk(string titulo, string detalhes)
         {

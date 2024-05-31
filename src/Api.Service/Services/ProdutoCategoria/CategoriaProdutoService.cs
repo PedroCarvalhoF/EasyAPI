@@ -7,6 +7,7 @@ using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Entities.CategoriaProduto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Service.Services.CategoriaProduto
 {
@@ -134,6 +135,26 @@ namespace Api.Service.Services.CategoriaProduto
                 return response;
             }
         }
+        public async Task<ResponseDto<List<CategoriaProdutoDto>>> CreateLote(IEnumerable<CategoriaProdutoDtoCreate> lista)
+        {
+
+            try
+            {
+                var model = _mapper.Map<IEnumerable<CategoriaProdutoModel>>(lista);
+                var entity = _mapper.Map<IEnumerable<CategoriaProdutoEntity>>(model);
+                var result = await _repository.InsertArrayAsync(entity);
+
+                if (result == 0)
+                {
+                    return new ResponseDto<List<CategoriaProdutoDto>>().Erro("Não foi possível cadastrar o lote de categorias");
+                }
+                return new ResponseDto<List<CategoriaProdutoDto>>().CadastroOk("Cadastro do lote efetuado com sucesso");
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
+            }
+        }
         public async Task<ResponseDto<List<CategoriaProdutoDto>>> Update(CategoriaProdutoDtoUpdate categoriaProdutoDtoUpdate)
         {
             ResponseDto<List<CategoriaProdutoDto>> response = new ResponseDto<List<CategoriaProdutoDto>>();
@@ -203,6 +224,7 @@ namespace Api.Service.Services.CategoriaProduto
                 return response;
             }
         }
+
 
     }
 }
