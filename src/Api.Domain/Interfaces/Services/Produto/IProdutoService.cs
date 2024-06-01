@@ -14,8 +14,10 @@ namespace Domain.Interfaces.Services.Produto
         Task<ResponseDto<List<ProdutoDto>>> GetProdutoTipo(Guid produtoTipoId);
         Task<ResponseDto<List<ProdutoDto>>> GetHabilitadoNaoHabilitado(bool habilitado);
         Task<ResponseDto<List<ProdutoDto>>> Cadastrar(ProdutoDtoCreate produtoDtoCreate);
+        Task<ResponseDto<List<ProdutoDto>>> CreateArray(IEnumerable<ProdutoDtoCreate> arrayCreate);
         Task<ResponseDto<List<ProdutoDto>>> Alterar(ProdutoDtoUpdate produtoDtoUpdate);
         Task<ResponseDto<List<ProdutoDto>>> Desabilitar(Guid guid);
         Task<ResponseDto<List<ProdutoDto>>> GetProdutosByPdvAsync(Guid idPdv);
+       
     }
 }

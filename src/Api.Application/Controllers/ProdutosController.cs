@@ -1,7 +1,5 @@
-﻿using Api.Domain.Dtos.CategoriaPrecoDtos;
-using Domain.Dtos;
+﻿using Domain.Dtos;
 using Domain.Dtos.ProdutoDtos;
-using Domain.ExceptionsPersonalizadas;
 using Domain.Interfaces.Services.Produto;
 using Microsoft.AspNetCore.Mvc;
 
@@ -218,6 +216,33 @@ namespace Api.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpPost("cadastrar-produto/array")]
+        public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> PostArray([FromBody] IEnumerable<ProdutoDtoCreate> ArrayCreate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var result = await _service.CreateArray(ArrayCreate);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                ResponseDto<List<ProdutoDto>> response = new ResponseDto<List<ProdutoDto>>();
+                response.Dados = new List<ProdutoDto>();
+                response.Erro(ex.Message);
+                return BadRequest(response);
+            }
+        }
+
         [HttpPut("produtos/{habilitado}/habilitado")]
         public async Task<ActionResult<ResponseDto<List<ProdutoDto>>>> GetHabilitadoNaoHabilitado(bool habilitado)
         {

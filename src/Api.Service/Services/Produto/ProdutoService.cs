@@ -225,6 +225,26 @@ namespace Service.Services.Produto
                 return response;
             }
         }
+        public async Task<ResponseDto<List<ProdutoDto>>> CreateArray(IEnumerable<ProdutoDtoCreate> arrayCreate)
+        {
+            try
+            {
+                var model = _mapper.Map<IEnumerable<ProdutoModel>>(arrayCreate);
+                var entity = _mapper.Map<IEnumerable<ProdutoEntity>>(model);
+                var result = await _repository.InsertArrayAsync(entity);
+                if (result == 0)
+                {
+                    return new ResponseDto<List<ProdutoDto>>().Erro("Não foi possível cadastra lote de produtos");
+                }
+
+                return new ResponseDto<List<ProdutoDto>>().CadastroOk("Lote de produtos cadastrado com sucesso");
+            }
+            catch (Exception ex)
+            {
+
+                return new ResponseDto<List<ProdutoDto>>().Erro(ex);
+            }
+        }
 
         public async Task<ResponseDto<List<ProdutoDto>>> Alterar(ProdutoDtoUpdate produtoDtoUpdate)
         {
