@@ -17,6 +17,7 @@ using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.IdentityRole;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
+using Domain.Dtos.Pedido;
 using Domain.Dtos.PedidoSituacao;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
@@ -61,6 +62,7 @@ namespace Api.CrossCutting.Mappings
             CreateMap<PontoVendaDto, PontoVendaEntity>().ReverseMap();
 
             CreateMap<PedidoDto, PedidoEntity>().ReverseMap();
+            CreateMap<PedidoDtoClean, PedidoEntity>().ReverseMap();
 
             CreateMap<CategoriaPrecoDto, CategoriaPrecoEntity>().ReverseMap();
             CreateMap<CategoriaPrecoDtoCreate, CategoriaPrecoEntity>().ReverseMap();

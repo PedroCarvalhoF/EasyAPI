@@ -234,7 +234,7 @@ namespace Service.Services.ItemPedidoService
 
                 var pedido = await _pedidoRepository.SelectAsync(itemPedidoCreate.PedidoEntityId);
                 //NAO ALTERAR GUID!!!!!!!
-                if (pedido.SituacaoPedidoEntityId == Guid.Parse("11b17cc5-c8b1-48f9-b9fd-886339441328"))
+                if (pedido.SituacaoPedidoEntityId == GuidSituacaoPedido.SituacaoCanceladoID)
                 {
                     return response.Erro("Não é possivel inserir item em um pedido cancelado.");
                 }
@@ -383,7 +383,40 @@ namespace Service.Services.ItemPedidoService
                 return response.Erro(ex);
             }
         }
+        public async Task<ResponseDto<List<PedidoDto>>> CancelarItemReturnPedido(Guid idItemPedido)
+        {
+            try
+            {
+                var itemExists = await _repository.ExistAsync(idItemPedido);
+                if (!itemExists)
+                {
+                    return new ResponseDto<List<PedidoDto>>().ErroConsulta("Item não localizado");
+                }
 
+                var item_selecionado = await _repository.SelectAsync(idItemPedido);
+
+                var model = _mapper.Map<ItemPedidoModel>(item_selecionado);
+                model.CancelarItemPedido();
+                var entity = _mapper.Map<ItemPedidoEntity>(model);
+
+                var result = await _repository.UpdateAsync(entity);
+                if (result == null)
+                {
+                    return new ResponseDto<List<PedidoDto>>().Erro("Não foi possível cancacelar item do pedido");
+                }
+
+                var atualizaPedido = await _pedidoService.AtualizarValorPedido(result.PedidoEntityId);
+
+                if (atualizaPedido.Status)
+                    return atualizaPedido;
+
+                return new ResponseDto<List<PedidoDto>>().Erro("Não foi possível realizar operação");
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<List<PedidoDto>>().Erro(ex);
+            }
+        }
         public async Task<ResponseDto<List<PedidoDto>>> RemoverAllItensByIdPedido(Guid idPedido)
         {
             try
@@ -396,8 +429,8 @@ namespace Service.Services.ItemPedidoService
 
                 var pedido = await _pedidoImplementacao.Get(idPedido);
 
-                if(pedido.SituacaoPedidoEntityId ==GuidSituacaoPedido.SituacaoFechadoID
-                || pedido.SituacaoPedidoEntityId ==GuidSituacaoPedido.SituacaoCanceladoID)
+                if (pedido.SituacaoPedidoEntityId == GuidSituacaoPedido.SituacaoFechadoID
+                || pedido.SituacaoPedidoEntityId == GuidSituacaoPedido.SituacaoCanceladoID)
                 {
                     return new ResponseDto<List<PedidoDto>>()
                         .ErroConsulta("Pedido deve estar aberto para remover os itens");
@@ -409,11 +442,11 @@ namespace Service.Services.ItemPedidoService
                 }
 
                 var result = await _repository.DeleteAsync(pedido.ItensPedidoEntities);
-                
-                if(result>0)
+
+                if (result > 0)
                 {
                     var pedidoAtualizado = await _pedidoService.AtualizarValorPedido(idPedido);
-                    if(pedidoAtualizado.Status)
+                    if (pedidoAtualizado.Status)
                     {
                         pedidoAtualizado.Mensagem = "Itens removidos com sucesso.Pedido atualizado de retorno   ";
                         return pedidoAtualizado;
@@ -423,7 +456,7 @@ namespace Service.Services.ItemPedidoService
                 }
 
                 return new ResponseDto<List<PedidoDto>>().Erro("Não foi possível realizar operação");
-               
+
             }
             catch (Exception ex)
             {

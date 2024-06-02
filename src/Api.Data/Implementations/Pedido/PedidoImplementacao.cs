@@ -3,6 +3,7 @@ using Api.Data.Repository;
 using Api.Domain.Entities.Pedido;
 using Domain.Interfaces.Repository.Pedido;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Data.Implementations.Pedido
@@ -88,6 +89,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
+                Stopwatch stop = Stopwatch.StartNew();
                 IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
@@ -95,6 +97,8 @@ namespace Data.Implementations.Pedido
                 query = query.Where(funcao);
 
                 var entities = await query.ToArrayAsync();
+
+                stop.Stop();
 
                 return entities;
             }
@@ -108,6 +112,7 @@ namespace Data.Implementations.Pedido
         {
             try
             {
+                Stopwatch stop = Stopwatch.StartNew();
                 IQueryable<PedidoEntity> query = _dtSet.AsNoTracking();
 
                 query = Includes(query);
@@ -116,7 +121,7 @@ namespace Data.Implementations.Pedido
                 query = query.Where(pedido => pedido.PontoVendaEntityId.Equals(idPdv));
 
                 var entities = await query.ToArrayAsync();
-
+                stop.Stop();
                 return entities;
             }
             catch (Exception ex)

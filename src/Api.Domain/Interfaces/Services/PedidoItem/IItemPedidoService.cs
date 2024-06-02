@@ -13,6 +13,7 @@ namespace Domain.Interfaces.Services.ItemPedido
         Task<ResponseDto<List<ItemPedidoDto>>> InserirItemNoPedido(ItemPedidoDtoCreate itemPedido);
         Task<ResponseDto<List<PedidoDto>>> InserirItemNoPedidoReturnPedido(ItemPedidoDtoCreate itemPedido);
         Task<ResponseDto<List<ItemPedidoDto>>> CancelarItemPedido(Guid id);
+        Task<ResponseDto<List<PedidoDto>>> CancelarItemReturnPedido(Guid idItemPedido);
         Task<ResponseDto<List<PedidoDto>>> RemoverAllItensByIdPedido(Guid idPedido);
         Task<ResponseDto<List<ItemPedidoDto>>> EditarObservacao(ItemPedidoDtoEditarObservacao observacao);
        

@@ -149,6 +149,24 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPut("itens-pedido/{idItemPedido}/cancelar-item-return-pedido")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> CancelarItemReturnPedido(Guid idItemPedido)
+        {
+            try
+            {
+                var result = await _service.CancelarItemReturnPedido(idItemPedido);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseDto<List<ItemPedidoDto>>().Erro(ex));
+            }
+        }
+
         [HttpDelete("itens-pedido/{idPedido}/remover-all-itens-idPedido")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> RemoverAllItensByIdPedido(Guid idPedido)
         {

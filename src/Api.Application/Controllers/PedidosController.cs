@@ -2,6 +2,7 @@ using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Interfaces.Services.Pedido;
 using Api.Extensions;
 using Domain.Dtos;
+using Domain.Dtos.Pedido;
 using Domain.Dtos.Pedidos;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -89,6 +90,27 @@ namespace Api.Application.Controllers
                 return BadRequest(response);
             }
         }
+
+        [HttpGet("pedidos/{idPdv}/pdv-clean")]
+        public async Task<ActionResult<ResponseDto<List<PedidoDtoClean>>>> GetAllCleanTeste(Guid idPdv)
+        {
+            try
+            {
+                var result = await _pedidoService.GetAllCleanTeste(idPdv);
+
+                if (!result.Status)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new ResponseDto<List<PedidoDtoClean>>().Erro(ex));
+            }
+        }
+
+
 
         [HttpGet("pedidos/{idPdv}/{numeroPedido}/numero-pedido-contains")]
         public async Task<ActionResult<ResponseDto<List<PedidoDto>>>> GetAllByPdvByNumeroPedidoContains(Guid idPdv, string numeroPedido)

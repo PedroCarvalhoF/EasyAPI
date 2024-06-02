@@ -4,6 +4,7 @@ using Api.Domain.Interfaces.Services.Pedido;
 using Api.Domain.Models.PedidoModels;
 using AutoMapper;
 using Domain.Dtos;
+using Domain.Dtos.Pedido;
 using Domain.Dtos.Pedidos;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.Pedido;
@@ -122,6 +123,30 @@ namespace Api.Service.Services.Pedido
             catch (Exception ex)
             {
                 return response.Erro(ex);
+            }
+        }
+        public async Task<ResponseDto<IEnumerable<PedidoDtoClean>>> GetAllCleanTeste(Guid idPdv)
+        {
+
+            try
+            {
+                var entities = await _implementacao.GetAll(idPdv);
+
+                if (entities == null)
+                {
+                    return new ResponseDto<IEnumerable<PedidoDtoClean>>().EntitiesNull();
+                }
+
+                var pedidoDto = _mapper.Map<IEnumerable<PedidoDtoClean>>(entities);
+
+                var result = new ResponseDto<IEnumerable<PedidoDtoClean>>();
+                result.Dados = pedidoDto;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<IEnumerable<PedidoDtoClean>>().Erro(ex);
             }
         }
         public async Task<ResponseDto<List<PedidoDto>>> GetAllByPdvByNumeroPedidoContains(Guid idPdv, string numeroPedido)
@@ -406,5 +431,7 @@ namespace Api.Service.Services.Pedido
                 return response.Erro(ex);
             }
         }
+
+
     }
 }
