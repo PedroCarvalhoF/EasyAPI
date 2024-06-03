@@ -60,6 +60,12 @@ namespace Domain.Dtos
             return this;
         }
 
+        public ResponseDto<T> Erro(DivideByZeroException ex)
+        {
+            this.Status = true;
+            this.Mensagem = $"Não foi possível realizar calculo.";
+            return this;
+        }
         public ResponseDto<T> Erro(Exception ex)
         {
             this.Status = false;

@@ -7,14 +7,14 @@ namespace Api.Domain.Interfaces.Services.PontoVenda
 {
     public interface IPontoVendaService
     {
-        Task<ResponseDto<List<PontoVendaDto>>> GetPdvs();
-        Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId);
-        Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV);
-        Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado);
-        Task<ResponseDto<List<PontoVendaDto>>> FiltrarByData(PontoVendaDtoFiltrarData data);
-        Task<ResponseDto<List<PontoVendaDto>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate);
-        Task<ResponseDto<List<PontoVendaDto>>> Encerrar(Guid pontoVendaId);
-        Task<ResponseDto<List<DashPontoVendaResult>>> GetDashPdvById(Guid idPdv);
+        Task<ResponseDto<List<PontoVendaDto>>> GetPdvs( bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId, bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV, bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado, bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> FiltrarByData(PontoVendaDtoFiltrarData data, bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate, bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> Encerrar(Guid pontoVendaId, bool include = false);
+        Task<ResponseDto<List<DashPontoVendaResult>>> GetDashPdvById(Guid idPdv, bool include = false);
 
     }
 }

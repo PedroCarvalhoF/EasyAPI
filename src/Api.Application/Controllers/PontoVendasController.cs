@@ -25,12 +25,13 @@ namespace Api.Controllers
         }
 
 
-        [HttpGet("{idPdv}/dashboard-pdv")]
-        public async Task<ActionResult> GetDashPdvById(Guid idPdv)
+        [HttpGet("pdv/{idPdv}/dashboard-pdv/{include}")]
+        public async Task<ActionResult> GetDashPdvById(Guid idPdv, bool include = true)
         {
             try
             {
-                var respostaService = await _service.GetDashPdvById(idPdv);
+                //necessário ser full includes para validar os calculos
+                var respostaService = await _service.GetDashPdvById(idPdv, true);
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -43,12 +44,12 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet("pdv")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs()
+        [HttpGet("pdv/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs( bool include = false)
         {
             try
             {
-                var respostaService = await _service.GetPdvs();
+                var respostaService = await _service.GetPdvs(include);
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -61,12 +62,12 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet("pdv/{id}/id")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetByIdPdv(Guid id)
+        [HttpGet("pdv/{id}/id/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetByIdPdv(Guid id, bool include = false)
         {
             try
             {
-                var respostaService = await _service.GetByIdPdv(id);
+                var respostaService = await _service.GetByIdPdv(id, include);
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -78,12 +79,12 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
             }
         }
-        [HttpGet("pdv/{IdPerfilUtilizarPDV}/IdPerfilUsuario")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV)
+        [HttpGet("pdv/{IdPerfilUtilizarPDV}/IdPerfilUsuario/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV, bool include = false)
         {
             try
             {
-                var respostaService = await _service.GetByIdPerfilUsuario(IdPerfilUtilizarPDV);
+                var respostaService = await _service.GetByIdPerfilUsuario(IdPerfilUtilizarPDV, include);
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -95,30 +96,12 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
             }
         }
-        [HttpGet("pdv/{abertoFechado}/AbertoFechado")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> AbertosFechados(bool abertoFechado)
+        [HttpGet("pdv/{abertoFechado}/AbertoFechado/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> AbertosFechados(bool abertoFechado, bool include = false)
         {
             try
             {
-                var respostaService = await _service.AbertosFechados(abertoFechado);
-
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
-            }
-        }
-
-        [HttpPost("pdv/data")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> FiltrarByData([FromBody] PontoVendaDtoFiltrarData data)
-        {
-            try
-            {
-                var respostaService = await _service.FiltrarByData(data);
+                var respostaService = await _service.AbertosFechados(abertoFechado, include);
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -131,8 +114,26 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost("pdv/create")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate)
+        [HttpPost("pdv/data/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> FiltrarByData(PontoVendaDtoFiltrarData data, bool include = false)
+        {
+            try
+            {
+                var respostaService = await _service.FiltrarByData(data, include);
+
+                if (respostaService.Status)
+                    return Ok(respostaService);
+                else
+                    return BadRequest(respostaService);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
+            }
+        }
+
+        [HttpPost("pdv/create/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate, bool include = false)
         {
             if (!ModelState.IsValid)
             {
@@ -142,7 +143,7 @@ namespace Api.Controllers
             try
             {
                 pontoVendaDtoCreate.UserPdvCreateId = User.GetUserId();
-                var respostaService = await _service.Create(pontoVendaDtoCreate);
+                var respostaService = await _service.Create(pontoVendaDtoCreate, include);
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -154,12 +155,12 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<PontoVendaDto>>().Erro(ex));
             }
         }
-        [HttpPut("pdv/{pontoVendaId}/encerrar")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> Encerrar(Guid pontoVendaId)
+        [HttpPut("pdv/{pontoVendaId}/encerrar/{include}")]
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> Encerrar(Guid pontoVendaId, bool include = false)
         {
             try
             {
-                var respostaService = await _service.Encerrar(pontoVendaId);
+                var respostaService = await _service.Encerrar(pontoVendaId, include);
 
                 if (respostaService.Status)
                     return Ok(respostaService);

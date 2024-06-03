@@ -340,6 +340,21 @@ namespace Service.Services.ItemPedidoService
                 }
 
 
+                // verificar se pedido existe e se esta aberto
+                var pedidoExists = await _pedidoRepository.ExistAsync(entity.PedidoEntity.Id);
+                if (!pedidoExists)
+                {
+                    return response.Erro("Pedido não localizado");
+                }
+
+                var pedido = await _pedidoRepository.SelectAsync(entity.PedidoEntity.Id);
+
+                //NAO ALTERAR GUID!!!!!!!
+                if (pedido.SituacaoPedidoEntityId != Guid.Parse("abc0f0f9-3295-439c-a468-795b071b7f22"))
+                {
+                    return response.Erro("O pedido deve estar aberto");
+                }
+
                 var model = _mapper.Map<ItemPedidoModel>(entity);
 
                 if (!model.Habilitado)
@@ -394,6 +409,23 @@ namespace Service.Services.ItemPedidoService
                 }
 
                 var item_selecionado = await _repository.SelectAsync(idItemPedido);
+
+                // verificar se pedido existe e se esta aberto
+                var pedidoExists = await _pedidoRepository.ExistAsync(item_selecionado.PedidoEntityId);
+                if (!pedidoExists)
+                {
+                    return new ResponseDto<List<PedidoDto>>().Erro("Pedido não localizado");
+                }
+
+                var pedido = await _pedidoRepository.SelectAsync(item_selecionado.PedidoEntityId);
+
+                //NAO ALTERAR GUID!!!!!!!
+                if (pedido.SituacaoPedidoEntityId != Guid.Parse("abc0f0f9-3295-439c-a468-795b071b7f22"))
+                {
+                    return new ResponseDto<List<PedidoDto>>().Erro("O pedido deve estar aberto");
+                }
+
+
 
                 var model = _mapper.Map<ItemPedidoModel>(item_selecionado);
                 model.CancelarItemPedido();

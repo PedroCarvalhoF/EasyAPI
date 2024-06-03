@@ -30,13 +30,13 @@ namespace Api.Service.Services.PontoVendaService
             _pedidoService = pedidoService;
         }
 
-        public async Task<ResponseDto<List<PontoVendaDto>>> GetPdvs()
+        public async Task<ResponseDto<List<PontoVendaDto>>> GetPdvs(bool include = false)
         {
             ResponseDto<List<PontoVendaDto>> resposta = new ResponseDto<List<PontoVendaDto>>();
             resposta.Dados = new List<PontoVendaDto>();
             try
             {
-                IEnumerable<PontoVendaEntity> entities = await _implementacao.GetPdvs();
+                IEnumerable<PontoVendaEntity> entities = await _implementacao.GetPdvs(include);
 
                 if (entities == null)
                 {
@@ -57,13 +57,13 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta;
             }
         }
-        public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId)
+        public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId, bool include = false)
         {
             var resposta = new ResponseDto<List<PontoVendaDto>>();
 
             try
             {
-                var entities = await _implementacao.GetByIdPdv(pdvId);
+                var entities = await _implementacao.GetByIdPdv(pdvId, include);
 
                 if (entities == null)
                 {
@@ -82,13 +82,13 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV)
+        public async Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV, bool include = false)
         {
             var resposta = new ResponseDto<List<PontoVendaDto>>();
 
             try
             {
-                var entities = await _implementacao.GetByIdPerfilUsuario(IdPerfilUtilizarPDV);
+                var entities = await _implementacao.GetByIdPerfilUsuario(IdPerfilUtilizarPDV, include);
 
                 if (entities == null)
                 {
@@ -104,13 +104,13 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado)
+        public async Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado, bool include = false)
         {
             var resposta = new ResponseDto<List<PontoVendaDto>>();
 
             try
             {
-                var entities = await _implementacao.AbertosFechados(abertoFechado);
+                var entities = await _implementacao.AbertosFechados(abertoFechado, include);
 
                 if (entities == null)
                 {
@@ -126,13 +126,13 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PontoVendaDto>>> FiltrarByData(PontoVendaDtoFiltrarData data)
+        public async Task<ResponseDto<List<PontoVendaDto>>> FiltrarByData(PontoVendaDtoFiltrarData data, bool include = false)
         {
             var resposta = new ResponseDto<List<PontoVendaDto>>();
 
             try
             {
-                var entities = await _implementacao.FiltrarByData(data);
+                var entities = await _implementacao.FiltrarByData(data, include);
 
                 if (entities == null)
                 {
@@ -147,7 +147,7 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PontoVendaDto>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate)
+        public async Task<ResponseDto<List<PontoVendaDto>>> Create(PontoVendaDtoCreate pontoVendaDtoCreate, bool include = false)
         {
             var resposta = new ResponseDto<List<PontoVendaDto>>();
 
@@ -175,7 +175,7 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PontoVendaDto>>> Encerrar(Guid pontoVendaId)
+        public async Task<ResponseDto<List<PontoVendaDto>>> Encerrar(Guid pontoVendaId, bool include = false)
         {
             var resposta = new ResponseDto<List<PontoVendaDto>>();
             resposta.Dados = new List<PontoVendaDto>();
@@ -198,7 +198,7 @@ namespace Api.Service.Services.PontoVendaService
 
                 var resultUpdate = await _repository.UpdateAsync(entity);
 
-                var verificarUpdate = await _implementacao.GetByIdPdv(pontoVendaId);
+                var verificarUpdate = await _implementacao.GetByIdPdv(pontoVendaId, include);
 
                 if (!verificarUpdate.AbertoFechado)
                 {
@@ -217,11 +217,11 @@ namespace Api.Service.Services.PontoVendaService
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<DashPontoVendaResult>>> GetDashPdvById(Guid idPdv)
+        public async Task<ResponseDto<List<DashPontoVendaResult>>> GetDashPdvById(Guid idPdv, bool include = false)
         {
             try
             {
-                var result = (await GetByIdPdv(idPdv)).Dados.SingleOrDefault();
+                var result = (await GetByIdPdv(idPdv, include)).Dados.SingleOrDefault();
                 if (result == null)
                 {
                     return new ResponseDto<List<DashPontoVendaResult>>().EntitiesNull();
@@ -237,7 +237,16 @@ namespace Api.Service.Services.PontoVendaService
                 dash.ResponsavelOperador = DashPontoVendaCalculator<PontoVendaDto>.GetUsuarioOperadorCaixa(result);
                 dash.Faturamento = DashPontoVendaCalculator<PontoVendaDto>.Total(result);
                 dash.QuantidadePedidos = DashPontoVendaCalculator<PontoVendaDto>.QtdPedidos(result, true);
-                dash.TicktMedido = dash.Faturamento / dash.QuantidadePedidos;
+
+                if(dash.Faturamento==0 || dash.QuantidadePedidos==0)
+                {
+                    dash.TicktMedido = 0;
+                }
+                else
+                {
+                    dash.TicktMedido = dash.Faturamento / dash.QuantidadePedidos;
+                }
+                
 
                 dash.ResumoPagamento = DashPontoVendaCalculator<PontoVendaDto>.ResumoPagamentos(result);
                 dash.ResumoProdutos = DashPontoVendaCalculator<PontoVendaDto>.ResumoProdutos(result);
@@ -247,9 +256,15 @@ namespace Api.Service.Services.PontoVendaService
                 dash.PagamentoByCategoriaPrecoGroupBy = DashPontoVendaCalculator<PontoVendaDto>.PagamentosByCategoriaPreco(result);
 
                 dash.ResumoProdutosQtdPrecoTotalByAvulso = DashPontoVendaCalculator<PontoVendaDto>.GetResumoProdutosQtdPrecoTotalByAvulso(result);
+
                 return new ResponseDto<List<DashPontoVendaResult>>().Retorno(new List<DashPontoVendaResult>() { dash });
 
             }
+            catch (DivideByZeroException ex)
+            {
+                return new ResponseDto<List<DashPontoVendaResult>>().Erro(ex);
+            }
+
             catch (Exception ex)
             {
 
