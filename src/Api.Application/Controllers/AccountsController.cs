@@ -11,12 +11,10 @@ namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class AccountsController : ControllerBase
     {
         private readonly IUserService _identityService;
-
-
         public AccountsController(IUserService identityService)
         {
             _identityService = identityService;
@@ -110,7 +108,27 @@ namespace Api.Application.Controllers
 
         }
 
+        [HttpPost("alterar-senha")]
+        public async Task<ActionResult<ResponseDto<UsuarioLoginResponse>>> Alterar(UsuarioUpdateSenhaRequest usuarioLoginUpdate)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
 
+            var resultado = await _identityService.AlterarSenha(usuarioLoginUpdate);
 
+            if (resultado.Status)
+                return Ok(resultado);
+
+            return BadRequest(resultado);
+        }
+
+        [HttpGet("get-server")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetServerName([FromServices] IConfiguration configuration)
+        {
+            string? connectionString = configuration.GetConnectionString("DefaultConnection");
+            return Ok(connectionString);
+
+        }
     }
 }

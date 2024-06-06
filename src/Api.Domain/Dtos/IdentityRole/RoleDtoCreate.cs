@@ -4,7 +4,7 @@ namespace Domain.Dtos.IdentityRole
 {
     public class RoleDtoCreate
     {
-        [Required(ErrorMessage ="Informe a função")]
+        [Required(ErrorMessage = "Informe a função")]
         public string? RoleName { get; set; }
 
     }

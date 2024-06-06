@@ -1,5 +1,6 @@
-﻿using Domain.Dtos.PessoasDtos.PessoaDtos;
-using Domain.ExceptionsPersonalizadas;
+﻿using Domain.Dtos;
+using Domain.Dtos.PessoasDtos.PessoaDtos;
+using Domain.Enuns;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,134 +9,110 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize]
-    class PessoasController : Controller
+    public class PessoasController : ControllerBase
     {
-        private readonly IPessoaServices _pessoaServices;
+        private readonly IPessoaServices _service;
 
-        public PessoasController(IPessoaServices pessoaServices)
+        public PessoasController(IPessoaServices service)
         {
-            _pessoaServices = pessoaServices;
+            _service = service;
         }
 
-        [HttpPost("cadastrar-pessoa")]
-        public async Task<ActionResult<PessoaDto>> Create([FromBody] PessoaDtoCreate pessoaCreate)
+
+        [HttpGet("pessoas/{include}/{idPessoa}/id")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Get(Guid idPessoa, bool include = false)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                var result = await _service.Get(idPessoa, include);
+                if (result.Status)
+                    return Ok(result);
 
-                PessoaDto? pessoaDto = await _pessoaServices.Create(pessoaCreate);
-                if (pessoaDto == null) BadRequest("Não foi possíve realizar cadastro.");
-                return Ok(pessoaDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                return BadRequest(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+
+                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-        [HttpGet("get-idpessoa/{idPessoa}")]
-        public async Task<ActionResult<PessoaDto>> Get(Guid idPessoa)
+        [HttpGet("pessoas/{include}/all")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAll(bool include = false)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                var result = await _service.GetAll(include);
+                if (result.Status)
+                    return Ok(result);
 
-                PessoaDto? dto = await _pessoaServices.Get(idPessoa);
-                if (dto == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(dto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                return  BadRequest(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+
+                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-        [HttpGet("get-all")]
-        public async Task<ActionResult<IEnumerable<PessoaDto>>> GetAll()
+        [HttpGet("pessoas/{include}/{pessoaTipo}/pessoa-tipo")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAllByPessoaTipo(PessoaTipoEnum pessoaTipo, bool include = false)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            try
+            {
+                var result = await _service.GetAllByPessoaTipo(pessoaTipo, include);
+                if (result.Status)
+                    return Ok(result);
+
+                return  BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
+            }
+        }
+        [HttpPost("pessoas")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Create(PessoaDtoCreate pessoaDtoCreate)
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                var result = await _service.Create(pessoaDtoCreate);
+                if (result.Status)
+                    return Ok(result);
 
-                IEnumerable<PessoaDto>? dtos = await _pessoaServices.GetAll();
-                if (dtos == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(dtos);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                return BadRequest(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+
+                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-        [HttpGet("get-all-idpessoatipo/{pessoaTipo}")]
-        public async Task<ActionResult<IEnumerable<PessoaDto>>> GetAll(Guid pessoaTipo)
+        [HttpPut("pessoas")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Update(PessoaDtoCreate pessoaDtoCreate)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
+                var result = await _service.Update(pessoaDtoCreate);
+                if (result.Status)
+                    return Ok(result);
 
-                IEnumerable<PessoaDto>? dtos = await _pessoaServices.GetAll(pessoaTipo);
-                if (dtos == null) BadRequest("Não foi possíve realizar consulta.");
-                return Ok(dtos);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
+                return BadRequest(result);
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
-            }
-        }
 
-        [HttpPut("pessoa-update")]
-        public async Task<ActionResult<PessoaDto>> Update([FromBody] PessoaDtoUpdate pessoaUpdate)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                PessoaDto? pessoaDto = await _pessoaServices.Update(pessoaUpdate);
-                if (pessoaDto == null) BadRequest("Não foi possíve realizar update.");
-                return Ok(pessoaDto);
-            }
-            catch (ModelsExceptions ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro.Detalhes: {ex.Message}");
+                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
     }

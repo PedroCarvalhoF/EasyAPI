@@ -19,7 +19,7 @@ namespace Domain.Dtos.PontoVenda.Dashboards
         public IEnumerable<ProdutosByCategoriaGroupBy>? ResumoProdutosQtdPrecoTotalByAvulso { get; set; }
         public IEnumerable<ProdutosByCategoriaGroupBy>? ProdutosByCategoriaPrecoGroupBy { get; set; }
         public IEnumerable<PagamentoByCategoriaPreco>? PagamentoByCategoriaPrecoGroupBy { get; set; }
-       
+
     }
 
 

@@ -16,6 +16,6 @@ namespace Domain.Interfaces.Services.ItemPedido
         Task<ResponseDto<List<PedidoDto>>> CancelarItemReturnPedido(Guid idItemPedido);
         Task<ResponseDto<List<PedidoDto>>> RemoverAllItensByIdPedido(Guid idPedido);
         Task<ResponseDto<List<ItemPedidoDto>>> EditarObservacao(ItemPedidoDtoEditarObservacao observacao);
-       
+
     }
 }

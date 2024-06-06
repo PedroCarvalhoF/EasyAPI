@@ -102,11 +102,11 @@ namespace Api.Domain.Models.PedidoModels
 
         public void AtualizarValorPedido()
         {
-            var pedidos_validos = ItensPedidoEntities.Where(item => item.Habilitado == true);
+            IEnumerable<ItemPedidoEntity> pedidos_validos = ItensPedidoEntities.Where(item => item.Habilitado == true);
 
-            var total_desconto = pedidos_validos.Sum(item => item.Desconto);
-            var total_item = pedidos_validos.Sum(item => item.SubTotal);
-            var total_pedido = total_item - total_desconto;
+            decimal total_desconto = pedidos_validos.Sum(item => item.Desconto);
+            decimal total_item = pedidos_validos.Sum(item => item.SubTotal);
+            decimal total_pedido = total_item - total_desconto;
 
             this.ValorPedido = total_pedido;
         }

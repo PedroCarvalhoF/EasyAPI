@@ -29,6 +29,6 @@ namespace Api.Domain.Interfaces.Services.Pedido
         Task<ResponseDto<List<PedidoDto>>> AtualizarValorPedido(Guid idPedido);
         Task<ResponseDto<List<PedidoDto>>> EncerrarPedido(Guid idPedido);
         Task<ResponseDto<List<PedidoDto>>> CancelarPedido(PedidoDtoCancelar cancelamentoPedido);
-       
+
     }
 }

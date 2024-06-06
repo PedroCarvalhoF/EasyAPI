@@ -1,6 +1,5 @@
 using Api.Domain.Interfaces.Services.Identity;
 using Api.Identity.Configurations;
-using Api.Identity.Constants;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
 using Domain.UserIdentity;
@@ -89,7 +88,6 @@ namespace Api.Identity.Services
 
             return claims;
         }
-
         #endregion
         public async Task<ResponseDto<List<User>>> GetAll()
         {
@@ -268,6 +266,29 @@ namespace Api.Identity.Services
             resposta.Mensagem = $"{usuarioLoginResponse.Erros.FirstOrDefault()}";
             resposta.Status = false;
             return resposta;
+        }
+
+        public async Task<ResponseDto<List<UsuarioCadastroResponse>>> AlterarSenha(UsuarioUpdateSenhaRequest userNewPass)
+        {
+            try
+            {
+                var user = await _userManager.Users.Where(u => u.Id == userNewPass.IdUser).SingleOrDefaultAsync();
+                if (user == null)
+                    return new ResponseDto<List<UsuarioCadastroResponse>>().Erro("Usuário não localizado");
+
+                var varResultSenhaAlterada = await _userManager.ChangePasswordAsync(user, userNewPass.SenhaAntiga, userNewPass.NovaSenha);
+                if (!varResultSenhaAlterada.Succeeded)
+                {
+                    return new ResponseDto<List<UsuarioCadastroResponse>>().Erro(varResultSenhaAlterada.Errors.SingleOrDefault().Description);
+                }
+
+                return new ResponseDto<List<UsuarioCadastroResponse>>().UpdateOk();
+            }
+            catch (Exception ex)
+            {
+
+                return new ResponseDto<List<UsuarioCadastroResponse>>().Erro(ex);
+            }
         }
     }
 }

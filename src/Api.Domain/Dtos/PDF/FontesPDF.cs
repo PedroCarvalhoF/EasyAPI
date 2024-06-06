@@ -12,7 +12,7 @@ namespace Domain.Dtos.PDF
         /// <returns></returns>
         public static Font FontTitulo(int tamanhoDocumento)
         {
-            var titulo = FontFactory.GetFont("Arial", 18, Font.BOLD);
+            Font titulo = FontFactory.GetFont("Arial", 18, Font.BOLD);
 
             switch (tamanhoDocumento)
             {
@@ -29,7 +29,7 @@ namespace Domain.Dtos.PDF
 
         public static Font FontCelulaTabela(int tamanhoDocumento)
         {
-            var titulo = FontFactory.GetFont("Arial", 12, Font.NORMAL);
+            Font titulo = FontFactory.GetFont("Arial", 12, Font.NORMAL);
 
             switch (tamanhoDocumento)
             {

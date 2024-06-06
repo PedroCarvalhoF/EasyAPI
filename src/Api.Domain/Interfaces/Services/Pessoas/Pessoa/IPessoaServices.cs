@@ -1,13 +1,15 @@
-﻿using Domain.Dtos.PessoasDtos.PessoaDtos;
+﻿using Domain.Dtos;
+using Domain.Dtos.PessoasDtos.PessoaDtos;
+using Domain.Enuns;
 
 namespace Domain.Interfaces.Services.Pessoas.Pessoa
 {
     public interface IPessoaServices
     {
-        Task<PessoaDto> Get(Guid idPessoa);
-        Task<IEnumerable<PessoaDto>> GetAll();
-        Task<IEnumerable<PessoaDto>> GetAll(Guid pessoaTipo);
-        Task<PessoaDto> Create(PessoaDtoCreate pessoaCreate);
-        Task<PessoaDto> Update(PessoaDtoUpdate pessoaDto);
+        Task<ResponseDto<List<PessoaDto>>> GetAll(bool include = false);
+        Task<ResponseDto<List<PessoaDto>>> Get(Guid idPessoa, bool include = false);
+        Task<ResponseDto<List<PessoaDto>>> GetAllByPessoaTipo(PessoaTipoEnum pessoaTipo, bool include = false);
+        Task<ResponseDto<List<PessoaDto>>> Create(PessoaDtoCreate pessoaDtoCreate);
+        Task<ResponseDto<List<PessoaDto>>> Update(PessoaDtoCreate pesssoaUpdate);
     }
 }

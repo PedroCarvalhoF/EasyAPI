@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Api.Domain.Entities.PontoVenda
 {
     public class PontoVendaEntity : BaseEntity
-    {        
+    {
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id Perfil Abertura")]
         public Guid UserPdvCreateId { get; set; }

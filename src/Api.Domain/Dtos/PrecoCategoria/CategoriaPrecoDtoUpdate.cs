@@ -13,7 +13,7 @@ namespace Api.Domain.Dtos.CategoriaPrecoDtos
         public string? DescricaoCategoria { get; set; }
 
         [Required(ErrorMessage = "Informe se está habilitado ou não")]
-        [Display(Name = "Habilitado")]        
+        [Display(Name = "Habilitado")]
         public bool Habilitado { get; set; }
     }
 }

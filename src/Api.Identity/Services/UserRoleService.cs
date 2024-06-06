@@ -3,7 +3,6 @@ using Domain.Identity.UserIdentity;
 using Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace Identity.Services
 {
@@ -52,13 +51,6 @@ namespace Identity.Services
                 var result = await _userManager.AddToRoleAsync(user, role.Name);
 
                 return new ResponseDto<List<Role>>();
-
-                //if (result.Succeeded)
-                //    return true;
-                //else
-                //    throw new Exception(result.Errors.FirstOrDefault().Description);
-
-
             }
             catch (Exception ex)
             {
@@ -80,14 +72,9 @@ namespace Identity.Services
 
                 IdentityResult roleResult = await _roleManager.CreateAsync(identityRole);
                 return new ResponseDto<List<Role>>();
-
-                //if (roleResult.Succeeded)
-                //    return true;
-                //else
-                //    return false;
             }
             else
-                throw new Exception("Função ja exíste");
+                return new ResponseDto<List<Role>>().Erro("Função ja existe");
         }
 
 

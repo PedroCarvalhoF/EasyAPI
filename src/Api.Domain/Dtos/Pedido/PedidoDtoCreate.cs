@@ -5,7 +5,7 @@ namespace Api.Domain.Dtos.PedidoDtos
 {
     public class PedidoDtoCreate
     {
-        [DisplayName("Número do Pedido")]        
+        [DisplayName("Número do Pedido")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? NumeroPedido { get; set; }
         //############################################################          
@@ -13,12 +13,12 @@ namespace Api.Domain.Dtos.PedidoDtos
         [DisplayName("Observações")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? Observacoes { get; set; } = string.Empty;
-       
+
         //############################################################
 
         [DisplayName("Id PDV")]
         [Required(ErrorMessage = "Informe o {0}")]
-        public Guid? PontoVendaEntityId { get; set; }       
+        public Guid? PontoVendaEntityId { get; set; }
         //############################################################
 
         [DisplayName("Id Categoria Preço")]

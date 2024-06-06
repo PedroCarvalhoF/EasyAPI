@@ -4,7 +4,6 @@ using Api.Domain.Interfaces.Services.CategoriaPreco;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
 using Api.Domain.Interfaces.Services.Identity;
 using Api.Domain.Interfaces.Services.Pedido;
-using Api.Domain.Interfaces.Services.Pessoas.PessoaTipo;
 using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
 using Api.Domain.Interfaces.Services.ProdutoMedida;
@@ -14,7 +13,6 @@ using Api.Identity.Services;
 using Api.Service.Services.CategoriaPreco;
 using Api.Service.Services.CategoriaProduto;
 using Api.Service.Services.Pedido;
-using Api.Service.Services.Pessoas.PessoasTipo;
 using Api.Service.Services.PontoVendaService;
 using Api.Service.Services.PrecoProduto;
 using Data.Implementations;
@@ -24,7 +22,6 @@ using Data.Implementations.PedidoItem;
 using Data.Implementations.PedidoPagamento;
 using Data.Implementations.PedidoSituacao;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;
-using Data.Implementations.Pessoas.PessoasTipoImplementacao;
 using Data.Implementations.PontoVenda;
 using Data.Implementations.PontoVendaPeriodo;
 using Data.Implementations.PontoVendaUser;
@@ -41,7 +38,6 @@ using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Repository.PedidoSituacao;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
-using Domain.Interfaces.Repository.PessoaRepositorys.PessoaTipo;
 using Domain.Interfaces.Repository.PontoVenda;
 using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Repository.Produto;
@@ -85,14 +81,33 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
             MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-            string? connectionString = configuration.GetConnectionString("TestUmbler");
-            serviceCollection.
-                AddDbContext<MyContext>(options =>
-                             options.UseMySql(connectionString, serverVersion));
+            string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
-            serviceCollection.
-                AddDbContext<IdentityDataContext>(options =>
-                             options.UseMySql(connectionString, serverVersion));
+            if (connectionString == "desenvolvimento")
+            {
+                string? desenvolvimento = "Server=localhost;Port=3306;DataBase=RESET_BANCO;Uid=root;password=010203;";
+                serviceCollection.
+                AddDbContext<MyContext>(options =>
+                             options.UseMySql(desenvolvimento, serverVersion));
+
+                serviceCollection.
+                    AddDbContext<IdentityDataContext>(options =>
+                                 options.UseMySql(desenvolvimento, serverVersion));
+            }
+            else
+            if (connectionString == "producao_montana_vale_sul")
+            {
+                string? PRODUCAO_MYSQL_MONTANA_VALE_SUL = "Server=mysql246.umbler.com;Port=41890;DataBase=teste_easy;Uid=admin_teste;password=010203++teste;";
+
+                serviceCollection.
+                AddDbContext<MyContext>(options =>
+                             options.UseMySql(PRODUCAO_MYSQL_MONTANA_VALE_SUL, serverVersion));
+
+                serviceCollection.
+                    AddDbContext<IdentityDataContext>(options =>
+                                 options.UseMySql(PRODUCAO_MYSQL_MONTANA_VALE_SUL, serverVersion));
+            }
+
 
             serviceCollection.AddIdentityCore<User>()
            .AddRoles<Role>()
@@ -103,51 +118,45 @@ namespace CrossCutting.DependencyInjection
            .AddDefaultTokenProviders();
 
             serviceCollection.AddScoped<IUserService, UserService>();
+            serviceCollection.AddScoped<IUserRole, UserRoleServices>();
+
+            serviceCollection.AddScoped<IPDFRepository, PDFRepository>();
+            serviceCollection.AddScoped<ITaxasCDISelicService, TaxasCDISelicService>();
+
+            serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
+            serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
+            serviceCollection.AddScoped<ISituacaoPedidoRepository, SituacaoPedidoImplementacao>();
+            serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
+            serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
+            serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
             serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-
-
+            serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
             serviceCollection.AddScoped<IProdutoRepository, ProdutoImplementation>();
             serviceCollection.AddScoped<IPrecoProdutoRepository, PrecoProdutoImplementacao>();
             serviceCollection.AddScoped<IPedidoRepository, PedidoImplementacao>();
             serviceCollection.AddScoped<IPontoVendaRepository, PontoVendaImplementacao>();
             serviceCollection.AddScoped<ICategoriaPrecoRepository, CategoriaPrecoImplementacao>();
-            serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
             serviceCollection.AddScoped<IFormaPagamentoRepository, FormaPagamentoImplementacao>();
-            serviceCollection.AddScoped<IPagamentoPedidoRepository, PagamentoPedidoImplementacao>();
-            serviceCollection.AddScoped<IPessoaTipoRepository, PessoaTipoImplementecao>();
             serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
-            serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
-            serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
-            serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
-            serviceCollection.AddScoped<ISituacaoPedidoRepository, SituacaoPedidoImplementacao>();
-            serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
-            serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
-           
+            serviceCollection.AddScoped<IPagamentoPedidoRepository, PagamentoPedidoImplementacao>();
+            serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
 
-            serviceCollection.AddScoped<ITaxasCDISelicService, TaxasCDISelicService>();
+            serviceCollection.AddScoped<IItemPedidoService, ItemPedidoService>();
+            serviceCollection.AddScoped<IPontoVendaService, PontoVendaService>();
+            serviceCollection.AddScoped<IPedidoService, PedidoService>();
+            serviceCollection.AddScoped<ICategoriaProdutoService, CategoriaProdutoService>();
+            serviceCollection.AddScoped<IProdutoService, ProdutoService>();
+            serviceCollection.AddScoped<ICategoriaPrecoService, CategoriaPrecoService>();
+            serviceCollection.AddScoped<IPrecoProdutoService, PrecoProdutoService>();
+            serviceCollection.AddScoped<IFormaPagamentoService, FormaPagamentoService>();
+            serviceCollection.AddScoped<IPagamentoPedidoService, PagamentoPedidoService>();
+            serviceCollection.AddScoped<IProdutoMedidaServices, ProdutoMedidaService>();
+            serviceCollection.AddScoped<IProdutoTipoServices, ProdutoTipoServices>();
+            serviceCollection.AddScoped<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
+            serviceCollection.AddScoped<ISituacaoPedidoService, SituacaoPedidoService>();
+            serviceCollection.AddScoped<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
+            serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
 
-
-            serviceCollection.AddTransient<IPontoVendaService, PontoVendaService>();
-            serviceCollection.AddTransient<IPedidoService, PedidoService>();
-            serviceCollection.AddTransient<ICategoriaProdutoService, CategoriaProdutoService>();
-            serviceCollection.AddTransient<IProdutoService, ProdutoService>();
-            serviceCollection.AddTransient<ICategoriaPrecoService, CategoriaPrecoService>();
-            serviceCollection.AddTransient<IPrecoProdutoService, PrecoProdutoService>();
-            serviceCollection.AddTransient<IItemPedidoService, ItemPedidoService>();
-            serviceCollection.AddTransient<IFormaPagamentoService, FormaPagamentoService>();
-            serviceCollection.AddTransient<IPagamentoPedidoService, PagamentoPedidoService>();
-            serviceCollection.AddTransient<IProdutoMedidaServices, ProdutoMedidaService>();
-            serviceCollection.AddTransient<IProdutoTipoServices, ProdutoTipoServices>();
-            serviceCollection.AddTransient<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
-            serviceCollection.AddTransient<ISituacaoPedidoService, SituacaoPedidoService>();
-            serviceCollection.AddTransient<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
-            
-            serviceCollection.AddTransient<IPDFRepository, PDFRepository>();
-           // serviceCollection.AddTransient<IPDFRepositoryFactory, PDFRepositoryFactory>();
-
-            serviceCollection.AddTransient<IUserRole, UserRoleServices>();
-            serviceCollection.AddTransient<IPessoaTipoServices, PessoaTipoServices>();
-            serviceCollection.AddTransient<IPessoaServices, PessoaServices>();
         }
     }
 }

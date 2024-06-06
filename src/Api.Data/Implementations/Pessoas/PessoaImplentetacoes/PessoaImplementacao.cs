@@ -1,6 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Domain.Entities.Pessoa.Pessoas;
+using Domain.Enuns;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,60 +14,80 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
         {
             _dataset = context.Set<PessoaEntity>();
         }
-
-        public async Task<PessoaEntity> Get(Guid idPessoa, bool include = true)
+        private IQueryable<PessoaEntity> FullInclude(IQueryable<PessoaEntity> query)
         {
-
-            return null;
-
-            //IQueryable<PessoaEntity>? query = _context.Pessoas?.AsNoTracking();
-
-            //query = Query(query, include);
-
-            //query = query.Where(p => p.Id.Equals(idPessoa));
-
-            //PessoaEntity? entity = await query.SingleOrDefaultAsync();
-
-            //return entity;
-        }
-
-        public async Task<IEnumerable<PessoaEntity>> GetAll(bool include = true)
-        {
-            return null;
-            //IQueryable<PessoaEntity>? query = _context.Pessoas?.AsNoTracking();
-
-            //query = Query(query, include);
-
-            //PessoaEntity[] entities = await query.ToArrayAsync();
-
-            //return entities;
-        }
-
-        public async Task<IEnumerable<PessoaEntity>> GetAll(Guid pessoaTipo, bool include = true)
-        {
-            return null;
-            //IQueryable<PessoaEntity>? query = _context.Pessoas?.AsNoTracking();
-
-            //query = Query(query, include);
-
-            //query = query?.Where(ps => ps.PessoaTipoEntity.Id.Equals(pessoaTipo));
-
-            //PessoaEntity[] entities = await query?.ToArrayAsync();
-
-            //return entities;
-        }
-
-
-        private static IQueryable<PessoaEntity> Query(IQueryable<PessoaEntity>? query, bool include = true)
-        {
-            query = query.AsNoTracking();
-
-            if (include)
-            {
-                query = query.Include(pt => pt.PessoaTipoEntity);
-            }
 
             return query;
+        }
+        public async Task<IEnumerable<PessoaEntity>> GetAll(bool include = false)
+        {
+            try
+            {
+                IQueryable<PessoaEntity> query = _dataset.AsNoTracking();
+
+                if (include)
+                {
+                    query = FullInclude(query);
+                }
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<PessoaEntity> Get(Guid idPessoa, bool include = false)
+        {
+            try
+            {
+                IQueryable<PessoaEntity> query = _dataset.AsNoTracking();
+
+                if (include)
+                {
+                    query = FullInclude(query);
+                }
+
+                query = query.Where(p => p.Id == idPessoa);
+
+                var entity = await query.SingleOrDefaultAsync();
+
+                return entity;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<IEnumerable<PessoaEntity>> GetAllByPessoaTipo(PessoaTipoEnum pessoaTipo, bool include = false)
+        {
+            try
+            {
+                IQueryable<PessoaEntity> query = _dataset.AsNoTracking();
+
+                if (include)
+                {
+                    query = FullInclude(query);
+                }
+
+                query = query.Where(p => p.PessoaTipo == pessoaTipo);
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

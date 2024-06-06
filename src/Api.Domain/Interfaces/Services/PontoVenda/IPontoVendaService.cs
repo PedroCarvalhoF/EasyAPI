@@ -7,7 +7,7 @@ namespace Api.Domain.Interfaces.Services.PontoVenda
 {
     public interface IPontoVendaService
     {
-        Task<ResponseDto<List<PontoVendaDto>>> GetPdvs( bool include = false);
+        Task<ResponseDto<List<PontoVendaDto>>> GetPdvs(bool include = false);
         Task<ResponseDto<List<PontoVendaDto>>> GetByIdPdv(Guid pdvId, bool include = false);
         Task<ResponseDto<List<PontoVendaDto>>> GetByIdPerfilUsuario(Guid IdPerfilUtilizarPDV, bool include = false);
         Task<ResponseDto<List<PontoVendaDto>>> AbertosFechados(bool abertoFechado, bool include = false);

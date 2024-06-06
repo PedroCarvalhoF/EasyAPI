@@ -4,7 +4,6 @@ using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
 using Domain.Entities.PontoVendaUser;
-using Domain.Identity.UserIdentity;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,30 +16,30 @@ namespace Api.Domain.Entities.Pedido
         [Required(ErrorMessage = "Informe o {0}")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? NumeroPedido { get; set; }
-        
+
 
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? ValorDesconto { get; set; }
-       
+
 
         [DisplayName("Valor de Desconto")]
         [Required(ErrorMessage = "Informe o {0}")]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? ValorPedido { get; set; }
-        
+
 
         [DisplayName("Observações")]
         [MaxLength(100, ErrorMessage = "Não pode passar de {0} caracteres")]
-        public string? Observacoes { get; set; } 
-      
+        public string? Observacoes { get; set; }
+
 
         [DisplayName("Id Situação")]
         [Required(ErrorMessage = "Informe o {0}")]
         public Guid SituacaoPedidoEntityId { get; set; }
         public SituacaoPedidoEntity? SituacaoPedidoEntity { get; set; }
-        
+
 
         [DisplayName("Id PDV")]
         [Required(ErrorMessage = "Informe o {0}")]

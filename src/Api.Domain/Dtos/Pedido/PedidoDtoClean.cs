@@ -4,8 +4,8 @@ using Domain.Dtos.PedidoSituacao;
 
 namespace Domain.Dtos.Pedido
 {
-    public class PedidoDtoClean: BaseDto
-    {       
+    public class PedidoDtoClean : BaseDto
+    {
         public string? NumeroPedido { get; set; }
         public decimal ValorDesconto { get; set; }
         public decimal ValorPedido { get; set; }
