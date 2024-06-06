@@ -20,8 +20,7 @@ namespace Api.Application.Controllers
             _userRole = userRole; _mapper = mapper;
         }
 
-        [HttpGet("roles")]
-        [Authorize(Roles = $"Programador,Admin,RH")]
+        [HttpGet("roles")]        
         public async Task<ActionResult<ResponseDto<List<IdentityRole>>>> GetRoles()
         {
             try
