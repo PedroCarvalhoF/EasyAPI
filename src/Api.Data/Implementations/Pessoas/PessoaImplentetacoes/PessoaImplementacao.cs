@@ -1,7 +1,7 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Domain.Entities.Pessoa.Pessoas;
-using Domain.Enuns;
+using Domain.Enuns.Pessoas;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +30,8 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
                     query = FullInclude(query);
                 }
 
+                query = query.OrderBy(p => p.NomeNomeFantasia).ThenBy(p => p.SobreNomeRazaoSocial);
+
                 var entities = await query.ToArrayAsync();
 
                 return entities;
@@ -51,6 +53,8 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
                 {
                     query = FullInclude(query);
                 }
+
+                query = query.OrderBy(p => p.NomeNomeFantasia).ThenBy(p=>p.SobreNomeRazaoSocial);
 
                 query = query.Where(p => p.Id == idPessoa);
 
@@ -75,6 +79,8 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
                 {
                     query = FullInclude(query);
                 }
+
+                query = query.OrderBy(p => p.NomeNomeFantasia).ThenBy(p => p.SobreNomeRazaoSocial);
 
                 query = query.Where(p => p.PessoaTipo == pessoaTipo);
 

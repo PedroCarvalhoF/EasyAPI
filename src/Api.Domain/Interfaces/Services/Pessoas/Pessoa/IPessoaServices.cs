@@ -1,6 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
-using Domain.Enuns;
+using Domain.Enuns.Pessoas;
 
 namespace Domain.Interfaces.Services.Pessoas.Pessoa
 {
@@ -10,6 +10,6 @@ namespace Domain.Interfaces.Services.Pessoas.Pessoa
         Task<ResponseDto<List<PessoaDto>>> Get(Guid idPessoa, bool include = false);
         Task<ResponseDto<List<PessoaDto>>> GetAllByPessoaTipo(PessoaTipoEnum pessoaTipo, bool include = false);
         Task<ResponseDto<List<PessoaDto>>> Create(PessoaDtoCreate pessoaDtoCreate);
-        Task<ResponseDto<List<PessoaDto>>> Update(PessoaDtoCreate pesssoaUpdate);
+        Task<ResponseDto<List<PessoaDto>>> Update(PessoaDtoUpdate pesssoaUpdate);
     }
 }

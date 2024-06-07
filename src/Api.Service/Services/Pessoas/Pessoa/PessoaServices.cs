@@ -3,7 +3,7 @@ using Data.Migrations;
 using Domain.Dtos;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Entities.Pessoa.Pessoas;
-using Domain.Enuns;
+using Domain.Enuns.Pessoas;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
@@ -120,7 +120,7 @@ namespace Service.Services.Pessoas.Pessoa
                 return new ResponseDto<List<PessoaDto>>().Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<PessoaDto>>> Update(PessoaDtoCreate pesssoaUpdate)
+        public async Task<ResponseDto<List<PessoaDto>>> Update(PessoaDtoUpdate pesssoaUpdate)
         {
             try
             {

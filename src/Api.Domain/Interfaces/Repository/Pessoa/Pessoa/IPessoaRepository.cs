@@ -1,5 +1,5 @@
 ﻿using Domain.Entities.Pessoa.Pessoas;
-using Domain.Enuns;
+using Domain.Enuns.Pessoas;
 
 namespace Domain.Interfaces.Repository.PessoaRepositorys.Pessoa
 {

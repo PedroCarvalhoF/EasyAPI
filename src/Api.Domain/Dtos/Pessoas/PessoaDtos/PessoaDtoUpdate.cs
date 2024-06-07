@@ -1,4 +1,4 @@
-﻿using Domain.Enuns;
+﻿using Domain.Enuns.Pessoas;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 

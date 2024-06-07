@@ -1,5 +1,5 @@
 ﻿using Api.Domain.Models;
-using Domain.Enuns;
+using Domain.Enuns.Pessoas;
 
 namespace Domain.Models.PessoaModels.PessoaModels
 {

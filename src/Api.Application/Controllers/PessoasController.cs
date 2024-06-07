@@ -1,6 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
-using Domain.Enuns;
+using Domain.Enuns.Pessoas;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,6 @@ namespace Api.Controllers
         {
             _service = service;
         }
-
 
         [HttpGet("pessoas/{include}/{idPessoa}/id")]
         public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Get(Guid idPessoa, bool include = false)
@@ -76,7 +75,7 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-        [HttpPost("pessoas")]
+        [HttpPost("cadastrar")]
         public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Create(PessoaDtoCreate pessoaDtoCreate)
         {
             try
@@ -93,8 +92,8 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-        [HttpPut("pessoas")]
-        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Update(PessoaDtoCreate pessoaDtoCreate)
+        [HttpPut("alterar")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Update(PessoaDtoUpdate pessoaDtoCreate)
         {
             if (!ModelState.IsValid)
             {

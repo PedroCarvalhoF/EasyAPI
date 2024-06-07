@@ -18,6 +18,7 @@ using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.Pessoa.PessoaFuncionario;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.PontoVendaUser;
@@ -27,6 +28,7 @@ using Domain.Identity.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Tls;
 
 namespace Api.Data.Context
 {
@@ -54,6 +56,7 @@ namespace Api.Data.Context
         public DbSet<ItemPedidoEntity>? ItensPedidos { get; set; }
         public DbSet<UsuarioPontoVendaEntity>? UsuariosPontoVendas { get; set; }
         public DbSet<PessoaEntity>? Pessoas { get; set; }
+        public DbSet<PessoaFuncionarioEntity>? FuncionarioEntities { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -92,6 +95,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
             modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
             modelBuilder.Entity<PessoaEntity>(new PessoaMap().Configure);
+            modelBuilder.Entity<PessoaFuncionarioEntity>(new PessoaFuncionarioMap().Configure);
         }
     }
 }

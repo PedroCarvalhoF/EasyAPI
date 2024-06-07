@@ -1,4 +1,4 @@
-﻿namespace Domain.Enuns
+﻿namespace Domain.Enuns.Pessoas
 {
     public enum PessoaTipoEnum
     {
