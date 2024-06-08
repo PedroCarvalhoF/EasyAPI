@@ -19,14 +19,14 @@ namespace Service.Services.PagamentoPedidoServices
     {
         private readonly IMapper _mapper;
         private readonly IPagamentoPedidoRepository _implementacao;
-        private readonly IRepository<PagamentoPedidoEntity> _repository;
+        private readonly IBaseRepository<PagamentoPedidoEntity> _repository;
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly IRepository<FormaPagamentoEntity> _formaPgmtRespository;
+        private readonly IBaseRepository<FormaPagamentoEntity> _formaPgmtRespository;
         public PagamentoPedidoService(IMapper mapper,
                                       IPagamentoPedidoRepository pagamentoPedidoRepository,
-                                      IRepository<PagamentoPedidoEntity> repository,
+                                      IBaseRepository<PagamentoPedidoEntity> repository,
                                       IPedidoRepository pedidoRepository,
-                                      IRepository<FormaPagamentoEntity> formaPgmtRepository)
+                                      IBaseRepository<FormaPagamentoEntity> formaPgmtRepository)
         {
             _mapper = mapper;
             _implementacao = pagamentoPedidoRepository;

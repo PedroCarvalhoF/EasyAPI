@@ -15,12 +15,12 @@ namespace Api.Service.Services.PontoVendaService
 {
     public class PontoVendaService : IPontoVendaService
     {
-        private readonly IRepository<PontoVendaEntity>? _repository;
+        private readonly IBaseRepository<PontoVendaEntity>? _repository;
         private readonly IMapper? _mapper;
         private readonly IPontoVendaRepository? _implementacao;
         private readonly IPedidoService? _pedidoService;
 
-        public PontoVendaService(IRepository<PontoVendaEntity> repository,
+        public PontoVendaService(IBaseRepository<PontoVendaEntity> repository,
                                  IMapper mapper,
                                  IPontoVendaRepository pontoVendaRepository, IPedidoService pedidoService)
         {

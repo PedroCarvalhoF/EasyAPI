@@ -13,11 +13,11 @@ namespace Service.Services.Pessoas.Pessoa
 {
     public class PessoaServices : IPessoaServices
     {
-        private readonly IRepository<PessoaEntity> _repository;
+        private readonly IBaseRepository<PessoaEntity> _repository;
         private readonly IMapper _mapper;
         private readonly IPessoaRepository _implementacao;
 
-        public PessoaServices(IRepository<PessoaEntity> repository, IMapper mapper, IPessoaRepository pessoaRepository)
+        public PessoaServices(IBaseRepository<PessoaEntity> repository, IMapper mapper, IPessoaRepository pessoaRepository)
         {
             _repository = repository;
             _mapper = mapper;

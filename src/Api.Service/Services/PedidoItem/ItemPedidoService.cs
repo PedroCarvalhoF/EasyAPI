@@ -21,20 +21,20 @@ namespace Service.Services.ItemPedidoService
     public class ItemPedidoService : IItemPedidoService
     {
         private readonly IItemPedidoRepository? _implementacao;
-        private readonly IRepository<ItemPedidoEntity>? _repository;
+        private readonly IBaseRepository<ItemPedidoEntity>? _repository;
         private readonly IMapper? _mapper;
 
-        private readonly IRepository<ProdutoEntity> _produtoRepository;
-        private readonly IRepository<PedidoEntity> _pedidoRepository;
+        private readonly IBaseRepository<ProdutoEntity> _produtoRepository;
+        private readonly IBaseRepository<PedidoEntity> _pedidoRepository;
         private readonly IPedidoRepository _pedidoImplementacao;
         private readonly IUsuarioPontoVendaRepository _usuarioPontoVendaRepository;
         private readonly IPedidoService _pedidoService;
 
         public ItemPedidoService(IItemPedidoRepository? implementacao,
-                                 IRepository<ItemPedidoEntity>? repository,
+                                 IBaseRepository<ItemPedidoEntity>? repository,
                                  IMapper? mapper,
-                                 IRepository<ProdutoEntity> produtoRepository,
-                                 IRepository<PedidoEntity> pedidoRepository,
+                                 IBaseRepository<ProdutoEntity> produtoRepository,
+                                 IBaseRepository<PedidoEntity> pedidoRepository,
                                  IPedidoRepository pedidoImplementacao,
                                  IUsuarioPontoVendaRepository usuarioPontoVendaRepository,
                                  IPedidoService pedidoService)

@@ -11,11 +11,11 @@ namespace Service.Services.ProdutoTipoService
 {
     public class ProdutoTipoServices : IProdutoTipoServices
     {
-        private readonly IRepository<ProdutoTipoEntity> _repository;
+        private readonly IBaseRepository<ProdutoTipoEntity> _repository;
         private readonly IMapper _mapper;
         private readonly IProdutoTipoRepository _implementacao;
 
-        public ProdutoTipoServices(IRepository<ProdutoTipoEntity> repository, IMapper mapper, IProdutoTipoRepository implementacao)
+        public ProdutoTipoServices(IBaseRepository<ProdutoTipoEntity> repository, IMapper mapper, IProdutoTipoRepository implementacao)
         {
             _repository = repository;
             _mapper = mapper;

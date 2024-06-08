@@ -16,6 +16,8 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
         }
         private IQueryable<PessoaEntity> FullInclude(IQueryable<PessoaEntity> query)
         {
+            query = query.Include(pessoa => pessoa.PessoaDadosBancarios)
+                .ThenInclude(pessoaDadosBancarios => pessoaDadosBancarios.DadosBancariosEntity);
 
             return query;
         }
@@ -54,7 +56,7 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
                     query = FullInclude(query);
                 }
 
-                query = query.OrderBy(p => p.NomeNomeFantasia).ThenBy(p=>p.SobreNomeRazaoSocial);
+                query = query.OrderBy(p => p.NomeNomeFantasia).ThenBy(p => p.SobreNomeRazaoSocial);
 
                 query = query.Where(p => p.Id == idPessoa);
 

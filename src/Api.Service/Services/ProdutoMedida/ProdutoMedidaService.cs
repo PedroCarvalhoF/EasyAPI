@@ -12,10 +12,10 @@ namespace Service.Services.ProdutoMedidaService
 {
     public class ProdutoMedidaService : IProdutoMedidaServices
     {
-        private readonly IRepository<ProdutoMedidaEntity> _repository;
+        private readonly IBaseRepository<ProdutoMedidaEntity> _repository;
         private readonly IProdutoMedidaRepository _implementation;
         private readonly IMapper _mapper;
-        public ProdutoMedidaService(IRepository<ProdutoMedidaEntity> repository,
+        public ProdutoMedidaService(IBaseRepository<ProdutoMedidaEntity> repository,
                                     IMapper mapper,
                                     IProdutoMedidaRepository implementation)
         {

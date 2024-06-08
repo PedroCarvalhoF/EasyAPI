@@ -55,8 +55,14 @@ namespace Api.Data.Context
         public DbSet<PagamentoPedidoEntity>? PagamentosPedidos { get; set; }
         public DbSet<ItemPedidoEntity>? ItensPedidos { get; set; }
         public DbSet<UsuarioPontoVendaEntity>? UsuariosPontoVendas { get; set; }
+
+
+        #region Pessoas
         public DbSet<PessoaEntity>? Pessoas { get; set; }
-        public DbSet<PessoaFuncionarioEntity>? FuncionarioEntities { get; set; }
+        public DbSet<DadosBancariosEntity>? DadosBancarios { get; set; }
+        public DbSet<PessoaDadosBancariosEntity>? PessoasDadosBancarios { get; set; }
+
+        #endregion
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
@@ -64,7 +70,30 @@ namespace Api.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Definir nomes de tabela únicos
+            modelBuilder.Entity<PessoaEntity>().ToTable("Pessoas");
+            modelBuilder.Entity<DadosBancariosEntity>().ToTable("DadosBancarios");
+            modelBuilder.Entity<PessoaDadosBancariosEntity>().ToTable("PessoaDadosBancarios");
+
+            // Configurar a chave composta para PessoaDadosBancariosEntity
+            modelBuilder.Entity<PessoaDadosBancariosEntity>()
+                .HasKey(pd => new { pd.PessoaEntityId, pd.DadosBancariosEntityId });
+
+            // Configurar o relacionamento entre PessoaEntity e PessoaDadosBancariosEntity
+            modelBuilder.Entity<PessoaDadosBancariosEntity>()
+                .HasOne(pd => pd.PessoaEntity)
+                .WithMany(p => p.PessoaDadosBancarios)
+                .HasForeignKey(pd => pd.PessoaEntityId);
+
+            // Configurar o relacionamento entre DadosBancariosEntity e PessoaDadosBancariosEntity
+            modelBuilder.Entity<PessoaDadosBancariosEntity>()
+                .HasOne(pd => pd.DadosBancariosEntity)
+                .WithMany(d => d.PessoaDadosBancarios)
+                .HasForeignKey(pd => pd.DadosBancariosEntityId);
+
             base.OnModelCreating(modelBuilder);
+
+
 
             modelBuilder.Entity<UserRole>(userRole =>
             {
@@ -94,8 +123,8 @@ namespace Api.Data.Context
             modelBuilder.Entity<PedidoEntity>(new PedidoMap().Configure);
             modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
             modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
-            modelBuilder.Entity<PessoaEntity>(new PessoaMap().Configure);
-            modelBuilder.Entity<PessoaFuncionarioEntity>(new PessoaFuncionarioMap().Configure);
+
+           
         }
     }
 }

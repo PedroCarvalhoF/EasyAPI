@@ -11,11 +11,11 @@ namespace Service.Services.PedidoSituacao
 {
     public class SituacaoPedidoService : ISituacaoPedidoService
     {
-        private readonly IRepository<SituacaoPedidoEntity> _repository;
+        private readonly IBaseRepository<SituacaoPedidoEntity> _repository;
         private readonly IMapper _mapper;
         private readonly ISituacaoPedidoRepository _implementacao;
 
-        public SituacaoPedidoService(IRepository<SituacaoPedidoEntity> repository, IMapper mapper, ISituacaoPedidoRepository implementacao)
+        public SituacaoPedidoService(IBaseRepository<SituacaoPedidoEntity> repository, IMapper mapper, ISituacaoPedidoRepository implementacao)
         {
             _repository = repository;
             _mapper = mapper;

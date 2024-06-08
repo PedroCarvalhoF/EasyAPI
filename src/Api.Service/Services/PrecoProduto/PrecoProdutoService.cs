@@ -12,10 +12,10 @@ namespace Api.Service.Services.PrecoProduto
     public class PrecoProdutoService : IPrecoProdutoService
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<PrecoProdutoEntity> _repository;
+        private readonly IBaseRepository<PrecoProdutoEntity> _repository;
         private readonly IPrecoProdutoRepository _implementacao;
 
-        public PrecoProdutoService(IMapper mapper, IRepository<PrecoProdutoEntity> repository, IPrecoProdutoRepository precoProdutoRepository)
+        public PrecoProdutoService(IMapper mapper, IBaseRepository<PrecoProdutoEntity> repository, IPrecoProdutoRepository precoProdutoRepository)
         {
             _mapper = mapper;
             _repository = repository;

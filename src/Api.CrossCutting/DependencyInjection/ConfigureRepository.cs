@@ -78,7 +78,7 @@ namespace CrossCutting.DependencyInjection
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
 
-            serviceCollection.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
+            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
             MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
             string? connectionString = configuration.GetConnectionString("DefaultConnection");

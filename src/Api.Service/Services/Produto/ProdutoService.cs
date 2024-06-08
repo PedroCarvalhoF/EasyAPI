@@ -12,10 +12,10 @@ namespace Service.Services.Produto
     public class ProdutoService : IProdutoService
 
     {
-        private readonly IRepository<ProdutoEntity> _repository;
+        private readonly IBaseRepository<ProdutoEntity> _repository;
         private readonly IMapper _mapper;
         private readonly IProdutoRepository _implementacao;
-        public ProdutoService(IRepository<ProdutoEntity> repository, IMapper mapper, IProdutoRepository produtoRepository)
+        public ProdutoService(IBaseRepository<ProdutoEntity> repository, IMapper mapper, IProdutoRepository produtoRepository)
         {
             _repository = repository;
             _mapper = mapper;

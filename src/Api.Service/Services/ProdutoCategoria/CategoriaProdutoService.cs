@@ -13,10 +13,10 @@ namespace Api.Service.Services.CategoriaProduto
 {
     public class CategoriaProdutoService : ICategoriaProdutoService
     {
-        private readonly IRepository<CategoriaProdutoEntity> _repository;
+        private readonly IBaseRepository<CategoriaProdutoEntity> _repository;
         private readonly IMapper _mapper;
         private readonly ICategoriaProdutoRepository _implementacao;
-        public CategoriaProdutoService(IRepository<CategoriaProdutoEntity> repository, IMapper mapper, ICategoriaProdutoRepository implementacao)
+        public CategoriaProdutoService(IBaseRepository<CategoriaProdutoEntity> repository, IMapper mapper, ICategoriaProdutoRepository implementacao)
         {
             _repository = repository;
             _mapper = mapper;

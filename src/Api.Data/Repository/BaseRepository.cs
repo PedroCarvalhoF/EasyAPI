@@ -6,7 +6,7 @@ using System.Data;
 
 namespace Api.Data.Repository
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
         protected readonly MyContext _context;
         private readonly DbSet<T> _dataset;

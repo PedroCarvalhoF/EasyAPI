@@ -15,10 +15,10 @@ namespace Api.Service.Services.Pedido
     public class PedidoService : IPedidoService
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<PedidoEntity> _repository;
+        private readonly IBaseRepository<PedidoEntity> _repository;
         private readonly IPedidoRepository _implementacao;
         public PedidoService(IMapper mapper,
-                             IRepository<PedidoEntity> repository,
+                             IBaseRepository<PedidoEntity> repository,
                              IPedidoRepository implementacao)
         {
             _mapper = mapper;

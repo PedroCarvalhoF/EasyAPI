@@ -1,5 +1,4 @@
 ﻿using Api.Domain.Entities;
-using Domain.Entities.Pessoa.PessoaFuncionario;
 using Domain.Enuns.Pessoas;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -35,9 +34,7 @@ namespace Domain.Entities.Pessoa.Pessoas
         [Required(ErrorMessage = "Informe o {0}")]
         public PessoaTipoEnum PessoaTipo { get; set; }
 
-
-        //relacionamentos
-        public Guid PessoaFuncionarioEntityId { get; set; }
-        public PessoaFuncionarioEntity? PessoaFuncionarioEntity { get; set; }
+        // Relacionamento com PessoaDadosBancariosEntity
+        public IEnumerable<PessoaDadosBancariosEntity>? PessoaDadosBancarios { get; set; }
     }
 }

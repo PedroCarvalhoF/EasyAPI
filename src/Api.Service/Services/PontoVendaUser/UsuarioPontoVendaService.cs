@@ -13,9 +13,9 @@ namespace Service.Services.PontoVendaUser
     {
         private readonly IMapper? _mapper;
         private readonly IUsuarioPontoVendaRepository? _implementacao;
-        private readonly IRepository<UsuarioPontoVendaEntity>? _repository;
+        private readonly IBaseRepository<UsuarioPontoVendaEntity>? _repository;
 
-        public UsuarioPontoVendaService(IMapper? mapper, IUsuarioPontoVendaRepository? implementacao, IRepository<UsuarioPontoVendaEntity>? repository)
+        public UsuarioPontoVendaService(IMapper? mapper, IUsuarioPontoVendaRepository? implementacao, IBaseRepository<UsuarioPontoVendaEntity>? repository)
         {
             _mapper = mapper;
             _implementacao = implementacao;

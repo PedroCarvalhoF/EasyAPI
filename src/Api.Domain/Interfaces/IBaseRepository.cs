@@ -2,7 +2,7 @@
 
 namespace Domain.Interfaces
 {
-    public interface IRepository<T> where T : BaseEntity
+    public interface IBaseRepository<T> where T : BaseEntity
     {
         Task<T> InsertAsync(T item);
         Task<IEnumerable<T>> InsertAsync(IEnumerable<T> itens);

@@ -10,11 +10,11 @@ namespace Api.Service.Services.CategoriaPreco
 {
     public class CategoriaPrecoService : ICategoriaPrecoService
     {
-        private readonly IRepository<CategoriaPrecoEntity> _repository;
+        private readonly IBaseRepository<CategoriaPrecoEntity> _repository;
         private readonly IMapper _mapper;
         private readonly ICategoriaPrecoRepository _imprementacao;
 
-        public CategoriaPrecoService(IRepository<CategoriaPrecoEntity> repository, IMapper mapper, ICategoriaPrecoRepository categoriaPrecoRepository)
+        public CategoriaPrecoService(IBaseRepository<CategoriaPrecoEntity> repository, IMapper mapper, ICategoriaPrecoRepository categoriaPrecoRepository)
         {
             _repository = repository;
             _mapper = mapper;

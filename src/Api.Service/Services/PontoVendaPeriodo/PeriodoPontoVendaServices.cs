@@ -11,10 +11,10 @@ namespace Service.Services.PeriodoPontoVenda
     public class PeriodoPontoVendaServices : IPeriodoPontoVendaService
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<PeriodoPontoVendaEntity> _repository;
+        private readonly IBaseRepository<PeriodoPontoVendaEntity> _repository;
         private readonly IPeriodoPontoVendaRepository _implementacao;
 
-        public PeriodoPontoVendaServices(IMapper mapper, IRepository<PeriodoPontoVendaEntity> repository, IPeriodoPontoVendaRepository implementacao)
+        public PeriodoPontoVendaServices(IMapper mapper, IBaseRepository<PeriodoPontoVendaEntity> repository, IPeriodoPontoVendaRepository implementacao)
         {
             _mapper = mapper;
             _repository = repository;

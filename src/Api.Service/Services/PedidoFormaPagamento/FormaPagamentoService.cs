@@ -13,9 +13,9 @@ namespace Service.Services.FormaPagamento
     {
         private readonly IMapper _mapper;
         private readonly IFormaPagamentoRepository _implementacao;
-        private readonly IRepository<FormaPagamentoEntity> _repository;
+        private readonly IBaseRepository<FormaPagamentoEntity> _repository;
 
-        public FormaPagamentoService(IMapper mapper, IFormaPagamentoRepository implementacao, IRepository<FormaPagamentoEntity> repository)
+        public FormaPagamentoService(IMapper mapper, IFormaPagamentoRepository implementacao, IBaseRepository<FormaPagamentoEntity> repository)
         {
             _mapper = mapper;
             _implementacao = implementacao;
