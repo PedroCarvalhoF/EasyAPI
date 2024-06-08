@@ -18,6 +18,24 @@ namespace Api.Controllers
             _service = service;
         }
 
+
+        [HttpGet("pessoas/{include}")]
+        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAll(bool include = false)
+        {
+            try
+            {
+                var result = await _service.GetAll(include);
+                if (result.Status)
+                    return Ok(result);
+
+                return BadRequest(result);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
+            }
+        }
         [HttpGet("pessoas/{include}/{idPessoa}/id")]
         public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> Get(Guid idPessoa, bool include = false)
         {
@@ -35,23 +53,7 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-        [HttpGet("pessoas/{include}/all")]
-        public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAll(bool include = false)
-        {
-            try
-            {
-                var result = await _service.GetAll(include);
-                if (result.Status)
-                    return Ok(result);
-
-                return  BadRequest(result);
-            }
-            catch (Exception ex)
-            {
-
-                return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
-            }
-        }
+      
         [HttpGet("pessoas/{include}/{pessoaTipo}/pessoa-tipo")]
         public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAllByPessoaTipo(PessoaTipoEnum pessoaTipo, bool include = false)
         {
