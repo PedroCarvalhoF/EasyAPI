@@ -54,6 +54,7 @@ using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Domain.Interfaces.Services.PontoVendaUser;
 using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
+using Domain.Interfaces.Services.ViaCEP;
 using Identity.Interfaces;
 using Identity.Services;
 using Microsoft.AspNetCore.Identity;
@@ -72,6 +73,7 @@ using Service.Services.PontoVendaUser;
 using Service.Services.Produto;
 using Service.Services.ProdutoMedidaService;
 using Service.Services.ProdutoTipoService;
+using Service.Services.ViaCEP;
 
 namespace CrossCutting.DependencyInjection
 {
@@ -124,6 +126,8 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IUserRole, UserRoleServices>();
 
             serviceCollection.AddScoped<IPDFRepository, PDFRepository>();
+
+            serviceCollection.AddScoped<IViaCepService, ViaCEPServices>();
             serviceCollection.AddScoped<ITaxasCDISelicService, TaxasCDISelicService>();
 
             serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
@@ -133,14 +137,14 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
             serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
             serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-         
+
             serviceCollection.AddScoped<IProdutoRepository, ProdutoImplementation>();
             serviceCollection.AddScoped<IPrecoProdutoRepository, PrecoProdutoImplementacao>();
             serviceCollection.AddScoped<IPedidoRepository, PedidoImplementacao>();
             serviceCollection.AddScoped<IPontoVendaRepository, PontoVendaImplementacao>();
             serviceCollection.AddScoped<ICategoriaPrecoRepository, CategoriaPrecoImplementacao>();
             serviceCollection.AddScoped<IFormaPagamentoRepository, FormaPagamentoImplementacao>();
-            
+
             serviceCollection.AddScoped<IPagamentoPedidoRepository, PagamentoPedidoImplementacao>();
             serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
 
