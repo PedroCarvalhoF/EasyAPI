@@ -27,6 +27,7 @@ using Domain.Models.PagamentoPedidoModels;
 using Domain.Models.PedidoSituacao;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
+using Domain.Models.Pessoas.Pessoa;
 using Domain.Models.PontoVendaUser;
 using Domain.Models.ProdutoModels;
 using Domain.Models.ProdutoTipo;
@@ -37,7 +38,14 @@ namespace Api.CrossCutting.Mappings
     {
         public ModelToEntityProfile()
         {
+
+            #region Pessoas
             CreateMap<PessoasModel, PessoaEntity>().ReverseMap();
+
+            CreateMap<DadosBancariosModel, DadosBancariosEntity>().ReverseMap();
+            #endregion
+
+
 
             CreateMap<UsuarioPontoVendaModel, UsuarioPontoVendaEntity>().ReverseMap();
             //
@@ -60,7 +68,7 @@ namespace Api.CrossCutting.Mappings
             CreateMap<FormaPagamentoModel, FormaPagamentoEntity>().ReverseMap();
 
             CreateMap<PagamentoPedidoModel, PagamentoPedidoEntity>().ReverseMap();
-          
+
 
             CreateMap<PessoasModel, PessoaEntity>().ReverseMap();
 

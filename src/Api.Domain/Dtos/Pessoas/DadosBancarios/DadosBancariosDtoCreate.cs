@@ -1,11 +1,13 @@
-﻿using Api.Domain.Entities;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 
-namespace Domain.Entities.Pessoa.Pessoas
+namespace Domain.Dtos.Pessoas.DadosBancarios
 {
-    public class DadosBancariosEntity : BaseEntity
+    public class DadosBancariosDtoCreate
     {
+        [Required(ErrorMessage = "Informe o Id da Pessoa")]
+        public Guid PessoaId { get; set; }
+
         [DisplayName("Nome do Banco")]
         [Required(ErrorMessage = "Informe o {0}")]
         [MaxLength(50, ErrorMessage = "Não pode passar de {0} caracteres")]
@@ -20,8 +22,5 @@ namespace Domain.Entities.Pessoa.Pessoas
         [Required(ErrorMessage = "Informe a {0}")]
         [MaxLength(50, ErrorMessage = "Não pode passar de {0} caracteres")]
         public string? ContaComDigito { get; set; }
-
-        // Relacionamento com PessoaDadosBancariosEntity
-        public IEnumerable<PessoaDadosBancariosEntity>? PessoaDadosBancarios { get; set; }
     }
 }

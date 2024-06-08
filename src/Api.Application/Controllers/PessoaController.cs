@@ -9,11 +9,11 @@ namespace Api.Controllers
     [ApiController]
     [Route("api/[controller]")]
     //[Authorize]
-    public class PessoasController : ControllerBase
+    public class PessoaController : ControllerBase
     {
         private readonly IPessoaServices _service;
 
-        public PessoasController(IPessoaServices service)
+        public PessoaController(IPessoaServices service)
         {
             _service = service;
         }

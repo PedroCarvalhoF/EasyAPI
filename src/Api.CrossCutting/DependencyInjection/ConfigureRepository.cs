@@ -30,6 +30,7 @@ using Data.Implementations.PrecoProduto;
 using Data.Implementations.Produto;
 using Data.Implementations.Produto.ProdutoMedida;
 using Data.Implementations.Produto.ProdutoTipo;
+using Data.Repository;
 using Domain.Identity.UserIdentity;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
@@ -37,6 +38,7 @@ using Domain.Interfaces.Repository.Pedido;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Repository.PedidoSituacao;
+using Domain.Interfaces.Repository.Pessoa.Pessoa;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Repository.PontoVenda;
 using Domain.Interfaces.Repository.PontoVendaUser;
@@ -79,6 +81,7 @@ namespace CrossCutting.DependencyInjection
         {
 
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
 
             MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
             string? connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -130,14 +133,14 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
             serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
             serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-            serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
+         
             serviceCollection.AddScoped<IProdutoRepository, ProdutoImplementation>();
             serviceCollection.AddScoped<IPrecoProdutoRepository, PrecoProdutoImplementacao>();
             serviceCollection.AddScoped<IPedidoRepository, PedidoImplementacao>();
             serviceCollection.AddScoped<IPontoVendaRepository, PontoVendaImplementacao>();
             serviceCollection.AddScoped<ICategoriaPrecoRepository, CategoriaPrecoImplementacao>();
             serviceCollection.AddScoped<IFormaPagamentoRepository, FormaPagamentoImplementacao>();
-            serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
+            
             serviceCollection.AddScoped<IPagamentoPedidoRepository, PagamentoPedidoImplementacao>();
             serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
 
@@ -155,7 +158,18 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
             serviceCollection.AddScoped<ISituacaoPedidoService, SituacaoPedidoService>();
             serviceCollection.AddScoped<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
+
+            #region Pessoas
+
             serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
+            serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
+
+            serviceCollection.AddScoped<IDadosBancariosRepository, DadosBancariosImplementacao>();
+            serviceCollection.AddScoped<IDadosBancariosServices, DadosBancariosService>();
+
+            #endregion
+
+
 
         }
     }

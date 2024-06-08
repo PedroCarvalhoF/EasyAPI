@@ -11,7 +11,7 @@ namespace Domain.Dtos
         public ResponseDto<T> CadastroOk()
         {
             this.Status = true;
-            this.Mensagem = $"Cadastro efetuado com sucesso.";
+            this.Mensagem = $"Cadastro realizado com sucesso.";
             return this;
         }
         public ResponseDto<T> CadastroOk(string titulo)
