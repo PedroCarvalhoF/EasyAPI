@@ -1,3 +1,4 @@
+#region Usings
 using Api.Data.Mapping;
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.Pedido;
@@ -17,8 +18,10 @@ using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
+using Domain.Entities.Pessoa.PessoaContato;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.PontoVendaUser;
@@ -29,24 +32,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
+#endregion
+
 namespace Api.Data.Context
 {
-    public class MyContext : IdentityDbContext<User,
-                                               Role,
-                                               Guid,
-                                               IdentityUserClaim<Guid>,
-                                               UserRole,
-                                               IdentityUserLogin<Guid>,
-                                               IdentityRoleClaim<Guid>,
-                                               IdentityUserToken<Guid>>
+    public class MyContext : IdentityDbContext<User, Role, Guid, IdentityUserClaim<Guid>, UserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
-        public DbSet<CategoriaProdutoEntity>? CategoriasProdutos { get; set; }
+        #region Produtos
         public DbSet<ProdutoTipoEntity>? TiposProdutos { get; set; }
+        public DbSet<CategoriaProdutoEntity>? CategoriasProdutos { get; set; }
         public DbSet<ProdutoMedidaEntity>? ProdutosMedidas { get; set; }
         public DbSet<ProdutoEntity>? Produtos { get; set; }
-        public DbSet<PeriodoPontoVendaEntity>? PeriodosPontosVendas { get; set; }
+
+        #region Precos Produtos
         public DbSet<CategoriaPrecoEntity>? CategoriasPrecos { get; set; }
         public DbSet<CategoriaPrecoEntity>? PrecosProdutos { get; set; }
+        #endregion
+        #endregion
+        #region Ponto de Venda
+        public DbSet<PeriodoPontoVendaEntity>? PeriodosPontosVendas { get; set; }
         public DbSet<PontoVendaEntity>? PontosVendas { get; set; }
         public DbSet<FormaPagamentoEntity>? FormasPagamentos { get; set; }
         public DbSet<SituacaoPedidoEntity>? SituacoesPedidos { get; set; }
@@ -54,16 +58,15 @@ namespace Api.Data.Context
         public DbSet<PagamentoPedidoEntity>? PagamentosPedidos { get; set; }
         public DbSet<ItemPedidoEntity>? ItensPedidos { get; set; }
         public DbSet<UsuarioPontoVendaEntity>? UsuariosPontoVendas { get; set; }
-
-
-
-
+        #endregion
         #region Pessoas
         public DbSet<PessoaEntity>? Pessoas { get; set; }
         public DbSet<DadosBancariosEntity>? DadosBancarios { get; set; }
         public DbSet<PessoaDadosBancariosEntity>? PessoaDadosBancarios { get; set; }
         public DbSet<EnderecoEntity>? Enderecos { get; set; }
         public DbSet<PessoaEnderecoEntity>? PessoaEnderecos { get; set; }
+        public DbSet<ContatoEntity>? Contatos { get; set; }
+        public DbSet<PessoaContatoEntity>? PessoaContatos { get; set; }
 
         #endregion
 
@@ -79,6 +82,8 @@ namespace Api.Data.Context
             modelBuilder.Entity<PessoaDadosBancariosEntity>().ToTable("PessoaDadosBancarios");
             modelBuilder.Entity<EnderecoEntity>().ToTable("Enderecos");
             modelBuilder.Entity<PessoaEnderecoEntity>().ToTable("PessoaEnderecos");
+            modelBuilder.Entity<EnderecoEntity>().ToTable("Contatos");
+            modelBuilder.Entity<PessoaEnderecoEntity>().ToTable("PessoaContatos");
 
             #region Pessoa Dados Bancario
             // Configurar a chave composta para PessoaDadosBancariosEntity
@@ -115,11 +120,22 @@ namespace Api.Data.Context
                 .HasForeignKey(p => p.EnderecoEntityId);
 
             #endregion
+            #region Pessoa Contato
+            modelBuilder.Entity<PessoaContatoEntity>()
+                .HasKey(pc => new { pc.PessoaEntityId, pc.ContatoEntityId });
 
+            modelBuilder.Entity<PessoaContatoEntity>()
+                .HasOne(pc => pc.PessoaEntity)
+                .WithMany(pessoa => pessoa.PessoaContatos)
+                .HasForeignKey(pc => pc.PessoaEntityId);
+
+            modelBuilder.Entity<PessoaContatoEntity>()
+                .HasOne(pc => pc.ContatoEntity)
+                .WithMany(contato => contato.PessoaContatos)
+                .HasForeignKey(pc => pc.ContatoEntityId);
+            #endregion
 
             base.OnModelCreating(modelBuilder);
-
-
 
             modelBuilder.Entity<UserRole>(userRole =>
             {
