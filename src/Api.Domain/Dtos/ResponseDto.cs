@@ -152,11 +152,16 @@ namespace Domain.Dtos
             this.Mensagem = $"Alteração realizada com sucesso.";
             return this;
         }
-
+        public ResponseDto<T> DeleteOK()
+        {
+            this.Status = true;
+            this.Mensagem = $"Registro excluído com sucesso.";
+            return this;
+        }
         public ResponseDto<T> DeleteOK(string detalhes)
         {
             this.Status = true;
-            this.Mensagem = $"detalhes";
+            this.Mensagem = $"{detalhes}";
             return this;
         }
     }
