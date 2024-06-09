@@ -7,10 +7,10 @@ namespace Data.Mapping.PontoVendaPeriodo
     public class PeriodoPontoVendaMap : IEntityTypeConfiguration<PeriodoPontoVendaEntity>
     {
         public void Configure(EntityTypeBuilder<PeriodoPontoVendaEntity> builder)
-        { 
+        {
             //tabela
             builder.ToTable("PeriodosPontosVendas");
-           
+
             //chave primaria
             builder.HasKey(pr => pr.Id);
 

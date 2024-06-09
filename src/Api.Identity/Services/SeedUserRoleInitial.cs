@@ -35,7 +35,7 @@ namespace Api.Identity.Services
                     var roleResult = await _roleManager.CreateAsync(role);
                 }
             }
-           
+
         }
 
         public async Task SeedUsersAsync()

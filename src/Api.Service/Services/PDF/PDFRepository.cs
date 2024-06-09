@@ -22,7 +22,7 @@ namespace Service.Services.PDF
         #endregion
         public PDFRepository()
         {
-            
+
         }
         public void Initialize(string nomeArquivo, int tamanho)
         {

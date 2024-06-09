@@ -1,6 +1,5 @@
 using Api.Data.Context;
 using Api.Data.Repository;
-using Domain.Entities.CategoriaProduto;
 using Domain.Entities.Produto;
 using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;

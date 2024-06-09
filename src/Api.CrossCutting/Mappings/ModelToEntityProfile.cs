@@ -1,6 +1,5 @@
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.Pedido;
-using Api.Domain.Entities.Pessoa.PessoaTipo;
 using Api.Domain.Entities.PontoVenda;
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
@@ -11,7 +10,6 @@ using Api.Domain.Models.PontoVendaModels;
 using Api.Domain.Models.PrecoProdutoModels;
 using Api.Domain.Models.ProdutoMedidaModels;
 using AutoMapper;
-using Data.Mapping.Pessoa;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;

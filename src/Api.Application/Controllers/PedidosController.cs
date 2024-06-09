@@ -5,8 +5,6 @@ using Domain.Dtos;
 using Domain.Dtos.Pedido;
 using Domain.Dtos.Pedidos;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace Api.Application.Controllers
 {

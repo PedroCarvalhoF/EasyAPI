@@ -7,7 +7,6 @@ using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Entities.CategoriaProduto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Service.Services.CategoriaProduto
 {

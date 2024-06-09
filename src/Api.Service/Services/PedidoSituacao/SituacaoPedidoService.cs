@@ -150,7 +150,7 @@ namespace Service.Services.PedidoSituacao
             try
             {
                 bool result = await _repository.DesabilitarHabilitar(id);
-                
+
                 if (result)
                 {
                     return resposta.AlteracaoOk();

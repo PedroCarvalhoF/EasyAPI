@@ -2,13 +2,8 @@
 using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Extensions;
 using Domain.Dtos;
-using Domain.Dtos.PontoVenda.Dashboards;
 using Domain.Dtos.PontoVenda.Filtros;
-using Domain.Dtos.PontoVendaUser;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics.CodeAnalysis;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Api.Controllers
 {
@@ -45,7 +40,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("pdv/{include}")]
-        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs( bool include = false)
+        public async Task<ActionResult<ResponseDto<List<PontoVendaDto>>>> GetPdvs(bool include = false)
         {
             try
             {

@@ -9,7 +9,6 @@ using Data.Mapping.Pedido;
 using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
-using Data.Mapping.Pessoa;
 using Data.Mapping.PontoVena;
 using Data.Mapping.PontoVendaPeriodo;
 using Data.Mapping.PontoVendaUser;
@@ -20,7 +19,6 @@ using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
-using Domain.Entities.Pessoa.PessoaFuncionario;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.PontoVendaUser;
@@ -30,7 +28,6 @@ using Domain.Identity.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Tls;
 
 namespace Api.Data.Context
 {

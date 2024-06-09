@@ -6,7 +6,7 @@ namespace Domain.Entities.Pessoa.Endereco
 {
     public class EnderecoEntity : BaseEntity
     {
-        [Required]  
+        [Required]
         [MaxLength(9)]
         public string? Cep { get; set; }
         [Required]
@@ -15,7 +15,7 @@ namespace Domain.Entities.Pessoa.Endereco
         [Required]
         [MaxLength(20)]
         public string? Numero { get; set; }
-        
+
         [MaxLength(100)]
         public string? Complemento { get; set; }
         [Required]

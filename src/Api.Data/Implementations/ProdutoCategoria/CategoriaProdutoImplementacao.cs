@@ -3,7 +3,6 @@ using Api.Data.Repository;
 using Domain.Entities.CategoriaProduto;
 using Domain.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace Data.Implementations
 {

@@ -1,5 +1,4 @@
-﻿using Api.Domain.Entities.Pedido;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Entities.FormaPagamento;
@@ -9,9 +8,6 @@ using Domain.Interfaces.Repository.Pedido;
 using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Models.PagamentoPedidoModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.DependencyInjection;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Service.Services.PagamentoPedidoServices
 {

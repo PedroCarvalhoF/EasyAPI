@@ -53,7 +53,7 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<IEnumerable<PessoaDto>>().Erro(ex));
             }
         }
-      
+
         [HttpGet("pessoas/{include}/{pessoaTipo}/pessoa-tipo")]
         public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAllByPessoaTipo(PessoaTipoEnum pessoaTipo, bool include = false)
         {
@@ -69,7 +69,7 @@ namespace Api.Controllers
                 if (result.Status)
                     return Ok(result);
 
-                return  BadRequest(result);
+                return BadRequest(result);
             }
             catch (Exception ex)
             {

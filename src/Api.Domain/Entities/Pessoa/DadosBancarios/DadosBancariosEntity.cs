@@ -1,7 +1,7 @@
 ﻿using Api.Domain.Entities;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
 using Domain.Entities.Pessoa.Pessoas;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities.Pessoa.DadosBancarios
 {

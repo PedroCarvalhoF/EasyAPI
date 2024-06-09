@@ -1,11 +1,9 @@
-using Api.Application.Shared;
 using Api.Domain.Interfaces.Services.Identity;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
 using Domain.UserIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Api.Application.Controllers
 {

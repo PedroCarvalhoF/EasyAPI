@@ -51,7 +51,7 @@ namespace Data.Mapping.Pedido
                 .IsRequired();
 
             builder.HasOne(ped => ped.SituacaoPedidoEntity)
-                .WithMany(pedido=>pedido.PedidoEntities)
+                .WithMany(pedido => pedido.PedidoEntities)
                 .HasForeignKey(ped => ped.SituacaoPedidoEntityId);
 
             // PontoVendaEntityId

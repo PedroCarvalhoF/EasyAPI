@@ -21,7 +21,7 @@ namespace Data.Test
         {
             MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
             string? desenvolvimento = $"Server=localhost;Port=3306;DataBase={dataBaseName};Uid=root;password=010203;";
-            
+
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDbContext<MyContext>(o =>
                 o.UseMySql(desenvolvimento, serverVersion),

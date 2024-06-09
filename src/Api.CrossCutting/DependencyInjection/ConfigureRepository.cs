@@ -32,7 +32,6 @@ using Data.Implementations.Produto;
 using Data.Implementations.Produto.ProdutoMedida;
 using Data.Implementations.Produto.ProdutoTipo;
 using Data.Repository;
-using Domain.Entities.Pessoa.Endereco;
 using Domain.Identity.UserIdentity;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
@@ -174,7 +173,7 @@ namespace CrossCutting.DependencyInjection
             #region Pessoas
             serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
             serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
-            
+
 
             serviceCollection.AddScoped<IDadosBancariosRepository, DadosBancariosImplementacao>();
             serviceCollection.AddScoped<IDadosBancariosServices, DadosBancariosService>();

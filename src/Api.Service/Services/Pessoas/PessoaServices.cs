@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Data.Migrations;
 using Domain.Dtos;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Entities.Pessoa.Pessoas;

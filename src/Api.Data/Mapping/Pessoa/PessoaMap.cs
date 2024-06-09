@@ -28,7 +28,7 @@ namespace Data.Mapping.Pessoa
             //PessoaTipo
             builder.Property(ps => ps.PessoaTipo).IsRequired().HasMaxLength(50);
 
-           
+
 
         }
     }

@@ -20,7 +20,7 @@ namespace Api.Application.Controllers
             _userRole = userRole; _mapper = mapper;
         }
 
-        [HttpGet("roles")]        
+        [HttpGet("roles")]
         public async Task<ActionResult<ResponseDto<List<IdentityRole>>>> GetRoles()
         {
             try
@@ -40,7 +40,7 @@ namespace Api.Application.Controllers
             }
         }
 
-        
+
         [HttpPost("{idPessoa}/{idRole}/adionar")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AplicarRoleUser(Guid idPessoa, Guid idRole)

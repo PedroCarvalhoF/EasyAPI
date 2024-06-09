@@ -238,7 +238,7 @@ namespace Api.Service.Services.PontoVendaService
                 dash.Faturamento = DashPontoVendaCalculator<PontoVendaDto>.Total(result);
                 dash.QuantidadePedidos = DashPontoVendaCalculator<PontoVendaDto>.QtdPedidos(result, true);
 
-                if(dash.Faturamento==0 || dash.QuantidadePedidos==0)
+                if (dash.Faturamento == 0 || dash.QuantidadePedidos == 0)
                 {
                     dash.TicktMedido = 0;
                 }
@@ -246,7 +246,7 @@ namespace Api.Service.Services.PontoVendaService
                 {
                     dash.TicktMedido = dash.Faturamento / dash.QuantidadePedidos;
                 }
-                
+
 
                 dash.ResumoPagamento = DashPontoVendaCalculator<PontoVendaDto>.ResumoPagamentos(result);
                 dash.ResumoProdutos = DashPontoVendaCalculator<PontoVendaDto>.ResumoProdutos(result);

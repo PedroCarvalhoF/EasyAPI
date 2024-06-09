@@ -1,6 +1,5 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.PontoVendaUser;
-using Domain.Identity.UserIdentity;
 using Domain.Interfaces.Services.PontoVendaUser;
 using Microsoft.AspNetCore.Mvc;
 

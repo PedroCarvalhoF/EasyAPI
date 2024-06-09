@@ -20,7 +20,7 @@ namespace Data.Implementations.PontoVenda
         {
             IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
-            if(include)
+            if (include)
             {
                 query = FullIncludes(query);
             }
@@ -28,7 +28,7 @@ namespace Data.Implementations.PontoVenda
             {
                 query = Includes(query);
             }
-            
+
 
             var result = await query.ToArrayAsync();
 
@@ -120,10 +120,10 @@ namespace Data.Implementations.PontoVenda
                          .Include(userPDV => userPDV.UserPdvUsing).ThenInclude(u => u.User)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
-            query = query.Include(pedido => pedido.PedidoEntities).ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity).Include(sit=>sit.PedidoEntities).ThenInclude(sit=>sit.SituacaoPedidoEntity).Include(userReg=>userReg.PedidoEntities).ThenInclude(userReg=>userReg.UserRegistro).ThenInclude(userReg=>userReg.User);
+            query = query.Include(pedido => pedido.PedidoEntities).ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity).Include(sit => sit.PedidoEntities).ThenInclude(sit => sit.SituacaoPedidoEntity).Include(userReg => userReg.PedidoEntities).ThenInclude(userReg => userReg.UserRegistro).ThenInclude(userReg => userReg.User);
 
-            query = query.Include(pedido => pedido.PedidoEntities).ThenInclude(itens_ped => itens_ped.ItensPedidoEntities).ThenInclude(prod=>prod.ProdutoEntity);
-         
+            query = query.Include(pedido => pedido.PedidoEntities).ThenInclude(itens_ped => itens_ped.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity);
+
 
             query = query.Include(pdv => pdv.PedidoEntities).ThenInclude(pgt => pgt.PagamentoPedidoEntities).ThenInclude(forma => forma.FormaPagamentoEntity);
 

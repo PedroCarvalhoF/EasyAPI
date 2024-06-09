@@ -104,7 +104,7 @@ namespace Api.Controllers
 
         [HttpPut("desabilitar/periodos-pontos-vendas/{id}")]
         public async Task<ActionResult> Desabilitar(Guid id)
-        {           
+        {
             try
             {
                 var dtos = await _service.Desabilitar(id);

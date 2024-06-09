@@ -33,7 +33,7 @@ namespace Data.Mapping.PontoVendaUser
 
             builder.HasOne(updv => updv.User)
                 .WithOne(updv => updv.UsuarioPontoVendaEntity);
-                
+
         }
     }
 }

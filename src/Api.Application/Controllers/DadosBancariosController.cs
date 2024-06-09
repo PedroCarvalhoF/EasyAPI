@@ -1,10 +1,6 @@
 ﻿using Domain.Dtos;
-using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.Pessoas.DadosBancarios;
-using Domain.Dtos.PessoasDtos.PessoaDtos;
-using Domain.Enuns.Pessoas;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

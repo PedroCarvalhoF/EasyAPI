@@ -111,7 +111,7 @@ namespace Service.Services.ProdutoTipoService
                 if (result != null)
                 {
                     var dto = _mapper.Map<ProdutoTipoDto>(result);
-                  
+
                     response.AlteracaoOk();
                     response.Dados.Add(dto);
                     return response;
