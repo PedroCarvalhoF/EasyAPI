@@ -4,6 +4,7 @@ namespace Domain.Models.Pessoas.Endereco
 {
     public class EnderecoModel : BaseModel
     {
+        public Guid PessoaId { get; set; }
         public string? Cep { get; set; }
         public string? Logradouro { get; set; }
         public string? Numero { get; set; }

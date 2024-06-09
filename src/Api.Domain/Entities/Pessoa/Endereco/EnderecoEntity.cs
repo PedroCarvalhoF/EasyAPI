@@ -15,7 +15,7 @@ namespace Domain.Entities.Pessoa.Endereco
         [Required]
         [MaxLength(20)]
         public string? Numero { get; set; }
-        [Required]
+        
         [MaxLength(100)]
         public string? Complemento { get; set; }
         [Required]

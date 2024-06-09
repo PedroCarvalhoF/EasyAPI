@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Interfaces;
-using Domain.Interfaces.Services.Pessoas.Pessoa;
+using Domain.Interfaces.Services.Pessoas.PessoaDadosBancarios;
 
 namespace Service.Services.Pessoas.Pessoa
 {

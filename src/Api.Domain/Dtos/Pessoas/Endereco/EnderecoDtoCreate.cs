@@ -5,6 +5,9 @@ namespace Domain.Dtos.Pessoas.Endereco
     public class EnderecoDtoCreate
     {
         [Required]
+        public Guid PessoaId { get; set; }
+
+        [Required]
         [MaxLength(9)]
         public string? Cep { get; set; }
         [Required]

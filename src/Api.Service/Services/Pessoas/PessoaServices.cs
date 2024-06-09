@@ -9,7 +9,7 @@ using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Domain.Models.PessoaModels.PessoaModels;
 
-namespace Service.Services.Pessoas.Pessoa
+namespace Service.Services.Pessoas
 {
     public class PessoaServices : IPessoaServices
     {

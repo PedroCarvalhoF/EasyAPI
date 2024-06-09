@@ -19,6 +19,9 @@ namespace Data.Implementations.Pessoas.PessoaImplentetacoes
             query = query.Include(pessoa => pessoa.PessoaDadosBancarios)
                 .ThenInclude(pessoaDadosBancarios => pessoaDadosBancarios.DadosBancariosEntity);
 
+            query = query.Include(pessoa => pessoa.PessoaEnderecos)
+                .ThenInclude(pessoaEndereco => pessoaEndereco.EnderecoEntity);
+
             return query;
         }
         public async Task<IEnumerable<PessoaEntity>> GetAll(bool include = false)

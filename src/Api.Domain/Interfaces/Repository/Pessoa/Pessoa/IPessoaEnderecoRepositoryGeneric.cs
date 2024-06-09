@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Repository.Pessoa.Pessoa
 {
-    public interface IPessoaDadosBancariosRepository
+    public interface IPessoaEnderecoRepositoryGeneric
     {
     }
 }

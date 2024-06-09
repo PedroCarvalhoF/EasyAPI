@@ -8,7 +8,7 @@ using Domain.Interfaces.Repository.Pessoa.Pessoa;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
 using Domain.Models.Pessoas.Pessoa;
 
-namespace Service.Services.Pessoas.Pessoa
+namespace Service.Services.Pessoas.DadosBancarios
 {
     public class DadosBancariosService : IDadosBancariosServices
     {
@@ -133,7 +133,7 @@ namespace Service.Services.Pessoas.Pessoa
                 if (result == null)
                 {
                     return new ResponseDto<List<DadosBancariosDto>>().ErroUpdate();
-                }                             
+                }
 
                 return new ResponseDto<List<DadosBancariosDto>>().CadastroOk();
             }

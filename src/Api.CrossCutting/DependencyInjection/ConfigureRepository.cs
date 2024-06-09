@@ -21,6 +21,7 @@ using Data.Implementations.Pedido;
 using Data.Implementations.PedidoItem;
 using Data.Implementations.PedidoPagamento;
 using Data.Implementations.PedidoSituacao;
+using Data.Implementations.Pessoas.Endereco;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;
 using Data.Implementations.PontoVenda;
 using Data.Implementations.PontoVendaPeriodo;
@@ -31,6 +32,7 @@ using Data.Implementations.Produto;
 using Data.Implementations.Produto.ProdutoMedida;
 using Data.Implementations.Produto.ProdutoTipo;
 using Data.Repository;
+using Domain.Entities.Pessoa.Endereco;
 using Domain.Identity.UserIdentity;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
@@ -38,6 +40,7 @@ using Domain.Interfaces.Repository.Pedido;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Repository.PedidoSituacao;
+using Domain.Interfaces.Repository.Pessoa.Endereco;
 using Domain.Interfaces.Repository.Pessoa.Pessoa;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Repository.PontoVenda;
@@ -50,7 +53,9 @@ using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Interfaces.Services.PDF;
 using Domain.Interfaces.Services.PedidoSituacao;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
+using Domain.Interfaces.Services.Pessoas.Endereco;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
+using Domain.Interfaces.Services.Pessoas.PessoaEndereco;
 using Domain.Interfaces.Services.PontoVendaUser;
 using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
@@ -68,7 +73,10 @@ using Service.Services.PagamentoPedidoServices;
 using Service.Services.PDF;
 using Service.Services.PedidoSituacao;
 using Service.Services.PeriodoPontoVenda;
-using Service.Services.Pessoas.Pessoa;
+using Service.Services.Pessoas;
+using Service.Services.Pessoas.DadosBancarios;
+using Service.Services.Pessoas.Endereco;
+using Service.Services.Pessoas.PessoaEndereo;
 using Service.Services.PontoVendaUser;
 using Service.Services.Produto;
 using Service.Services.ProdutoMedidaService;
@@ -164,12 +172,17 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
 
             #region Pessoas
-
-            serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
             serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
+            serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
+            
 
             serviceCollection.AddScoped<IDadosBancariosRepository, DadosBancariosImplementacao>();
             serviceCollection.AddScoped<IDadosBancariosServices, DadosBancariosService>();
+
+            serviceCollection.AddScoped<IEnderecoRepository, EnderecoImplementacao>();
+            serviceCollection.AddScoped<IEnderecoServices, EnderecoServices>();
+            serviceCollection.AddScoped<IPessoaEnderecoServices, PessoaEnderecoServices>();
+
 
             #endregion
 

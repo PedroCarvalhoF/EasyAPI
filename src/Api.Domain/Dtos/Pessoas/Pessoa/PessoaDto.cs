@@ -1,4 +1,5 @@
 ﻿using Domain.Dtos.Pessoas.PessoaDadosBancarios;
+using Domain.Dtos.Pessoas.PessoaEndereco;
 using Domain.Enuns.Pessoas;
 
 namespace Domain.Dtos.PessoasDtos.PessoaDtos
@@ -12,7 +13,7 @@ namespace Domain.Dtos.PessoasDtos.PessoaDtos
         public string? CpfCnpj { get; set; }
         public DateTime DataNascimentoFundacao { get; set; }
         public PessoaTipoEnum? PessoaTipo { get; set; }
-
         public IEnumerable<PessoaDadosBancariosDto>? PessoaDadosBancarios { get; set; }
+        public IEnumerable<PessoaEnderecoDto>? PessoaEnderecos { get; set; }
     }
 }
