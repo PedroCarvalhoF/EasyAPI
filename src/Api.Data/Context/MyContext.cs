@@ -10,6 +10,7 @@ using Data.Mapping.Pedido;
 using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
+using Data.Mapping.Pessoa.PessoContato;
 using Data.Mapping.PontoVena;
 using Data.Mapping.PontoVendaPeriodo;
 using Data.Mapping.PontoVendaUser;
@@ -82,10 +83,15 @@ namespace Api.Data.Context
             modelBuilder.Entity<PessoaDadosBancariosEntity>().ToTable("PessoaDadosBancarios");
             modelBuilder.Entity<EnderecoEntity>().ToTable("Enderecos");
             modelBuilder.Entity<PessoaEnderecoEntity>().ToTable("PessoaEnderecos");
-            modelBuilder.Entity<EnderecoEntity>().ToTable("Contatos");
-            modelBuilder.Entity<PessoaEnderecoEntity>().ToTable("PessoaContatos");
+            modelBuilder.Entity<ContatoEntity>().ToTable("Contatos");
+            modelBuilder.Entity<PessoaContatoEntity>().ToTable("PessoaContatos");
 
             #region Pessoa Dados Bancario
+
+            modelBuilder.Entity<PessoaEntity>()
+                .HasKey(p => p.Id);
+
+
             // Configurar a chave composta para PessoaDadosBancariosEntity
             modelBuilder.Entity<PessoaDadosBancariosEntity>()
                 .HasKey(pd => new { pd.PessoaEntityId, pd.DadosBancariosEntityId });
@@ -120,20 +126,8 @@ namespace Api.Data.Context
                 .HasForeignKey(p => p.EnderecoEntityId);
 
             #endregion
-            #region Pessoa Contato
-            modelBuilder.Entity<PessoaContatoEntity>()
-                .HasKey(pc => new { pc.PessoaEntityId, pc.ContatoEntityId });
 
-            modelBuilder.Entity<PessoaContatoEntity>()
-                .HasOne(pc => pc.PessoaEntity)
-                .WithMany(pessoa => pessoa.PessoaContatos)
-                .HasForeignKey(pc => pc.PessoaEntityId);
-
-            modelBuilder.Entity<PessoaContatoEntity>()
-                .HasOne(pc => pc.ContatoEntity)
-                .WithMany(contato => contato.PessoaContatos)
-                .HasForeignKey(pc => pc.ContatoEntityId);
-            #endregion
+            modelBuilder.Entity<PessoaContatoEntity>(new PessoaContatoMap().Configure);
 
             base.OnModelCreating(modelBuilder);
 
