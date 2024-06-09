@@ -1,4 +1,5 @@
 ﻿using Api.Domain.Entities;
+using Domain.Entities.Pessoa.PessoaContato;
 using Domain.Enuns.Pessoas;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -38,5 +39,8 @@ namespace Domain.Entities.Pessoa.Pessoas
         public IEnumerable<PessoaDadosBancariosEntity>? PessoaDadosBancarios { get; set; }
         //Relacionamento com Endereco
         public IEnumerable<PessoaEnderecoEntity>? PessoaEnderecos { get; set; }
+
+        //Relacionamento com Contato
+        public IEnumerable<PessoaContatoEntity>? PessoaContatos { get; set; }
     }
 }

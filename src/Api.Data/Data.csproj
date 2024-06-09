@@ -21,6 +21,8 @@
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Implementations\Pessoas\Contato\" />
+      <Folder Include="Mapping\Contato\" />
       <Folder Include="Mapping\Pessoa\Endereco\" />
     </ItemGroup>
 

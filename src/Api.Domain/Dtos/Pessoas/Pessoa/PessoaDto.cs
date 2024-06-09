@@ -1,4 +1,5 @@
-﻿using Domain.Dtos.Pessoas.PessoaDadosBancarios;
+﻿using Domain.Dtos.Pessoas.PessoaContato;
+using Domain.Dtos.Pessoas.PessoaDadosBancarios;
 using Domain.Dtos.Pessoas.PessoaEndereco;
 using Domain.Enuns.Pessoas;
 
@@ -15,5 +16,6 @@ namespace Domain.Dtos.PessoasDtos.PessoaDtos
         public PessoaTipoEnum? PessoaTipo { get; set; }
         public IEnumerable<PessoaDadosBancariosDto>? PessoaDadosBancarios { get; set; }
         public IEnumerable<PessoaEnderecoDto>? PessoaEnderecos { get; set; }
+        public IEnumerable<PessoaContatoDto>? PessoaContatos { get; set; }
     }
 }
