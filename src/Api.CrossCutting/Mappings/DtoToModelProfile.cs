@@ -17,6 +17,7 @@ using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoPagamento;
 using Domain.Dtos.PedidoSituacao;
+using Domain.Dtos.Pessoas.Contato;
 using Domain.Dtos.Pessoas.DadosBancarios;
 using Domain.Dtos.Pessoas.Endereco;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
@@ -30,6 +31,7 @@ using Domain.Models.PagamentoPedidoModels;
 using Domain.Models.PedidoSituacao;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
+using Domain.Models.Pessoas.Contato;
 using Domain.Models.Pessoas.Endereco;
 using Domain.Models.Pessoas.Pessoa;
 using Domain.Models.PontoVendaUser;
@@ -113,6 +115,10 @@ namespace Api.CrossCutting.Mappings
 
             CreateMap<EnderecoDtoCreate, EnderecoModel>().ReverseMap();
             CreateMap<EnderecoDtoUpdate, EnderecoModel>().ReverseMap();
+
+            CreateMap<ContatoDto, ContatoModel>().ReverseMap();
+            CreateMap<ContatoDtoCreate, ContatoModel>().ReverseMap();
+            CreateMap<ContatoDtoUpdate, ContatoModel>().ReverseMap();
             #endregion
         }
 

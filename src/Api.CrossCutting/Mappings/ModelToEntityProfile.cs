@@ -1,3 +1,4 @@
+#region Usings
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.Pedido;
 using Api.Domain.Entities.PontoVenda;
@@ -15,6 +16,7 @@ using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
 using Domain.Entities.Pessoa.Pessoas;
@@ -27,11 +29,13 @@ using Domain.Models.PagamentoPedidoModels;
 using Domain.Models.PedidoSituacao;
 using Domain.Models.PeriodoPontoVenda;
 using Domain.Models.PessoaModels.PessoaModels;
+using Domain.Models.Pessoas.Contato;
 using Domain.Models.Pessoas.Endereco;
 using Domain.Models.Pessoas.Pessoa;
 using Domain.Models.PontoVendaUser;
 using Domain.Models.ProdutoModels;
 using Domain.Models.ProdutoTipo;
+#endregion
 
 namespace Api.CrossCutting.Mappings
 {
@@ -42,42 +46,24 @@ namespace Api.CrossCutting.Mappings
 
             #region Pessoas
             CreateMap<PessoasModel, PessoaEntity>().ReverseMap();
-
             CreateMap<DadosBancariosModel, DadosBancariosEntity>().ReverseMap();
-            CreateMap<EnderecoModel, EnderecoEntity>();
+            CreateMap<EnderecoModel, EnderecoEntity>().ReverseMap();
+            CreateMap<ContatoModel, ContatoEntity>().ReverseMap();
             #endregion
-
-
-
             CreateMap<UsuarioPontoVendaModel, UsuarioPontoVendaEntity>().ReverseMap();
-            //
             CreateMap<SituacaoPedidoModel, SituacaoPedidoEntity>().ReverseMap();
-            //
             CreateMap<CategoriaProdutoModel, CategoriaProdutoEntity>().ReverseMap();
-
             CreateMap<ProdutoModel, ProdutoEntity>().ReverseMap();
-
             CreateMap<PontoVendaModel, PontoVendaEntity>().ReverseMap();
-
             CreateMap<PedidoModel, PedidoEntity>().ReverseMap();
-
             CreateMap<CategoriaPrecoModel, CategoriaPrecoEntity>().ReverseMap();
-
             CreateMap<PrecoProdutoModel, PrecoProdutoEntity>().ReverseMap();
-
             CreateMap<ItemPedidoModel, ItemPedidoEntity>().ReverseMap();
-
             CreateMap<FormaPagamentoModel, FormaPagamentoEntity>().ReverseMap();
-
             CreateMap<PagamentoPedidoModel, PagamentoPedidoEntity>().ReverseMap();
-
-
             CreateMap<PessoasModel, PessoaEntity>().ReverseMap();
-
             CreateMap<ProdutoMedidaModel, ProdutoMedidaEntity>().ReverseMap();
-
             CreateMap<ProdutoTipoModel, ProdutoTipoEntity>().ReverseMap();
-
             CreateMap<PeriodoPontoVendaModel, PeriodoPontoVendaModel>().ReverseMap();
 
         }
