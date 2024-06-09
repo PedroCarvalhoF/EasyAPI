@@ -1,4 +1,6 @@
-﻿namespace Domain.Entities.Pessoa.Pessoas
+﻿using Domain.Entities.Pessoa.DadosBancarios;
+
+namespace Domain.Entities.Pessoa.Pessoas
 {
     public class PessoaDadosBancariosEntity
     {

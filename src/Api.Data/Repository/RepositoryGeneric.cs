@@ -23,7 +23,7 @@ namespace Data.Repository
             _dataset.Remove(entity);
             await _context.SaveChangesAsync();
             return true;
-        }       
+        }
         public async Task<int> DeleteGenericAsync(IEnumerable<T> items)
         {
             _dataset.RemoveRange(items);

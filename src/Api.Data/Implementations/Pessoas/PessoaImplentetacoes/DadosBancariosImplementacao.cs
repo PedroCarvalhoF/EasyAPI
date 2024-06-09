@@ -1,6 +1,6 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Interfaces.Repository.Pessoa.Pessoa;
 using Microsoft.EntityFrameworkCore;
 

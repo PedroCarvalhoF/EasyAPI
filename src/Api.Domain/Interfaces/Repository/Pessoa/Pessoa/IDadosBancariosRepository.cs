@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Pessoa.Pessoas;
+﻿using Domain.Entities.Pessoa.DadosBancarios;
 
 namespace Domain.Interfaces.Repository.Pessoa.Pessoa
 {

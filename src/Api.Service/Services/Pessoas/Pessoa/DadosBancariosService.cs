@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.Pessoas.DadosBancarios;
+using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.Pessoa.Pessoa;

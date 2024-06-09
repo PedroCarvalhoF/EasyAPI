@@ -1,5 +1,6 @@
 ﻿using Api.Data.Context;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;
+using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Pessoas;
 using Microsoft.Extensions.DependencyInjection;
 

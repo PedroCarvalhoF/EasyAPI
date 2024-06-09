@@ -1,8 +1,9 @@
 ﻿using Api.Domain.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Domain.Entities.Pessoa.Pessoas;
 
-namespace Domain.Entities.Pessoa.Pessoas
+namespace Domain.Entities.Pessoa.DadosBancarios
 {
     public class DadosBancariosEntity : BaseEntity
     {

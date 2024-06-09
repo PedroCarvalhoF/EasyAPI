@@ -1,12 +1,10 @@
-﻿using Api.Domain.Entities;
-using Domain.Entities.Pessoa.Pessoas;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Entities.Pessoa.Endereco
+namespace Domain.Dtos.Pessoas.Endereco
 {
-    public class EnderecoEntity : BaseEntity
+    public class EnderecoDtoCreate
     {
-        [Required]  
+        [Required]
         [MaxLength(9)]
         public string? Cep { get; set; }
         [Required]
@@ -31,7 +29,5 @@ namespace Domain.Entities.Pessoa.Endereco
         public string? Gia { get; set; }
         public string? Ddd { get; set; }
         public string? Siafi { get; set; }
-
-        public IEnumerable<PessoaEnderecoEntity>? PessoaEnderecos { get; set; }
     }
 }

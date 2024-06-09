@@ -10,11 +10,5 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.11" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dtos\Pessoas\Endereco\" />
-    <Folder Include="Interfaces\Repository\Pessoa\Endereco\" />
-    <Folder Include="Interfaces\Services\Pessoas\Endereco\" />
-    <Folder Include="Models\Pessoas\Endereco\" />
-  </ItemGroup>
   
 </Project>

@@ -34,7 +34,9 @@ namespace Domain.Entities.Pessoa.Pessoas
         [Required(ErrorMessage = "Informe o {0}")]
         public PessoaTipoEnum PessoaTipo { get; set; }
 
-        // Relacionamento com PessoaDadosBancariosEntity
+        //Relacionamento com PessoaDadosBancariosEntity
         public IEnumerable<PessoaDadosBancariosEntity>? PessoaDadosBancarios { get; set; }
+        //Relacionamento com Endereco
+        public IEnumerable<PessoaEnderecoEntity>? PessoaEnderecos { get; set; }
     }
 }

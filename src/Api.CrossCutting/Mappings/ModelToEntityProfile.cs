@@ -17,6 +17,7 @@ using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Pessoas;
 using Domain.Entities.PontoVendaUser;
 using Domain.Entities.Produto;
