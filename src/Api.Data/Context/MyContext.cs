@@ -10,6 +10,7 @@ using Data.Mapping.Pedido;
 using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
+using Data.Mapping.Pessoa.Funcionario.Funcao;
 using Data.Mapping.Pessoa.PessoContato;
 using Data.Mapping.PontoVena;
 using Data.Mapping.PontoVendaPeriodo;
@@ -23,6 +24,7 @@ using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
+using Domain.Entities.Pessoa.Funcionario.Funcao;
 using Domain.Entities.Pessoa.PessoaContato;
 using Domain.Entities.Pessoa.PessoaDadosBancarios;
 using Domain.Entities.Pessoa.PessoaEndereco;
@@ -70,6 +72,7 @@ namespace Api.Data.Context
         public DbSet<PessoaEnderecoEntity>? PessoaEnderecos { get; set; }
         public DbSet<ContatoEntity>? Contatos { get; set; }
         public DbSet<PessoaContatoEntity>? PessoaContatos { get; set; }
+        public DbSet<FuncaoFuncionarioEntity>? FuncoesFuncionarios { get; set; }
 
         #endregion
 
@@ -87,6 +90,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<PessoaEnderecoEntity>().ToTable("PessoaEnderecos");
             modelBuilder.Entity<ContatoEntity>().ToTable("Contatos");
             modelBuilder.Entity<PessoaContatoEntity>().ToTable("PessoaContatos");
+            modelBuilder.Entity<FuncaoFuncionarioEntity>().ToTable("FuncoesFuncionarios");
 
             #region Pessoa Dados Bancario
 
@@ -131,6 +135,23 @@ namespace Api.Data.Context
 
             modelBuilder.Entity<PessoaContatoEntity>(new PessoaContatoMap().Configure);
 
+
+            modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
+            modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
+            modelBuilder.Entity<ProdutoMedidaEntity>(new ProdutoMedidaMap().Configure);
+            modelBuilder.Entity<ProdutoEntity>(new ProdutoMap().Configure);
+            modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
+            modelBuilder.Entity<CategoriaPrecoEntity>(new CategoriaPrecoMap().Configure);
+            modelBuilder.Entity<PrecoProdutoEntity>(new PrecoProdutoMap().Configure);
+            modelBuilder.Entity<PontoVendaEntity>(new PontoVendaMap().Configure);
+            modelBuilder.Entity<FormaPagamentoEntity>(new FormaPagamentoMap().Configure);
+            modelBuilder.Entity<SituacaoPedidoEntity>(new SituacaoPedidoMap().Configure);
+            modelBuilder.Entity<PedidoEntity>(new PedidoMap().Configure);
+            modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
+            modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
+            modelBuilder.Entity<FuncaoFuncionarioEntity>(new FuncaoFuncionarioMap().Configure);
+
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserRole>(userRole =>
@@ -146,22 +167,7 @@ namespace Api.Data.Context
                     .WithMany(r => r.UserRoles)
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
-            });
-
-            modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
-            modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
-            modelBuilder.Entity<ProdutoMedidaEntity>(new ProdutoMedidaMap().Configure);
-            modelBuilder.Entity<ProdutoEntity>(new ProdutoMap().Configure);
-            modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
-            modelBuilder.Entity<CategoriaPrecoEntity>(new CategoriaPrecoMap().Configure);
-            modelBuilder.Entity<PrecoProdutoEntity>(new PrecoProdutoMap().Configure);
-            modelBuilder.Entity<PontoVendaEntity>(new PontoVendaMap().Configure);
-            modelBuilder.Entity<FormaPagamentoEntity>(new FormaPagamentoMap().Configure);
-            modelBuilder.Entity<SituacaoPedidoEntity>(new SituacaoPedidoMap().Configure);
-            modelBuilder.Entity<PedidoEntity>(new PedidoMap().Configure);
-            modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
-            modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
-
+            });           
 
         }
     }

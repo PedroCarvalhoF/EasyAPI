@@ -1,8 +1,9 @@
 ﻿using Api.Data.Context;
 using Data.Implementations.Pessoas.Endereco;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;
+using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Endereco;
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa.PessoaEndereco;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Data.Test.Pessoa.Endereco

@@ -2,7 +2,7 @@
 using Domain.Dtos;
 using Domain.Dtos.Pessoas.Endereco;
 using Domain.Entities.Pessoa.Endereco;
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa.PessoaEndereco;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.Pessoa.Endereco;
 using Domain.Interfaces.Services.Pessoas.Endereco;

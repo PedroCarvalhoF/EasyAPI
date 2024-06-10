@@ -2,9 +2,10 @@
 using Data.Implementations.Pessoas.Contato;
 using Data.Implementations.Pessoas.PessoaContato;
 using Data.Implementations.Pessoas.PessoaImplentetacoes;
+using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.PessoaContato;
-using Domain.Entities.Pessoa.Pessoas;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Data.Test.Pessoa.Contato
