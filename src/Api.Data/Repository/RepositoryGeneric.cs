@@ -46,7 +46,7 @@ namespace Data.Repository
         }
         public async Task<IEnumerable<T>> SelectGenericAsync()
         {
-            return await _dataset.ToListAsync();
+            return await _dataset.AsNoTracking().ToArrayAsync();
         }
         public async Task<T> UpdateGenericAsync(T item)
         {

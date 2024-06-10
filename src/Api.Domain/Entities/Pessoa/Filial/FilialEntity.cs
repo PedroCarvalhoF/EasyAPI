@@ -2,7 +2,8 @@
 
 namespace Domain.Entities.Pessoa.Filial
 {
-    public class FilialEntity : BaseEntity
+    public class FilialEntity
     {
+        public Guid IdPessoaFilial { get; set; }
     }
 }
