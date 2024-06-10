@@ -17,7 +17,7 @@ namespace Data.Test.Pessoa.Funcionario.CTPS
 
         [Fact(DisplayName = "CRUD de CTPS")]
         [Trait("CRUD", "CtpsEntity")]
-        public async Task E_Possivel_Realizar_CRUD_CRUD()
+        public async Task E_Possivel_Realizar_CRUD_CTPS()
         {
             using (var context = _serviceProvide.GetService<MyContext>())
             {
