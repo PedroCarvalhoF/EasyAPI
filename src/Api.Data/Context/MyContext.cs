@@ -25,7 +25,6 @@ using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
-using Domain.Entities.Pessoa.Filial;
 using Domain.Entities.Pessoa.Funcionario.CTPS;
 using Domain.Entities.Pessoa.Funcionario.Funcao;
 using Domain.Entities.Pessoa.PessoaContato;
@@ -77,10 +76,6 @@ namespace Api.Data.Context
         public DbSet<PessoaContatoEntity>? PessoaContatos { get; set; }
         public DbSet<FuncaoFuncionarioEntity>? FuncoesFuncionarios { get; set; }
         public DbSet<CtpsEntity>? Ctpss { get; set; }
-
-
-        //TEMPO
-        public DbSet<FilialEntity>? Filiais { get; set; }
         #endregion
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
@@ -88,12 +83,7 @@ namespace Api.Data.Context
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<FilialEntity>().ToTable("Filiais");
-            modelBuilder.Entity<FilialEntity>().HasKey(f => f);
-
-
-            // Definir nomes de tabela únicos
+        {    
             modelBuilder.Entity<PessoaEntity>().ToTable("Pessoas");
             modelBuilder.Entity<DadosBancariosEntity>().ToTable("DadosBancarios");
             modelBuilder.Entity<PessoaDadosBancariosEntity>().ToTable("PessoaDadosBancarios");

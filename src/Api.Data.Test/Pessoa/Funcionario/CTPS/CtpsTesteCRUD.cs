@@ -1,7 +1,5 @@
 ﻿using Api.Data.Context;
 using Data.Implementations.Pessoa.Funcionario.CTPS;
-using Data.Repository;
-using Domain.Entities.Pessoa.Filial;
 using Domain.Entities.Pessoa.Funcionario.CTPS;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -65,15 +63,7 @@ namespace Data.Test.Pessoa.Funcionario.CTPS
                 Assert.True(entities2.Count() == 0);
 
 
-                var _generecRepository = new RepositoryGeneric<FilialEntity>(context);
-
-                var filial1 = new FilialEntity
-                {
-
-                };
-
-                var filialResult1 = await _generecRepository.InsertGenericAsync(filial1);
-                Assert.NotNull(filialResult1);
+              
             }
         }
     }
