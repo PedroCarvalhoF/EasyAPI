@@ -22,6 +22,7 @@ using Data.Implementations.Pedido;
 using Data.Implementations.PedidoItem;
 using Data.Implementations.PedidoPagamento;
 using Data.Implementations.PedidoSituacao;
+using Data.Implementations.Pessoa.Funcionario.CTPS;
 using Data.Implementations.Pessoa.Funcionario.Funcao;
 using Data.Implementations.Pessoas.Contato;
 using Data.Implementations.Pessoas.Endereco;
@@ -45,6 +46,7 @@ using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Repository.PedidoSituacao;
 using Domain.Interfaces.Repository.Pessoa.Contato;
 using Domain.Interfaces.Repository.Pessoa.Endereco;
+using Domain.Interfaces.Repository.Pessoa.Funcionario.CTPS;
 using Domain.Interfaces.Repository.Pessoa.Funcionario.Funcao;
 using Domain.Interfaces.Repository.Pessoa.Pessoa;
 using Domain.Interfaces.Repository.Pessoa.PessoaContato;
@@ -59,6 +61,7 @@ using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Interfaces.Services.PDF;
 using Domain.Interfaces.Services.PedidoSituacao;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
+using Domain.Interfaces.Services.Pessoa.Funcionario.CTPS;
 using Domain.Interfaces.Services.Pessoa.Funcionario.Funcao;
 using Domain.Interfaces.Services.Pessoas.Contato;
 using Domain.Interfaces.Services.Pessoas.Endereco;
@@ -82,6 +85,7 @@ using Service.Services.PagamentoPedidoServices;
 using Service.Services.PDF;
 using Service.Services.PedidoSituacao;
 using Service.Services.PeriodoPontoVenda;
+using Service.Services.Pessoa.Funcionario.CTPS;
 using Service.Services.Pessoa.Funcionario.Funcao;
 using Service.Services.Pessoas;
 using Service.Services.Pessoas.Contato;
@@ -103,9 +107,7 @@ namespace CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-
-            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
+            #region Configuracoes Banco           
 
             MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
             string? connectionString = configuration.GetConnectionString("DefaultConnection");
@@ -143,6 +145,13 @@ namespace CrossCutting.DependencyInjection
            .AddRoleValidator<RoleValidator<Role>>()
            .AddEntityFrameworkStores<IdentityDataContext>()
            .AddDefaultTokenProviders();
+
+            #endregion
+
+            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
+
+            
 
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<IUserRole, UserRoleServices>();
@@ -203,6 +212,9 @@ namespace CrossCutting.DependencyInjection
 
             serviceCollection.AddScoped<IFuncaoFuncionarioRepository, FuncaoFuncionarioImplementacao>();
             serviceCollection.AddScoped<IFuncaoFuncionarioServices, FuncaoFuncionarioServices>();
+
+            serviceCollection.AddScoped<ICtpsRepository, CtpsImplementacao>();
+            serviceCollection.AddScoped<ICtpsServices,   CtpsServices>();
 
             #endregion
 

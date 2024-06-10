@@ -18,6 +18,7 @@ using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoPagamento;
 using Domain.Dtos.PedidoSituacao;
+using Domain.Dtos.Pessoa.Funcionario.CTPS;
 using Domain.Dtos.Pessoa.Funcionario.Funcao;
 using Domain.Dtos.Pessoas.Contato;
 using Domain.Dtos.Pessoas.DadosBancarios;
@@ -32,6 +33,7 @@ using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
 using Domain.Models.PedidoSituacao;
 using Domain.Models.PeriodoPontoVenda;
+using Domain.Models.Pessoa.Funcionario.CTPS;
 using Domain.Models.Pessoa.Funcionario.Funcao;
 using Domain.Models.PessoaModels.PessoaModels;
 using Domain.Models.Pessoas.Contato;
@@ -125,9 +127,13 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ContatoDtoCreate, ContatoModel>().ReverseMap();
             CreateMap<ContatoDtoUpdate, ContatoModel>().ReverseMap();
 
-            CreateMap<FuncaoFuncionarioDto, FuncaoFuncionarioModel>();
-            CreateMap<FuncaoFuncionarioDtoCreate, FuncaoFuncionarioModel>();
-            CreateMap<FuncaoFuncionarioDtoUpdate, FuncaoFuncionarioModel>();
+            CreateMap<FuncaoFuncionarioDto, FuncaoFuncionarioModel>().ReverseMap();
+            CreateMap<FuncaoFuncionarioDtoCreate, FuncaoFuncionarioModel>().ReverseMap();
+            CreateMap<FuncaoFuncionarioDtoUpdate, FuncaoFuncionarioModel>().ReverseMap();
+
+            CreateMap<CtpsDto, CtpsModel>().ReverseMap();
+            CreateMap<CtpsDtoCreate, CtpsModel>().ReverseMap();
+            CreateMap<CtpsDtoUpdate, CtpsModel>().ReverseMap();
             #endregion
         }
 

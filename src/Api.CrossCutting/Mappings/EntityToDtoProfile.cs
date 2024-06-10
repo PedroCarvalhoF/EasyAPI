@@ -18,6 +18,7 @@ using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.Pedido;
 using Domain.Dtos.PedidoSituacao;
+using Domain.Dtos.Pessoa.Funcionario.CTPS;
 using Domain.Dtos.Pessoa.Funcionario.Funcao;
 using Domain.Dtos.Pessoas.Contato;
 using Domain.Dtos.Pessoas.DadosBancarios;
@@ -39,6 +40,7 @@ using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
+using Domain.Entities.Pessoa.Funcionario.CTPS;
 using Domain.Entities.Pessoa.Funcionario.Funcao;
 using Domain.Entities.Pessoa.PessoaContato;
 using Domain.Entities.Pessoa.PessoaDadosBancarios;
@@ -66,7 +68,8 @@ namespace Api.CrossCutting.Mappings
             CreateMap<PessoaEnderecoEntity, PessoaEnderecoDto>();
             CreateMap<ContatoEntity, ContatoDto>().ReverseMap();
             CreateMap<PessoaContatoEntity, PessoaContatoDto>().ReverseMap();
-            CreateMap<FuncaoFuncionarioEntity, FuncaoFuncionarioDto>();
+            CreateMap<FuncaoFuncionarioEntity, FuncaoFuncionarioDto>().ReverseMap();
+            CreateMap<CtpsEntity, CtpsDto>().ReverseMap();
             #endregion
 
 
