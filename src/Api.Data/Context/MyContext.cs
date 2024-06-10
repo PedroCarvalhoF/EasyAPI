@@ -10,6 +10,7 @@ using Data.Mapping.Pedido;
 using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
 using Data.Mapping.PedidoSituacao;
+using Data.Mapping.Pessoa.Funcionario.CTPS;
 using Data.Mapping.Pessoa.Funcionario.Funcao;
 using Data.Mapping.Pessoa.PessoContato;
 using Data.Mapping.PontoVena;
@@ -24,6 +25,7 @@ using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
+using Domain.Entities.Pessoa.Funcionario.CTPS;
 using Domain.Entities.Pessoa.Funcionario.Funcao;
 using Domain.Entities.Pessoa.PessoaContato;
 using Domain.Entities.Pessoa.PessoaDadosBancarios;
@@ -73,7 +75,7 @@ namespace Api.Data.Context
         public DbSet<ContatoEntity>? Contatos { get; set; }
         public DbSet<PessoaContatoEntity>? PessoaContatos { get; set; }
         public DbSet<FuncaoFuncionarioEntity>? FuncoesFuncionarios { get; set; }
-
+        public DbSet<CtpsEntity>? Ctpss { get; set; }
         #endregion
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
@@ -150,6 +152,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
             modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
             modelBuilder.Entity<FuncaoFuncionarioEntity>(new FuncaoFuncionarioMap().Configure);
+            modelBuilder.Entity<CtpsEntity>(new CtpsMap().Configure);
 
 
             base.OnModelCreating(modelBuilder);

@@ -13,5 +13,41 @@ namespace Data.Implementations.Pessoa.Funcionario.CTPS
         {
             _dbSet = context.Set<CtpsEntity>();
         }
+
+        public async Task<IEnumerable<CtpsEntity>> GetAll()
+        {
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<CtpsEntity> GetByIdCtps(Guid ctpsId)
+        {
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.Where(ct => ct.Id == ctpsId);
+
+                var entity = await query.SingleAsync();
+
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
