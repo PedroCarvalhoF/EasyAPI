@@ -1,3 +1,4 @@
+#region Using
 using Api.Domain.Dtos.CategoriaPrecoDtos;
 using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Dtos.PedidoDtos;
@@ -17,6 +18,7 @@ using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.Pedido;
 using Domain.Dtos.PedidoSituacao;
+using Domain.Dtos.Pessoa.Funcionario.Funcao;
 using Domain.Dtos.Pessoas.Contato;
 using Domain.Dtos.Pessoas.DadosBancarios;
 using Domain.Dtos.Pessoas.Endereco;
@@ -33,11 +35,14 @@ using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
 using Domain.Entities.PagamentoPedido;
 using Domain.Entities.PedidoSituacao;
+using Domain.Entities.Pessoa;
 using Domain.Entities.Pessoa.Contato;
 using Domain.Entities.Pessoa.DadosBancarios;
 using Domain.Entities.Pessoa.Endereco;
+using Domain.Entities.Pessoa.Funcionario.Funcao;
 using Domain.Entities.Pessoa.PessoaContato;
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa.PessoaDadosBancarios;
+using Domain.Entities.Pessoa.PessoaEndereco;
 using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.PontoVendaUser;
 using Domain.Entities.Produto;
@@ -45,6 +50,8 @@ using Domain.Entities.ProdutoTipo;
 using Domain.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 
+
+#endregion
 namespace Api.CrossCutting.Mappings
 {
     public class EntityToDtoProfile : Profile
@@ -59,6 +66,7 @@ namespace Api.CrossCutting.Mappings
             CreateMap<PessoaEnderecoEntity, PessoaEnderecoDto>();
             CreateMap<ContatoEntity, ContatoDto>().ReverseMap();
             CreateMap<PessoaContatoEntity, PessoaContatoDto>().ReverseMap();
+            CreateMap<FuncaoFuncionarioEntity, FuncaoFuncionarioDto>();
             #endregion
 
 

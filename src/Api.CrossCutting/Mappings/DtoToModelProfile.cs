@@ -1,3 +1,4 @@
+#region Using
 using Api.Domain.Dtos.CategoriaPrecoDtos;
 using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Dtos.PedidoDtos;
@@ -17,6 +18,7 @@ using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Dtos.PedidoPagamento;
 using Domain.Dtos.PedidoSituacao;
+using Domain.Dtos.Pessoa.Funcionario.Funcao;
 using Domain.Dtos.Pessoas.Contato;
 using Domain.Dtos.Pessoas.DadosBancarios;
 using Domain.Dtos.Pessoas.Endereco;
@@ -30,6 +32,7 @@ using Domain.Models.ItemPedidoModels;
 using Domain.Models.PagamentoPedidoModels;
 using Domain.Models.PedidoSituacao;
 using Domain.Models.PeriodoPontoVenda;
+using Domain.Models.Pessoa.Funcionario.Funcao;
 using Domain.Models.PessoaModels.PessoaModels;
 using Domain.Models.Pessoas.Contato;
 using Domain.Models.Pessoas.Endereco;
@@ -38,6 +41,8 @@ using Domain.Models.PontoVendaUser;
 using Domain.Models.ProdutoModels;
 using Domain.Models.ProdutoTipo;
 
+
+#endregion
 namespace Api.CrossCutting.Mappings
 {
     public class DtoToModelProfile : Profile
@@ -119,6 +124,10 @@ namespace Api.CrossCutting.Mappings
             CreateMap<ContatoDto, ContatoModel>().ReverseMap();
             CreateMap<ContatoDtoCreate, ContatoModel>().ReverseMap();
             CreateMap<ContatoDtoUpdate, ContatoModel>().ReverseMap();
+
+            CreateMap<FuncaoFuncionarioDto, FuncaoFuncionarioModel>();
+            CreateMap<FuncaoFuncionarioDtoCreate, FuncaoFuncionarioModel>();
+            CreateMap<FuncaoFuncionarioDtoUpdate, FuncaoFuncionarioModel>();
             #endregion
         }
 

@@ -1,5 +1,4 @@
 ﻿using Api.Domain.Entities;
-using Domain.Entities.Pessoa.Pessoas;
 using Domain.Enuns.Pessoas;
 
 namespace Domain.Entities.Pessoa.PessoaFuncionario

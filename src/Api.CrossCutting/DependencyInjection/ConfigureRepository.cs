@@ -1,4 +1,5 @@
-﻿using Api.Data.Context;
+﻿#region Using
+using Api.Data.Context;
 using Api.Data.Repository;
 using Api.Domain.Interfaces.Services.CategoriaPreco;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
@@ -21,6 +22,7 @@ using Data.Implementations.Pedido;
 using Data.Implementations.PedidoItem;
 using Data.Implementations.PedidoPagamento;
 using Data.Implementations.PedidoSituacao;
+using Data.Implementations.Pessoa.Funcionario.Funcao;
 using Data.Implementations.Pessoas.Contato;
 using Data.Implementations.Pessoas.Endereco;
 using Data.Implementations.Pessoas.PessoaContato;
@@ -43,6 +45,7 @@ using Domain.Interfaces.Repository.PedidoPagamento;
 using Domain.Interfaces.Repository.PedidoSituacao;
 using Domain.Interfaces.Repository.Pessoa.Contato;
 using Domain.Interfaces.Repository.Pessoa.Endereco;
+using Domain.Interfaces.Repository.Pessoa.Funcionario.Funcao;
 using Domain.Interfaces.Repository.Pessoa.Pessoa;
 using Domain.Interfaces.Repository.Pessoa.PessoaContato;
 using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
@@ -56,6 +59,7 @@ using Domain.Interfaces.Services.PagamentoPedido;
 using Domain.Interfaces.Services.PDF;
 using Domain.Interfaces.Services.PedidoSituacao;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
+using Domain.Interfaces.Services.Pessoa.Funcionario.Funcao;
 using Domain.Interfaces.Services.Pessoas.Contato;
 using Domain.Interfaces.Services.Pessoas.Endereco;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
@@ -78,6 +82,7 @@ using Service.Services.PagamentoPedidoServices;
 using Service.Services.PDF;
 using Service.Services.PedidoSituacao;
 using Service.Services.PeriodoPontoVenda;
+using Service.Services.Pessoa.Funcionario.Funcao;
 using Service.Services.Pessoas;
 using Service.Services.Pessoas.Contato;
 using Service.Services.Pessoas.DadosBancarios;
@@ -90,6 +95,8 @@ using Service.Services.ProdutoMedidaService;
 using Service.Services.ProdutoTipoService;
 using Service.Services.ViaCEP;
 
+
+#endregion
 namespace CrossCutting.DependencyInjection
 {
     public static class ConfigureRepository
@@ -182,7 +189,6 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
             serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
 
-
             serviceCollection.AddScoped<IDadosBancariosRepository, DadosBancariosImplementacao>();
             serviceCollection.AddScoped<IDadosBancariosServices, DadosBancariosService>();
 
@@ -195,6 +201,8 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPessoaContatoRepositoryGeneric, PessoaContatoImplementacao>();
             serviceCollection.AddScoped<IPessoaContatoServices, PessoaContatoServices>();
 
+            serviceCollection.AddScoped<IFuncaoFuncionarioRepository, FuncaoFuncionarioImplementacao>();
+            serviceCollection.AddScoped<IFuncaoFuncionarioServices, FuncaoFuncionarioServices>();
 
             #endregion
 

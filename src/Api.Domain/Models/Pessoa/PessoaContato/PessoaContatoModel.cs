@@ -1,8 +1,9 @@
-﻿using Domain.Entities.Pessoa.Contato;
+﻿using Domain.Entities.Pessoa;
+using Domain.Entities.Pessoa.Contato;
 
-namespace Domain.Entities.Pessoa.PessoaContato
+namespace Domain.Models.Pessoas.PessoaContato
 {
-    public class PessoaContatoEntity
+    public class PessoaContatoModel
     {
         public Guid PessoaEntityId { get; set; }
         public PessoaEntity? PessoaEntity { get; set; }

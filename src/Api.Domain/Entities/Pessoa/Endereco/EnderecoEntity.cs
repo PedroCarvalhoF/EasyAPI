@@ -1,5 +1,5 @@
 ﻿using Api.Domain.Entities;
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa.PessoaEndereco;
 using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities.Pessoa.Endereco

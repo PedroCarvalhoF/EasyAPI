@@ -1,4 +1,4 @@
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa;
 using System.ComponentModel.DataAnnotations;
 
 namespace Api.Domain.Entities.Pessoa.PessoaTipo

@@ -1,5 +1,5 @@
 ﻿using Api.Domain.Entities;
-using Domain.Entities.Pessoa.Pessoas;
+using Domain.Entities.Pessoa.PessoaDadosBancarios;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 

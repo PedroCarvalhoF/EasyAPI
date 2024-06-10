@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Pessoa.Pessoas;
+﻿using Domain.Entities.Pessoa;
 using Domain.Enuns.Pessoas;
 
 namespace Domain.Interfaces.Repository.PessoaRepositorys.Pessoa

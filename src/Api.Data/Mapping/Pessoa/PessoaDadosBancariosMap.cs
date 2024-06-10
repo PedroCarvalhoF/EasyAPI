@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Pessoa.Pessoas;
+﻿using Domain.Entities.Pessoa.PessoaDadosBancarios;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
