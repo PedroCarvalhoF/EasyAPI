@@ -6,8 +6,6 @@ using Domain.Interfaces;
 using Domain.Interfaces.Repository.Pessoa.Funcionario.CTPS;
 using Domain.Interfaces.Services.Pessoa.Funcionario.CTPS;
 using Domain.Models.Pessoa.Funcionario.CTPS;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Service.Services.Pessoa.Funcionario.CTPS
 {
