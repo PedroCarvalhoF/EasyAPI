@@ -13,5 +13,51 @@ namespace Data.Implementations.Pessoa.Funcionario.Funcao
         {
             _dbSet = context.Set<FuncaoFuncionarioEntity>();
         }
+
+        private IQueryable<FuncaoFuncionarioEntity> FullInclude(IQueryable<FuncaoFuncionarioEntity> query)
+        {
+            query = query.OrderBy(f => f.FuncaoFuncionario);
+
+            return query;
+        }
+        public async Task<IEnumerable<FuncaoFuncionarioEntity>> GetAll()
+        {
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = FullInclude(query);
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<FuncaoFuncionarioEntity> GetById(Guid funcaoId)
+        {
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = FullInclude(query);
+
+                query = query.Where(f => f.Id == funcaoId);
+
+                var entity = await query.SingleOrDefaultAsync();
+
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

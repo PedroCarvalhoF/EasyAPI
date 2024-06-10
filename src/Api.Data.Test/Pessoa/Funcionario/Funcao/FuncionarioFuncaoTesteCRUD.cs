@@ -1,16 +1,7 @@
 ﻿using Api.Data.Context;
-using Data.Implementations.Pessoas.PessoaImplentetacoes;
-using Domain.Entities.Pessoa.DadosBancarios;
-using Domain.Entities.Pessoa.PessoaDadosBancarios;
-using Domain.Entities.Pessoa;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities.Pessoa.Funcionario.Funcao;
 using Data.Implementations.Pessoa.Funcionario.Funcao;
+using Domain.Entities.Pessoa.Funcionario.Funcao;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Data.Test.Pessoa.Funcionario.Funcao
 {
