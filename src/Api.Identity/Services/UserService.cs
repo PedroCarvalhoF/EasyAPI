@@ -75,11 +75,11 @@ namespace Api.Identity.Services
                 new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
             };
-            // Adiciona o FiltroId ao token se ele não for nulo
-            if (user.FiltroId.HasValue)
-            {
-                claims.Add(new Claim("FiltroId", user.FiltroId.Value.ToString()));
-            }
+            //// Adiciona o FiltroId ao token se ele não for nulo
+            //if (user.FiltroId.HasValue)
+            //{
+            //    claims.Add(new Claim("FiltroId", user.FiltroId.Value.ToString()));
+            //}
             if (adicionarClaimsUsuario)
             {
                 IList<Claim> userClaims = await _userManager.GetClaimsAsync(user);
@@ -255,19 +255,21 @@ namespace Api.Identity.Services
                 {
                     var userSetLockout = await _userManager.SetLockoutEnabledAsync(identityUser, false);
 
-                    var userCreate = await _userManager.FindByEmailAsync(identityUser.Email);
+                   // var userCreate = await _userManager.FindByEmailAsync(identityUser.Email);
 
-                    userCreate.FiltroId = userCreate.Id;
+                   //// userCreate.FiltroId = userCreate.Id;
 
-                    var resultUpdate = await _userManager.UpdateAsync(userCreate);
+                   // var resultUpdate = await _userManager.UpdateAsync(userCreate);
 
-                    if(resultUpdate.Succeeded)
-                    {
-                        return new ResponseDto<UsuarioLoginResponse>().CadastroOk("Acesso Master Criado com sucesso");
-                    }
+                   // if(resultUpdate.Succeeded)
+                   // {
+                   //     return new ResponseDto<UsuarioLoginResponse>().CadastroOk("Acesso Master Criado com sucesso");
+                   // }
 
-                    return new ResponseDto<UsuarioLoginResponse>().Erro("Não foi possível realizar cadastro acesso master");
+                   // return new ResponseDto<UsuarioLoginResponse>().Erro("Não foi possível realizar cadastro acesso master");
 
+
+                    return new ResponseDto<UsuarioLoginResponse>().CadastroOk("Acesso Master Criado com sucesso");
                 }
 
                 var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);

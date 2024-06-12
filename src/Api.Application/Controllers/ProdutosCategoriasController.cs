@@ -24,7 +24,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetAll(User.GetFiltroId());
+                var result = await _service.GetAll();
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -42,7 +42,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.GetIdCategoriaProduto(id, User.GetFiltroId());
+                var result = await _service.GetIdCategoriaProduto(id);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -62,7 +62,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.Create(create, User.GetFiltroId());
+                var result = await _service.Create(create);
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -82,7 +82,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.Update(categoriaProdutoDtoUpdate, User.GetFiltroId());
+                var result = await _service.Update(categoriaProdutoDtoUpdate);
 
                 if (!result.Status)
                     return BadRequest(result);

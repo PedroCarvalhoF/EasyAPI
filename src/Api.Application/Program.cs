@@ -55,6 +55,10 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+if (!Path.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Resources")))
+    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Resources"));
+
+
 app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),

@@ -33,9 +33,6 @@ namespace Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -53,26 +50,26 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("710bd8dd-1853-43a1-8708-ca1f259d71ad"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(8729),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(6217),
                             DescricaoCategoria = "Balcão",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(8737)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(6234)
                         },
                         new
                         {
                             Id = new Guid("5533b87c-72d5-4033-85c4-ae44f5a3210c"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(8739),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(6237),
                             DescricaoCategoria = "IFood",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(8741)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(6240)
                         },
                         new
                         {
                             Id = new Guid("ed65a4e3-a0b0-40a7-b7ae-3397a965d924"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(8742),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(6242),
                             DescricaoCategoria = "Lojista",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(8743)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(6245)
                         });
                 });
 
@@ -89,9 +86,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("CreateAt")
                         .IsRequired()
                         .HasColumnType("datetime");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -151,9 +145,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -192,9 +183,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -230,9 +218,6 @@ namespace Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -250,18 +235,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"),
-                            CreateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(9435),
+                            CreateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(3135),
                             Descricao = "Unidade",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(9433)
+                            UpdateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(3130)
                         },
                         new
                         {
                             Id = new Guid("2f943e86-f06f-4f7d-babf-48d0d2d8f3ac"),
-                            CreateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(9445),
+                            CreateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(3159),
                             Descricao = "Caixa",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(9444)
+                            UpdateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(3158)
                         });
                 });
 
@@ -279,9 +264,6 @@ namespace Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("varchar(80)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -290,7 +272,28 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DescricaoCategoria")
+                        .IsUnique();
+
                     b.ToTable("CategoriasProdutos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"),
+                            CreateAt = new DateTime(2024, 6, 10, 5, 56, 2, 574, DateTimeKind.Utc).AddTicks(7040),
+                            DescricaoCategoria = "Executivos",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 6, 10, 5, 56, 2, 574, DateTimeKind.Utc).AddTicks(7035)
+                        },
+                        new
+                        {
+                            Id = new Guid("d9d229c4-9a64-4836-af41-2f111f229c46"),
+                            CreateAt = new DateTime(2024, 6, 10, 5, 56, 2, 574, DateTimeKind.Utc).AddTicks(7073),
+                            DescricaoCategoria = "Bebidas",
+                            Habilitado = true,
+                            UpdateAt = new DateTime(2024, 6, 10, 5, 56, 2, 574, DateTimeKind.Utc).AddTicks(7070)
+                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.FormaPagamento.FormaPagamentoEntity", b =>
@@ -306,9 +309,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasMaxLength(80)
                         .HasColumnType("varchar(80)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -327,10 +327,10 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("92008957-f185-4563-9d9e-7b71f4ea2691"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6043),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(5262),
                             DescricaoFormaPg = "Dinheiro",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6074)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(5338)
                         });
                 });
 
@@ -345,9 +345,6 @@ namespace Data.Migrations
 
                     b.Property<decimal>("Desconto")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -393,7 +390,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UsuarioPontoVendaEntityId");
 
-                    b.ToTable("ItensPedidos");
+                    b.ToTable("ItensPedidos", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.PagamentoPedido.PagamentoPedidoEntity", b =>
@@ -404,9 +401,6 @@ namespace Data.Migrations
 
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("FormaPagamentoEntityId")
                         .HasColumnType("char(36)");
@@ -446,9 +440,6 @@ namespace Data.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("varchar(80)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -466,26 +457,26 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("abc0f0f9-3295-439c-a468-795b071b7f22"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6970),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(6467),
                             DescricaoSituacao = "Aberto",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6974)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(6471)
                         },
                         new
                         {
                             Id = new Guid("185b07da-7e82-43d1-b61f-912d8b29a34c"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6976),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(6476),
                             DescricaoSituacao = "Fechado",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6977)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(6477)
                         },
                         new
                         {
                             Id = new Guid("11b17cc5-c8b1-48f9-b9fd-886339441328"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6979),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(6481),
                             DescricaoSituacao = "Cancelado",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 512, DateTimeKind.Local).AddTicks(6980)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 587, DateTimeKind.Local).AddTicks(6482)
                         });
                 });
 
@@ -497,9 +488,6 @@ namespace Data.Migrations
 
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -544,9 +532,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -583,9 +568,6 @@ namespace Data.Migrations
 
                     b.Property<string>("Ddd")
                         .HasColumnType("longtext");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<string>("Gia")
                         .HasColumnType("longtext");
@@ -640,9 +622,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -674,9 +653,6 @@ namespace Data.Migrations
 
                     b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime(6)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<string>("FuncaoFuncionario")
                         .IsRequired()
@@ -756,9 +732,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -802,9 +775,6 @@ namespace Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
 
@@ -822,34 +792,34 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("567906bb-6eb4-42e9-b890-10e6da214766"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7768),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4480),
                             DescricaoPeriodo = "Almoço",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7774)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4491)
                         },
                         new
                         {
                             Id = new Guid("fc6a5d67-8356-4270-b9e6-7749b553dcf3"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7777),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4495),
                             DescricaoPeriodo = "Janta",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7778)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4497)
                         },
                         new
                         {
                             Id = new Guid("f14c83df-1fa4-4a83-8070-b16ecb19aa77"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7780),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4500),
                             DescricaoPeriodo = "Dia Todo",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7781)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4501)
                         },
                         new
                         {
                             Id = new Guid("7e107de8-c97a-435b-9976-7a689ca28bb7"),
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7784),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4504),
                             DescricaoPeriodo = "Noturno",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(7785)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(4506)
                         });
                 });
 
@@ -861,9 +831,6 @@ namespace Data.Migrations
                     b.Property<DateTime?>("CreateAt")
                         .IsRequired()
                         .HasColumnType("datetime");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -903,9 +870,6 @@ namespace Data.Migrations
                     b.Property<string>("Descricao")
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -954,7 +918,7 @@ namespace Data.Migrations
                             Id = new Guid("f0e75a80-0b64-4b2b-9f53-f3dce3f6d126"),
                             CategoriaProdutoEntityId = new Guid("a9b05f16-71f0-4f77-a653-52c1a15b36bc"),
                             CodigoBarrasPersonalizado = "01",
-                            CreateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(6355),
+                            CreateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(1102),
                             Descricao = "",
                             Habilitado = true,
                             ImgUrl = "",
@@ -962,7 +926,7 @@ namespace Data.Migrations
                             Observacoes = "",
                             ProdutoMedidaEntityId = new Guid("414a646f-1146-4b6d-bbfc-39a26e74a091"),
                             ProdutoTipoEntityId = new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"),
-                            UpdateAt = new DateTime(2024, 6, 12, 3, 11, 37, 505, DateTimeKind.Local).AddTicks(6367)
+                            UpdateAt = new DateTime(2024, 6, 10, 2, 56, 2, 577, DateTimeKind.Local).AddTicks(1279)
                         });
                 });
 
@@ -979,9 +943,6 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("varchar(30)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -1000,18 +961,18 @@ namespace Data.Migrations
                         new
                         {
                             Id = new Guid("edddccfa-a4af-4831-b9ee-29bdd5f755af"),
-                            CreateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(8041),
+                            CreateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(18),
                             DescricaoTipoProduto = "Venda",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(8067)
+                            UpdateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(41)
                         },
                         new
                         {
                             Id = new Guid("1e11b25a-8bf5-4d57-80b7-396d09cbfcf1"),
-                            CreateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(8068),
+                            CreateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(43),
                             DescricaoTipoProduto = "Materia Prima",
                             Habilitado = true,
-                            UpdateAt = new DateTime(2024, 6, 12, 6, 11, 37, 504, DateTimeKind.Utc).AddTicks(8071)
+                            UpdateAt = new DateTime(2024, 6, 10, 5, 56, 2, 575, DateTimeKind.Utc).AddTicks(45)
                         });
                 });
 
@@ -1061,9 +1022,6 @@ namespace Data.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid?>("FiltroId")
-                        .HasColumnType("char(36)");
 
                     b.Property<string>("ImagemURL")
                         .HasColumnType("longtext");

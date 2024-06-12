@@ -22,11 +22,11 @@ namespace Api.Service.Services.CategoriaProduto
             _implementacao = implementacao;
         }
 
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> GetAll(Guid? filtroId)
+        public async Task<ResponseDto<List<CategoriaProdutoDto>>> GetAll()
         {
             try
             {
-                var entities = await _implementacao.GetAll(filtroId);
+                var entities = await _implementacao.GetAll();
                 if (entities == null || entities.Count() == 0)
                 {
                     return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
@@ -41,11 +41,11 @@ namespace Api.Service.Services.CategoriaProduto
                 return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> GetIdCategoriaProduto(Guid id, Guid? filtroId)
+        public async Task<ResponseDto<List<CategoriaProdutoDto>>> GetIdCategoriaProduto(Guid id )
         {
             try
             {
-                var entity = await _implementacao.GetIdCategoriaProduto(id, filtroId);
+                var entity = await _implementacao.GetIdCategoriaProduto(id);
                 if (entity == null)
                 {
                     return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
@@ -59,13 +59,13 @@ namespace Api.Service.Services.CategoriaProduto
             }
         }
 
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> Create(CategoriaProdutoDtoCreate create, Guid? filtroId)
+        public async Task<ResponseDto<List<CategoriaProdutoDto>>> Create(CategoriaProdutoDtoCreate create )
         {
             try
             {
                 var model = _mapper.Map<CategoriaProdutoModel>(create);
                 var entity = _mapper.Map<CategoriaProdutoEntity>(model);
-                var result = await _repository.InsertAsync(entity, filtroId);
+                var result = await _repository.InsertAsync(entity);
 
                 if (result == null)
                 {
@@ -80,20 +80,20 @@ namespace Api.Service.Services.CategoriaProduto
                 return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> Update(CategoriaProdutoDtoUpdate categoriaProdutoDtoUpdate, Guid? filtroId)
+        public async Task<ResponseDto<List<CategoriaProdutoDto>>> Update(CategoriaProdutoDtoUpdate categoriaProdutoDtoUpdate )
         {
             try
             {
                 var model = _mapper.Map<CategoriaProdutoModel>(categoriaProdutoDtoUpdate);
                 var entity = _mapper.Map<CategoriaProdutoEntity>(model);
-                var result = await _repository.UpdateAsync(entity, filtroId);
+                var result = await _repository.UpdateAsync(entity);
 
                 if (result == null)
                 {
                     return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
                 }
 
-                var resultCreate = await _implementacao.GetIdCategoriaProduto(result.Id, filtroId);
+                var resultCreate = await _implementacao.GetIdCategoriaProduto(result.Id);
 
                 if (resultCreate == null)
                 {

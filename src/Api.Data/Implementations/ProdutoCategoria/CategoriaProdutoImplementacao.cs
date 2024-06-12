@@ -14,21 +14,21 @@ namespace Data.Implementations
         {
             _dataset = context.Set<CategoriaProdutoEntity>();
         }
-        private IQueryable<CategoriaProdutoEntity> FiltroOrderBy(IQueryable<CategoriaProdutoEntity> query, Guid? filtroId)
+        private IQueryable<CategoriaProdutoEntity> FiltroOrderBy(IQueryable<CategoriaProdutoEntity> query)
         {
-            query = query.Where(t => t.FiltroId == filtroId).OrderBy(t => t.DescricaoCategoria);
+            query = query.OrderBy(t => t.DescricaoCategoria);
 
             return query;
         }
 
-        public async Task<IEnumerable<CategoriaProdutoEntity>> GetAll(Guid? filtroId)
+        public async Task<IEnumerable<CategoriaProdutoEntity>> GetAll()
         {
             try
             {
                 IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
 
 
-                query = FiltroOrderBy(query, filtroId);
+                query = FiltroOrderBy(query);
 
                 var entities = await query.ToListAsync();
 
@@ -41,12 +41,12 @@ namespace Data.Implementations
             }
         }
 
-        public async Task<CategoriaProdutoEntity> GetIdCategoriaProduto(Guid id, Guid? filtroId)
+        public async Task<CategoriaProdutoEntity> GetIdCategoriaProduto(Guid id)
         {
             try
             {
                 IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
-                query = FiltroOrderBy(query, filtroId);
+                query = FiltroOrderBy(query);
 
                 var entity = await query.SingleOrDefaultAsync();
 
