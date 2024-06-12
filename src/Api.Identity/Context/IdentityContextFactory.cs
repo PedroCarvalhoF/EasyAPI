@@ -7,7 +7,7 @@ namespace Api.Identity.Context
     {
         public IdentityDataContext CreateDbContext(string[] args)
         {
-            string DefaultConnectionDESENVOLVIMENTO = "Server=localhost;Port=3306;DataBase=RESET_BANCO;Uid=root;password=010203;";
+            string DefaultConnectionDESENVOLVIMENTO = "Server=localhost;Port=3306;DataBase=desenvolvimento;Uid=root;password=010203;";
 
             DbContextOptionsBuilder<IdentityDataContext> optionsBuilder = new DbContextOptionsBuilder<IdentityDataContext>();
             optionsBuilder.UseMySql(DefaultConnectionDESENVOLVIMENTO, new MySqlServerVersion(new Version(8, 0, 21)));

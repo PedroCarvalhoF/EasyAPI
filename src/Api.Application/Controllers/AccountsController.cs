@@ -71,6 +71,8 @@ namespace Api.Application.Controllers
             }
         }
 
+        // cadastro de usuarios baseado no usuario master
+        // id usuario master sera base do filtro do programa 
         [AllowAnonymous]
         [HttpPost("cadastrar")]
         public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> Cadastrar(UsuarioCadastroRequest usuarioCadastro)
@@ -82,6 +84,19 @@ namespace Api.Application.Controllers
             if (resultado.Status)
                 return Ok(resultado);
 
+            return BadRequest(resultado);
+        }
+
+        [AllowAnonymous]
+        [HttpPost("cadastrar-usuario-master-cliente-fisico")]
+        public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> CadastrarUserMaster(UsuarioCadastroRequest usuarioCadastro)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var resultado = await _identityService.CadastrarUserMaster(usuarioCadastro);
+            if (resultado.Status)
+                return Ok(resultado);
 
             return BadRequest(resultado);
         }

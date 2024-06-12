@@ -26,7 +26,7 @@ namespace Api.Identity.Services
             _jwtOptions = jwtOptions.Value;
         }
 
-        #region Privados
+        #region Token
         private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
         {
             var user = await _userManager.FindByEmailAsync(email.ToLower());
@@ -67,14 +67,19 @@ namespace Api.Identity.Services
         }
         private async Task<IList<Claim>> ObterClaims(User user, bool adicionarClaimsUsuario)
         {
-            List<Claim> claims = new List<Claim>();
-
-            claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()));
-            claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()));
-
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
+            };
+            // Adiciona o FiltroId ao token se ele não for nulo
+            if (user.FiltroId.HasValue)
+            {
+                claims.Add(new Claim("FiltroId", user.FiltroId.Value.ToString()));
+            }
             if (adicionarClaimsUsuario)
             {
                 IList<Claim> userClaims = await _userManager.GetClaimsAsync(user);
@@ -83,7 +88,7 @@ namespace Api.Identity.Services
                 claims.AddRange(userClaims);
 
                 foreach (string role in roles)
-                    claims.Add(new Claim("role", role));
+                    claims.Add(new Claim("roles", role));
             }
 
             return claims;
@@ -223,6 +228,60 @@ namespace Api.Identity.Services
                 return resposta.Erro(ex);
             }
         }
+        public async Task<ResponseDto<UsuarioLoginResponse>> CadastrarUserMaster(UsuarioCadastroRequest usuarioCadastro)
+        {
+            try
+            {
+                var exists = await _userManager.Users.FirstOrDefaultAsync(u => u.Email.Equals(usuarioCadastro.Email));
+
+                if (exists != null)
+                {
+                    return new ResponseDto<UsuarioLoginResponse>().Erro("E-mail já está em uso");
+                }
+
+                User identityUser = new User
+                {
+                    Nome = usuarioCadastro.Nome,
+                    SobreNome = usuarioCadastro.SobreNome,
+                    UserName = usuarioCadastro.Email,
+                    Email = usuarioCadastro.Email,
+                    EmailConfirmed = true,
+                    ImagemURL = string.Empty
+                };
+
+                var result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
+
+                if (result.Succeeded)
+                {
+                    var userSetLockout = await _userManager.SetLockoutEnabledAsync(identityUser, false);
+
+                    var userCreate = await _userManager.FindByEmailAsync(identityUser.Email);
+
+                    userCreate.FiltroId = userCreate.Id;
+
+                    var resultUpdate = await _userManager.UpdateAsync(userCreate);
+
+                    if(resultUpdate.Succeeded)
+                    {
+                        return new ResponseDto<UsuarioLoginResponse>().CadastroOk("Acesso Master Criado com sucesso");
+                    }
+
+                    return new ResponseDto<UsuarioLoginResponse>().Erro("Não foi possível realizar cadastro acesso master");
+
+                }
+
+                var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
+                if (!result.Succeeded && result.Errors.Count() > 0)
+                    usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
+
+                return new ResponseDto<UsuarioLoginResponse>().Erro(usuarioCadastroResponse.Erros.SingleOrDefault());
+
+            }
+            catch (Exception ex)
+            {
+                return new ResponseDto<UsuarioLoginResponse>().Erro(ex);
+            }
+        }
         public async Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
 
@@ -290,5 +349,7 @@ namespace Api.Identity.Services
                 return new ResponseDto<List<UsuarioCadastroResponse>>().Erro(ex);
             }
         }
+
+
     }
 }
