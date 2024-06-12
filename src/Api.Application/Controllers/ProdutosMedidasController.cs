@@ -1,13 +1,14 @@
 ﻿using Api.Domain.Dtos.ProdutoMedidaDtos;
 using Api.Domain.Interfaces.Services.ProdutoMedida;
 using Domain.ExceptionsPersonalizadas;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ProdutosMedidasController : ControllerBase
     {
         private readonly IProdutoMedidaServices _produtoMedidaServices;

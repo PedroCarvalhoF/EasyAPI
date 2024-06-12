@@ -1,6 +1,7 @@
 using Api.Domain.Dtos.CategoriaPrecoDtos;
 using Api.Domain.Interfaces.Services.CategoriaPreco;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
@@ -8,7 +9,7 @@ namespace Api.Application.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PrecosProdutosCategoriasController : ControllerBase
     {
         private readonly ICategoriaPrecoService _service;

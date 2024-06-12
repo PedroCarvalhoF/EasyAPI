@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.Pessoas.DadosBancarios;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class DadosBancariosController : ControllerBase
     {
         private readonly IDadosBancariosServices _service;

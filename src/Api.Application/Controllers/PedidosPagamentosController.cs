@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.PagamentoPedidoDtos;
 using Domain.Interfaces.Services.PagamentoPedido;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PedidosPagamentosController : ControllerBase
     {
         private readonly IPagamentoPedidoService _service;

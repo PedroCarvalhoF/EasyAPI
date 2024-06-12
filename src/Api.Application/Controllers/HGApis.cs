@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.Cotacoes.TaxasCDISELIC;
 using Domain.Interfaces.Services.HGApis;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class HGApis : ControllerBase
     {
         private readonly ITaxasCDISelicService? _taxasCDISelicService;

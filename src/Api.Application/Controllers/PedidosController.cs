@@ -4,13 +4,14 @@ using Api.Extensions;
 using Domain.Dtos;
 using Domain.Dtos.Pedido;
 using Domain.Dtos.Pedidos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PedidosController : ControllerBase
     {
         private readonly IPedidoService _pedidoService;

@@ -4,13 +4,14 @@ using Domain.Dtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PedidoItem;
 using Domain.Interfaces.Services.ItemPedido;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PedidosItensController : ControllerBase
     {
         private readonly IItemPedidoService _service;

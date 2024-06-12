@@ -2,13 +2,14 @@
 using Domain.Dtos.Pessoas.Contato;
 using Domain.Dtos.Pessoas.DadosBancarios;
 using Domain.Interfaces.Services.Pessoas.Contato;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    [Authorize]
     public class ContatosController : ControllerBase
     {
         private readonly IContatoServices? _contatoServices;

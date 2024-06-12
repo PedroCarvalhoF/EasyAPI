@@ -3,13 +3,14 @@ using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Extensions;
 using Domain.Dtos;
 using Domain.Dtos.PontoVenda.Filtros;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PontoVendasController : ControllerBase
     {
         private readonly IPontoVendaService _service;

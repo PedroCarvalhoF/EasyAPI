@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Interfaces.Services.FormaPagamento;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PedidosFormasPagamentosController : ControllerBase
     {
         private readonly IFormaPagamentoService _service;

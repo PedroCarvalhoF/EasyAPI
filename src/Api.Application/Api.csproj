@@ -5,6 +5,10 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\PedidosSituacaoController.cs~RF1c209156.TMP" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Api.Domain\Domain.csproj" />
     <ProjectReference Include="..\Api.Service\Service.csproj" />

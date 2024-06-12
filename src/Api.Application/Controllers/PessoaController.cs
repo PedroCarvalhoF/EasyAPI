@@ -2,13 +2,14 @@
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Enuns.Pessoas;
 using Domain.Interfaces.Services.Pessoas.Pessoa;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PessoaController : ControllerBase
     {
         private readonly IPessoaServices _service;

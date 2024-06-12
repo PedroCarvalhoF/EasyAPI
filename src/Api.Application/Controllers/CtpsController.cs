@@ -1,15 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.Pessoa.Funcionario.CTPS;
-using Domain.Dtos.Pessoa.Funcionario.Funcao;
 using Domain.Interfaces.Services.Pessoa.Funcionario.CTPS;
-using Domain.Interfaces.Services.Pessoa.Funcionario.Funcao;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class CtpsController : ControllerBase
     {
         private readonly ICtpsServices? _ctpsService;

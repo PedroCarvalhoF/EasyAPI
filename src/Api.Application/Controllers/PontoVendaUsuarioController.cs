@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.PontoVendaUser;
 using Domain.Interfaces.Services.PontoVendaUser;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PontoVendaUsuarioController : ControllerBase
     {
         private readonly IUsuarioPontoVendaService _service;

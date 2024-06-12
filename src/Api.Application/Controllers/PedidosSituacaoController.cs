@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.PedidoSituacao;
 using Domain.Interfaces.Services.PedidoSituacao;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class PedidosSituacaoController : ControllerBase
     {
         private readonly ISituacaoPedidoService _service;

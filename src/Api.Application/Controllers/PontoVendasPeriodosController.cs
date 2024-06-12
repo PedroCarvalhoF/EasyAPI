@@ -2,13 +2,14 @@
 using Domain.Dtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Interfaces.Services.PeriodoPontoVenda;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PontoVendasPeriodosController : ControllerBase
     {
         private readonly IPeriodoPontoVendaService _service;

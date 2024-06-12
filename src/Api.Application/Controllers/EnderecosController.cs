@@ -4,13 +4,14 @@ using Domain.Dtos.Pessoas.Endereco;
 using Domain.Dtos.ViaCEP;
 using Domain.Interfaces.Services.Pessoas.Endereco;
 using Domain.Interfaces.Services.ViaCEP;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    [Authorize]
     public class EnderecosController : ControllerBase
     {
         private readonly IViaCepService _viaCepService;

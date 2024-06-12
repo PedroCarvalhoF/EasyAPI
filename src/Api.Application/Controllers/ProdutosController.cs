@@ -1,13 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.ProdutoDtos;
 using Domain.Interfaces.Services.Produto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ProdutosController : ControllerBase
     {
         private readonly IProdutoService _service;

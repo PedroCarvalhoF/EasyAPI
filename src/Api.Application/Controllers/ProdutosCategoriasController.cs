@@ -2,13 +2,14 @@ using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
 using Domain.Dtos;
 using Domain.Dtos.CategoriaProdutoDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class ProdutosCategoriasController : ControllerBase
     {
         private readonly ICategoriaProdutoService _service;

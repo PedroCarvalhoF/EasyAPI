@@ -1,13 +1,14 @@
 using Api.Domain.Dtos.PrecoProdutoDtos;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
 using Domain.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Application.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    //[Authorize]
+    [Authorize]
     public class PrecosProdutosController : Controller
     {
         private readonly IPrecoProdutoService _service;
