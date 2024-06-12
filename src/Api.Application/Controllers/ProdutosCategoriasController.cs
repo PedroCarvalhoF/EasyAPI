@@ -1,5 +1,6 @@
 using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
+using Api.Extensions;
 using Domain.Dtos;
 using Domain.Dtos.CategoriaProdutoDtos;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.Get();
+                var result = await _service.GetAll(User.GetFiltroId());
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -41,7 +42,7 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.Get(id);
+                var result = await _service.GetIdCategoriaProduto(id, User.GetFiltroId());
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -54,51 +55,14 @@ namespace Api.Application.Controllers
                 return BadRequest(response.Erro(ex.Message));
             }
         }
-        [HttpGet("categorias/{categoria}/categoria")]
-        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Get(string categoria)
-        {
-            try
-            {
-                var result = await _service.Get(categoria);
 
-                if (!result.Status)
-                    return BadRequest(result);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                var response = new ResponseDto<List<CategoriaProdutoDto>>();
-                return BadRequest(response.Erro(ex.Message));
-            }
-        }
 
         [HttpPost("categorias/create")]
         public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Create(CategoriaProdutoDtoCreate create)
         {
             try
             {
-                var result = await _service.Create(create);
-
-                if (!result.Status)
-                    return BadRequest(result);
-
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                var response = new ResponseDto<List<CategoriaProdutoDto>>();
-                return BadRequest(response.Erro(ex.Message));
-            }
-
-        }
-
-        [HttpPost("categorias/create-lote")]
-        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> Create(IEnumerable<CategoriaProdutoDtoCreate> lista)
-        {
-            try
-            {
-                var result = await _service.CreateLote(lista);
+                var result = await _service.Create(create, User.GetFiltroId());
 
                 if (!result.Status)
                     return BadRequest(result);
@@ -118,31 +82,13 @@ namespace Api.Application.Controllers
         {
             try
             {
-                var result = await _service.Update(categoriaProdutoDtoUpdate);
+                var result = await _service.Update(categoriaProdutoDtoUpdate, User.GetFiltroId());
 
                 if (!result.Status)
                     return BadRequest(result);
 
                 return Ok(result);
 
-            }
-            catch (Exception ex)
-            {
-                var response = new ResponseDto<List<CategoriaProdutoDto>>();
-                return BadRequest(response.Erro(ex.Message));
-            }
-        }
-        [HttpPut("categorias/{id}/desabilitar")]
-        public async Task<ActionResult<ResponseDto<List<CategoriaProdutoDto>>>> DesabilitarHabilitar(Guid id)
-        {
-            try
-            {
-                var result = await _service.DesabilitarHabilitar(id);
-
-                if (!result.Status)
-                    return BadRequest(result);
-
-                return Ok(result);
             }
             catch (Exception ex)
             {

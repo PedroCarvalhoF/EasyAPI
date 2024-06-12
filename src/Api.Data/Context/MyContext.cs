@@ -135,9 +135,9 @@ namespace Api.Data.Context
             #endregion
 
             modelBuilder.Entity<PessoaContatoEntity>(new PessoaContatoMap().Configure);
-
-
             modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
+
+
             modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
             modelBuilder.Entity<ProdutoMedidaEntity>(new ProdutoMedidaMap().Configure);
             modelBuilder.Entity<ProdutoEntity>(new ProdutoMap().Configure);

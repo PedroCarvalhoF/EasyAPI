@@ -14,14 +14,14 @@ namespace Api.Extensions
             return Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
         }
 
-        public static Guid? GetFiltroId(this ClaimsPrincipal user)
+        public static Guid GetFiltroId(this ClaimsPrincipal user)
         {
             var filtroIdClaim = user.FindFirst("FiltroId")?.Value;
             if (Guid.TryParse(filtroIdClaim, out var filtroId))
             {
                 return filtroId;
             }
-            return null;
+            return Guid.Empty;
         }
     }
 }

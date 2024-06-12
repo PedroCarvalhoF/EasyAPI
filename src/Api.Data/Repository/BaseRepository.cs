@@ -16,33 +16,33 @@ namespace Api.Data.Repository
             _dataset = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> SelectAsync()
+        public async Task<IEnumerable<T>> SelectAsync(Guid? filtroId=null)
         {
             try
             {
-                return await _dataset.ToArrayAsync();
+                return await _dataset.Where(t => t.FiltroId == filtroId).ToArrayAsync();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<T> SelectAsync(Guid id)
+        public async Task<T> SelectAsync(Guid id, Guid? filtroId = null)
         {
             try
             {
-                return await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+                return await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id) && p.FiltroId == filtroId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<bool> ExistAsync(Guid id)
+        public async Task<bool> ExistAsync(Guid id, Guid? filtroId = null)
         {
-            return await _dataset.AnyAsync(p => p.Id.Equals(id));
+            return await _dataset.AnyAsync(p => p.Id.Equals(id) && p.FiltroId == filtroId);
         }
-        public async Task<T> InsertAsync(T item)
+        public async Task<T> InsertAsync(T item, Guid? filtroId)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace Api.Data.Repository
                 item.CreateAt = DateTime.Now;
                 item.UpdateAt = DateTime.Now;
                 item.Habilitado = true;
-
+                item.FiltroId = filtroId;
                 _dataset.Add(item);
 
                 await _context.SaveChangesAsync();
@@ -67,7 +67,7 @@ namespace Api.Data.Repository
 
             return item;
         }
-        public async Task<int> InsertArrayAsync(IEnumerable<T> entity)
+        public async Task<int> InsertArrayAsync(IEnumerable<T> entity, Guid? filtroId = null)
         {
             try
             {
@@ -78,10 +78,10 @@ namespace Api.Data.Repository
                     item.CreateAt = DateTime.Now;
                     item.UpdateAt = DateTime.Now;
                     item.Habilitado = true;
+                    item.FiltroId = filtroId;
                 }
 
                 _dataset.AddRange(entity);
-
                 return await _context.SaveChangesAsync();
 
             }
@@ -94,7 +94,7 @@ namespace Api.Data.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items)
+        public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items, Guid? filtroId = null)
         {
             using Microsoft.EntityFrameworkCore.Storage.IDbContextTransaction transaction = await _context.Database.BeginTransactionAsync();
 
@@ -105,6 +105,7 @@ namespace Api.Data.Repository
                     item.Id = Guid.NewGuid();
                     item.CreateAt = DateTime.Now;
                     item.Habilitado = true;
+                    item.FiltroId = filtroId;
                 }
 
                 await _dataset.AddRangeAsync(items);
@@ -120,17 +121,18 @@ namespace Api.Data.Repository
 
             return items;
         }
-        public async Task<T> UpdateAsync(T item)
+        public async Task<T> UpdateAsync(T item, Guid? filtroId = null)
         {
             try
             {
-                T? result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+                T? result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id) && p.FiltroId == filtroId);
                 if (result == null)
                 {
                     return null;
                 }
                 item.CreateAt = result.CreateAt;
                 item.UpdateAt = DateTime.Now;
+                item.FiltroId = result.FiltroId;
                 _context.Entry(result).CurrentValues.SetValues(item);
                 await _context.SaveChangesAsync();
 
@@ -142,11 +144,11 @@ namespace Api.Data.Repository
 
             return item;
         }
-        public async Task<bool> DesabilitarHabilitar(Guid id)
+        public async Task<bool> DesabilitarHabilitar(Guid id, Guid? filtroId = null)
         {
             try
             {
-                T? result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+                T? result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id) && p.FiltroId == filtroId);
                 if (result == null)
                 {
                     return false;
@@ -166,11 +168,11 @@ namespace Api.Data.Repository
 
             return true;
         }
-        public async Task<bool> DeleteAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id, Guid? filtroId = null)
         {
             try
             {
-                T? result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+                T? result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id) && p.FiltroId == filtroId);
                 if (result == null)
                 {
                     return false;
@@ -186,11 +188,11 @@ namespace Api.Data.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<int> DeleteAsync(IEnumerable<Guid> ids)
+        public async Task<int> DeleteAsync(IEnumerable<Guid> ids, Guid? filtroId = null)
         {
             try
             {
-                IQueryable<T> results = _dataset.Where(p => ids.Contains(p.Id));
+                IQueryable<T> results = _dataset.Where(p => ids.Contains(p.Id) && p.FiltroId == filtroId);
                 _dataset.RemoveRange(results);
                 return await _context.SaveChangesAsync();
             }
@@ -199,11 +201,11 @@ namespace Api.Data.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<int> DeleteAsync(IEnumerable<T> itens)
+        public async Task<int> DeleteAsync(IEnumerable<T> itens, Guid? filtroId = null)
         {
             try
             {
-                List<T> itemsToRemove = _dataset.Where(p => itens.Contains(p)).ToList();
+                List<T> itemsToRemove = _dataset.Where(p => itens.Contains(p) && p.FiltroId == filtroId).ToList();
                 _dataset.RemoveRange(itemsToRemove);
                 return await _context.SaveChangesAsync();
             }
@@ -212,7 +214,5 @@ namespace Api.Data.Repository
                 throw new Exception(ex.Message);
             }
         }
-
-
     }
 }

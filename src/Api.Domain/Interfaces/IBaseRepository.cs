@@ -4,17 +4,16 @@ namespace Domain.Interfaces
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
-        Task<T> InsertAsync(T item);
-        Task<IEnumerable<T>> InsertAsync(IEnumerable<T> itens);
-        Task<int> InsertArrayAsync(IEnumerable<T> entity);
-        Task<T> UpdateAsync(T item);
-        Task<bool> DeleteAsync(Guid id);
-        Task<int> DeleteAsync(IEnumerable<Guid> ids);
-        Task<int> DeleteAsync(IEnumerable<T> itens);
-        Task<T> SelectAsync(Guid id);
-        Task<IEnumerable<T>> SelectAsync();
-        Task<bool> ExistAsync(Guid id);
-        Task<bool> DesabilitarHabilitar(Guid id);
-
+        Task<IEnumerable<T>> SelectAsync(Guid? filtroId = null);
+        Task<T> SelectAsync(Guid id, Guid? filtroId = null);
+        Task<bool> ExistAsync(Guid id, Guid? filtroId = null);
+        Task<T> InsertAsync(T item, Guid? filtroId = null);
+        Task<IEnumerable<T>> InsertAsync(IEnumerable<T> itens, Guid? filtroId = null);
+        Task<int> InsertArrayAsync(IEnumerable<T> entity, Guid? filtroId = null);
+        Task<T> UpdateAsync(T item, Guid? filtroId = null);
+        Task<bool> DesabilitarHabilitar(Guid id, Guid? filtroId = null);
+        Task<bool> DeleteAsync(Guid id, Guid? filtroId = null);
+        Task<int> DeleteAsync(IEnumerable<Guid> ids, Guid? filtroId = null);
+        Task<int> DeleteAsync(IEnumerable<T> itens, Guid? filtroId = null);
     }
 }

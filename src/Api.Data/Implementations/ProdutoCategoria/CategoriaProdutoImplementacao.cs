@@ -13,23 +13,26 @@ namespace Data.Implementations
         public CategoriaProdutoImplementacao(MyContext context) : base(context)
         {
             _dataset = context.Set<CategoriaProdutoEntity>();
-            _dataset.AsNoTracking();
+        }
+        private IQueryable<CategoriaProdutoEntity> FiltroOrderBy(IQueryable<CategoriaProdutoEntity> query, Guid? filtroId)
+        {
+            query = query.Where(t => t.FiltroId == filtroId).OrderBy(t => t.DescricaoCategoria);
+
+            return query;
         }
 
-        public async Task<IEnumerable<CategoriaProdutoEntity>> Get(string categoria)
+        public async Task<IEnumerable<CategoriaProdutoEntity>> GetAll(Guid? filtroId)
         {
             try
             {
-                categoria = categoria.ToLower();
-
                 IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
 
-                query = query.Where(cat => cat.DescricaoCategoria!.ToLower().Contains(categoria));
 
-                var entities = await query.ToArrayAsync();
+                query = FiltroOrderBy(query, filtroId);
+
+                var entities = await query.ToListAsync();
 
                 return entities;
-
             }
             catch (Exception ex)
             {
@@ -37,5 +40,25 @@ namespace Data.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<CategoriaProdutoEntity> GetIdCategoriaProduto(Guid id, Guid? filtroId)
+        {
+            try
+            {
+                IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
+                query = FiltroOrderBy(query, filtroId);
+
+                var entity = await query.SingleOrDefaultAsync();
+
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
 }
