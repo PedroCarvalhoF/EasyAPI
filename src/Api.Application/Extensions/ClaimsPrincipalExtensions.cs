@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using Domain.UserIdentity.MasterUsers;
+using System.Security.Claims;
 
 namespace Api.Extensions
 {
@@ -22,6 +23,19 @@ namespace Api.Extensions
                 return filtroId;
             }
             return Guid.Empty;
+        }
+
+        public static UserMasterUserEntity GetUserMasterUser(this ClaimsPrincipal user)
+        {
+            var userId = Guid.Parse(user.FindFirst("UserId")?.Value);
+            var userMasterClienteIdentityId = Guid.Parse(user.FindFirst("UserMasterClienteIdentityId")?.Value);
+
+            return new UserMasterUserEntity
+            {
+                UserId = userId,
+                UserMasterClienteIdentityId = userMasterClienteIdentityId,
+            };
+
         }
     }
 }

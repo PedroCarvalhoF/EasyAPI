@@ -1,4 +1,5 @@
 using Api.Domain.Interfaces.Services.Identity;
+using Api.Extensions;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
 using Domain.Interfaces.Services.UserMasterCliente;
@@ -152,9 +153,12 @@ namespace Api.Application.Controllers
         }
 
         [HttpGet("get-server")]
-        [AllowAnonymous]
+       
         public async Task<ActionResult> GetServerName([FromServices] IConfiguration configuration)
         {
+            var userMaster = User.GetUserMasterUser();
+
+
             string? connectionString = configuration.GetConnectionString("DefaultConnection");
             return Ok(connectionString);
 

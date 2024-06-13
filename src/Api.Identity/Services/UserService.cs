@@ -2,11 +2,12 @@ using Api.Domain.Interfaces.Services.Identity;
 using Api.Identity.Configurations;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
+using Domain.Interfaces;
 using Domain.UserIdentity;
+using Domain.UserIdentity.MasterUsers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Org.BouncyCastle.Ocsp;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -17,18 +18,20 @@ namespace Api.Identity.Services
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly JwtOptions _jwtOptions;
-
+        private readonly IRepositoryGeneric<UserMasterUserEntity> _userMasterRepository;
         public UserService(SignInManager<User> signInManager,
                                UserManager<User> userManager,
-                               IOptions<JwtOptions> jwtOptions)
+                               IOptions<JwtOptions> jwtOptions,
+                               IRepositoryGeneric<UserMasterUserEntity> userMasterRepository)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
+            _userMasterRepository = userMasterRepository;
         }
 
         #region Token
-        private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
+        private async Task<UsuarioLoginResponse> GerarCredenciais(string email, UserMasterUserEntity userMaster)
         {
             var user = await _userManager.FindByEmailAsync(email.ToLower());
 
@@ -38,8 +41,8 @@ namespace Api.Identity.Services
                 return new UsuarioLoginResponse();
             }
 
-            IList<Claim> accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true);
-            IList<Claim> refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false);
+            IList<Claim> accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true, userMaster);
+            IList<Claim> refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false, userMaster);
 
             DateTime dataExpiracaoAccessToken = DateTime.Now.AddSeconds(_jwtOptions.AccessTokenExpiration);
             DateTime dataExpiracaoRefreshToken = DateTime.Now.AddSeconds(_jwtOptions.RefreshTokenExpiration);
@@ -66,7 +69,7 @@ namespace Api.Identity.Services
 
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
-        private async Task<IList<Claim>> ObterClaims(User user, bool adicionarClaimsUsuario)
+        private async Task<IList<Claim>> ObterClaims(User user, bool adicionarClaimsUsuario, UserMasterUserEntity userMaster)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -75,12 +78,12 @@ namespace Api.Identity.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
+                new Claim("UserMasterClienteIdentityId", userMaster.UserMasterClienteIdentityId.ToString()),
+                new Claim("UserId", userMaster.UserId.ToString()),
             };
-            //// Adiciona o FiltroId ao token se ele não for nulo
-            //if (user.FiltroId.HasValue)
-            //{
-            //    claims.Add(new Claim("FiltroId", user.FiltroId.Value.ToString()));
-            //}
+
+
+
             if (adicionarClaimsUsuario)
             {
                 IList<Claim> userClaims = await _userManager.GetClaimsAsync(user);
@@ -229,7 +232,7 @@ namespace Api.Identity.Services
             }
         }
 
-    
+
 
         public async Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
@@ -252,7 +255,13 @@ namespace Api.Identity.Services
             {
                 resposta.Status = true;
                 resposta.Mensagem = "Login efetuado com sucesso.";
-                var credenciais = await GerarCredenciais(usuarioLogin.Email);
+
+
+                //precisa consultar direto no contexto
+                var listaUserMastersUsers = await _userMasterRepository.SelectGenericAsync();
+                var userMaster = listaUserMastersUsers.Where(userM => userM.UserId == user.Id).FirstOrDefault();
+
+                var credenciais = await GerarCredenciais(usuarioLogin.Email, userMaster);
                 resposta.Dados = (credenciais);
                 return resposta;
             }
@@ -299,6 +308,6 @@ namespace Api.Identity.Services
             }
         }
 
-       
+
     }
 }

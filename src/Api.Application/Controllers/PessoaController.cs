@@ -20,7 +20,7 @@ namespace Api.Controllers
         }
 
 
-        [HttpGet("pessoas/{include}")]
+        [HttpGet("pessoas/")]
         public async Task<ActionResult<ResponseDto<IEnumerable<PessoaDto>>>> GetAll(bool include = false)
         {
             try

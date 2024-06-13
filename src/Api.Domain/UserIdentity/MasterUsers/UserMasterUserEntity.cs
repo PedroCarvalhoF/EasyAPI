@@ -1,5 +1,4 @@
-﻿using Api.Domain.Entities;
-using Domain.Identity.UserIdentity;
+﻿using Domain.Identity.UserIdentity;
 using Domain.UserIdentity.Masters;
 
 namespace Domain.UserIdentity.MasterUsers
