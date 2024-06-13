@@ -34,6 +34,7 @@ using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.PontoVendaUser;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
+using Domain.Entities.TesteEntidade;
 using Domain.Identity.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -78,6 +79,8 @@ namespace Api.Data.Context
         public DbSet<CtpsEntity>? Ctpss { get; set; }
         #endregion
 
+
+        public DbSet<EntidadeTeste>? EntidadeTestes { get; set; }
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
 
