@@ -1,5 +1,7 @@
 using Api.Domain.Entities.PontoVenda;
 using Domain.Identity.UserIdentity;
+using Domain.UserIdentity.Masters;
+using Domain.UserIdentity.MasterUsers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +51,30 @@ namespace Api.Identity.Context
                 .WithMany(perfil => perfil.UserPontoVendaUsing)
                 .HasForeignKey(pdv => pdv.UserPdvUsingId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserMasterClienteEntity>(builder =>
+            {
+                builder.HasKey(u => u.UserMasterId);
+
+                builder.HasOne(um => um.UserMaster)
+                       .WithOne(user => user.UsuerMasterCliente);
+            });
+
+            modelBuilder.Entity<UserMasterUserEntity>(builder =>
+            {
+                builder.HasKey(users => new { users.UserId, users.UserMasterClienteIdentityId });
+
+                builder.HasOne(uMaster => uMaster.UserMasterClienteIdentity)
+                   .WithMany(master => master.UsersMasterUsers)
+                   .HasForeignKey(uMaster => uMaster.UserMasterClienteIdentityId)
+                   .IsRequired();
+
+                builder.HasOne(us => us.User)
+                       .WithMany(users => users.UsersMasters)
+                       .HasForeignKey(us => us.UserId)
+                       .IsRequired();
+
+            });
         }
 
     }

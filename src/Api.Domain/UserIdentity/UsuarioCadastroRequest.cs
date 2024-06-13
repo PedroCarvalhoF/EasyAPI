@@ -4,8 +4,6 @@ namespace Domain.UserIdentity
 {
     public class UsuarioCadastroRequest
     {
-        public Guid? FiltroId { get; set; }
-
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         public string? Nome { get; set; }
 

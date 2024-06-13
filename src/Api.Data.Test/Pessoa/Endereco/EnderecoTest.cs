@@ -41,7 +41,7 @@ namespace Data.Test.Pessoa.Endereco
                     UpdateAt = DateTime.Now,
                 };
 
-                var result1 = await _repositoryEndereco.InsertAsync(endereco1, null);
+                var result1 = await _repositoryEndereco.InsertAsync(endereco1);
                 Assert.NotNull(result1);
                 Assert.Equal(result1.Localidade, "cidade1");
 
@@ -61,7 +61,7 @@ namespace Data.Test.Pessoa.Endereco
                     UpdateAt = DateTime.Now,
                 };
 
-                var result2 = await _repositoryEndereco.InsertAsync(endereco2, null);
+                var result2 = await _repositoryEndereco.InsertAsync(endereco2);
                 Assert.NotNull(result2);
                 Assert.Equal(result2.Localidade, "cidade2");
 
@@ -85,7 +85,7 @@ namespace Data.Test.Pessoa.Endereco
                     RgIE = "123123-09"
                 };
 
-                var resultPessoa = await _pessoaRepository.InsertAsync(pessoa, null);
+                var resultPessoa = await _pessoaRepository.InsertAsync(pessoa);
                 Assert.NotNull(resultPessoa);
 
 

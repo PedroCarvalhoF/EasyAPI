@@ -6,6 +6,7 @@ using Domain.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Ocsp;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -207,8 +208,7 @@ namespace Api.Identity.Services
                 if (result.Succeeded)
                 {
                     var userCreate = await _userManager.SetLockoutEnabledAsync(identityUser, false);
-
-                    resposta.CadastroOk();
+                    resposta.CadastroOk("Solicite um master sua credencial.");
                     return resposta;
                 }
 
@@ -228,62 +228,9 @@ namespace Api.Identity.Services
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<UsuarioLoginResponse>> CadastrarUserMaster(UsuarioCadastroRequest usuarioCadastro)
-        {
-            try
-            {
-                var exists = await _userManager.Users.FirstOrDefaultAsync(u => u.Email.Equals(usuarioCadastro.Email));
 
-                if (exists != null)
-                {
-                    return new ResponseDto<UsuarioLoginResponse>().Erro("E-mail já está em uso");
-                }
+    
 
-                User identityUser = new User
-                {
-                    Nome = usuarioCadastro.Nome,
-                    SobreNome = usuarioCadastro.SobreNome,
-                    UserName = usuarioCadastro.Email,
-                    Email = usuarioCadastro.Email,
-                    EmailConfirmed = true,
-                    ImagemURL = string.Empty
-                };
-
-                var result = await _userManager.CreateAsync(identityUser, usuarioCadastro.Senha);
-
-                if (result.Succeeded)
-                {
-                    var userSetLockout = await _userManager.SetLockoutEnabledAsync(identityUser, false);
-
-                   // var userCreate = await _userManager.FindByEmailAsync(identityUser.Email);
-
-                   //// userCreate.FiltroId = userCreate.Id;
-
-                   // var resultUpdate = await _userManager.UpdateAsync(userCreate);
-
-                   // if(resultUpdate.Succeeded)
-                   // {
-                   //     return new ResponseDto<UsuarioLoginResponse>().CadastroOk("Acesso Master Criado com sucesso");
-                   // }
-
-                   // return new ResponseDto<UsuarioLoginResponse>().Erro("Não foi possível realizar cadastro acesso master");
-
-
-                    return new ResponseDto<UsuarioLoginResponse>().CadastroOk("Acesso Master Criado com sucesso");
-                }
-
-                var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
-                if (!result.Succeeded && result.Errors.Count() > 0)
-                    usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
-
-                return new ResponseDto<UsuarioLoginResponse>().Erro(usuarioCadastroResponse.Erros.SingleOrDefault());
-
-            }
-            catch (Exception ex)
-            {
-                return new ResponseDto<UsuarioLoginResponse>().Erro(ex);
-            }
-        }
         public async Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
 
@@ -352,6 +299,6 @@ namespace Api.Identity.Services
             }
         }
 
-
+       
     }
 }

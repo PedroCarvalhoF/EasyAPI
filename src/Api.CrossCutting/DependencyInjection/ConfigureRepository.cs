@@ -71,6 +71,7 @@ using Domain.Interfaces.Services.Pessoas.PessoaEndereco;
 using Domain.Interfaces.Services.PontoVendaUser;
 using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
+using Domain.Interfaces.Services.UserMasterCliente;
 using Domain.Interfaces.Services.ViaCEP;
 using Identity.Interfaces;
 using Identity.Services;
@@ -97,6 +98,7 @@ using Service.Services.PontoVendaUser;
 using Service.Services.Produto;
 using Service.Services.ProdutoMedidaService;
 using Service.Services.ProdutoTipoService;
+using Service.Services.UserMaster;
 using Service.Services.ViaCEP;
 
 
@@ -151,7 +153,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
 
-            
+            serviceCollection.AddTransient<IUserMasterClienteServices, UserMasterClienteServices>();
 
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<IUserRole, UserRoleServices>();
@@ -214,7 +216,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IFuncaoFuncionarioServices, FuncaoFuncionarioServices>();
 
             serviceCollection.AddScoped<ICtpsRepository, CtpsImplementacao>();
-            serviceCollection.AddScoped<ICtpsServices,   CtpsServices>();
+            serviceCollection.AddScoped<ICtpsServices, CtpsServices>();
 
             #endregion
 

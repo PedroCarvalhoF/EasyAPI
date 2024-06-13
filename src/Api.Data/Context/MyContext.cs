@@ -16,6 +16,8 @@ using Data.Mapping.Pessoa.PessoContato;
 using Data.Mapping.PontoVena;
 using Data.Mapping.PontoVendaPeriodo;
 using Data.Mapping.PontoVendaUser;
+using Data.Mapping.UsuarioMaster;
+using Data.Migrations;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
@@ -36,6 +38,9 @@ using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
 using Domain.Entities.TesteEntidade;
 using Domain.Identity.UserIdentity;
+using Domain.UserIdentity.Masters;
+using Domain.UserIdentity.MasterUsers;
+using Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -66,6 +71,10 @@ namespace Api.Data.Context
         public DbSet<PagamentoPedidoEntity>? PagamentosPedidos { get; set; }
         public DbSet<ItemPedidoEntity>? ItensPedidos { get; set; }
         public DbSet<UsuarioPontoVendaEntity>? UsuariosPontoVendas { get; set; }
+
+        public DbSet<global::Domain.UserIdentity.Masters.UserMasterClienteEntity>? UsuariosMasterClientes { get; set; }
+        public DbSet<UserMasterUserEntity>? UsuariosMasterUsers { get; set; }
+
         #endregion
         #region Pessoas
         public DbSet<PessoaEntity>? Pessoas { get; set; }
@@ -86,7 +95,7 @@ namespace Api.Data.Context
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {    
+        {
             modelBuilder.Entity<PessoaEntity>().ToTable("Pessoas");
             modelBuilder.Entity<DadosBancariosEntity>().ToTable("DadosBancarios");
             modelBuilder.Entity<PessoaDadosBancariosEntity>().ToTable("PessoaDadosBancarios");
@@ -95,6 +104,7 @@ namespace Api.Data.Context
             modelBuilder.Entity<ContatoEntity>().ToTable("Contatos");
             modelBuilder.Entity<PessoaContatoEntity>().ToTable("PessoaContatos");
             modelBuilder.Entity<FuncaoFuncionarioEntity>().ToTable("FuncoesFuncionarios");
+
 
             #region Pessoa Dados Bancario
 
@@ -140,6 +150,10 @@ namespace Api.Data.Context
             modelBuilder.Entity<PessoaContatoEntity>(new PessoaContatoMap().Configure);
             modelBuilder.Entity<CategoriaProdutoEntity>(new CategoriaProdutoMap().Configure);
 
+            //manipulando user identities
+            modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
+            modelBuilder.Entity<global::Domain.UserIdentity.Masters.UserMasterClienteEntity>(new UserMasterClienteMap().Configure);
+
 
             modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
             modelBuilder.Entity<ProdutoMedidaEntity>(new ProdutoMedidaMap().Configure);
@@ -152,9 +166,25 @@ namespace Api.Data.Context
             modelBuilder.Entity<SituacaoPedidoEntity>(new SituacaoPedidoMap().Configure);
             modelBuilder.Entity<PedidoEntity>(new PedidoMap().Configure);
             modelBuilder.Entity<PagamentoPedidoEntity>(new PagamentoPedidoMap().Configure);
-            modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
+
             modelBuilder.Entity<FuncaoFuncionarioEntity>(new FuncaoFuncionarioMap().Configure);
             modelBuilder.Entity<CtpsEntity>(new CtpsMap().Configure);
+
+            modelBuilder.Entity<UserMasterUserEntity>(builder =>
+            {
+                builder.HasKey(users => new { users.UserId, users.UserMasterClienteIdentityId });
+
+                builder.HasOne(uMaster => uMaster.UserMasterClienteIdentity)
+                   .WithMany(master => master.UsersMasterUsers)
+                   .HasForeignKey(uMaster => uMaster.UserMasterClienteIdentityId)
+                   .IsRequired();
+
+                builder.HasOne(us => us.User)
+                       .WithMany(users => users.UsersMasters)
+                       .HasForeignKey(us => us.UserId)
+                       .IsRequired();
+
+            });
 
 
             base.OnModelCreating(modelBuilder);
@@ -174,6 +204,8 @@ namespace Api.Data.Context
                     .IsRequired();
             });
 
+
+           
         }
     }
 }

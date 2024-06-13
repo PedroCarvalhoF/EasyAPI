@@ -1,6 +1,7 @@
 using Api.Domain.Interfaces.Services.Identity;
 using Domain.Dtos;
 using Domain.Identity.UserIdentity;
+using Domain.Interfaces.Services.UserMasterCliente;
 using Domain.UserIdentity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,11 @@ namespace Api.Application.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly IUserService _identityService;
-        public AccountsController(IUserService identityService)
+        private readonly IUserMasterClienteServices _userMasterClienteServices;
+        public AccountsController(IUserService identityService, IUserMasterClienteServices userMasterClienteServices)
         {
             _identityService = identityService;
-
+            _userMasterClienteServices = userMasterClienteServices;
         }
 
         [HttpGet("get-user")]
@@ -61,10 +63,9 @@ namespace Api.Application.Controllers
             }
         }
 
-        // cadastro de usuarios baseado no usuario master
-        // id usuario master sera base do filtro do programa 
+
         [AllowAnonymous]
-        [HttpPost("cadastrar")]
+        [HttpPost("cadastrar-cadastrar-user")]
         public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> Cadastrar(UsuarioCadastroRequest usuarioCadastro)
         {
             if (!ModelState.IsValid)
@@ -82,12 +83,15 @@ namespace Api.Application.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("cadastrar-usuario-master-cliente-fisico")]
-        public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> CadastrarUserMaster(UsuarioCadastroRequest usuarioCadastro)
+        [HttpPost("cadastrar-cadastrar-user-master-cliente/")]
+        public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> CadastrarUserMasterCliente([FromBody] Guid userId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             try
             {
-                var result = await _identityService.CadastrarUserMaster(usuarioCadastro);
+                var result = await _userMasterClienteServices.CadastrarUserMasterCliente(userId);
                 return result.Status ? Ok(result) : BadRequest(result);
             }
             catch (Exception ex)
@@ -95,6 +99,23 @@ namespace Api.Application.Controllers
                 return BadRequest(new ResponseDto<List<User>>().Erro(ex));
             }
         }
+
+        [HttpPost("gerar-credencial-usuario/{userCliente}/{userForCrendencial}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ResponseDto<List<UsuarioCadastroResponse>>>> GerarCredencialUsuario(Guid userCliente, Guid userForCrendencial)
+        {
+            try
+            {
+                var createCredencial = await _userMasterClienteServices.GerarCredencialUsuario(userCliente, userForCrendencial);
+                return createCredencial.Status ? Ok(createCredencial) : BadRequest(createCredencial);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ResponseDto<List<User>>().Erro(ex));
+            }
+        }
+
+
 
         [AllowAnonymous]
         [HttpPost("login")]
