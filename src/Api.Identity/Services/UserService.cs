@@ -231,9 +231,6 @@ namespace Api.Identity.Services
                 return resposta.Erro(ex);
             }
         }
-
-
-
         public async Task<ResponseDto<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
 
@@ -260,6 +257,9 @@ namespace Api.Identity.Services
                 //precisa consultar direto no contexto
                 var listaUserMastersUsers = await _userMasterRepository.SelectGenericAsync();
                 var userMaster = listaUserMastersUsers.Where(userM => userM.UserId == user.Id).FirstOrDefault();
+                if (userMaster == null)
+                    return new ResponseDto<UsuarioLoginResponse>().Erro("Credencial nao localizada");
+
 
                 var credenciais = await GerarCredenciais(usuarioLogin.Email, userMaster);
                 resposta.Dados = (credenciais);
@@ -284,7 +284,6 @@ namespace Api.Identity.Services
             resposta.Status = false;
             return resposta;
         }
-
         public async Task<ResponseDto<List<UsuarioCadastroResponse>>> AlterarSenha(UsuarioUpdateSenhaRequest userNewPass)
         {
             try

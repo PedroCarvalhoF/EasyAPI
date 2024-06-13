@@ -6,6 +6,7 @@ using Domain.Interfaces;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Models.FormaPagamentoModels;
+using Domain.UserIdentity.MasterUsers;
 
 namespace Service.Services.FormaPagamento
 {
@@ -21,33 +22,32 @@ namespace Service.Services.FormaPagamento
             _implementacao = implementacao;
             _repository = repository;
         }
-        public async Task<ResponseDto<List<FormaPagamentoDto>>> GetAll()
+        public async Task<RequestResult> GetAll(UserMasterUserEntity user)
         {
-            var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
-                var entities = await _repository.SelectAsync();
+                var entities = await _repository.SelectAsync(user);
                 if (entities == null)
                 {
-                    return resposta.EntitiesNull();
+                    return new RequestResult().BadRequest("Nenhum resultado encontrado");
                 }
 
-                var dtos = _mapper.Map<List<FormaPagamentoDto>>(entities);
-                return resposta.Retorno(dtos);
+                var dtos = _mapper.Map<IEnumerable<FormaPagamentoDto>>(entities);
+                return new RequestResult().Ok(dtos);
             }
             catch (Exception ex)
             {
-                return resposta.Erro(ex);
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<FormaPagamentoDto>>> GetById(Guid id)
+        public async Task<ResponseDto<List<FormaPagamentoDto>>> GetById(Guid id, UserMasterUserEntity user)
         {
             var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
-                var entity = await _repository.SelectAsync(id);
+                var entity = await _repository.SelectAsync(id, user);
                 if (entity == null)
                 {
                     return resposta.EntitiesNull();
@@ -62,7 +62,7 @@ namespace Service.Services.FormaPagamento
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<FormaPagamentoDto>>> GetByDescricao(string descricao)
+        public async Task<ResponseDto<List<FormaPagamentoDto>>> GetByDescricao(string descricao, UserMasterUserEntity user)
         {
             var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
@@ -88,7 +88,7 @@ namespace Service.Services.FormaPagamento
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<FormaPagamentoDto>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
+        public async Task<ResponseDto<List<FormaPagamentoDto>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate, UserMasterUserEntity user)
         {
             var resposta = new ResponseDto<List<FormaPagamentoDto>>();
             try
@@ -96,14 +96,14 @@ namespace Service.Services.FormaPagamento
 
                 var model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoCreate);
                 var entity = _mapper.Map<FormaPagamentoEntity>(model);
-                var resultCreate = await _repository.InsertAsync(entity);
+                var resultCreate = await _repository.InsertAsync(entity, user);
 
                 if (resultCreate == null)
                 {
                     return resposta.EntitiesNull();
                 }
 
-                var respostaCreate = await GetById(resultCreate.Id);
+                var respostaCreate = await GetById(resultCreate.Id, user);
 
                 if (respostaCreate.Status)
                 {
@@ -120,7 +120,7 @@ namespace Service.Services.FormaPagamento
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<FormaPagamentoDto>>> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate)
+        public async Task<ResponseDto<List<FormaPagamentoDto>>> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate, UserMasterUserEntity user)
         {
             var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
@@ -128,14 +128,14 @@ namespace Service.Services.FormaPagamento
             {
                 var model = _mapper.Map<FormaPagamentoModel>(formaPagamentoDtoUpdate);
                 var entity = _mapper.Map<FormaPagamentoEntity>(model);
-                var resultUpdate = await _repository.UpdateAsync(entity);
+                var resultUpdate = await _repository.UpdateAsync(entity, user);
 
                 if (resultUpdate == null)
                 {
                     return resposta.EntitiesNull();
                 }
 
-                var respostaCreate = await GetById(resultUpdate.Id);
+                var respostaCreate = await GetById(resultUpdate.Id, user);
                 if (respostaCreate.Status)
                     return respostaCreate;
                 else
@@ -146,13 +146,13 @@ namespace Service.Services.FormaPagamento
                 return resposta.Erro(ex);
             }
         }
-        public async Task<ResponseDto<List<FormaPagamentoDto>>> DesabilitarHabilitar(Guid id)
+        public async Task<ResponseDto<List<FormaPagamentoDto>>> DesabilitarHabilitar(Guid id, UserMasterUserEntity user)
         {
             var resposta = new ResponseDto<List<FormaPagamentoDto>>();
 
             try
             {
-                bool result = await _repository.DesabilitarHabilitar(id);
+                bool result = await _repository.DesabilitarHabilitar(id, user);
                 if (result)
                     return resposta.AlteracaoOk();
                 else

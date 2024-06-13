@@ -1,4 +1,5 @@
-﻿using Domain.Dtos;
+﻿using Api.Extensions;
+using Domain.Dtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Interfaces.Services.FormaPagamento;
 using Microsoft.AspNetCore.Authorization;
@@ -7,41 +8,28 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("v2/[controller]")]
     [Authorize]
-    public class PedidosFormasPagamentosController : ControllerBase
+    public class FormaPagamentoController : ControllerBase
     {
         private readonly IFormaPagamentoService _service;
 
-        public PedidosFormasPagamentosController(IFormaPagamentoService service)
+        public FormaPagamentoController(IFormaPagamentoService service)
         {
             _service = service;
         }
 
         [HttpGet("forma-pagamento")]
-        public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> GetAll()
-        {
-            try
-            {
-                var respostaService = await _service.GetAll();
-
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
-            }
-
+        public async Task<ActionResult<RequestResult>> GetAll()
+        {            
+                return await _service.GetAll(User.GetUserMasterUser());            
         }
         [HttpGet("forma-pagamento/{id}/id")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> GetById(Guid id)
         {
             try
             {
-                var respostaService = await _service.GetById(id);
+                var respostaService = await _service.GetById(id, User.GetUserMasterUser());
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -58,7 +46,7 @@ namespace Api.Controllers
         {
             try
             {
-                var respostaService = await _service.GetByDescricao(descricao);
+                var respostaService = await _service.GetByDescricao(descricao, User.GetUserMasterUser());
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -80,7 +68,7 @@ namespace Api.Controllers
 
             try
             {
-                var respostaService = await _service.Create(formaPagamentoDtoCreate);
+                var respostaService = await _service.Create(formaPagamentoDtoCreate, User.GetUserMasterUser());
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -101,7 +89,7 @@ namespace Api.Controllers
             }
             try
             {
-                var respostaService = await _service.Update(formaPagamentoDtoUpdate);
+                var respostaService = await _service.Update(formaPagamentoDtoUpdate, User.GetUserMasterUser());
 
                 if (respostaService.Status)
                     return Ok(respostaService);
@@ -113,23 +101,5 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
-        [HttpPut("forma-pagamento/{id}/desabilitar")]
-        public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> DesabilitarHabilitar(Guid id)
-        {
-            try
-            {
-                var respostaService = await _service.DesabilitarHabilitar(id);
-
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
-            }
-        }
-
     }
 }

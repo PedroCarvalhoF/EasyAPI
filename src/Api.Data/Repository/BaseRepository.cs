@@ -24,12 +24,19 @@ namespace Api.Data.Repository
             item.UpdateAt = DateTime.Now;
             item.Habilitado = true;
         }
-
-        public async Task<IEnumerable<T>> SelectAsync(UserMasterUserEntity user)
+        /// <summary>
+        /// Primeira instancia 
+        /// UserMasterUserEntity? user = null)
+        /// até que seja implementado em todos serviços e repositorios
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public async Task<IEnumerable<T>> SelectAsync(UserMasterUserEntity? user = null)
         {
             try
             {
-                return await _dataset.ApplyUserFilter(user).ToArrayAsync();
+                return await _dataset.FiltroUserMasterCliente(user).ToArrayAsync();
             }
             catch (Exception ex)
             {
@@ -37,11 +44,11 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<T> SelectAsync(Guid id, UserMasterUserEntity user)
+        public async Task<T> SelectAsync(Guid id, UserMasterUserEntity? user = null)
         {
             try
             {
-                return await _dataset.ApplyUserFilter(user).SingleOrDefaultAsync(p => p.Id == id);
+                return await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == id);
             }
             catch (Exception ex)
             {
@@ -49,11 +56,11 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<bool> ExistAsync(Guid id, UserMasterUserEntity user)
+        public async Task<bool> ExistAsync(Guid id, UserMasterUserEntity? user = null)
         {
             try
             {
-                return await _dataset.ApplyUserFilter(user).AnyAsync(p => p.Id == id);
+                return await _dataset.FiltroUserMasterCliente(user).AnyAsync(p => p.Id == id);
             }
             catch (Exception ex)
             {
@@ -87,7 +94,7 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<int> InsertArrayAsync(IEnumerable<T> items, UserMasterUserEntity user)
+        public async Task<int> InsertArrayAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
         {
             if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
 
@@ -114,7 +121,7 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items, UserMasterUserEntity user)
+        public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
         {
             if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
 
@@ -145,13 +152,13 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<T> UpdateAsync(T item, UserMasterUserEntity user)
+        public async Task<T> UpdateAsync(T item, UserMasterUserEntity? user = null)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
             try
             {
-                var result = await _dataset.ApplyUserFilter(user).SingleOrDefaultAsync(p => p.Id == item.Id);
+                var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == item.Id);
                 if (result == null) return null;
 
                 item.CreateAt = result.CreateAt;
@@ -167,11 +174,11 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<bool> DesabilitarHabilitar(Guid id, UserMasterUserEntity user)
+        public async Task<bool> DesabilitarHabilitar(Guid id, UserMasterUserEntity? user = null)
         {
             try
             {
-                var result = await _dataset.ApplyUserFilter(user).SingleOrDefaultAsync(p => p.Id == id);
+                var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == id);
                 if (result == null) return false;
 
                 result.UpdateAt = DateTime.Now;
@@ -188,11 +195,11 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<bool> DeleteAsync(Guid id, UserMasterUserEntity user)
+        public async Task<bool> DeleteAsync(Guid id, UserMasterUserEntity? user = null)
         {
             try
             {
-                var result = await _dataset.ApplyUserFilter(user).SingleOrDefaultAsync(p => p.Id == id);
+                var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == id);
                 if (result == null) return false;
 
                 _dataset.Remove(result);
@@ -205,13 +212,13 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<int> DeleteAsync(IEnumerable<Guid> ids, UserMasterUserEntity user)
+        public async Task<int> DeleteAsync(IEnumerable<Guid> ids, UserMasterUserEntity? user = null)
         {
             if (ids == null || !ids.Any()) throw new ArgumentException("A coleção de IDs não pode ser nula ou vazia", nameof(ids));
 
             try
             {
-                var results = _dataset.ApplyUserFilter(user).Where(p => ids.Contains(p.Id));
+                var results = _dataset.FiltroUserMasterCliente(user).Where(p => ids.Contains(p.Id));
                 _dataset.RemoveRange(results);
                 return await _context.SaveChangesAsync();
             }
@@ -221,13 +228,13 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<int> DeleteAsync(IEnumerable<T> items, UserMasterUserEntity user)
+        public async Task<int> DeleteAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
         {
             if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
 
             try
             {
-                var results = _dataset.ApplyUserFilter(user).Where(p => items.Contains(p));
+                var results = _dataset.FiltroUserMasterCliente(user).Where(p => items.Contains(p));
                 _dataset.RemoveRange(results);
                 return await _context.SaveChangesAsync();
             }
