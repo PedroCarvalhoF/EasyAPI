@@ -1,4 +1,5 @@
-﻿using Domain.Identity.UserIdentity;
+﻿using Api.Domain.Entities;
+using Domain.Identity.UserIdentity;
 using Domain.UserIdentity.Masters;
 
 namespace Domain.UserIdentity.MasterUsers
@@ -7,7 +8,6 @@ namespace Domain.UserIdentity.MasterUsers
     {
         public Guid UserMasterClienteIdentityId { get; set; }
         public virtual UserMasterClienteEntity? UserMasterClienteIdentity { get; set; }
-
         public Guid UserId { get; set; }
         public virtual User? User { get; set; }
     }

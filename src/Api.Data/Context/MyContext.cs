@@ -1,5 +1,6 @@
 #region Usings
 using Api.Data.Mapping;
+using Api.Domain.Entities;
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.Pedido;
 using Api.Domain.Entities.PontoVenda;
@@ -87,7 +88,6 @@ namespace Api.Data.Context
         public DbSet<FuncaoFuncionarioEntity>? FuncoesFuncionarios { get; set; }
         public DbSet<CtpsEntity>? Ctpss { get; set; }
         #endregion
-
 
         public DbSet<EntidadeTeste>? EntidadeTestes { get; set; }
         public MyContext(DbContextOptions<MyContext> options) : base(options)
@@ -205,7 +205,7 @@ namespace Api.Data.Context
             });
 
 
-           
+
         }
     }
 }
