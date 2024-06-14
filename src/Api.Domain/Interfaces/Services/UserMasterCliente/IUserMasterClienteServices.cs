@@ -7,5 +7,6 @@ namespace Domain.Interfaces.Services.UserMasterCliente
         Task<RequestResult> CadastrarUserMasterCliente(Guid userId);
         Task<RequestResult> GerarCredencialUsuario(Guid userIdCliente, Guid userForCredential);
         Task<RequestResult> GetUserMastersCliente();
+        Task<RequestResult> GetUsersByMasterCliente(Guid userMasterClienteIdentityId);
     }
 }

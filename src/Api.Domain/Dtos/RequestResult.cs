@@ -1,7 +1,4 @@
-﻿
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Domain.Dtos
+﻿namespace Domain.Dtos
 {
     public class RequestResult
     {

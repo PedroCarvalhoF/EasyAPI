@@ -45,7 +45,6 @@ namespace Service.Services.UserMaster
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
-
         public async Task<RequestResult> GerarCredencialUsuario(Guid userIdCliente, Guid userForCredential)
         {
             try
@@ -68,7 +67,6 @@ namespace Service.Services.UserMaster
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
-
         public async Task<RequestResult> GetUserMastersCliente()
         {
             try
@@ -79,6 +77,25 @@ namespace Service.Services.UserMaster
 
 
                 var dtos = _mapper.Map<IEnumerable<UserMasterClienteDto>>(userMasterClientes);
+
+                return new RequestResult().Ok(dtos);
+            }
+            catch (Exception ex)
+            {
+                return new RequestResult().BadRequest(ex.Message);
+            }
+        }
+
+        public async Task<RequestResult> GetUsersByMasterCliente(Guid userMasterClienteIdentityId)
+        {
+            try
+            {
+                var userMasterClientes = await _UserMasterClienteRepository.GetUsersByMasterCliente(userMasterClienteIdentityId);
+                if (userMasterClientes == null)
+                    return new RequestResult().IsNullOrCountZero();
+
+
+                var dtos = _mapper.Map<UserMasterClienteDto>(userMasterClientes);
 
                 return new RequestResult().Ok(dtos);
             }

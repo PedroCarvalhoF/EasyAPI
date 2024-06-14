@@ -1,4 +1,5 @@
-﻿using Domain.IQueres;
+﻿using Data.Implementations.UserMasterCliente;
+using Domain.Interfaces.Repository.UserMasterCliente;
 using Domain.IQueres.UserMasterCliente;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,8 @@ namespace CrossCutting.DependencyInjection.Extensions
     {
         public static void Configurar(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient(typeof(IQueryBase<>), typeof(UserMasterClienteQuery<>));
+            serviceCollection.AddScoped(typeof(IUserMasterClienteQuery<>), typeof(UserMasterClienteQuery<>));
+            serviceCollection.AddScoped<IUserMasterClienteRepository, UserMasterClienteImplementacao>();
         }
     }
 }
