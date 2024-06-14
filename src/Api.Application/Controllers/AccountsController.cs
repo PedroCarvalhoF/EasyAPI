@@ -8,6 +8,7 @@ using Domain.UserIdentity.Masters;
 using Domain.UserIdentity.MasterUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Service.Services.UserMaster;
 
 namespace Api.Application.Controllers
 {
@@ -23,49 +24,6 @@ namespace Api.Application.Controllers
             _identityService = identityService;
             _userMasterClienteServices = userMasterClienteServices;
         }
-
-        #region  stanty by
-        //[HttpGet("get-user")]
-        //public async Task<ActionResult<ResponseDto<List<User>>>> GetAll()
-        //{
-        //    try
-        //    {
-        //        var result = await _identityService.GetAll();
-        //        return result.Status ? Ok(result) : BadRequest(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ResponseDto<List<User>>().Erro(ex));
-        //    }
-        //}
-        //[HttpGet("get-user/{id}")]
-        //public async Task<ActionResult<ResponseDto<List<User>>>> GetId(Guid id)
-        //{
-        //    try
-        //    {
-        //        var result = await _identityService.GetUserById(id);
-        //        return result.Status ? Ok(result) : BadRequest(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ResponseDto<List<User>>().Erro(ex));
-        //    }
-        //}
-        //[HttpGet("get-user/{idRole}/id-role")]
-        //public async Task<ActionResult<ResponseDto<List<User>>>> GetByIdRole(Guid idRole)
-        //{
-        //    try
-        //    {
-        //        var result = await _identityService.GetByIdRole(idRole);
-        //        return result.Status ? Ok(result) : BadRequest(result);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return BadRequest(new ResponseDto<List<User>>().Erro(ex));
-        //    }
-        //}
-        #endregion
-
 
         [AllowAnonymous]
         [HttpPost("cadastrar-user/")]
@@ -97,7 +55,6 @@ namespace Api.Application.Controllers
                 var result = await _userMasterClienteServices.CadastrarUserMasterCliente(uM.UserMasterClienteIdentityId);
                 if (result.Status)
                 {
-
                     var resultCredencial = await GerarCredencialUsuario(uM);
                     return Ok(resultCredencial);
                 }
@@ -124,7 +81,7 @@ namespace Api.Application.Controllers
                 return BadRequest(new ResponseDto<List<User>>().Erro(ex));
             }
         }
-        
+
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<ResponseDto<UsuarioLoginResponse>>> Login(UsuarioLoginRequest usuarioLogin)
@@ -160,7 +117,6 @@ namespace Api.Application.Controllers
         }
 
         [HttpGet("get-server")]
-
         public async Task<ActionResult> GetServerName([FromServices] IConfiguration configuration)
         {
             var userMaster = User.GetUserMasterUser();
@@ -169,6 +125,12 @@ namespace Api.Application.Controllers
             string? connectionString = configuration.GetConnectionString("DefaultConnection");
             return Ok(connectionString);
 
+        }
+
+        [HttpGet("users-masters-clientes")]
+        public async Task<RequestResult> GetUserMastersCliente()
+        {
+            return await _userMasterClienteServices.GetUserMastersCliente();
         }
     }
 }

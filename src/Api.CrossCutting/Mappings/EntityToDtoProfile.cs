@@ -31,6 +31,7 @@ using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.PontoVendaUser;
 using Domain.Dtos.ProdutoDtos;
 using Domain.Dtos.ProdutoTipo;
+using Domain.Dtos.UsersDtos;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
@@ -49,7 +50,10 @@ using Domain.Entities.PontoVendaPeriodoVenda;
 using Domain.Entities.PontoVendaUser;
 using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
+using Domain.Identity.UserIdentity;
 using Domain.UserIdentity;
+using Domain.UserIdentity.Masters;
+using Domain.UserIdentity.MasterUsers;
 using Microsoft.AspNetCore.Identity;
 
 
@@ -72,7 +76,13 @@ namespace Api.CrossCutting.Mappings
             CreateMap<CtpsEntity, CtpsDto>().ReverseMap();
             #endregion
 
+            #region User
 
+            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserMasterClienteEntity, UserMasterClienteDto>();
+            CreateMap<UserMasterUserEntity, UserMasterUserDto>();
+
+            #endregion
 
             CreateMap<UsuarioPontoVendaDto, UsuarioPontoVendaEntity>().ReverseMap();
             CreateMap<UsuarioPontoVendaDtoCreate, UsuarioPontoVendaEntity>().ReverseMap();

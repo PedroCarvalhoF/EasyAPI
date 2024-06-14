@@ -16,6 +16,7 @@ using Api.Service.Services.CategoriaProduto;
 using Api.Service.Services.Pedido;
 using Api.Service.Services.PontoVendaService;
 using Api.Service.Services.PrecoProduto;
+using CrossCutting.DependencyInjection.Extensions;
 using Data.Implementations;
 using Data.Implementations.FormaPagamento;
 using Data.Implementations.Pedido;
@@ -36,6 +37,7 @@ using Data.Implementations.PrecoProduto;
 using Data.Implementations.Produto;
 using Data.Implementations.Produto.ProdutoMedida;
 using Data.Implementations.Produto.ProdutoTipo;
+using Data.Implementations.UserMasterCliente;
 using Data.Repository;
 using Domain.Identity.UserIdentity;
 using Domain.Interfaces;
@@ -54,6 +56,7 @@ using Domain.Interfaces.Repository.PessoaRepositorys.Pessoa;
 using Domain.Interfaces.Repository.PontoVenda;
 using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Repository.Produto;
+using Domain.Interfaces.Repository.UserMasterCliente;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Interfaces.Services.HGApis;
 using Domain.Interfaces.Services.ItemPedido;
@@ -73,6 +76,8 @@ using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
 using Domain.Interfaces.Services.UserMasterCliente;
 using Domain.Interfaces.Services.ViaCEP;
+using Domain.IQueres;
+using Domain.IQueres.UserMasterCliente;
 using Identity.Interfaces;
 using Identity.Services;
 using Microsoft.AspNetCore.Identity;
@@ -109,59 +114,24 @@ namespace CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            #region Configuracoes Banco           
-
-            MySqlServerVersion serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-            string? connectionString = configuration.GetConnectionString("DefaultConnection");
-
-            if (connectionString == "desenvolvimento")
-            {
-                string? desenvolvimento = "Server=localhost;Port=3306;DataBase=desenvolvimento;Uid=root;password=010203;";
-                serviceCollection.
-                AddDbContext<MyContext>(options =>
-                             options.UseMySql(desenvolvimento, serverVersion));
-
-                serviceCollection.
-                    AddDbContext<IdentityDataContext>(options =>
-                                 options.UseMySql(desenvolvimento, serverVersion));
-            }
-            else
-            if (connectionString == "producao_montana_vale_sul")
-            {
-                string? PRODUCAO_MYSQL_MONTANA_VALE_SUL = "Server=mysql246.umbler.com;Port=41890;DataBase=teste_easy;Uid=admin_teste;password=010203++teste;";
-
-                serviceCollection.
-                AddDbContext<MyContext>(options =>
-                             options.UseMySql(PRODUCAO_MYSQL_MONTANA_VALE_SUL, serverVersion));
-
-                serviceCollection.
-                    AddDbContext<IdentityDataContext>(options =>
-                                 options.UseMySql(PRODUCAO_MYSQL_MONTANA_VALE_SUL, serverVersion));
-            }
-
-
-            serviceCollection.AddIdentityCore<User>()
-           .AddRoles<Role>()
-           .AddRoleManager<RoleManager<Role>>()
-           .AddSignInManager<SignInManager<User>>()
-           .AddRoleValidator<RoleValidator<Role>>()
-           .AddEntityFrameworkStores<IdentityDataContext>()
-           .AddDefaultTokenProviders();
-
-            #endregion
+            ConfiguracaoExternas.Configure(serviceCollection);
+            ConfiguracaoBancoDados.Configurar(serviceCollection, configuration);
+            ConfiguracaoIQuery.Configurar(serviceCollection);
 
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
 
             serviceCollection.AddTransient<IUserMasterClienteServices, UserMasterClienteServices>();
+            serviceCollection.AddTransient<IUserMasterClienteRepository, UserMasterClienteImplementacao>();
+
+
 
             serviceCollection.AddScoped<IUserService, UserService>();
             serviceCollection.AddScoped<IUserRole, UserRoleServices>();
 
             serviceCollection.AddScoped<IPDFRepository, PDFRepository>();
 
-            serviceCollection.AddScoped<IViaCepService, ViaCEPServices>();
-            serviceCollection.AddScoped<ITaxasCDISelicService, TaxasCDISelicService>();
+           
 
             serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
             serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
@@ -223,5 +193,7 @@ namespace CrossCutting.DependencyInjection
 
 
         }
+
+
     }
 }
