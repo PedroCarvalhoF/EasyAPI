@@ -3,10 +3,13 @@ using System.Net;
 
 namespace Domain.Dtos
 {
-    public class ParseRequestResult : Controller
+    public class ReturnActionResult : Controller
     {
-        public ActionResult ParseToActionResult(RequestResult request)
+        public ActionResult ParseToActionResult(RequestResult request, DtoUserClaims dtoUserClaims)
         {
+
+            request.SetUsersDetails(dtoUserClaims);
+
             switch (request.StatusCode)
             {
                 case (int)HttpStatusCode.OK:

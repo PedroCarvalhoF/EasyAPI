@@ -2,6 +2,7 @@
 using Api.Domain.Entities;
 using Data.Query;
 using Domain.Interfaces;
+using Domain.UserIdentity.Masters;
 using Domain.UserIdentity.MasterUsers;
 using iTextSharp.text;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +20,8 @@ namespace Api.Data.Repository
             _dataset = _context.Set<T>();
         }
 
-
-        /// <summary>
-        /// Primeira instancia 
-        /// UserMasterUserEntity? user = null)
-        /// até que seja implementado em todos serviços e repositorios
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public async Task<IEnumerable<T>> SelectAsync(UserMasterUserEntity? user = null)
+        
+        public async Task<IEnumerable<T>> SelectAsync(UserMasterUserDtoCreate? user = null)
         {
             try
             {
@@ -40,7 +33,7 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<T> SelectAsync(Guid id, UserMasterUserEntity? user = null)
+        public async Task<T> SelectAsync(Guid id, UserMasterUserDtoCreate? user = null)
         {
             try
             {
@@ -52,7 +45,7 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<bool> ExistAsync(Guid id, UserMasterUserEntity? user = null)
+        public async Task<bool> ExistAsync(Guid id, UserMasterUserDtoCreate? user = null)
         {
             try
             {
@@ -64,15 +57,12 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<T> InsertAsync(T item, UserMasterUserEntity user)
+        public async Task<T> InsertAsync(T item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
             try
             {
-                item.SetId(Guid.NewGuid());
-                item.SetUserDetails(user.UserMasterClienteIdentityId, user.UserId);
-                item.Habilitar();
                 _dataset.Add(item);
                 await _context.SaveChangesAsync();
 
@@ -89,19 +79,14 @@ namespace Api.Data.Repository
         }
 
 
-        public async Task<int> InsertArrayAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
+        public async Task<int> InsertArrayAsync(IEnumerable<T> bases, UserMasterUserDtoCreate? user = null)
         {
-            if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
+            if (bases == null || !bases.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(bases));
 
             try
             {
-                foreach (var item in items)
-                {
-                    item.SetId(Guid.NewGuid());
-                    item.SetUserDetails(user.UserMasterClienteIdentityId, user.UserId);
-                }
 
-                _dataset.AddRange(items);
+                _dataset.AddRange(bases);
                 return await _context.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
@@ -114,18 +99,13 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
+        public async Task<IEnumerable<T>> InsertAsync(IEnumerable<T> items, UserMasterUserDtoCreate? user = null)
         {
             if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
 
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                foreach (var item in items)
-                {
-                    item.SetId(Guid.NewGuid());
-                    item.SetUserDetails(user.UserMasterClienteIdentityId, user.UserId);
-                }
 
                 await _dataset.AddRangeAsync(items);
                 await _context.SaveChangesAsync();
@@ -140,7 +120,7 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<T> UpdateAsync(T item, UserMasterUserEntity? user = null)
+        public async Task<T> UpdateAsync(T item, UserMasterUserDtoCreate? user = null)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
@@ -148,6 +128,7 @@ namespace Api.Data.Repository
             {
                 var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == item.Id);
                 if (result == null) return null;
+                item.AtulizarData(result.CreateAt);
 
                 _context.Entry(result).CurrentValues.SetValues(item);
                 await _context.SaveChangesAsync();
@@ -160,27 +141,29 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<bool> DesabilitarHabilitar(Guid id, UserMasterUserEntity? user = null)
+        public async Task<bool> DesabilitarHabilitar(Guid id, UserMasterUserDtoCreate? user = null)
         {
-            try
-            {
-                var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == id);
-                if (result == null) return false;
+            return false;
 
-                result.Desabilitar();
+            //try
+            //{
+            //    var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == id);
+            //    if (result == null) return false;
 
-                _context.Update(result);
-                await _context.SaveChangesAsync();
+            //    result.Desabilitar();
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            //    _context.Update(result);
+            //    await _context.SaveChangesAsync();
+
+            //    return true;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception(ex.Message);
+            //}
         }
 
-        public async Task<bool> DeleteAsync(Guid id, UserMasterUserEntity? user = null)
+        public async Task<bool> DeleteAsync(Guid id, UserMasterUserDtoCreate? user = null)
         {
             try
             {
@@ -197,23 +180,25 @@ namespace Api.Data.Repository
             }
         }
 
-        public async Task<int> DeleteAsync(IEnumerable<Guid> ids, UserMasterUserEntity? user = null)
+        public async Task<int> DeleteAsync(IEnumerable<Guid> ids, UserMasterUserDtoCreate? user = null)
         {
-            if (ids == null || !ids.Any()) throw new ArgumentException("A coleção de IDs não pode ser nula ou vazia", nameof(ids));
+            return 0;
 
-            try
-            {
-                var results = _dataset.FiltroUserMasterCliente(user).Where(p => ids.Contains(p.Id));
-                _dataset.RemoveRange(results);
-                return await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao deletar coleção de itens por IDs: " + ex.Message);
-            }
+            //if (ids == null || !ids.Any()) throw new ArgumentException("A coleção de IDs não pode ser nula ou vazia", nameof(ids));
+
+            //try
+            //{
+            //    var results = _dataset.FiltroUserMasterCliente(user).Where(p => ids.Contains(p.Id));
+            //    _dataset.RemoveRange(results);
+            //    return await _context.SaveChangesAsync();
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("Erro ao deletar coleção de itens por IDs: " + ex.Message);
+            //}
         }
 
-        public async Task<int> DeleteAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
+        public async Task<int> DeleteAsync(IEnumerable<T> items, UserMasterUserDtoCreate? user = null)
         {
             if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
 

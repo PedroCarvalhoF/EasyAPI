@@ -1,9 +1,8 @@
-﻿using Api.Domain.Dtos;
-
-namespace Domain.Dtos.FormaPagamentoDtos
+﻿namespace Domain.Dtos.FormaPagamentoDtos
 {
-    public class FormaPagamentoDto : BaseDto
+    public class FormaPagamentoDto
     {
+        public Guid Id { get; set; }     
         public string? DescricaoFormaPg { get; set; }
     }
 }

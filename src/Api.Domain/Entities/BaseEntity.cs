@@ -1,3 +1,5 @@
+using Domain.UserIdentity.Masters;
+
 namespace Api.Domain.Entities
 {
     public abstract class BaseEntity
@@ -8,66 +10,46 @@ namespace Api.Domain.Entities
         public bool Habilitado { get; protected set; }
         public Guid? UserMasterClienteIdentityId { get; protected set; }
         public Guid? UserId { get; protected set; }
+        public bool isBaseValida => ValidarBase();
+
+        private bool ValidarBase()
+        {
+            return Id != Guid.Empty || UserId != Guid.Empty || UserMasterClienteIdentityId != Guid.Empty;
+        }
 
         protected BaseEntity() { }
 
-        protected BaseEntity(Guid? userMasterClienteIdentityId, Guid? userId)
+        //create
+        protected BaseEntity(UserMasterUserDtoCreate users)
         {
-            if (!userMasterClienteIdentityId.HasValue)
-                throw new ArgumentException("UserMasterClienteIdentityId não pode ser nulo.");
-            if (!userId.HasValue)
-                throw new ArgumentException("UserId não pode ser nulo.");
+            if (users.UserMasterClienteIdentityId == Guid.Empty || users.UserId == Guid.Empty)
+                throw new ArgumentException("Informe user master");
 
             Id = Guid.NewGuid();
             CreateAt = DateTime.UtcNow;
+            UpdateAt = null;
             Habilitado = true;
-            UserMasterClienteIdentityId = userMasterClienteIdentityId;
-            UserId = userId;
+            UserMasterClienteIdentityId = users.UserMasterClienteIdentityId;
+            UserId = users.UserId;
+
         }
 
-        public void SetUserDetails(Guid? userMasterClienteIdentityId, Guid? userId)
+        //update
+        protected BaseEntity(Guid idBase, bool habilitado, UserMasterUserDtoCreate users)
         {
-            if (!userMasterClienteIdentityId.HasValue)
-                throw new ArgumentException("UserMasterClienteIdentityId não pode ser nulo.");
-            if (!userId.HasValue)
-                throw new ArgumentException("UserId não pode ser nulo.");
+            if (users.UserMasterClienteIdentityId == Guid.Empty || users.UserId == Guid.Empty)
+                throw new ArgumentException("Informe user master");
 
-            UserMasterClienteIdentityId = userMasterClienteIdentityId;
-            UserId = userId;
+            Id = idBase;
+            UpdateAt = DateTime.Now;
+            Habilitado = habilitado;
+            UserMasterClienteIdentityId = users.UserMasterClienteIdentityId;
+            UserId = users.UserId;
         }
 
-        public void SetId(Guid id)
+        public void AtulizarData(DateTime? dataParaAtualizar)
         {
-            Id = id;
-        }
-
-        protected void UpdateTimestamp()
-        {
-            UpdateAt = DateTime.UtcNow;
-        }
-
-        public void Habilitar()
-        {
-            Habilitado = true;
-            UpdateTimestamp();
-        }
-
-        public void Desabilitar()
-        {
-            Habilitado = false;
-            UpdateTimestamp();
-        }
-
-        public void ChangeUser(Guid? userMasterClienteIdentityId, Guid? userId)
-        {
-            if (!userMasterClienteIdentityId.HasValue)
-                throw new ArgumentException("UserMasterClienteIdentityId não pode ser nulo.");
-            if (!userId.HasValue)
-                throw new ArgumentException("UserId não pode ser nulo.");
-
-            UserMasterClienteIdentityId = userMasterClienteIdentityId;
-            UserId = userId;
-            UpdateTimestamp();
+            CreateAt = dataParaAtualizar;
         }
     }
 }

@@ -1,16 +1,13 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.FormaPagamentoDtos;
-using Domain.UserIdentity.MasterUsers;
+using Domain.UserIdentity.Masters;
 
 namespace Domain.Interfaces.Services.FormaPagamento
 {
     public interface IFormaPagamentoService
     {
-        Task<RequestResult> GetAll(UserMasterUserEntity user);
-        Task<ResponseDto<List<FormaPagamentoDto>>> GetById(Guid id, UserMasterUserEntity user);
-        Task<ResponseDto<List<FormaPagamentoDto>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate, UserMasterUserEntity user);
-        Task<ResponseDto<List<FormaPagamentoDto>>> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate, UserMasterUserEntity user);
-        Task<ResponseDto<List<FormaPagamentoDto>>> DesabilitarHabilitar(Guid id, UserMasterUserEntity user);
-        Task<ResponseDto<List<FormaPagamentoDto>>> GetByDescricao(string descricao, UserMasterUserEntity user);
+        Task<RequestResult> GetAll(UserMasterUserDtoCreate user);
+        Task<RequestResult> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate, UserMasterUserDtoCreate user);
+        Task<RequestResult> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate, UserMasterUserDtoCreate user);
     }
 }

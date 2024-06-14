@@ -20,71 +20,31 @@ namespace Api.Controllers
         }
 
         [HttpGet("forma-pagamento")]
-        public async Task<ActionResult<RequestResult>> GetAll()
+        public async Task<ActionResult> GetAll()
         {
-            return await _service.GetAll(User.GetUserMasterUser());
+            return new ReturnActionResult().ParseToActionResult(await _service.GetAll(User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
 
-        [HttpGet("forma-pagamento/{id}")]
-        public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> GetById(Guid id)
-        {
-            try
-            {
-                var respostaService = await _service.GetById(id, User.GetUserMasterUser());
-
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
-            }
-        }
-       
         [HttpPost("forma-pagamento/create")]
-        public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
+        public async Task<ActionResult> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                var respostaService = await _service.Create(formaPagamentoDtoCreate, User.GetUserMasterUser());
+            return new ReturnActionResult().ParseToActionResult(await _service.Create(formaPagamentoDtoCreate, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
 
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
-            }
+
         }
         [HttpPut("forma-pagamento/update")]
-        public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate)
+        public async Task<ActionResult> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            try
-            {
-                var respostaService = await _service.Update(formaPagamentoDtoUpdate, User.GetUserMasterUser());
-
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
-            }
+            return new ReturnActionResult().ParseToActionResult(await _service.Update(formaPagamentoDtoUpdate, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
     }
 }

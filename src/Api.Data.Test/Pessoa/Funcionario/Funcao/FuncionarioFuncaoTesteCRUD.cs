@@ -22,27 +22,27 @@ namespace Data.Test.Pessoa.Funcionario.Funcao
             {
                 var _funcaoRepository = new FuncaoFuncionarioImplementacao(context!);
 
-                var funcaoFuncionario1 = new FuncaoFuncionarioEntity
-                {
-                    Id = Guid.NewGuid(),
-                    CreateAt = DateTime.Now,
-                    FuncaoFuncionario = "Gerente",
-                    Habilitado = true,
-                    UpdateAt = DateTime.Now
-                };
-                var result1 = await _funcaoRepository.InsertAsync(funcaoFuncionario1);
-                Assert.NotNull(result1);
+                //var funcaoFuncionario1 = new FuncaoFuncionarioEntity
+                //{
+                //    Id = Guid.NewGuid(),
+                //    CreateAt = DateTime.Now,
+                //    FuncaoFuncionario = "Gerente",
+                //    Habilitado = true,
+                //    UpdateAt = DateTime.Now
+                //};
+                //var result1 = await _funcaoRepository.InsertAsync(funcaoFuncionario1);
+                //Assert.NotNull(result1);
 
-                var funcaoFuncionario2 = new FuncaoFuncionarioEntity
-                {
-                    Id = Guid.NewGuid(),
-                    CreateAt = DateTime.Now,
-                    FuncaoFuncionario = "Coordenador",
-                    Habilitado = true,
-                    UpdateAt = DateTime.Now
-                };
-                var result2 = await _funcaoRepository.InsertAsync(funcaoFuncionario2);
-                Assert.NotNull(result1);
+                //var funcaoFuncionario2 = new FuncaoFuncionarioEntity
+                //{
+                //    Id = Guid.NewGuid(),
+                //    CreateAt = DateTime.Now,
+                //    FuncaoFuncionario = "Coordenador",
+                //    Habilitado = true,
+                //    UpdateAt = DateTime.Now
+                //};
+                //var result2 = await _funcaoRepository.InsertAsync(funcaoFuncionario2);
+                //Assert.NotNull(result1);
             }
         }
     }

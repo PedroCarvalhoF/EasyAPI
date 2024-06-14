@@ -130,14 +130,14 @@ namespace Api.Application.Controllers
         [HttpGet("users-masters-clientes")]
         public async Task<ActionResult> GetUserMastersCliente()
         {
-            return new ParseRequestResult().ParseToActionResult(await _userMasterClienteServices.GetUserMastersCliente());
+            return new ReturnActionResult().ParseToActionResult(await _userMasterClienteServices.GetUserMastersCliente(),User.GetUserMasterUserDatalhes());
         }
 
         [HttpGet("users-by-master-cliente")]
         public async Task<ActionResult> GetUsersByMasterCliente()
         {
             var userMaster = User.GetUserMasterUser();
-            return new ParseRequestResult().ParseToActionResult(await _userMasterClienteServices.GetUsersByMasterCliente(userMaster.UserMasterClienteIdentityId));
+            return new ReturnActionResult().ParseToActionResult(await _userMasterClienteServices.GetUsersByMasterCliente(userMaster.UserMasterClienteIdentityId), User.GetUserMasterUserDatalhes());
         }
     }
 }

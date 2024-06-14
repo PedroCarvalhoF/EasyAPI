@@ -1,38 +1,31 @@
 ﻿using Api.Domain.Entities;
+using Domain.Dtos.FormaPagamentoDtos;
+using Domain.UserIdentity.Masters;
 
 namespace Domain.Entities.FormaPagamento
 {
     public class FormaPagamentoEntity : BaseEntity
     {
-        public string DescricaoFormaPg { get; private set; }
-
+        public string DescricaoFormaPg { get; private set; }      
         public FormaPagamentoEntity() { }
 
-        public FormaPagamentoEntity(string descricaoFormaPg, Guid? userMasterClienteIdentityId, Guid? userId) : base(userMasterClienteIdentityId, userId)
+        //cadastrar
+        public FormaPagamentoEntity(FormaPagamentoDtoCreate create, UserMasterUserDtoCreate users) : base(users)
         {
-            if (string.IsNullOrWhiteSpace(descricaoFormaPg))
+            if (string.IsNullOrWhiteSpace(create.DescricaoFormaPg))
                 throw new ArgumentException("Descrição da forma de pagamento não pode ser vazia.");
 
-            DescricaoFormaPg = descricaoFormaPg;
+            DescricaoFormaPg = create.DescricaoFormaPg!;
         }
 
-        public void AtualizarDescricao(string novaDescricao)
+        //update
+        public FormaPagamentoEntity(FormaPagamentoDtoUpdate update, UserMasterUserDtoCreate users) : base(update.Id, update.Habilitado, users)
         {
-            if (string.IsNullOrWhiteSpace(novaDescricao))
-                throw new ArgumentException("Nova descrição não pode ser vazia.");
+            if (string.IsNullOrWhiteSpace(update.DescricaoFormaPg))
+                throw new ArgumentException("Descrição da forma de pagamento não pode ser vazia.");
 
-            DescricaoFormaPg = novaDescricao;
-            UpdateTimestamp();
+            DescricaoFormaPg = update.DescricaoFormaPg;
         }
 
-        public void DesabilitarFormaPagamento()
-        {
-            Desabilitar();
-        }
-
-        public void HabilitarFormaPagamento()
-        {
-            Habilitar();
-        }
     }
 }

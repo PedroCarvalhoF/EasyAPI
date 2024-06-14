@@ -1,7 +1,9 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
+using Data.Query;
 using Domain.Entities.FormaPagamento;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
+using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Implementations.FormaPagamento
@@ -15,14 +17,17 @@ namespace Data.Implementations.FormaPagamento
             _dataset.AsNoTracking();
         }
 
-        public async Task<IEnumerable<FormaPagamentoEntity>> GetByDescricao(string descricao)
+        public async Task<IEnumerable<FormaPagamentoEntity>> GetAll(UserMasterUserDtoCreate user)
         {
             IQueryable<FormaPagamentoEntity> query = _dataset.AsNoTracking();
 
-            query = query.Where(forma => forma.DescricaoFormaPg.ToLower().Contains(descricao));
+            query = query.FiltroUserMasterCliente(user);
 
-            FormaPagamentoEntity[] result = await query.ToArrayAsync();
-            return result;
+            query = query.OrderBy(f => f.DescricaoFormaPg);
+
+            var entities = await query.ToArrayAsync();
+
+            return entities;
         }
     }
 }
