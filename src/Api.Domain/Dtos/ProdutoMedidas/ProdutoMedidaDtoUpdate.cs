@@ -12,5 +12,6 @@ namespace Api.Domain.Dtos.ProdutoMedidaDtos
         [DisplayName("Descrição")]
         [Required(ErrorMessage = "Informe a {0}")]
         public string? Descricao { get; set; }
+        public bool Habilitado { get; set; }
     }
 }
