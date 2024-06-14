@@ -19,13 +19,13 @@ namespace Api.Controllers
             _service = service;
         }
 
-        [HttpGet("forma-pagamento")]
+        [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             return new ReturnActionResult().ParseToActionResult(await _service.GetAll(User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
 
-        [HttpPost("forma-pagamento/create")]
+        [HttpPost]
         public async Task<ActionResult> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
         {
             if (!ModelState.IsValid)
@@ -37,7 +37,7 @@ namespace Api.Controllers
 
 
         }
-        [HttpPut("forma-pagamento/update")]
+        [HttpPut]
         public async Task<ActionResult> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate)
         {
             if (!ModelState.IsValid)

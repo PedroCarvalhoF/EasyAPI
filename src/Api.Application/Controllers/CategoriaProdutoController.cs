@@ -18,22 +18,22 @@ namespace Api.Application.Controllers
         {
             _service = categoriaProdutoService;
         }
-        [HttpGet("categorias/")]
+        [HttpGet]
         public async Task<ActionResult> Get()
         {
             return new ReturnActionResult().ParseToActionResult(await _service.GetAll(User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
-        [HttpGet("categorias/{categoriaId}/categoriaId")]
+        [HttpGet("{categoriaId}")]
         public async Task<ActionResult> GetByIdCategoria(Guid categoriaId)
         {
             return new ReturnActionResult().ParseToActionResult(await _service.GetByIdCategoria(categoriaId, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
-        [HttpPost("categorias/")]
+        [HttpPost]
         public async Task<ActionResult> Create(CategoriaProdutoDtoCreate create)
         {
             return new ReturnActionResult().ParseToActionResult(await _service.Create(create, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
-        [HttpPut("categorias/")]
+        [HttpPut]
         public async Task<ActionResult> Update(CategoriaProdutoDtoUpdate update)
         {
             return new ReturnActionResult().ParseToActionResult(await _service.Update(update, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
