@@ -1,7 +1,9 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
+using Data.Query;
 using Domain.Entities.CategoriaProduto;
 using Domain.Interfaces.Repository;
+using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Implementations
@@ -14,51 +16,51 @@ namespace Data.Implementations
         {
             _dataset = context.Set<CategoriaProdutoEntity>();
         }
-        private IQueryable<CategoriaProdutoEntity> FiltroOrderBy(IQueryable<CategoriaProdutoEntity> query)
-        {
-            query = query.OrderBy(t => t.DescricaoCategoria);
 
-            return query;
-        }
-
-        public async Task<IEnumerable<CategoriaProdutoEntity>> GetAll()
+        public async Task<IEnumerable<CategoriaProdutoEntity>> GetAll(UserMasterUserDtoCreate user)
         {
             try
             {
                 IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
 
-
                 query = FiltroOrderBy(query);
 
-                var entities = await query.ToListAsync();
+                query = query.FiltroUserMasterCliente(user);
+
+                var entities = await query.ToArrayAsync();
 
                 return entities;
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
 
-        public async Task<CategoriaProdutoEntity> GetIdCategoriaProduto(Guid id)
+        public async Task<CategoriaProdutoEntity> GetByIdCategoria(Guid idCategoria, UserMasterUserDtoCreate user)
         {
             try
             {
                 IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
-                query = FiltroOrderBy(query);
 
-                var entity = await query.SingleOrDefaultAsync();
+                query = query.FiltroUserMasterCliente(user);
 
-                return entity;
+                query = query.Where(cat => cat.Id == idCategoria);
+
+                var entities = await query.SingleOrDefaultAsync();
+
+                return entities;
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }
 
-
+        private IQueryable<CategoriaProdutoEntity> FiltroOrderBy(IQueryable<CategoriaProdutoEntity> query)
+        {
+            query = query.OrderBy(t => t.DescricaoCategoria);
+            return query;
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace Domain.Dtos
+﻿
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Domain.Dtos
 {
     public class RequestResult
     {
@@ -23,11 +26,11 @@
             return this;
         }
 
-        public RequestResult BadRequest(string detail, object? data = null)
+        public RequestResult BadRequest(string detalhes, object? data = null)
         {
             this.Status = false;
             this.StatusCode = 400;
-            this.Message = $"Falha ao realizar a requisição. Detalhes: {detail}";
+            this.Message = $"Falha ao realizar a requisição. Detalhes: {detalhes}";
             if (data == null)
                 this.Data = new List<string>();
             else
@@ -46,6 +49,18 @@
         public void SetUsersDetails(DtoUserClaims dto)
         {
             this.DtoUserClaims = new DtoUserClaims(dto.UserMasterId, dto.UserId, dto.UserName);
+        }
+
+        public RequestResult EntidadeInvalida(object? data = null)
+        {
+            this.Status = false;
+            this.StatusCode = 400;
+            this.Message = $"Falha ao realizar a requisição. Detalhes: Entidade não foi validada.";
+            if (data == null)
+                this.Data = new List<string>();
+            else
+                this.Data = data;
+            return this;
         }
     }
 }

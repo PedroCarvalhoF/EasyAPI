@@ -72,7 +72,7 @@ namespace Service.Services.FormaPagamento
                 if (!entity.isBaseValida)
                     return new RequestResult().BadRequest("Não foi possível realizar Update.");
 
-                var resultUpdate = await _repository.UpdateAsync(entity, user);
+                var resultUpdate = await _repository.UpdateAsync(entity);
 
 
                 if (resultUpdate == null)

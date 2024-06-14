@@ -1,110 +1,92 @@
 using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
-using Api.Domain.Models.CategoriaProdutoModels;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Entities.CategoriaProduto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.UserIdentity.Masters;
 
 namespace Api.Service.Services.CategoriaProduto
 {
     public class CategoriaProdutoService : ICategoriaProdutoService
     {
-        private readonly IBaseRepository<CategoriaProdutoEntity> _repository;
-        private readonly IMapper _mapper;
-        private readonly ICategoriaProdutoRepository _implementacao;
-        public CategoriaProdutoService(IBaseRepository<CategoriaProdutoEntity> repository, IMapper mapper, ICategoriaProdutoRepository implementacao)
+        private readonly ICategoriaProdutoRepository? _implementacao;
+        private readonly IMapper? _mapper;
+        private readonly IBaseRepository<CategoriaProdutoEntity> _repositoryBase;
+        public CategoriaProdutoService(ICategoriaProdutoRepository? implementacao, IMapper? mapper, IBaseRepository<CategoriaProdutoEntity> repositoryBase)
         {
-            _repository = repository;
-            _mapper = mapper;
             _implementacao = implementacao;
+            _mapper = mapper;
+            _repositoryBase = repositoryBase;
         }
-
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> GetAll()
+        public async Task<RequestResult> GetAll(UserMasterUserDtoCreate users)
         {
             try
             {
-                var entities = await _implementacao.GetAll();
+                var entities = await _implementacao.GetAll(users);
                 if (entities == null || entities.Count() == 0)
-                {
-                    return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
-                }
+                    return new RequestResult().IsNullOrCountZero();
 
-                var dtos = _mapper.Map<List<CategoriaProdutoDto>>(entities);
-                dtos = dtos.OrderBy(cat => cat.DescricaoCategoria).ToList();
-                return new ResponseDto<List<CategoriaProdutoDto>>().Retorno(dtos);
+                return new RequestResult().Ok(_mapper!.Map<IEnumerable<CategoriaProdutoDto>>(entities));
             }
             catch (Exception ex)
             {
-                return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> GetIdCategoriaProduto(Guid id )
+        public async Task<RequestResult> GetByIdCategoria(Guid id, UserMasterUserDtoCreate users)
         {
             try
             {
-                var entity = await _implementacao.GetIdCategoriaProduto(id);
-                if (entity == null)
-                {
-                    return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
-                }
-                var dto = _mapper.Map<CategoriaProdutoDto>(entity);
-                return new ResponseDto<List<CategoriaProdutoDto>>().Retorno(new List<CategoriaProdutoDto>() { dto });
+                var entities = await _implementacao!.GetByIdCategoria(id, users);
+                if (entities == null)
+                    return new RequestResult().IsNullOrCountZero();
+
+                return new RequestResult().Ok(_mapper!.Map<CategoriaProdutoDto>(entities));
             }
             catch (Exception ex)
             {
-                return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> Create(CategoriaProdutoDtoCreate create )
+        public async Task<RequestResult> Create(CategoriaProdutoDtoCreate create, UserMasterUserDtoCreate users)
         {
             try
             {
-                var model = _mapper.Map<CategoriaProdutoModel>(create);
-                var entity = _mapper.Map<CategoriaProdutoEntity>(model);
-                var result = await _repository.InsertAsync(entity);
+                var entity = new CategoriaProdutoEntity(create, users);
+                if (!entity.Validada)
+                    return new RequestResult().EntidadeInvalida();
 
-                if (result == null)
-                {
-                    return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
-                }
+                var entityResult = await _repositoryBase.InsertAsync(entity);
 
-                var dto = _mapper.Map<CategoriaProdutoDto>(result);
-                return new ResponseDto<List<CategoriaProdutoDto>>().Retorno(new List<CategoriaProdutoDto>() { dto });
+                return new RequestResult().Ok(_mapper.Map<CategoriaProdutoDto>(entityResult));
             }
             catch (Exception ex)
             {
-                return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<CategoriaProdutoDto>>> Update(CategoriaProdutoDtoUpdate categoriaProdutoDtoUpdate )
+        public async Task<RequestResult> Update(CategoriaProdutoDtoUpdate update, UserMasterUserDtoCreate users)
         {
             try
             {
-                var model = _mapper.Map<CategoriaProdutoModel>(categoriaProdutoDtoUpdate);
-                var entity = _mapper.Map<CategoriaProdutoEntity>(model);
-                var result = await _repository.UpdateAsync(entity);
+                var entity = new CategoriaProdutoEntity(update, users);
+                if (!entity.Validada)
+                    return new RequestResult().EntidadeInvalida();
 
-                if (result == null)
-                {
-                    return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
-                }
+                var entityResult = await _repositoryBase.UpdateAsync(entity);
 
-                var resultCreate = await _implementacao.GetIdCategoriaProduto(result.Id);
-
-                if (resultCreate == null)
-                {
-                    return new ResponseDto<List<CategoriaProdutoDto>>().EntitiesNull();
-                }
-
-                return new ResponseDto<List<CategoriaProdutoDto>>().Retorno(new List<CategoriaProdutoDto>() { _mapper.Map<CategoriaProdutoDto>(resultCreate) });
+                return new RequestResult().Ok(_mapper.Map<CategoriaProdutoDto>(entityResult));
             }
             catch (Exception ex)
             {
-                return new ResponseDto<List<CategoriaProdutoDto>>().Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
     }

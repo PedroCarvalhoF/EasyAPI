@@ -14,7 +14,6 @@ namespace Api.Data.Mapping
             builder.Property(cat => cat.DescricaoCategoria)
                    .HasMaxLength(80)
                    .IsRequired();
-
             builder.Property(cat => cat.Habilitado).IsRequired();
         }
     }
