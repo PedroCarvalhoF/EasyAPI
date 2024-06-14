@@ -14,25 +14,14 @@ namespace Data.Mapping.PedidoFormaPagamento
             builder.HasKey(fpg => fpg.Id);
 
             //DescricaoFormaPg
-            builder.HasIndex(fpg => fpg.DescricaoFormaPg)
-                   .IsUnique();
+            builder.HasIndex(fpg => fpg.DescricaoFormaPg);
+                  
             builder.Property(fpg => fpg.DescricaoFormaPg)
                    .HasMaxLength(80)
                    .IsRequired();
 
             builder.Property(fpg => fpg.Habilitado)
                    .IsRequired();
-
-            builder.HasData(new FormaPagamentoEntity
-            {
-                CreateAt = DateTime.Now,
-                DescricaoFormaPg = "Dinheiro",
-                Habilitado = true,
-                Id = Guid.Parse("92008957-f185-4563-9d9e-7b71f4ea2691"),
-                UpdateAt = DateTime.Now
-            });
-
-
         }
     }
 }

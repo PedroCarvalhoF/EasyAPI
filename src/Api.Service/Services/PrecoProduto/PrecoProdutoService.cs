@@ -99,47 +99,49 @@ namespace Api.Service.Services.PrecoProduto
 
         public async Task<ResponseDto<List<PrecoProdutoDto>>> CreateUpdate(PrecoProdutoDtoCreate createUpdate)
         {
-            var response = new ResponseDto<List<PrecoProdutoDto>>();
-            response.Dados = new List<PrecoProdutoDto>();
+            return new ResponseDto<List<PrecoProdutoDto>>().ErroCadastro();
 
-            try
-            {
-                var model = _mapper.Map<PrecoProdutoModel>(createUpdate);
-                var entidade = _mapper.Map<PrecoProdutoEntity>(model);
-                var precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
+            //var response = new ResponseDto<List<PrecoProdutoDto>>();
+            //response.Dados = new List<PrecoProdutoDto>();
 
-                if (precoExists is null)
-                {
-                    //cadastrar                    
-                    var result = await _repository.InsertAsync(entidade);
-                    var responseCreateResult = await Get(result.Id);
-                    if (responseCreateResult.Status)
-                    {
-                        responseCreateResult.Mensagem = "Preço cadastrado com sucesso!";
-                    }
+            //try
+            //{
+            //    var model = _mapper.Map<PrecoProdutoModel>(createUpdate);
+            //    var entidade = _mapper.Map<PrecoProdutoEntity>(model);
+            //    var precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
 
-                    return responseCreateResult;
-                }
-                else
-                {
-                    //alterar
-                    entidade.Id = precoExists.Id;
-                    entidade.Habilitado = true;
-                    var result = await _repository.UpdateAsync(entidade);
-                    var responseUpdateResult = await Get(result.Id);
-                    if (responseUpdateResult.Status)
-                    {
-                        responseUpdateResult.Mensagem = "Preço alterado com sucesso!";
-                    }
+            //    if (precoExists is null)
+            //    {
+            //        //cadastrar                    
+            //        var result = await _repository.InsertAsync(entidade);
+            //        var responseCreateResult = await Get(result.Id);
+            //        if (responseCreateResult.Status)
+            //        {
+            //            responseCreateResult.Mensagem = "Preço cadastrado com sucesso!";
+            //        }
 
-                    return responseUpdateResult;
-                }
-            }
-            catch (Exception ex)
-            {
-                response.Erro(ex.Message);
-                return response;
-            }
+            //        return responseCreateResult;
+            //    }
+            //    else
+            //    {
+            //        //alterar
+            //        entidade.Id = precoExists.Id;
+            //        entidade.Habilitado = true;
+            //        var result = await _repository.UpdateAsync(entidade);
+            //        var responseUpdateResult = await Get(result.Id);
+            //        if (responseUpdateResult.Status)
+            //        {
+            //            responseUpdateResult.Mensagem = "Preço alterado com sucesso!";
+            //        }
+
+            //        return responseUpdateResult;
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    response.Erro(ex.Message);
+            //    return response;
+            //}
         }
     }
 }

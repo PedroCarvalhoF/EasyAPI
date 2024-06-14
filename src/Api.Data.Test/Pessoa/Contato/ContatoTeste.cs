@@ -42,7 +42,7 @@ namespace Data.Test.Pessoa.Contato
                     RgIE = "111111-11"
                 };
 
-                var resultPessoa = await _pessoaRepository.InsertAsync(pessoa);
+                var resultPessoa = await _pessoaRepository.InsertAsync(pessoa, null);
                 Assert.NotNull(resultPessoa);
 
                 ContatoImplementacao _contatoRepository = new ContatoImplementacao(context);
@@ -57,7 +57,7 @@ namespace Data.Test.Pessoa.Contato
                     UpdateAt = DateTime.Now
                 };
 
-                var resultContato1 = await _contatoRepository.InsertAsync(contato1);
+                var resultContato1 = await _contatoRepository.InsertAsync(contato1,null);
                 Assert.NotNull(resultContato1);
 
                 contato1.Numero = "1 alterado";

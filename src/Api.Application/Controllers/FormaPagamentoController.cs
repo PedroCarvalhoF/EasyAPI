@@ -21,10 +21,11 @@ namespace Api.Controllers
 
         [HttpGet("forma-pagamento")]
         public async Task<ActionResult<RequestResult>> GetAll()
-        {            
-                return await _service.GetAll(User.GetUserMasterUser());            
+        {
+            return await _service.GetAll(User.GetUserMasterUser());
         }
-        [HttpGet("forma-pagamento/{id}/id")]
+
+        [HttpGet("forma-pagamento/{id}")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> GetById(Guid id)
         {
             try
@@ -41,23 +42,7 @@ namespace Api.Controllers
                 return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
             }
         }
-        [HttpGet("forma-pagamento/{descricao}/descricao")]
-        public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> GetByDescricao(string descricao)
-        {
-            try
-            {
-                var respostaService = await _service.GetByDescricao(descricao, User.GetUserMasterUser());
-
-                if (respostaService.Status)
-                    return Ok(respostaService);
-                else
-                    return BadRequest(respostaService);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ResponseDto<List<FormaPagamentoDto>>().Erro(ex));
-            }
-        }
+       
         [HttpPost("forma-pagamento/create")]
         public async Task<ActionResult<ResponseDto<List<FormaPagamentoDto>>>> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate)
         {

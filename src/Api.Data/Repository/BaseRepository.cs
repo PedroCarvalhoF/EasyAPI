@@ -3,6 +3,7 @@ using Api.Domain.Entities;
 using Data.Query;
 using Domain.Interfaces;
 using Domain.UserIdentity.MasterUsers;
+using iTextSharp.text;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Data.Repository
@@ -18,12 +19,7 @@ namespace Api.Data.Repository
             _dataset = _context.Set<T>();
         }
 
-        private void SetTimestamps(T item, bool isNew = false)
-        {
-            if (isNew) item.CreateAt = DateTime.Now;
-            item.UpdateAt = DateTime.Now;
-            item.Habilitado = true;
-        }
+
         /// <summary>
         /// Primeira instancia 
         /// UserMasterUserEntity? user = null)
@@ -74,11 +70,9 @@ namespace Api.Data.Repository
 
             try
             {
-                item.Id = Guid.NewGuid();
-                item.UserMasterClienteIdentityId = user.UserMasterClienteIdentityId;
-                item.UserId = user.UserId;
-                SetTimestamps(item, isNew: true);
-
+                item.SetId(Guid.NewGuid());
+                item.SetUserDetails(user.UserMasterClienteIdentityId, user.UserId);
+                item.Habilitar();
                 _dataset.Add(item);
                 await _context.SaveChangesAsync();
 
@@ -94,6 +88,7 @@ namespace Api.Data.Repository
             }
         }
 
+
         public async Task<int> InsertArrayAsync(IEnumerable<T> items, UserMasterUserEntity? user = null)
         {
             if (items == null || !items.Any()) throw new ArgumentException("A coleção não pode ser nula ou vazia", nameof(items));
@@ -102,10 +97,8 @@ namespace Api.Data.Repository
             {
                 foreach (var item in items)
                 {
-                    item.Id = Guid.NewGuid();
-                    item.UserMasterClienteIdentityId = user.UserMasterClienteIdentityId;
-                    item.UserId = user.UserId;
-                    SetTimestamps(item, isNew: true);
+                    item.SetId(Guid.NewGuid());
+                    item.SetUserDetails(user.UserMasterClienteIdentityId, user.UserId);
                 }
 
                 _dataset.AddRange(items);
@@ -130,13 +123,8 @@ namespace Api.Data.Repository
             {
                 foreach (var item in items)
                 {
-                    item.Id = Guid.NewGuid();
-                    item.UserMasterClienteIdentityId = user.UserMasterClienteIdentityId;
-                    item.UserId = user.UserId;
-
-                    item.CreateAt = DateTime.Now;
-                    item.UpdateAt = DateTime.Now;
-                    item.Habilitado = true;
+                    item.SetId(Guid.NewGuid());
+                    item.SetUserDetails(user.UserMasterClienteIdentityId, user.UserId);
                 }
 
                 await _dataset.AddRangeAsync(items);
@@ -161,8 +149,6 @@ namespace Api.Data.Repository
                 var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == item.Id);
                 if (result == null) return null;
 
-                item.CreateAt = result.CreateAt;
-                SetTimestamps(item);
                 _context.Entry(result).CurrentValues.SetValues(item);
                 await _context.SaveChangesAsync();
 
@@ -181,8 +167,7 @@ namespace Api.Data.Repository
                 var result = await _dataset.FiltroUserMasterCliente(user).SingleOrDefaultAsync(p => p.Id == id);
                 if (result == null) return false;
 
-                result.UpdateAt = DateTime.Now;
-                result.Habilitado = !result.Habilitado;
+                result.Desabilitar();
 
                 _context.Update(result);
                 await _context.SaveChangesAsync();
