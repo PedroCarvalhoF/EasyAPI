@@ -30,6 +30,7 @@ using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.PontoVendaUser;
 using Domain.Dtos.ProdutoDtos;
+using Domain.Dtos.Produtos;
 using Domain.Dtos.ProdutoTipo;
 using Domain.Dtos.UsersDtos;
 using Domain.Entities.CategoriaProduto;
@@ -98,6 +99,7 @@ namespace Api.CrossCutting.Mappings
 
             //
             CreateMap<ProdutoDto, ProdutoEntity>().ReverseMap();
+            CreateMap<ProdutoDtoCreateResult, ProdutoEntity>().ReverseMap();
 
             // ## PONTO  DE VENDA ##
             CreateMap<PontoVendaDto, PontoVendaEntity>().ReverseMap();

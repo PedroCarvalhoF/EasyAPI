@@ -3,9 +3,8 @@ using Api.Domain.Entities;
 using Data.Query;
 using Domain.Interfaces;
 using Domain.UserIdentity.Masters;
-using Domain.UserIdentity.MasterUsers;
-using iTextSharp.text;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 
 namespace Api.Data.Repository
 {
@@ -17,7 +16,7 @@ namespace Api.Data.Repository
         {
             _context = context;
             _dataset = _context.Set<T>();
-        }        
+        }
         public async Task<IEnumerable<T>> SelectAsync(UserMasterUserDtoCreate? user = null)
         {
             try
@@ -64,6 +63,10 @@ namespace Api.Data.Repository
             }
             catch (DbUpdateException ex)
             {
+                if (ex.InnerException is MySqlException mySqlEx && mySqlEx.Number == 1452) // 1452 é o código de erro MySQL para violação de chave estrangeira
+                {
+                    throw new Exception("Não foi possível inserir devido a falta de alguma dependencia.");
+                }
                 throw new Exception("Erro ao inserir item: " + ex.InnerException?.Message ?? ex.Message);
             }
             catch (Exception ex)
@@ -117,7 +120,7 @@ namespace Api.Data.Repository
             try
             {
                 var result = await _dataset.SingleOrDefaultAsync(p => p.Id == item.Id);
-                if (result == null) return null;
+                if (result == null) throw new ArgumentException($"Registro não localizado para realizar alteração");
 
                 item.AtulizarData(result.CreateAt);
                 _context.Entry(result).CurrentValues.SetValues(item);

@@ -17,15 +17,13 @@ namespace Data.Mapping.Produto
             builder.Property(p => p.NomeProduto)
                 .HasMaxLength(100)
                 .IsRequired();
-            builder.HasIndex(p => p.NomeProduto)
-                .IsUnique();
+            builder.HasIndex(p => p.NomeProduto);
 
             //Codigo de Barras
             builder.Property(p => p.CodigoBarrasPersonalizado)
                .HasMaxLength(100)
                .IsRequired();
-            builder.HasIndex(p => p.CodigoBarrasPersonalizado)
-                .IsUnique();
+            builder.HasIndex(p => p.CodigoBarrasPersonalizado);
 
             //Descricao
             builder.Property(p => p.Descricao)

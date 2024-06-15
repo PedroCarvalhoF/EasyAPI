@@ -6,7 +6,6 @@ using Domain.Interfaces;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.UserIdentity.Masters;
-using Domain.UserIdentity.MasterUsers;
 
 namespace Service.Services.FormaPagamento
 {
@@ -27,10 +26,8 @@ namespace Service.Services.FormaPagamento
             try
             {
                 var entities = await _implementacao.GetAll(user);
-                if (entities == null)
-                {
-                    return new RequestResult().BadRequest("Nenhum resultado encontrado");
-                }
+                if (entities == null || entities.Count() == 0)
+                    return new RequestResult().IsNullOrCountZero();
 
                 var dtos = _mapper.Map<IEnumerable<FormaPagamentoDto>>(entities);
                 return new RequestResult().Ok(dtos);
@@ -40,22 +37,17 @@ namespace Service.Services.FormaPagamento
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
-
-
         public async Task<RequestResult> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate, UserMasterUserDtoCreate user)
         {
             try
             {
-
                 var entity = new FormaPagamentoEntity(formaPagamentoDtoCreate, user);
-                var resultCreate = await _repository.InsertAsync(entity);
+                var entityResult = await _repository.InsertAsync(entity);
 
-                if (resultCreate == null)
-                {
-                    return new RequestResult().IsNullOrCountZero();
-                }
+                if (entityResult == null)
+                    return new RequestResult().BadCreate();
 
-                return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(resultCreate));
+                return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(entityResult));
 
             }
             catch (Exception ex)
@@ -72,15 +64,13 @@ namespace Service.Services.FormaPagamento
                 if (!entity.isBaseValida)
                     return new RequestResult().BadRequest("Não foi possível realizar Update.");
 
-                var resultUpdate = await _repository.UpdateAsync(entity);
+                var entityResult = await _repository.UpdateAsync(entity);
 
+                if (entityResult == null)
+                    return new RequestResult().BadUpdate();
+          
 
-                if (resultUpdate == null)
-                {
-                    return new RequestResult().IsNullOrCountZero();
-                }
-
-                return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(resultUpdate));
+                return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(entityResult));
             }
             catch (Exception ex)
             {
