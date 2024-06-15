@@ -1,7 +1,7 @@
 ﻿using Api.Domain.Entities.ProdutoMedida;
 using Domain.UserIdentity.Masters;
 
-namespace Domain.Interfaces.Repository
+namespace Domain.Interfaces.Repository.Produto
 {
     public interface IProdutoMedidaRepository
     {

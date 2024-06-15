@@ -2,7 +2,7 @@ using Domain.Entities.CategoriaProduto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Api.Data.Mapping
+namespace Data.Mapping.Produto
 {
     public class CategoriaProdutoMap : IEntityTypeConfiguration<CategoriaProdutoEntity>
     {

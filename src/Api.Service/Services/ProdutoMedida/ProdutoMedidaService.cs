@@ -4,7 +4,7 @@ using Api.Domain.Interfaces.Services.ProdutoMedida;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Interfaces;
-using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.Produto;
 using Domain.UserIdentity.Masters;
 using Microsoft.AspNetCore.Http.HttpResults;
 

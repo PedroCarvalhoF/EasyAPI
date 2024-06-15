@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.Mapping
+namespace Data.Mapping.Produto
 {
-    internal class ProdutoMap : IEntityTypeConfiguration<ProdutoEntity>
+    public class ProdutoMap : IEntityTypeConfiguration<ProdutoEntity>
     {
         public void Configure(EntityTypeBuilder<ProdutoEntity> builder)
         {
@@ -57,7 +57,7 @@ namespace Data.Mapping
             builder.HasOne(p => p.ProdutoTipoEntity)
                .WithMany(tp => tp.ProdutoEntities)
                .HasForeignKey(p => p.ProdutoTipoEntityId)
-               .OnDelete(DeleteBehavior.NoAction);           
+               .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.Mapping
+namespace Data.Mapping.Preco
 {
     public class PrecoProdutoMap : IEntityTypeConfiguration<PrecoProdutoEntity>
     {

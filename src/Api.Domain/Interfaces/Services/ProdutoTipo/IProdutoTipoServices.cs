@@ -1,16 +1,14 @@
 ﻿using Domain.Dtos;
 using Domain.Dtos.ProdutoTipo;
+using Domain.UserIdentity.Masters;
 
 namespace Domain.Interfaces.Services.ProdutoTipo
 {
     public interface IProdutoTipoServices
     {
-        Task<ResponseDto<List<ProdutoTipoDto>>> GetAll();
-        Task<ResponseDto<List<ProdutoTipoDto>>> Get(Guid id);
-        Task<ResponseDto<List<ProdutoTipoDto>>> Get(string descricao);
-        Task<ResponseDto<List<ProdutoTipoDto>>> Create(ProdutoTipoDtoCreate create);
-        Task<ResponseDto<List<ProdutoTipoDto>>> Update(ProdutoTipoDtoUpdate update);
-        Task<ResponseDto<List<ProdutoTipoDto>>> Desabilitar(Guid id);
-
+        Task<RequestResult> GetAll(UserMasterUserDtoCreate users);
+        Task<RequestResult> GetByIdTipoProduto(Guid id, UserMasterUserDtoCreate users);
+        Task<RequestResult> Create(ProdutoTipoDtoCreate create, UserMasterUserDtoCreate users);
+        Task<RequestResult> Update(ProdutoTipoDtoUpdate update, UserMasterUserDtoCreate users);
     }
 }

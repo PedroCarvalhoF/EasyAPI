@@ -10,7 +10,7 @@ namespace Domain.Entities.CategoriaProduto
     {
         public string DescricaoCategoria { get; private set; }
         public bool Validada => Validar();
-
+        public IEnumerable<ProdutoEntity> ProdutoEntities { get; private set; }
         private bool Validar()
         {
             if (!isBaseValida)
@@ -22,7 +22,7 @@ namespace Domain.Entities.CategoriaProduto
             return true;
         }
 
-        public IEnumerable<ProdutoEntity> ProdutoEntities { get; private set; }
+        
         public CategoriaProdutoEntity() { }
         public CategoriaProdutoEntity(CategoriaProdutoDtoCreate create, UserMasterUserDtoCreate users) : base(users)
         {

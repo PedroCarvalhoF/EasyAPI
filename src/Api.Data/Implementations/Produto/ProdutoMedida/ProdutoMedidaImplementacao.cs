@@ -2,7 +2,7 @@
 using Api.Data.Repository;
 using Api.Domain.Entities.ProdutoMedida;
 using Data.Query;
-using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.Produto;
 using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
 

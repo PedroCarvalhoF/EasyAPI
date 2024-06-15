@@ -1,10 +1,8 @@
-﻿using Api.Domain.Dtos;
-
-namespace Domain.Dtos.ProdutoTipo
+﻿namespace Domain.Dtos.ProdutoTipo
 {
-    public class ProdutoTipoDto : BaseDto
+    public class ProdutoTipoDto
     {
-        // public DateTime? UpdateAt { get; set; }
+        public Guid Id { get; set; }
         public string? DescricaoTipoProduto { get; set; }
     }
 }

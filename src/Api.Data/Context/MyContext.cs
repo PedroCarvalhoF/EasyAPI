@@ -1,12 +1,9 @@
 #region Usings
-using Api.Data.Mapping;
-using Api.Domain.Entities;
 using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Entities.Pedido;
 using Api.Domain.Entities.PontoVenda;
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
-using Data.Mapping;
 using Data.Mapping.Pedido;
 using Data.Mapping.PedidoFormaPagamento;
 using Data.Mapping.PedidoPagamento;
@@ -17,8 +14,9 @@ using Data.Mapping.Pessoa.PessoContato;
 using Data.Mapping.PontoVena;
 using Data.Mapping.PontoVendaPeriodo;
 using Data.Mapping.PontoVendaUser;
+using Data.Mapping.Preco;
+using Data.Mapping.Produto;
 using Data.Mapping.UsuarioMaster;
-using Data.Migrations;
 using Domain.Entities.CategoriaProduto;
 using Domain.Entities.FormaPagamento;
 using Domain.Entities.ItensPedido;
@@ -39,9 +37,7 @@ using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
 using Domain.Entities.TesteEntidade;
 using Domain.Identity.UserIdentity;
-using Domain.UserIdentity.Masters;
 using Domain.UserIdentity.MasterUsers;
-using Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -155,8 +151,8 @@ namespace Api.Data.Context
             modelBuilder.Entity<global::Domain.UserIdentity.Masters.UserMasterClienteEntity>(new UserMasterClienteMap().Configure);
 
 
-            modelBuilder.Entity<ProdutoTipoEntity>(new ProdutoTipoMap().Configure);
-            modelBuilder.Entity<ProdutoMedidaEntity>(new ProdutoMedidaMap().Configure);
+            modelBuilder.Entity<ProdutoTipoEntity>(new TipoProdutoMap().Configure);
+            modelBuilder.Entity<ProdutoMedidaEntity>(new MedidaProdutoMap().Configure);
             modelBuilder.Entity<ProdutoEntity>(new ProdutoMap().Configure);
             modelBuilder.Entity<PeriodoPontoVendaEntity>(new PeriodoPontoVendaMap().Configure);
             modelBuilder.Entity<CategoriaPrecoEntity>(new CategoriaPrecoMap().Configure);

@@ -3,7 +3,7 @@ using Domain.Dtos;
 using Domain.Dtos.ProdutoDtos;
 using Domain.Entities.Produto;
 using Domain.Interfaces;
-using Domain.Interfaces.Repository;
+using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.Produto;
 using Domain.Models.ProdutoModels;
 
