@@ -1,6 +1,5 @@
 #region Using
 using Api.Domain.Dtos.CategoriaPrecoDtos;
-using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Dtos.PrecoProdutoDtos;
@@ -11,7 +10,6 @@ using Api.Domain.Entities.PontoVenda;
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
 using AutoMapper;
-using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.IdentityRole;
 using Domain.Dtos.ItemPedido;
@@ -29,6 +27,8 @@ using Domain.Dtos.Pessoas.PessoaEndereco;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.PontoVendaUser;
+using Domain.Dtos.PrecoCategoria;
+using Domain.Dtos.ProdutoCategoria;
 using Domain.Dtos.ProdutoDtos;
 using Domain.Dtos.Produtos;
 using Domain.Dtos.ProdutoTipo;
@@ -110,7 +110,7 @@ namespace Api.CrossCutting.Mappings
             CreateMap<CategoriaPrecoDto, CategoriaPrecoEntity>().ReverseMap();
             CreateMap<CategoriaPrecoDtoCreate, CategoriaPrecoEntity>().ReverseMap();
             CreateMap<CategoriaPrecoDtoUpdate, CategoriaPrecoEntity>().ReverseMap();
-
+            CreateMap<CategoriaPrecoDtoResult, CategoriaPrecoEntity>().ReverseMap();
 
 
             CreateMap<PrecoProdutoDto, PrecoProdutoEntity>().ReverseMap();

@@ -1,8 +1,7 @@
-using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
 using AutoMapper;
 using Domain.Dtos;
-using Domain.Dtos.CategoriaProdutoDtos;
+using Domain.Dtos.ProdutoCategoria;
 using Domain.Entities.CategoriaProduto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;

@@ -5,7 +5,7 @@ namespace Api.Domain.Entities
     public abstract class BaseEntity
     {
         public Guid Id { get; protected set; }
-        public DateTime? CreateAt { get; protected set; }
+        public DateTime CreateAt { get; protected set; }
         public DateTime? UpdateAt { get; protected set; }
         public bool Habilitado { get; protected set; }
         public Guid? UserMasterClienteIdentityId { get; protected set; }
@@ -14,7 +14,19 @@ namespace Api.Domain.Entities
 
         private bool ValidarBase()
         {
-            return Id != Guid.Empty || UserId != Guid.Empty || UserMasterClienteIdentityId != Guid.Empty;
+            if (Id == Guid.Empty)
+                return false;
+            if (UserId == null || UserId == Guid.Empty)
+                return false;
+            if (UserMasterClienteIdentityId == null || UserMasterClienteIdentityId == Guid.Empty)
+                return false;
+            if (CreateAt == default(DateTime))
+                return false;
+
+            if (!ValidarBase())
+                return false;
+
+            return true;
         }
 
         protected BaseEntity() { }
@@ -47,7 +59,7 @@ namespace Api.Domain.Entities
             UserId = users.UserId;
         }
 
-        public void AtulizarData(DateTime? dataParaAtualizar)
+        public void AtulizarData(DateTime dataParaAtualizar)
         {
             CreateAt = dataParaAtualizar;
         }

@@ -1,6 +1,6 @@
-namespace Api.Domain.Dtos.CategoriaPrecoDtos
+﻿namespace Domain.Dtos.PrecoCategoria
 {
-    public class CategoriaPrecoDto
+    public class CategoriaPrecoDtoResult
     {
         public Guid Id { get; set; }
         public string? DescricaoCategoria { get; set; }

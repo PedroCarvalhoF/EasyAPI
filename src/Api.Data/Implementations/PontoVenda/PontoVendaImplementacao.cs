@@ -97,7 +97,7 @@ namespace Data.Implementations.PontoVenda
         {
             IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
-            query = query.Where(pdv => pdv.CreateAt.Value.Date >= data.DataInicial && pdv.CreateAt.Value.Date <= data.DataFinal);
+            //query = query.Where(pdv => pdv.CreateAt.Value.Date >= data.DataInicial && pdv.CreateAt.Value.Date <= data.DataFinal);
 
             if (include)
             {

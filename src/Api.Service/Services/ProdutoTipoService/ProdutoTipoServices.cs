@@ -1,5 +1,4 @@
-﻿using Api.Domain.Dtos.CategoriaProdutoDtos;
-using AutoMapper;
+﻿using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.ProdutoTipo;
 using Domain.Entities.ProdutoTipo;

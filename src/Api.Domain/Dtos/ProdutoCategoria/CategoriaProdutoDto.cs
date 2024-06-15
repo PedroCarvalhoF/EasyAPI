@@ -1,4 +1,4 @@
-namespace Api.Domain.Dtos.CategoriaProdutoDtos
+namespace Domain.Dtos.ProdutoCategoria
 {
     public class CategoriaProdutoDto
     {

@@ -1,4 +1,4 @@
-﻿using Api.Domain.Dtos.CategoriaProdutoDtos;
+﻿using Domain.Dtos.ProdutoCategoria;
 
 namespace Domain.Dtos.ProdutoDtos
 {

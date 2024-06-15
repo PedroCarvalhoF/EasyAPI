@@ -3,8 +3,10 @@ using Api.Domain.Entities.CategoriaPreco;
 using Api.Domain.Interfaces.Services.CategoriaPreco;
 using AutoMapper;
 using Domain.Dtos;
+using Domain.Dtos.PrecoCategoria;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.UserIdentity.Masters;
 
 namespace Api.Service.Services.CategoriaPreco
 {
@@ -12,112 +14,84 @@ namespace Api.Service.Services.CategoriaPreco
     {
         private readonly IBaseRepository<CategoriaPrecoEntity> _repository;
         private readonly IMapper _mapper;
-        private readonly ICategoriaPrecoRepository _imprementacao;
+        private readonly ICategoriaPrecoRepository _implementacao;
 
         public CategoriaPrecoService(IBaseRepository<CategoriaPrecoEntity> repository, IMapper mapper, ICategoriaPrecoRepository categoriaPrecoRepository)
         {
             _repository = repository;
             _mapper = mapper;
-            _imprementacao = categoriaPrecoRepository;
+            _implementacao = categoriaPrecoRepository;
         }
-        public async Task<ResponseDto<List<CategoriaPrecoDto>>> GetAll()
+
+        public async Task<RequestResult> GetAll(UserMasterUserDtoCreate users)
         {
-            var response = new ResponseDto<List<CategoriaPrecoDto>>();
             try
             {
-                var entities = await _repository.SelectAsync();
+                var entities = await _implementacao.GetAll(users);
+                if (entities == null || entities.Count() == 0)
+                    return new RequestResult().IsNullOrCountZero();
 
-                if (entities == null)
-                {
-                    return response.EntitiesNull();
-                }
-
-                var dtos = _mapper.Map<List<CategoriaPrecoDto>>(entities);
-
-                return response.Retorno(dtos);
+                return new RequestResult().Ok(_mapper.Map<IEnumerable<CategoriaPrecoDto>>(entities));
             }
             catch (Exception ex)
             {
-                return response.Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Get(Guid id)
+        public async Task<RequestResult> GetIdCategoriaPreco(Guid id, UserMasterUserDtoCreate users)
         {
-            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-            response.Dados = new List<CategoriaPrecoDto>();
-
             try
             {
-                var entity = await _repository.SelectAsync(id);
-                var dto = _mapper.Map<CategoriaPrecoDto>(entity);
+                var entity = await _implementacao.GetIdCategoriaPreco(id, users);
+                if (entity == null)
+                    return new RequestResult().IsNullOrCountZero();
 
-                response.Dados.Add(dto);
-                return response;
+                return new RequestResult().Ok(_mapper.Map<CategoriaPrecoDto>(entity));
             }
             catch (Exception ex)
             {
-                return response.Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Create(CategoriaPrecoDtoCreate create)
+        public async Task<RequestResult> Create(CategoriaPrecoDtoCreate create, UserMasterUserDtoCreate users)
         {
-            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-            response.Dados = new List<CategoriaPrecoDto>();
-
             try
             {
-                var entity = _mapper.Map<CategoriaPrecoEntity>(create);
+                var entity = new CategoriaPrecoEntity(create, users);
+                if (!entity.Valida)
+                    return new RequestResult().EntidadeInvalida(entity);
+
                 var result = await _repository.InsertAsync(entity);
-                var dto = _mapper.Map<CategoriaPrecoDto>(result);
+                if (result == null)
+                    return new RequestResult().BadCreate();
 
-                response.Dados.Add(dto);
-                return response;
+                return new RequestResult().Ok(_mapper.Map<CategoriaPrecoDtoResult>(result));
             }
             catch (Exception ex)
             {
-                return response.Erro(ex);
+
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Update(CategoriaPrecoDtoUpdate update)
+        public async Task<RequestResult> Update(CategoriaPrecoDtoUpdate update, UserMasterUserDtoCreate users)
         {
-            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-            response.Dados = new List<CategoriaPrecoDto>();
-
             try
             {
-                var entity = _mapper.Map<CategoriaPrecoEntity>(update);
+                var entity = new CategoriaPrecoEntity(update, users);
+                if (!entity.Valida)
+                    return new RequestResult().EntidadeInvalida(entity);
+
                 var result = await _repository.UpdateAsync(entity);
-                var dto = _mapper.Map<CategoriaPrecoEntity>(result);
+                if (result == null)
+                    return new RequestResult().BadCreate();
 
-                return await Get(result.Id);
+                return new RequestResult().Ok(_mapper.Map<CategoriaPrecoDtoResult>(result));
             }
             catch (Exception ex)
             {
-                return response.Erro(ex);
-            }
-        }
-        public async Task<ResponseDto<List<CategoriaPrecoDto>>> Desabilitar(Guid id)
-        {
-            ResponseDto<List<CategoriaPrecoDto>> response = new ResponseDto<List<CategoriaPrecoDto>>();
-            response.Dados = new List<CategoriaPrecoDto>();
-
-            try
-            {
-                var result = await _repository.DesabilitarHabilitar(id);
-                if (result)
-                {
-                    response.AlteracaoOk();
-                    return response;
-                }
-                else
-                {
-                    response.ErroUpdate();
-                    return response;
-                }
-            }
-            catch (Exception ex)
-            {
-                return response.Erro(ex);
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
     }

@@ -1,6 +1,5 @@
 #region Using
 using Api.Domain.Dtos.CategoriaPrecoDtos;
-using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Api.Domain.Dtos.PedidoDtos;
 using Api.Domain.Dtos.PontoVendaDtos;
 using Api.Domain.Dtos.PrecoProdutoDtos;
@@ -12,7 +11,6 @@ using Api.Domain.Models.PontoVendaModels;
 using Api.Domain.Models.PrecoProdutoModels;
 using Api.Domain.Models.ProdutoMedidaModels;
 using AutoMapper;
-using Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.ItemPedido;
 using Domain.Dtos.PagamentoPedidoDtos;
@@ -26,6 +24,7 @@ using Domain.Dtos.Pessoas.Endereco;
 using Domain.Dtos.PessoasDtos.PessoaDtos;
 using Domain.Dtos.PontoVendaPeriodoVendaDtos;
 using Domain.Dtos.PontoVendaUser;
+using Domain.Dtos.ProdutoCategoria;
 using Domain.Dtos.ProdutoDtos;
 using Domain.Dtos.ProdutoTipo;
 using Domain.Models.FormaPagamentoModels;

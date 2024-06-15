@@ -1,7 +1,7 @@
-﻿using Api.Domain.Dtos.CategoriaProdutoDtos;
-using Api.Domain.Entities;
-using Domain.Dtos.CategoriaProdutoDtos;
+﻿using Api.Domain.Entities;
+using Domain.Dtos.ProdutoCategoria;
 using Domain.Entities.Produto;
+using Domain.Helpers.Tools;
 using Domain.UserIdentity.Masters;
 
 namespace Domain.Entities.CategoriaProduto
@@ -22,18 +22,20 @@ namespace Domain.Entities.CategoriaProduto
             return true;
         }
 
-        
+
         public CategoriaProdutoEntity() { }
         public CategoriaProdutoEntity(CategoriaProdutoDtoCreate create, UserMasterUserDtoCreate users) : base(users)
         {
             if (string.IsNullOrWhiteSpace(create.DescricaoCategoria))
                 throw new ArgumentException("Preencha descrição da categoria");
-            DescricaoCategoria = create.DescricaoCategoria;
+            DescricaoCategoria = PrimeiraLetraSempreMaiuscula.Formatar(create.DescricaoCategoria);
         }
 
         public CategoriaProdutoEntity(CategoriaProdutoDtoUpdate update, UserMasterUserDtoCreate users) : base(update.Id, update.Habilitado, users)
         {
-            DescricaoCategoria = update.DescricaoCategoria;
+            if (string.IsNullOrWhiteSpace(update.DescricaoCategoria))
+                throw new ArgumentException("Preencha descrição da categoria");
+            DescricaoCategoria = PrimeiraLetraSempreMaiuscula.Formatar(update.DescricaoCategoria);
         }
     }
 }

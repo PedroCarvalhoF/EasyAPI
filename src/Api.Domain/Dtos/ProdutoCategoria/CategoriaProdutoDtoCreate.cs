@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Dtos.CategoriaProdutoDtos
+namespace Domain.Dtos.ProdutoCategoria
 {
     public class CategoriaProdutoDtoCreate
     {

@@ -1,6 +1,5 @@
-using Api.Domain.Dtos.CategoriaProdutoDtos;
 using Domain.Dtos;
-using Domain.Dtos.CategoriaProdutoDtos;
+using Domain.Dtos.ProdutoCategoria;
 using Domain.UserIdentity.Masters;
 
 namespace Api.Domain.Interfaces.Services.CategoriaProduto

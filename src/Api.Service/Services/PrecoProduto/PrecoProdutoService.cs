@@ -1,7 +1,6 @@
 using Api.Domain.Dtos.PrecoProdutoDtos;
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
-using Api.Domain.Models.PrecoProdutoModels;
 using AutoMapper;
 using Domain.Dtos;
 using Domain.Interfaces;

@@ -100,7 +100,6 @@ namespace Api.Data.Repository
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-
                 await _dataset.AddRangeAsync(items);
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
@@ -119,7 +118,7 @@ namespace Api.Data.Repository
 
             try
             {
-                var result = await _dataset.SingleOrDefaultAsync(p => p.Id == item.Id);
+                var result = await _dataset.SingleOrDefaultAsync(p => p.Id == item.Id && p.UserMasterClienteIdentityId == item.UserMasterClienteIdentityId);
                 if (result == null) throw new ArgumentException($"Registro não localizado para realizar alteração");
 
                 item.AtulizarData(result.CreateAt);

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Api.Domain.Dtos.CategoriaProdutoDtos
+namespace Domain.Dtos.ProdutoCategoria
 {
     public class CategoriaProdutoDtoUpdate
     {
@@ -13,7 +13,5 @@ namespace Api.Domain.Dtos.CategoriaProdutoDtos
 
         [Required]
         public bool Habilitado { get; set; }
-
-
     }
 }

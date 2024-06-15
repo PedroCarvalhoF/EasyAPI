@@ -1,4 +1,4 @@
-﻿namespace Domain.Dtos.CategoriaProdutoDtos
+﻿namespace Domain.Dtos.ProdutoCategoria
 {
     public class CategoriaProdutoDtoCreateResult
     {
