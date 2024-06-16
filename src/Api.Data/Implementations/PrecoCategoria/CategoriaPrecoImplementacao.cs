@@ -10,17 +10,33 @@ namespace Data.Implementations.PrecoCategoria
 {
     public class CategoriaPrecoImplementacao : BaseRepository<CategoriaPrecoEntity>, ICategoriaPrecoRepository
     {
-        private readonly DbSet<CategoriaPrecoEntity> _dataset;
+        private readonly DbSet<CategoriaPrecoEntity> _dbSet;
         public CategoriaPrecoImplementacao(MyContext context) : base(context)
         {
-            _dataset = context.Set<CategoriaPrecoEntity>();
+            _dbSet = context.Set<CategoriaPrecoEntity>();
+        }
+
+        public async Task<bool> Exists(CategoriaPrecoEntity entity, UserMasterUserDtoCreate users)
+        {
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(users);
+                return await query.AnyAsync(p => p.DescricaoCategoria.ToLower() == entity.DescricaoCategoria.ToLower());
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<CategoriaPrecoEntity>> GetAll(UserMasterUserDtoCreate users)
         {
             try
             {
-                var query = _dataset.AsNoTracking();
+                var query = _dbSet.AsNoTracking();
 
                 query = query.FiltroUserMasterCliente(users).OrderBy(cat => cat.DescricaoCategoria);
 
@@ -35,11 +51,11 @@ namespace Data.Implementations.PrecoCategoria
             }
         }
 
-        public async Task<CategoriaPrecoEntity> GetIdCategoriaPreco(Guid id, UserMasterUserDtoCreate users)
+        public async Task<CategoriaPrecoEntity> GetById(Guid id, UserMasterUserDtoCreate users)
         {
             try
             {
-                var query = _dataset.AsNoTracking();
+                var query = _dbSet.AsNoTracking();
 
                 query = query.FiltroUserMasterCliente(users);
 

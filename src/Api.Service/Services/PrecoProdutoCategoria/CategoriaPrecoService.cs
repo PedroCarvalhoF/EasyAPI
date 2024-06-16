@@ -43,7 +43,7 @@ namespace Api.Service.Services.CategoriaPreco
         {
             try
             {
-                var entity = await _implementacao.GetIdCategoriaPreco(id, users);
+                var entity = await _implementacao.GetById(id, users);
                 if (entity == null)
                     return new RequestResult().IsNullOrCountZero();
 
@@ -62,6 +62,12 @@ namespace Api.Service.Services.CategoriaPreco
                 var entity = new CategoriaPrecoEntity(create, users);
                 if (!entity.Valida)
                     return new RequestResult().EntidadeInvalida(entity);
+
+                var entityExist = await _implementacao.Exists(entity, users);
+                if (entityExist)
+                    return new RequestResult().BadRequest("Categoria já está em uso.");
+
+
 
                 var result = await _repository.InsertAsync(entity);
                 if (result == null)
@@ -82,6 +88,11 @@ namespace Api.Service.Services.CategoriaPreco
                 var entity = new CategoriaPrecoEntity(update, users);
                 if (!entity.Valida)
                     return new RequestResult().EntidadeInvalida(entity);
+
+                var entityExist = await _implementacao.Exists(entity, users);
+                if (entityExist)
+                    return new RequestResult().BadRequest("Categoria já está em uso.");
+
 
                 var result = await _repository.UpdateAsync(entity);
                 if (result == null)
