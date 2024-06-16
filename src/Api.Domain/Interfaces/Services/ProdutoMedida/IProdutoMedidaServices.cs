@@ -4,11 +4,11 @@ using Domain.UserIdentity.Masters;
 
 namespace Api.Domain.Interfaces.Services.ProdutoMedida
 {
-    public interface IProdutoMedidaServices
+    public interface IProdutoMedidaServices 
     {
         Task<RequestResult> GetAll(UserMasterUserDtoCreate users);
-        Task<RequestResult> GetByIdMididaProduto(Guid id, UserMasterUserDtoCreate users);
+        Task<RequestResult> GetById(Guid id, UserMasterUserDtoCreate users);
         Task<RequestResult> Create(ProdutoMedidaDtoCreate create, UserMasterUserDtoCreate users);
-        Task<RequestResult> Update(ProdutoMedidaDtoUpdate update, UserMasterUserDtoCreate users);      
+        Task<RequestResult> Update(ProdutoMedidaDtoUpdate update, UserMasterUserDtoCreate users);
     }
 }

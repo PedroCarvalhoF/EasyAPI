@@ -2,6 +2,7 @@
 using Api.Data.Repository;
 using Api.Domain.Entities.ProdutoMedida;
 using Data.Query;
+using Domain.Identity.UserIdentity;
 using Domain.Interfaces.Repository.Produto;
 using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,22 @@ namespace Data.Implementations.Produto.ProdutoMedida
         public ProdutoMedidaImplementacao(MyContext context) : base(context)
         {
             _dbSet = context.Set<ProdutoMedidaEntity>();
+        }
+
+        public async Task<bool> Exists(ProdutoMedidaEntity entity, UserMasterUserDtoCreate user)
+        {
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(user);
+                return await query.AnyAsync(p => p.Descricao.ToLower() == entity.Descricao.ToLower());
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<ProdutoMedidaEntity>> GetAll(UserMasterUserDtoCreate users)
@@ -36,7 +53,7 @@ namespace Data.Implementations.Produto.ProdutoMedida
             }
         }
 
-        public async Task<ProdutoMedidaEntity> GetByIdMididaProduto(Guid id, UserMasterUserDtoCreate users)
+        public async Task<ProdutoMedidaEntity> GetById(Guid id, UserMasterUserDtoCreate users)
         {
             try
             {
@@ -53,6 +70,6 @@ namespace Data.Implementations.Produto.ProdutoMedida
 
                 throw new Exception(ex.Message);
             }
-        }
+        }      
     }
 }

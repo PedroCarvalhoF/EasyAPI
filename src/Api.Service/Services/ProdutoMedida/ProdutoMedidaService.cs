@@ -6,7 +6,6 @@ using Domain.Dtos;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.Produto;
 using Domain.UserIdentity.Masters;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Service.Services.ProdutoMedidaService
 {
@@ -39,11 +38,11 @@ namespace Service.Services.ProdutoMedidaService
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<RequestResult> GetByIdMididaProduto(Guid id, UserMasterUserDtoCreate users)
+        public async Task<RequestResult> GetById(Guid id, UserMasterUserDtoCreate users)
         {
             try
             {
-                var entity = await _implementation.GetByIdMididaProduto(id, users);
+                var entity = await _implementation.GetById(id, users);
                 if (entity == null)
                     return new RequestResult().IsNullOrCountZero();
 
@@ -63,9 +62,15 @@ namespace Service.Services.ProdutoMedidaService
                 if (!entity.isValidada)
                     return new RequestResult().EntidadeInvalida(entity);
 
+                var exists = await _implementation.Exists(entity, users);
+                if (exists)
+                    return new RequestResult().BadCreate("Medida já em uso");
+
                 var result = await _repository.InsertAsync(entity);
                 if (result == null)
                     return new RequestResult().BadRequest("Erro ao cadastrar");
+
+
 
                 return new RequestResult().Ok(_mapper.Map<ProdutoMedidaDto>(result));
             }
@@ -82,6 +87,11 @@ namespace Service.Services.ProdutoMedidaService
                 var entity = new ProdutoMedidaEntity(update, users);
                 if (!entity.isValidada)
                     return new RequestResult().EntidadeInvalida(entity);
+
+                var exists = await _implementation.Exists(entity, users);
+                if (exists)
+                    return new RequestResult().BadCreate("Medida já em uso");
+
 
                 var result = await _repository.UpdateAsync(entity);
                 if (result == null)

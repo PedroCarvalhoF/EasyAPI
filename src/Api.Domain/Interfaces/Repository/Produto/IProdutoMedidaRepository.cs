@@ -1,12 +1,9 @@
 ﻿using Api.Domain.Entities.ProdutoMedida;
-using Domain.UserIdentity.Masters;
 
 namespace Domain.Interfaces.Repository.Produto
 {
-    public interface IProdutoMedidaRepository
+    public interface IProdutoMedidaRepository : IRequiredRepository<ProdutoMedidaEntity>
     {
 
-        Task<IEnumerable<ProdutoMedidaEntity>> GetAll(UserMasterUserDtoCreate users);
-        Task<ProdutoMedidaEntity> GetByIdMididaProduto(Guid id, UserMasterUserDtoCreate users);
     }
 }

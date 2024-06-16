@@ -24,9 +24,9 @@ namespace Api.Controllers
             return new ReturnActionResult().ParseToActionResult(await _service.GetAll(User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
         [HttpGet("{medidaId}")]
-        public async Task<ActionResult> GetByIdMididaProduto(Guid medidaId)
+        public async Task<ActionResult> GetById(Guid medidaId)
         {
-            return new ReturnActionResult().ParseToActionResult(await _service.GetByIdMididaProduto(medidaId, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
+            return new ReturnActionResult().ParseToActionResult(await _service.GetById(medidaId, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
         [HttpPost]
         public async Task<ActionResult> Create(ProdutoMedidaDtoCreate create)
