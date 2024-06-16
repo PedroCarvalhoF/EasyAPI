@@ -114,24 +114,22 @@ namespace CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
+            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
+
             ConfiguracaoExternas.Configure(serviceCollection);
             ConfiguracaoBancoDados.Configurar(serviceCollection, configuration);
             ConfiguracaoIQuery.Configurar(serviceCollection);
+            ConfiguracaoPessoas.Pessoas(serviceCollection);
 
-            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
+            serviceCollection.AddScoped<IUserService, UserService>();
+            serviceCollection.AddScoped<IUserRole, UserRoleServices>();
+            serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
             serviceCollection.AddTransient<IUserMasterClienteServices, UserMasterClienteServices>();
             serviceCollection.AddTransient<IUserMasterClienteRepository, UserMasterClienteImplementacao>();
 
-
-
-            serviceCollection.AddScoped<IUserService, UserService>();
-            serviceCollection.AddScoped<IUserRole, UserRoleServices>();
-
             serviceCollection.AddScoped<IPDFRepository, PDFRepository>();
-
-           
 
             serviceCollection.AddScoped<IUsuarioPontoVendaRepository, UsuarioPontoVendaImplementacao>();
             serviceCollection.AddScoped<ICategoriaProdutoRepository, CategoriaProdutoImplementacao>();
@@ -139,15 +137,12 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPeriodoPontoVendaRepository, PeriodoPontoVendaImplementecao>();
             serviceCollection.AddScoped<IProdutoTipoRepository, ProdutoTipoImplementacao>();
             serviceCollection.AddScoped<IProdutoMedidaRepository, ProdutoMedidaImplementacao>();
-            serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-
             serviceCollection.AddScoped<IProdutoRepository, ProdutoImplementation>();
             serviceCollection.AddScoped<IPrecoProdutoRepository, PrecoProdutoImplementacao>();
             serviceCollection.AddScoped<IPedidoRepository, PedidoImplementacao>();
             serviceCollection.AddScoped<IPontoVendaRepository, PontoVendaImplementacao>();
             serviceCollection.AddScoped<ICategoriaPrecoRepository, CategoriaPrecoImplementacao>();
             serviceCollection.AddScoped<IFormaPagamentoRepository, FormaPagamentoImplementacao>();
-
             serviceCollection.AddScoped<IPagamentoPedidoRepository, PagamentoPedidoImplementacao>();
             serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
 
@@ -165,35 +160,6 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IPeriodoPontoVendaService, PeriodoPontoVendaServices>();
             serviceCollection.AddScoped<ISituacaoPedidoService, SituacaoPedidoService>();
             serviceCollection.AddScoped<IUsuarioPontoVendaService, UsuarioPontoVendaService>();
-
-            #region Pessoas
-            serviceCollection.AddScoped<IPessoaRepository, PessoaImplementacao>();
-            serviceCollection.AddScoped<IPessoaServices, PessoaServices>();
-
-            serviceCollection.AddScoped<IDadosBancariosRepository, DadosBancariosImplementacao>();
-            serviceCollection.AddScoped<IDadosBancariosServices, DadosBancariosService>();
-
-            serviceCollection.AddScoped<IEnderecoRepository, EnderecoImplementacao>();
-            serviceCollection.AddScoped<IEnderecoServices, EnderecoServices>();
-            serviceCollection.AddScoped<IPessoaEnderecoServices, PessoaEnderecoServices>();
-
-            serviceCollection.AddScoped<IContatoRepository, ContatoImplementacao>();
-            serviceCollection.AddScoped<IContatoServices, ContatoService>();
-            serviceCollection.AddScoped<IPessoaContatoRepositoryGeneric, PessoaContatoImplementacao>();
-            serviceCollection.AddScoped<IPessoaContatoServices, PessoaContatoServices>();
-
-            serviceCollection.AddScoped<IFuncaoFuncionarioRepository, FuncaoFuncionarioImplementacao>();
-            serviceCollection.AddScoped<IFuncaoFuncionarioServices, FuncaoFuncionarioServices>();
-
-            serviceCollection.AddScoped<ICtpsRepository, CtpsImplementacao>();
-            serviceCollection.AddScoped<ICtpsServices, CtpsServices>();
-
-            #endregion
-
-
-
         }
-
-
     }
 }

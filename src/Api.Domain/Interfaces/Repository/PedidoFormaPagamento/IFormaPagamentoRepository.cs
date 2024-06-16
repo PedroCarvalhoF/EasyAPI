@@ -1,10 +1,9 @@
 ﻿using Domain.Entities.FormaPagamento;
-using Domain.UserIdentity.Masters;
 
 namespace Domain.Interfaces.Repository.PedidoFormaPagamento
 {
-    public interface IFormaPagamentoRepository
+    public interface IFormaPagamentoRepository : IRequiredRepository<FormaPagamentoEntity>
     {
-        Task<IEnumerable<FormaPagamentoEntity>> GetAll(UserMasterUserDtoCreate user);    
+       
     }
 }

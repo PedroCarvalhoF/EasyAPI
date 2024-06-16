@@ -9,7 +9,7 @@ namespace Api.Application.Controllers
 {
 
     [ApiController]
-    [Route("v2/[controller]")]
+    [Route("[controller]")]
     [Authorize]
     public class CategoriaPrecoController : ControllerBase
     {

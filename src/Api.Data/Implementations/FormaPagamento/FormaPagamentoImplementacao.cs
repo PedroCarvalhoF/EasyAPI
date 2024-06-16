@@ -17,6 +17,15 @@ namespace Data.Implementations.FormaPagamento
             _dataset.AsNoTracking();
         }
 
+        public Task<bool> Exists(string name, UserMasterUserDtoCreate user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<FormaPagamentoEntity> Get(Guid id, UserMasterUserDtoCreate user)
+        {
+            throw new NotImplementedException();
+        }
         public async Task<IEnumerable<FormaPagamentoEntity>> GetAll(UserMasterUserDtoCreate user)
         {
             IQueryable<FormaPagamentoEntity> query = _dataset.AsNoTracking();
