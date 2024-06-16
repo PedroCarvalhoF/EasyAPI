@@ -6,7 +6,14 @@ namespace Domain.Entities.FormaPagamento
 {
     public class FormaPagamentoEntity : BaseEntity
     {
-        public string DescricaoFormaPg { get; private set; }      
+        public string DescricaoFormaPg { get; private set; }
+        public bool Validada => Validar();
+
+        private bool Validar()
+        {
+            return DescricaoFormaPg != null || DescricaoFormaPg != string.Empty;
+        }
+
         public FormaPagamentoEntity() { }
 
         //cadastrar

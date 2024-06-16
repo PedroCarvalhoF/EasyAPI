@@ -10,25 +10,37 @@ namespace Data.Implementations.FormaPagamento
 {
     public class FormaPagamentoImplementacao : BaseRepository<FormaPagamentoEntity>, IFormaPagamentoRepository
     {
-        private readonly DbSet<FormaPagamentoEntity> _dataset;
+        private readonly DbSet<FormaPagamentoEntity> _dbSet;
         public FormaPagamentoImplementacao(MyContext context) : base(context)
         {
-            _dataset = context.Set<FormaPagamentoEntity>();
-            _dataset.AsNoTracking();
+            _dbSet = context.Set<FormaPagamentoEntity>();
         }
 
-        public Task<bool> Exists(string name, UserMasterUserDtoCreate user)
+        public async Task<bool> Exists(FormaPagamentoEntity entity, UserMasterUserDtoCreate user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(user);
+
+                var exists = await query.AnyAsync(f => f.DescricaoFormaPg == entity.DescricaoFormaPg);
+
+                return exists;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Task<FormaPagamentoEntity> Get(Guid id, UserMasterUserDtoCreate user)
+        public Task<FormaPagamentoEntity> GetById(Guid id, UserMasterUserDtoCreate user)
         {
             throw new NotImplementedException();
         }
         public async Task<IEnumerable<FormaPagamentoEntity>> GetAll(UserMasterUserDtoCreate user)
         {
-            IQueryable<FormaPagamentoEntity> query = _dataset.AsNoTracking();
+            IQueryable<FormaPagamentoEntity> query = _dbSet.AsNoTracking();
 
             query = query.FiltroUserMasterCliente(user);
 

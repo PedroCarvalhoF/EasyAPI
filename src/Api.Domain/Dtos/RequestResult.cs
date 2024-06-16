@@ -4,7 +4,7 @@
     {
         public bool Status { get; set; }
         public int StatusCode { get; private set; }
-        public string? Message { get; private set; }
+        public string? Mensagem { get; private set; }
         public DtoUserClaims? DtoUserClaims { get; private set; }
         public object? Data { get; private set; }
 
@@ -12,7 +12,7 @@
         {
             this.Status = true;
             this.StatusCode = 200;
-            this.Message = "Requisição realizada com sucesso.";
+            this.Mensagem = "Requisição realizada com sucesso.";
             if (data == null)
                 this.Data = new List<string>();
             else
@@ -24,7 +24,7 @@
         {
             this.Status = false;
             this.StatusCode = 400;
-            this.Message = $"Falha ao realizar a requisição. Detalhes: {detalhes}.";
+            this.Mensagem = $"Falha ao realizar a requisição. Detalhes: {detalhes}.";
             if (data == null)
                 this.Data = new List<string>();
             else
@@ -32,11 +32,16 @@
             return this;
         }
 
-        public RequestResult BadCreate(object? data = null)
+        public RequestResult BadCreate(string? detalhes = null, object? data = null)
         {
             this.Status = false;
             this.StatusCode = 400;
-            this.Message = $"Falha ao realizar a requisição. Não foi possível realizar o cadastro.";
+
+            if (detalhes == null)
+                this.Mensagem = $"Falha ao realizar a requisição. Não foi possível realizar o cadastro.";
+            else
+                this.Mensagem = $"Falha ao realizar a requisição. Detalhes: {detalhes}";
+
             if (data == null)
                 this.Data = new List<string>();
             else
@@ -48,7 +53,7 @@
         {
             this.Status = false;
             this.StatusCode = 200;
-            this.Message = $"Nenhum resultado encontrado.";
+            this.Mensagem = $"Nenhum resultado encontrado.";
             this.Data = new List<string>();
             return this;
         }
@@ -61,7 +66,7 @@
         {
             this.Status = false;
             this.StatusCode = 400;
-            this.Message = $"Falha ao realizar a requisição. Detalhes: Entidade não foi validada.";
+            this.Mensagem = $"Falha ao realizar a requisição. Detalhes: Entidade não foi validada.";
             if (data == null)
                 this.Data = new List<string>();
             else
@@ -73,7 +78,7 @@
         {
             this.Status = false;
             this.StatusCode = 400;
-            this.Message = $"Falha ao realizar a requisição. Não foi possível realizar alteração.";
+            this.Mensagem = $"Falha ao realizar a requisição. Não foi possível realizar alteração.";
             if (data == null)
                 this.Data = new List<string>();
             else

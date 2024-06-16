@@ -22,7 +22,15 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<ActionResult> GetAll()
         {
-            return new ReturnActionResult().ParseToActionResult(await _service.GetAll(User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
+            return new ReturnActionResult().ParseToActionResult(
+                await _service.GetAll(User.GetUserMasterUser()),
+                User.GetUserMasterUserDatalhes());
+        }
+
+        [HttpGet("formaPagamentoId")]
+        public async Task<ActionResult> GetById(Guid formaPagamentoId)
+        {
+            return new ReturnActionResult().ParseToActionResult(await _service.GetById(formaPagamentoId,User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
 
         [HttpPost]
@@ -34,8 +42,6 @@ namespace Api.Controllers
             }
 
             return new ReturnActionResult().ParseToActionResult(await _service.Create(formaPagamentoDtoCreate, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
-
-
         }
         [HttpPut]
         public async Task<ActionResult> Update(FormaPagamentoDtoUpdate formaPagamentoDtoUpdate)

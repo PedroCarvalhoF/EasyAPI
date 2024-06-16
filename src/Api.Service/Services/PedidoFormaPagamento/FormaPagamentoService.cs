@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.Dtos;
 using Domain.Dtos.FormaPagamentoDtos;
+using Domain.Dtos.PedidoFormaPagamento;
 using Domain.Entities.FormaPagamento;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository.PedidoFormaPagamento;
@@ -29,26 +30,50 @@ namespace Service.Services.FormaPagamento
                 if (entities == null || entities.Count() == 0)
                     return new RequestResult().IsNullOrCountZero();
 
-                var dtos = _mapper.Map<IEnumerable<FormaPagamentoDto>>(entities);
-                return new RequestResult().Ok(dtos);
+                var dtoViews = FormaPagamentoView.FromEntityList(entities);
+
+                return new RequestResult().Ok(dtoViews);
             }
             catch (Exception ex)
             {
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
+
+        public async Task<RequestResult> GetById(Guid formaPagamentoId, UserMasterUserDtoCreate user)
+        {
+            try
+            {
+                var entities = await _implementacao.GetById(formaPagamentoId, user);
+                if (entities == null)
+                    return new RequestResult().IsNullOrCountZero();
+
+                return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(entities));
+            }
+            catch (Exception ex)
+            {
+                return new RequestResult().BadRequest(ex.Message);
+            }
+        }
+
         public async Task<RequestResult> Create(FormaPagamentoDtoCreate formaPagamentoDtoCreate, UserMasterUserDtoCreate user)
         {
             try
             {
                 var entity = new FormaPagamentoEntity(formaPagamentoDtoCreate, user);
+                if (!entity.Validada)
+                    return new RequestResult().EntidadeInvalida();
+
+                var formaPgExists = await _implementacao.Exists(entity, user);
+                if (formaPgExists)
+                    return new RequestResult().BadCreate("Forma de pagamento já está em uso.");
+
                 var entityResult = await _repository.InsertAsync(entity);
 
                 if (entityResult == null)
                     return new RequestResult().BadCreate();
 
                 return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(entityResult));
-
             }
             catch (Exception ex)
             {
@@ -68,7 +93,6 @@ namespace Service.Services.FormaPagamento
 
                 if (entityResult == null)
                     return new RequestResult().BadUpdate();
-          
 
                 return new RequestResult().Ok(_mapper.Map<FormaPagamentoDto>(entityResult));
             }
@@ -77,5 +101,7 @@ namespace Service.Services.FormaPagamento
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
+
+
     }
 }
