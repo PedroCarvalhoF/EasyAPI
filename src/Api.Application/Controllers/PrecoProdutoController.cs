@@ -19,7 +19,7 @@ namespace Api.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetIdCategoriaPreco()
+        public async Task<ActionResult> GetAll()
         {
             return new ReturnActionResult().ParseToActionResult(await _service.GetAll(User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }

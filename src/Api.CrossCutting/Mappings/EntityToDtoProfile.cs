@@ -9,6 +9,7 @@ using Api.Domain.Entities.Pedido;
 using Api.Domain.Entities.PontoVenda;
 using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Entities.ProdutoMedida;
+using Application.Results;
 using AutoMapper;
 using Domain.Dtos.FormaPagamentoDtos;
 using Domain.Dtos.IdentityRole;
@@ -84,7 +85,12 @@ namespace Api.CrossCutting.Mappings
             CreateMap<UserMasterUserEntity, UserMasterUserDto>();
 
             #endregion
+            #region Application
+            CreateMap<PeriodoPontoVendaEntity, PeriodoPontoVendaView>();
 
+
+
+            #endregion
             CreateMap<UsuarioPontoVendaDto, UsuarioPontoVendaEntity>().ReverseMap();
             CreateMap<UsuarioPontoVendaDtoCreate, UsuarioPontoVendaEntity>().ReverseMap();
 

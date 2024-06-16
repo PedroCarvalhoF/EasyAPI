@@ -66,22 +66,7 @@ namespace Service.Services.PeriodoPontoVenda
         }
         public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> Get(string descricao)
         {
-            ResponseDto<List<PeriodoPontoVendaDto>> response = new ResponseDto<List<PeriodoPontoVendaDto>>();
-            response.Dados = new List<PeriodoPontoVendaDto>();
-
-            try
-            {
-                var entities = await _implementacao.Get(descricao);
-                var dtos = _mapper.Map<List<PeriodoPontoVendaDto>>(entities);
-
-                response.Dados = dtos;
-                return response;
-            }
-            catch (Exception ex)
-            {
-                response.Erro(ex.Message);
-                return response;
-            }
+            throw new NotImplementedException();
         }
         public async Task<ResponseDto<List<PeriodoPontoVendaDto>>> Create(PeriodoPontoVendaDtoCreate create)
         {

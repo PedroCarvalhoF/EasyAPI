@@ -2,8 +2,7 @@
 
 namespace Domain.Interfaces.Repository
 {
-    public interface IPeriodoPontoVendaRepository
+    public interface IPeriodoPontoVendaRepository : IRequiredRepository<PeriodoPontoVendaEntity>
     {
-        Task<IEnumerable<PeriodoPontoVendaEntity>> Get(string descricao);
     }
 }
