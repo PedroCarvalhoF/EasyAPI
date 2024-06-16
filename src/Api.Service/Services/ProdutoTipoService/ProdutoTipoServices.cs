@@ -44,7 +44,7 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-                var entities = await _implementacao!.GetByIdTipoProduto(id, users);
+                var entities = await _implementacao!.GetById(id, users);
                 if (entities == null)
                     return new RequestResult().IsNullOrCountZero();
 
@@ -60,8 +60,14 @@ namespace Service.Services.ProdutoTipoService
         {
             try
             {
-
                 var entity = new ProdutoTipoEntity(create, user);
+                if (!entity.Validada)
+                    return new RequestResult().EntidadeInvalida();
+
+                var exists = await _implementacao.Exists(entity, user);
+                if (exists)
+                    return new RequestResult().BadCreate("Tipo já está em uso");
+
                 var resultCreate = await _repository.InsertAsync(entity);
 
                 if (resultCreate == null)
@@ -82,17 +88,16 @@ namespace Service.Services.ProdutoTipoService
             try
             {
                 var entity = new ProdutoTipoEntity(update, user);
+                if (!entity.Validada)
+                    return new RequestResult().EntidadeInvalida();
 
-                if (!entity.isBaseValida)
-                    return new RequestResult().BadRequest("Não foi possível realizar Update.");
+                var exists = await _implementacao.Exists(entity, user);
+                if (exists)
+                    return new RequestResult().BadCreate("Tipo já está em uso");
 
                 var resultUpdate = await _repository.UpdateAsync(entity);
-
-
                 if (resultUpdate == null)
-                {
                     return new RequestResult().IsNullOrCountZero();
-                }
 
                 return new RequestResult().Ok(_mapper.Map<ProdutoTipoDto>(resultUpdate));
             }

@@ -1,11 +1,8 @@
 ﻿using Domain.Entities.ProdutoTipo;
-using Domain.UserIdentity.Masters;
 
 namespace Domain.Interfaces.Repository.Produto
 {
-    public interface IProdutoTipoRepository
+    public interface IProdutoTipoRepository : IRequiredRepository<ProdutoTipoEntity>
     {
-        Task<IEnumerable<ProdutoTipoEntity>> GetAll(UserMasterUserDtoCreate users);
-        Task<ProdutoTipoEntity> GetByIdTipoProduto(Guid id, UserMasterUserDtoCreate users);
     }
 }

@@ -11,7 +11,7 @@ namespace Domain.Entities.ProdutoTipo
         public string? DescricaoTipoProduto { get; private set; }
         public IEnumerable<ProdutoEntity>? ProdutoEntities { get; private set; }
 
-        public bool isValidada => Validar();
+        public bool Validada => Validar();
 
         private bool Validar()
         {
