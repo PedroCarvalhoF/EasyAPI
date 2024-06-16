@@ -86,8 +86,8 @@ namespace Service.Services.FormaPagamento
             {
                 var entity = new FormaPagamentoEntity(formaPagamentoDtoUpdate, user);
 
-                if (!entity.isBaseValida)
-                    return new RequestResult().BadRequest("Não foi possível realizar Update.");
+                if (!entity.Validada)
+                    return new RequestResult().EntidadeInvalida();
 
                 var entityResult = await _repository.UpdateAsync(entity);
 

@@ -27,10 +27,10 @@ namespace Api.Controllers
                 User.GetUserMasterUserDatalhes());
         }
 
-        [HttpGet("formaPagamentoId")]
+        [HttpGet("{formaPagamentoId}")]
         public async Task<ActionResult> GetById(Guid formaPagamentoId)
         {
-            return new ReturnActionResult().ParseToActionResult(await _service.GetById(formaPagamentoId,User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
+            return new ReturnActionResult().ParseToActionResult(await _service.GetById(formaPagamentoId, User.GetUserMasterUser()), User.GetUserMasterUserDatalhes());
         }
 
         [HttpPost]

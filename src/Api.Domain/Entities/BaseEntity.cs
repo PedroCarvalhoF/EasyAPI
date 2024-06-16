@@ -20,8 +20,7 @@ namespace Api.Domain.Entities
                 return false;
             if (UserMasterClienteIdentityId == null || UserMasterClienteIdentityId == Guid.Empty)
                 return false;
-            if (CreateAt == default(DateTime))
-                return false;
+           
             return true;
         }
 

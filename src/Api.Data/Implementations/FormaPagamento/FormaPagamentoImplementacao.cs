@@ -34,9 +34,22 @@ namespace Data.Implementations.FormaPagamento
             }
         }
 
-        public Task<FormaPagamentoEntity> GetById(Guid id, UserMasterUserDtoCreate user)
+        public async Task<FormaPagamentoEntity> GetById(Guid id, UserMasterUserDtoCreate user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(user);
+
+                query = query.Where(f => f.Id == id);
+
+                return await query.SingleOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
         public async Task<IEnumerable<FormaPagamentoEntity>> GetAll(UserMasterUserDtoCreate user)
         {
