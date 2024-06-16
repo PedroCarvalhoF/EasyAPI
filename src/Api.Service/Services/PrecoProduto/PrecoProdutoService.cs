@@ -3,8 +3,10 @@ using Api.Domain.Entities.PrecoProduto;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
 using AutoMapper;
 using Domain.Dtos;
+using Domain.Dtos.PrecoProduto;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
+using Domain.UserIdentity.Masters;
 
 namespace Api.Service.Services.PrecoProduto
 {
@@ -20,127 +22,84 @@ namespace Api.Service.Services.PrecoProduto
             _repository = repository;
             _implementacao = precoProdutoRepository;
         }
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetAll()
+        public async Task<RequestResult> GetAll(UserMasterUserDtoCreate users)
         {
-            var response = new ResponseDto<List<PrecoProdutoDto>>();
             try
             {
-                var entities = await _implementacao.GetAll();
-                var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
-                return response.Retorno(dtos);
+                var entities = await _implementacao.GetAll(users);
+                if (entities == null || entities.Count() == 0)
+                    return new RequestResult().IsNullOrCountZero();
+
+                var precosViews = new List<PrecoProdutoView>();
+
+                foreach (var prp in entities)
+                {
+                    precosViews.Add(new PrecoProdutoView(prp.Id, prp.ProdutoEntity.NomeProduto, prp.CategoriaPrecoEntity.DescricaoCategoria, prp.PrecoProduto));
+                }
+
+                return new RequestResult().Ok(precosViews);
             }
             catch (Exception ex)
             {
-                return response.Erro(ex.Message);
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> Get(Guid id)
+        public async Task<RequestResult> CreateUpdate(PrecoProdutoDtoCreate create, UserMasterUserDtoCreate users)
         {
-            var response = new ResponseDto<List<PrecoProdutoDto>>();
-            response.Dados = new List<PrecoProdutoDto>();
-
             try
             {
-                var entity = await _implementacao.Get(id);
-                var dto = _mapper.Map<PrecoProdutoDto>(entity);
+                var precoExists = await _implementacao.PrecoProdutoExists(create, users);
+                if (precoExists == null)
+                {
+                    //create
+                    var entity = new PrecoProdutoEntity(create, users);
+                    if (!entity.Valida)
+                        return new RequestResult().EntidadeInvalida();
 
-                response.Dados.Add(dto);
-                response.ConsultaOk();
-                return response;
+                    var entityResultCreate = await _repository.InsertAsync(entity);
+                    if (entityResultCreate == null)
+                        return new RequestResult().BadCreate();
+
+                    var precoCreate = await _implementacao.PrecoProdutoExists(create, users);
+
+                    var precoProdutoDtoResult = new PrecoProdutoDtoCreateResult(precoCreate.Id, precoCreate.ProdutoEntity.NomeProduto, precoCreate.CategoriaPrecoEntity.DescricaoCategoria, precoCreate.PrecoProduto);
+
+                    return new RequestResult().Ok(precoProdutoDtoResult);
+                }
+                else
+                {
+                    //update
+
+                    var precoUpdate = new PrecoProdutoDtoUpdate
+                    {
+                        Id = precoExists.Id,
+                        Habilitado = true,
+                        PrecoProduto = create.PrecoProduto,
+                        CategoriaPrecoEntityId = create.CategoriaPrecoEntityId,
+                        ProdutoEntityId = create.ProdutoEntityId
+                    };
+
+                    var entityUpdate = new PrecoProdutoEntity(precoUpdate, users);
+                    if (!entityUpdate.Valida)
+                        return new RequestResult().EntidadeInvalida();
+
+                    var entityUpdateResult = await _repository.UpdateAsync(entityUpdate);
+                    if (entityUpdateResult == null)
+                        return new RequestResult().BadCreate();
+
+                    var precoCreate = await _implementacao.PrecoProdutoExists(create, users);
+
+                    var precoProdutoDtoResult = new PrecoProdutoDtoCreateResult(precoCreate.Id, precoCreate.ProdutoEntity.NomeProduto, precoCreate.CategoriaPrecoEntity.DescricaoCategoria, precoCreate.PrecoProduto);
+
+                    return new RequestResult().Ok(precoProdutoDtoResult);
+                }
             }
             catch (Exception ex)
             {
-                response.Erro(ex.Message);
-                return response;
+                return new RequestResult().BadRequest(ex.Message);
             }
         }
 
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetIdProduto(Guid id)
-        {
-            var response = new ResponseDto<List<PrecoProdutoDto>>();
-            response.Dados = new List<PrecoProdutoDto>();
 
-            try
-            {
-                var entities = await _implementacao.GetProdutoId(id);
-                var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
-
-                response.Dados = dtos;
-                response.ConsultaOk();
-                return response;
-            }
-            catch (Exception ex)
-            {
-                response.Erro(ex.Message);
-                return response;
-            }
-        }
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> GetIdCategoriaPreco(Guid id)
-        {
-            var response = new ResponseDto<List<PrecoProdutoDto>>();
-            response.Dados = new List<PrecoProdutoDto>();
-
-            try
-            {
-                var entities = await _implementacao.GetCategoriaPrecoId(id);
-                var dtos = _mapper.Map<List<PrecoProdutoDto>>(entities);
-
-                response.Dados = dtos;
-                response.ConsultaOk();
-                return response;
-            }
-            catch (Exception ex)
-            {
-                response.Erro(ex.Message);
-                return response;
-            }
-        }
-
-        public async Task<ResponseDto<List<PrecoProdutoDto>>> CreateUpdate(PrecoProdutoDtoCreate createUpdate)
-        {
-            return new ResponseDto<List<PrecoProdutoDto>>().ErroCadastro();
-
-            //var response = new ResponseDto<List<PrecoProdutoDto>>();
-            //response.Dados = new List<PrecoProdutoDto>();
-
-            //try
-            //{
-            //    var model = _mapper.Map<PrecoProdutoModel>(createUpdate);
-            //    var entidade = _mapper.Map<PrecoProdutoEntity>(model);
-            //    var precoExists = await _implementacao.PrecoExists(model.ProdutoEntityId, model.CategoriaPrecoEntityId);
-
-            //    if (precoExists is null)
-            //    {
-            //        //cadastrar                    
-            //        var result = await _repository.InsertAsync(entidade);
-            //        var responseCreateResult = await Get(result.Id);
-            //        if (responseCreateResult.Status)
-            //        {
-            //            responseCreateResult.Mensagem = "Preço cadastrado com sucesso!";
-            //        }
-
-            //        return responseCreateResult;
-            //    }
-            //    else
-            //    {
-            //        //alterar
-            //        entidade.Id = precoExists.Id;
-            //        entidade.Habilitado = true;
-            //        var result = await _repository.UpdateAsync(entidade);
-            //        var responseUpdateResult = await Get(result.Id);
-            //        if (responseUpdateResult.Status)
-            //        {
-            //            responseUpdateResult.Mensagem = "Preço alterado com sucesso!";
-            //        }
-
-            //        return responseUpdateResult;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    response.Erro(ex.Message);
-            //    return response;
-            //}
-        }
     }
 }

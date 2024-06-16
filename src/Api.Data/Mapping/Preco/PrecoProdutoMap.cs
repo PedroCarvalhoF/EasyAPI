@@ -10,7 +10,6 @@ namespace Data.Mapping.Preco
         {
             builder.ToTable("PrecosProdutos");
             builder.HasKey(prod => prod.Id);
-
             builder.Property(prod => prod.ProdutoEntityId)
                    .IsRequired();
             builder.Property(prod => prod.CategoriaPrecoEntityId)
@@ -18,10 +17,8 @@ namespace Data.Mapping.Preco
             builder.Property(prod => prod.PrecoProduto)
                    .IsRequired();
             builder.Property(prod => prod.PrecoProduto).HasColumnType("decimal(18,2)");
-
             builder.Property(prod => prod.Habilitado)
                    .IsRequired();
-
 
             builder.HasOne(preco => preco.ProdutoEntity)
                     .WithMany(produto => produto.PrecoProdutoEntities)

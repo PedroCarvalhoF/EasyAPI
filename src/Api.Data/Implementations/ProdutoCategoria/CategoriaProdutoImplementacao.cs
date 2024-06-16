@@ -2,9 +2,11 @@
 using Api.Data.Repository;
 using Data.Query;
 using Domain.Entities.CategoriaProduto;
+using Domain.Identity.UserIdentity;
 using Domain.Interfaces.Repository;
 using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace Data.Implementations
 {
@@ -15,6 +17,29 @@ namespace Data.Implementations
         public CategoriaProdutoImplementacao(MyContext context) : base(context)
         {
             _dataset = context.Set<CategoriaProdutoEntity>();
+        }
+
+        public async Task<bool> Exists(string? descricaoCategoria, UserMasterUserDtoCreate users)
+        {
+
+            try
+            {
+                IQueryable<CategoriaProdutoEntity> query = _dataset.AsNoTracking();
+                query = FiltroOrderBy(query);
+
+                query = query.FiltroUserMasterCliente(users).Where(c => c.DescricaoCategoria.ToLower() == descricaoCategoria.ToLower());
+
+                var entity = await query.SingleOrDefaultAsync();
+
+                if (entity != null)
+                    return true;
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<IEnumerable<CategoriaProdutoEntity>> GetAll(UserMasterUserDtoCreate user)

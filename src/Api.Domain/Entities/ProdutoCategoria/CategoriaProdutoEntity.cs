@@ -12,9 +12,7 @@ namespace Domain.Entities.CategoriaProduto
         public bool Validada => Validar();
         public IEnumerable<ProdutoEntity> ProdutoEntities { get; private set; }
         private bool Validar()
-        {
-            if (!isBaseValida)
-                return isBaseValida;
+        {           
 
             if (DescricaoCategoria.Length > 80)
                 return false;

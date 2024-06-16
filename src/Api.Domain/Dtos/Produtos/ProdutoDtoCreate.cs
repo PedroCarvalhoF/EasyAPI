@@ -5,13 +5,13 @@ namespace Domain.Dtos.ProdutoDtos
     public class ProdutoDtoCreate
     {
         [Required]
-        public string NomeProduto { get; set; }
+        public string? NomeProduto { get; set; }
 
         [Required]
-        public string CodigoBarrasPersonalizado { get; set; }
-        public string Descricao { get; set; }
+        public string? CodigoBarrasPersonalizado { get; set; }
+        public string? Descricao { get; set; }
 
-        public string Observacoes { get; set; }
+        public string? Observacoes { get; set; }
 
         [Required]
         public Guid CategoriaProdutoEntityId { get; set; }
@@ -21,6 +21,6 @@ namespace Domain.Dtos.ProdutoDtos
 
         [Required]
         public Guid ProdutoTipoEntityId { get; set; }
-        public string ImgUrl { get; set; }
+        public string? ImgUrl { get; set; }
     }
 }

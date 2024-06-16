@@ -1,27 +1,19 @@
-using Api.Domain.Dtos.CategoriaPrecoDtos;
-using Domain.Dtos.ProdutoDtos;
-
 namespace Api.Domain.Dtos.PrecoProdutoDtos
 {
-    public class PrecoProdutoDtoCreateResult /*: BaseDto*/
+    public class PrecoProdutoDtoCreateResult
     {
-        public Guid Id { get; set; }
-        public DateTime CreateAt { get; set; }
-        ////SIMPLIFICADO TESTE
-        //public Guid Id { get; set; }
-        //public DateTime CreateAt { get; set; }
-        //public Guid ProdutoEntityId { get; set; }
-        //public String? NomeProduto { get; set; }
+        public PrecoProdutoDtoCreateResult(Guid id, string nomeProduto, string categoriaPreco, decimal preco)
+        {
+            Id = id;
+            NomeProduto = nomeProduto;
+            CategoriaPreco = categoriaPreco;
+            this.preco = preco;
+        }
 
-        //public Guid CategoriaPrecoEntityId { get; set; }
-        //public String? DescricaoCategoria { get; set; }
-        //public bool Habilitado { get; set; }
-
-        //FULL
-        public ProdutoDto? ProdutoEntity { get; set; }
-        public CategoriaPrecoDto? CategoriaPrecoEntity { get; set; }
-        public Decimal PrecoProduto { get; set; }
-        public bool Habilitado { get; set; }
+        public Guid Id { get; private set; }
+        public string NomeProduto { get; private set; }
+        public string CategoriaPreco { get; private set; }
+        public decimal preco { get; private set; }
 
     }
 }

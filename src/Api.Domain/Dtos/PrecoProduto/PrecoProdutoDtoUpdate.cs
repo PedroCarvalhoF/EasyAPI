@@ -7,14 +7,17 @@ namespace Api.Domain.Dtos.PrecoProdutoDtos
     {
         [Required]
         public Guid Id { get; set; }
+
         [Required]
-        public Guid ProdutoId { get; set; }
+        public Guid ProdutoEntityId { get; set; }
         [Required]
-        public Guid CategoriaPrecoId { get; set; }
+        public Guid CategoriaPrecoEntityId { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
-        public Decimal PrecoProduto { get; set; }
+        public decimal PrecoProduto { get; set; }
+        [Required]
+        public bool Habilitado { get; set; }
 
     }
 }

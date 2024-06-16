@@ -7,6 +7,7 @@ using Domain.Entities.ItensPedido;
 using Domain.Entities.ProdutoTipo;
 using Domain.Helpers.Tools;
 using Domain.UserIdentity.Masters;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Domain.Entities.Produto
 {
@@ -20,7 +21,6 @@ namespace Domain.Entities.Produto
         public Guid CategoriaProdutoEntityId { get; private set; }
         public Guid ProdutoMedidaEntityId { get; private set; }
         public Guid ProdutoTipoEntityId { get; private set; }
-
         public bool Validada => Validar();
 
         private bool Validar()
@@ -31,6 +31,8 @@ namespace Domain.Entities.Produto
             if (string.IsNullOrEmpty(CodigoBarrasPersonalizado))
                 return false;
             if (CategoriaProdutoEntityId == Guid.Empty || ProdutoMedidaEntityId == Guid.Empty || ProdutoTipoEntityId == Guid.Empty)
+                return false;
+            if (string.IsNullOrEmpty(Descricao) || string.IsNullOrEmpty(Observacoes) || string.IsNullOrEmpty(ImgUrl))
                 return false;
 
             return true;
@@ -51,12 +53,23 @@ namespace Domain.Entities.Produto
             if (create.CategoriaProdutoEntityId == Guid.Empty || create.ProdutoMedidaEntityId == Guid.Empty || create.ProdutoTipoEntityId == Guid.Empty)
                 throw new ArgumentException("Informe a categoria,tipo e medida do produto.");
 
+            if (string.IsNullOrEmpty(create.Descricao))
+                Descricao = "sem descrição";
+            else
+                Descricao = create.Descricao;
+
+            if (string.IsNullOrEmpty(create.Observacoes))
+                Observacoes = "sem observações";
+            else
+                Observacoes = create.Observacoes;
+
+            if (string.IsNullOrEmpty(create.ImgUrl))
+                ImgUrl = "sem_foto.png";
+            else
+                ImgUrl = create.ImgUrl;
 
             NomeProduto = PrimeiraLetraSempreMaiuscula.Formatar(create.NomeProduto);
             CodigoBarrasPersonalizado = create.CodigoBarrasPersonalizado;
-            Descricao = create.Descricao;
-            Observacoes = create.Observacoes;
-            ImgUrl = create.ImgUrl;
             CategoriaProdutoEntityId = create.CategoriaProdutoEntityId;
             ProdutoMedidaEntityId = create.ProdutoMedidaEntityId;
             ProdutoTipoEntityId = create.ProdutoTipoEntityId;
@@ -71,11 +84,23 @@ namespace Domain.Entities.Produto
             if (update.CategoriaProdutoEntityId == Guid.Empty || update.ProdutoMedidaEntityId == Guid.Empty || update.ProdutoTipoEntityId == Guid.Empty)
                 throw new ArgumentException("Informe a categoria,tipo e medida do produto.");
 
+            if (string.IsNullOrEmpty(update.Descricao))
+                Descricao = "sem descrição";
+            else
+                Descricao = update.Descricao;
+
+            if (string.IsNullOrEmpty(update.Observacoes))
+                Observacoes = "sem observações";
+            else
+                Observacoes = update.Observacoes;
+
+            if (string.IsNullOrEmpty(update.ImgUrl))
+                ImgUrl = "sem_foto.png";
+            else
+                ImgUrl = update.ImgUrl;
+
             NomeProduto = PrimeiraLetraSempreMaiuscula.Formatar(update.NomeProduto);
             CodigoBarrasPersonalizado = update.CodigoBarrasPersonalizado;
-            Descricao = update.Descricao;
-            Observacoes = update.Observacoes;
-            ImgUrl = update.ImgUrl;
             CategoriaProdutoEntityId = update.CategoriaProdutoEntityId;
             ProdutoMedidaEntityId = update.ProdutoMedidaEntityId;
             ProdutoTipoEntityId = update.ProdutoTipoEntityId;

@@ -60,6 +60,10 @@ namespace Api.Service.Services.CategoriaProduto
                 if (!entity.Validada)
                     return new RequestResult().EntidadeInvalida();
 
+                var categoriaProdutoExists = await _implementacao.Exists(create.DescricaoCategoria, users);
+                if (categoriaProdutoExists)
+                    return new RequestResult().BadRequest("Categoria já existe");
+
                 var entityResult = await _repositoryBase.InsertAsync(entity);
 
                 return new RequestResult().Ok(_mapper.Map<CategoriaProdutoDto>(entityResult));
@@ -77,6 +81,10 @@ namespace Api.Service.Services.CategoriaProduto
                 var entity = new CategoriaProdutoEntity(update, users);
                 if (!entity.Validada)
                     return new RequestResult().EntidadeInvalida();
+
+                var categoriaProdutoExists = await _implementacao.Exists(update.DescricaoCategoria, users);
+                if (categoriaProdutoExists)
+                    return new RequestResult().BadRequest("Categoria já existe");
 
                 var entityResult = await _repositoryBase.UpdateAsync(entity);
 

@@ -51,7 +51,7 @@ namespace Data.Implementations.Produto
         {
             try
             {
-               var query = _dataset.AsNoTracking();
+                var query = _dataset.AsNoTracking();
 
                 query = query.Where(p => p.Id.Equals(id)).OrderBy(p => p.NomeProduto);
 
@@ -61,6 +61,45 @@ namespace Data.Implementations.Produto
                 var entity = await query.SingleOrDefaultAsync();
 
                 return entity;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<bool> CodigoExists(string? codigoBarrasPersonalizado, UserMasterUserDtoCreate users)
+        {
+            try
+            {
+                var query = _dataset.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(users).Where(p => p.CodigoBarrasPersonalizado == codigoBarrasPersonalizado);
+
+                var entites = await query.AnyAsync();
+
+                return entites;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> NomeProdutoExists(string? nomeProduto, UserMasterUserDtoCreate users)
+        {
+            try
+            {
+                var query = _dataset.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(users).Where(p => p.NomeProduto == nomeProduto);
+
+                var entites = await query.AnyAsync();
+
+                return entites;
 
             }
             catch (Exception ex)

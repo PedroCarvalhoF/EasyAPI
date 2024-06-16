@@ -7,6 +7,8 @@ using Domain.Interfaces;
 using Domain.Interfaces.Repository.Produto;
 using Domain.Interfaces.Services.Produto;
 using Domain.UserIdentity.Masters;
+using Microsoft.VisualBasic;
+using System.Collections.ObjectModel;
 
 namespace Service.Services.Produto
 {
@@ -30,7 +32,14 @@ namespace Service.Services.Produto
                 if (entities == null || entities.Count() == 0)
                     return new RequestResult().IsNullOrCountZero();
 
-                return new RequestResult().Ok(_mapper!.Map<IEnumerable<ProdutoDto>>(entities));
+                var ProdutosViews = new Collection<ProdutoView>();
+
+                foreach (var pr in entities)
+                {
+                    ProdutosViews.Add(new ProdutoView(pr.Id, pr.NomeProduto, pr.CodigoBarrasPersonalizado, pr.CategoriaProdutoEntity.DescricaoCategoria, pr.ProdutoMedidaEntity.Descricao, pr.ProdutoTipoEntity.DescricaoTipoProduto, pr.ImgUrl));
+                }
+                return new RequestResult().Ok(ProdutosViews);
+                return new RequestResult().Ok(_mapper.Map<IEnumerable<ProdutoDto>>(entities));
             }
             catch (Exception ex)
             {
@@ -61,6 +70,15 @@ namespace Service.Services.Produto
                 var entity = new ProdutoEntity(create, users);
                 if (!entity.Validada)
                     return new RequestResult().EntidadeInvalida();
+
+                bool codigoProduto = await _implementacao.CodigoExists(create.CodigoBarrasPersonalizado, users);
+                if (codigoProduto)
+                    return new RequestResult().BadRequest("Código em uso");
+
+                bool nomeProduto = await _implementacao.NomeProdutoExists(create.NomeProduto, users);
+                if (nomeProduto)
+                    return new RequestResult().BadRequest("Nome do produto em uso");
+
 
                 var entityResult = await _repository.InsertAsync(entity);
                 if (entityResult == null)

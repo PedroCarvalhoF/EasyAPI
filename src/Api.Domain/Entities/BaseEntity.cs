@@ -22,10 +22,6 @@ namespace Api.Domain.Entities
                 return false;
             if (CreateAt == default(DateTime))
                 return false;
-
-            if (!ValidarBase())
-                return false;
-
             return true;
         }
 

@@ -1,7 +1,10 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
+using Api.Domain.Dtos.PrecoProdutoDtos;
 using Api.Domain.Entities.PrecoProduto;
+using Data.Query;
 using Domain.Interfaces.Repository;
+using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Implementations.PrecoProduto
@@ -12,10 +15,7 @@ namespace Data.Implementations.PrecoProduto
         public PrecoProdutoImplementacao(MyContext context) : base(context)
         {
             _dtSet = context.Set<PrecoProdutoEntity>();
-            _dtSet.AsNoTracking();
-
         }
-
         private IQueryable<PrecoProdutoEntity> Includes(IQueryable<PrecoProdutoEntity> query)
         {
             query = query.Include(cat_preco => cat_preco.CategoriaPrecoEntity);
@@ -27,88 +27,52 @@ namespace Data.Implementations.PrecoProduto
 
             return query;
         }
-        public async Task<IEnumerable<PrecoProdutoEntity>> GetAll()
+
+        public async Task<IEnumerable<PrecoProdutoEntity>> GetAll(UserMasterUserDtoCreate users)
         {
             try
             {
-                IQueryable<PrecoProdutoEntity> query = _dtSet.AsNoTracking();
+                var query = _dtSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(users);
 
                 query = Includes(query);
 
-                return await query.ToArrayAsync();
+                var entities = await query.ToArrayAsync();
+
+                return entities;
             }
             catch (Exception ex)
             {
+
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<PrecoProdutoEntity> Get(Guid id)
+
+        public async Task<PrecoProdutoEntity> PrecoProdutoExists(PrecoProdutoDtoCreate create, UserMasterUserDtoCreate users)
         {
             try
             {
-                IQueryable<PrecoProdutoEntity> query = _dtSet.AsNoTracking();
+                var query = _dtSet.AsNoTracking();
 
+                //ATENÇÃO PRECISA SER CRIADO UM METODO - TEMPORARIO
                 query = Includes(query);
 
-                query = query.Where(preco => preco.Id.Equals(id));
+                query = query.FiltroUserMasterCliente(users)
+                    .Where(p => p.CategoriaPrecoEntityId == create.CategoriaPrecoEntityId
+                    && p.ProdutoEntityId == create.ProdutoEntityId);
 
-                return await query.SingleAsync();
+                var entity = await query.SingleOrDefaultAsync();
+
+                return entity;
             }
             catch (Exception ex)
             {
+
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<IEnumerable<PrecoProdutoEntity>> GetProdutoId(Guid id)
-        {
-            try
-            {
-                IQueryable<PrecoProdutoEntity> query = _dtSet.AsNoTracking();
 
-                query = query.Where(preco => preco.ProdutoEntity.Id.Equals(id));
 
-                query = Includes(query);
-
-                return await query.ToArrayAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<IEnumerable<PrecoProdutoEntity>> GetCategoriaPrecoId(Guid id)
-        {
-            try
-            {
-                IQueryable<PrecoProdutoEntity> query = _dtSet.AsNoTracking();
-
-                query = query.Where(preco => preco.CategoriaPrecoEntityId.Equals(id));
-
-                query = Includes(query);
-
-                return await query.ToArrayAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public async Task<PrecoProdutoEntity> PrecoExists(Guid produtoEntityId, Guid categoriaPrecoEntityId)
-        {
-            try
-            {
-                IQueryable<PrecoProdutoEntity> query = _dtSet.AsNoTracking();
-
-                query = query.Where(preco => preco.ProdutoEntity.Id.Equals(produtoEntityId) && preco.CategoriaPrecoEntity.Id.Equals(categoriaPrecoEntityId));
-
-                var result = await query.FirstOrDefaultAsync();
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
     }
 }
