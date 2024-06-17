@@ -3,6 +3,7 @@ using System;
 using Api.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20240617183006_UserMasterClienteMigrationsAdd")]
+    partial class UserMasterClienteMigrationsAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,22 +148,6 @@ namespace Data.Migrations
                     b.ToTable("UserMasterClienteEntity");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserMasterUser.UserMasterUserEntity", b =>
-                {
-                    b.Property<Guid>("UserClienteId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("UserMasterUserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("UserClienteId", "UserMasterUserId");
-
-                    b.HasIndex("UserMasterUserId")
-                        .IsUnique();
-
-                    b.ToTable("UserMasterUserEntity");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -275,25 +262,6 @@ namespace Data.Migrations
                     b.Navigation("UserMaster");
                 });
 
-            modelBuilder.Entity("Domain.Entities.UserMasterUser.UserMasterUserEntity", b =>
-                {
-                    b.HasOne("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", "UserCliente")
-                        .WithMany("UsersMasterUsers")
-                        .HasForeignKey("UserClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User.UserEntity", "UserMasterUser")
-                        .WithOne("UserMasterUser")
-                        .HasForeignKey("Domain.Entities.UserMasterUser.UserMasterUserEntity", "UserMasterUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserCliente");
-
-                    b.Navigation("UserMasterUser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("Domain.Entities.User.RoleEntity", null)
@@ -339,14 +307,7 @@ namespace Data.Migrations
                 {
                     b.Navigation("UserMasterCliente");
 
-                    b.Navigation("UserMasterUser");
-
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", b =>
-                {
-                    b.Navigation("UsersMasterUsers");
                 });
 #pragma warning restore 612, 618
         }

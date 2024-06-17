@@ -1,6 +1,5 @@
 ﻿using Api.Data.Context;
-using Api.Identity.Context;
-using Domain.Identity.UserIdentity;
+using Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,30 +22,16 @@ namespace CrossCutting.DependencyInjection.Extensions
                              options.UseMySql(desenvolvimento, serverVersion));
 
                 serviceCollection.
-                    AddDbContext<IdentityDataContext>(options =>
+                    AddDbContext<MyContext>(options =>
                                  options.UseMySql(desenvolvimento, serverVersion));
             }
-            else
-            if (connectionString == "producao_montana_vale_sul")
-            {
-                string? PRODUCAO_MYSQL_MONTANA_VALE_SUL = "Server=mysql246.umbler.com;Port=41890;DataBase=teste_easy;Uid=admin_teste;password=010203++teste;";
 
-                serviceCollection.
-                AddDbContext<MyContext>(options =>
-                             options.UseMySql(PRODUCAO_MYSQL_MONTANA_VALE_SUL, serverVersion));
-
-                serviceCollection.
-                    AddDbContext<IdentityDataContext>(options =>
-                                 options.UseMySql(PRODUCAO_MYSQL_MONTANA_VALE_SUL, serverVersion));
-            }
-
-
-            serviceCollection.AddIdentityCore<User>()
-           .AddRoles<Role>()
-           .AddRoleManager<RoleManager<Role>>()
-           .AddSignInManager<SignInManager<User>>()
-           .AddRoleValidator<RoleValidator<Role>>()
-           .AddEntityFrameworkStores<IdentityDataContext>()
+            serviceCollection.AddIdentityCore<UserEntity>()
+           .AddRoles<RoleEntity>()
+           .AddRoleManager<RoleManager<RoleEntity>>()
+           .AddSignInManager<SignInManager<UserEntity>>()
+           .AddRoleValidator<RoleValidator<RoleEntity>>()
+           .AddEntityFrameworkStores<MyContext>()
            .AddDefaultTokenProviders();
         }
     }

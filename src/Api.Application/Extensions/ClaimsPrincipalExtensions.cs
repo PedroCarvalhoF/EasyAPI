@@ -1,7 +1,4 @@
-﻿using Domain.Dtos;
-using Domain.UserIdentity.Masters;
-using Domain.UserIdentity.MasterUsers;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace Api.Extensions
 {
@@ -25,27 +22,6 @@ namespace Api.Extensions
                 return filtroId;
             }
             return Guid.Empty;
-        }
-
-        public static UserMasterUserDtoCreate GetUserMasterUser(this ClaimsPrincipal user)
-        {
-            var userId = Guid.Parse(user.FindFirst("UserId")?.Value);
-            var userMasterClienteIdentityId = Guid.Parse(user.FindFirst("UserMasterClienteIdentityId")?.Value);
-
-            return new UserMasterUserDtoCreate
-            {
-                UserId = userId,
-                UserMasterClienteIdentityId = userMasterClienteIdentityId,
-            };
-        }
-        public static DtoUserClaims GetUserMasterUserDatalhes(this ClaimsPrincipal user)
-        {
-            return new DtoUserClaims
-                (
-                 userMasterId: user.FindFirst("UserMasterClienteIdentityId")?.Value,
-                 userId: user.FindFirst("UserId")?.Value,
-                 userName: user.FindFirst(ClaimTypes.Email)?.Value
-                );
-        }
+        }      
     }
 }

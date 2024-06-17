@@ -7,10 +7,11 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Api.Domain\Domain.csproj" />
-    <ProjectReference Include="..\Api.Identity\Identity.csproj" />
-    <ProjectReference Include="..\Api.Service\Service.csproj" />
     <ProjectReference Include="..\Api.Data\Data.csproj" />
     <ProjectReference Include="..\Application\Application.csproj" />
     
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Util\" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,6 @@
 using Api.Application.Extensions;
 using Api.Extensions;
 using CrossCutting.DependencyInjection;
-using CrossCutting.Util;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 
@@ -66,7 +65,5 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 
-CriaPerfilIdentity criaPerfilIdentity = new();
-await criaPerfilIdentity.CriarPerfisUsuariosAsync(app);
 
 app.Run();

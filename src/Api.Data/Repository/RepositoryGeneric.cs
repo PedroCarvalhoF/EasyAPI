@@ -1,5 +1,5 @@
 ﻿using Api.Data.Context;
-using Domain.Interfaces;
+using Application.Interfaces.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repository

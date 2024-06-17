@@ -3,6 +3,7 @@ using System;
 using Api.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20240617180749_Inicial")]
+    partial class Inicial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +49,22 @@ namespace Data.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.User.UserEntity", b =>
+            modelBuilder.Entity("Domain.Entities.User.UserRoleIdentity", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.User.UseridentityEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -118,47 +136,6 @@ namespace Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.User.UserRoleEntity", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", b =>
-                {
-                    b.Property<Guid>("UserMasterId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("UserMasterId");
-
-                    b.ToTable("UserMasterClienteEntity");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserMasterUser.UserMasterUserEntity", b =>
-                {
-                    b.Property<Guid>("UserClienteId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("UserMasterUserId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("UserClienteId", "UserMasterUserId");
-
-                    b.HasIndex("UserMasterUserId")
-                        .IsUnique();
-
-                    b.ToTable("UserMasterUserEntity");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -245,7 +222,7 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.User.UserRoleEntity", b =>
+            modelBuilder.Entity("Domain.Entities.User.UserRoleIdentity", b =>
                 {
                     b.HasOne("Domain.Entities.User.RoleEntity", "Role")
                         .WithMany("UserRoles")
@@ -253,7 +230,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.User.UserEntity", "User")
+                    b.HasOne("Domain.Entities.User.UseridentityEntity", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -262,36 +239,6 @@ namespace Data.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", b =>
-                {
-                    b.HasOne("Domain.Entities.User.UserEntity", "UserMaster")
-                        .WithOne("UserMasterCliente")
-                        .HasForeignKey("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", "UserMasterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserMaster");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserMasterUser.UserMasterUserEntity", b =>
-                {
-                    b.HasOne("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", "UserCliente")
-                        .WithMany("UsersMasterUsers")
-                        .HasForeignKey("UserClienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.User.UserEntity", "UserMasterUser")
-                        .WithOne("UserMasterUser")
-                        .HasForeignKey("Domain.Entities.UserMasterUser.UserMasterUserEntity", "UserMasterUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserCliente");
-
-                    b.Navigation("UserMasterUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -305,7 +252,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Domain.Entities.User.UserEntity", null)
+                    b.HasOne("Domain.Entities.User.UseridentityEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -314,7 +261,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Domain.Entities.User.UserEntity", null)
+                    b.HasOne("Domain.Entities.User.UseridentityEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,7 +270,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Domain.Entities.User.UserEntity", null)
+                    b.HasOne("Domain.Entities.User.UseridentityEntity", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -335,18 +282,9 @@ namespace Data.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Domain.Entities.User.UserEntity", b =>
+            modelBuilder.Entity("Domain.Entities.User.UseridentityEntity", b =>
                 {
-                    b.Navigation("UserMasterCliente");
-
-                    b.Navigation("UserMasterUser");
-
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entities.UserMasterCliente.UserMasterClienteEntity", b =>
-                {
-                    b.Navigation("UsersMasterUsers");
                 });
 #pragma warning restore 612, 618
         }
