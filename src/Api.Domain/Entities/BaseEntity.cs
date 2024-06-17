@@ -9,14 +9,14 @@ namespace Api.Domain.Entities
         public DateTime? UpdateAt { get; protected set; }
         public bool Habilitado { get; protected set; }
         public Guid? UserMasterClienteIdentityId { get; protected set; }
-        public Guid? UserId { get; protected set; }
+        public Guid? UserBaseId { get; protected set; }
         public bool isBaseValida => ValidarBase();
 
         private bool ValidarBase()
         {
             if (Id == Guid.Empty)
                 return false;
-            if (UserId == null || UserId == Guid.Empty)
+            if (UserBaseId == null || UserBaseId == Guid.Empty)
                 return false;
             if (UserMasterClienteIdentityId == null || UserMasterClienteIdentityId == Guid.Empty)
                 return false;
@@ -37,7 +37,7 @@ namespace Api.Domain.Entities
             UpdateAt = null;
             Habilitado = true;
             UserMasterClienteIdentityId = users.UserMasterClienteIdentityId;
-            UserId = users.UserId;
+            UserBaseId = users.UserId;
 
         }
 
@@ -51,7 +51,7 @@ namespace Api.Domain.Entities
             UpdateAt = DateTime.Now;
             Habilitado = habilitado;
             UserMasterClienteIdentityId = users.UserMasterClienteIdentityId;
-            UserId = users.UserId;
+            UserBaseId = users.UserId;
         }
 
         public void AtulizarData(DateTime dataParaAtualizar)

@@ -5,10 +5,8 @@ using Domain.Identity.UserIdentity;
 using Domain.Interfaces.Services.UserMasterCliente;
 using Domain.UserIdentity;
 using Domain.UserIdentity.Masters;
-using Domain.UserIdentity.MasterUsers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Service.Services.UserMaster;
 
 namespace Api.Application.Controllers
 {

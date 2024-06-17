@@ -12,7 +12,7 @@ namespace Data.Query
 
         public static IQueryable<T> FiltroUserMasterClienteUser<T>(this IQueryable<T> query, UserMasterUserDtoCreate user) where T : BaseEntity
         {
-            return query.Where(p => p.UserMasterClienteIdentityId == user.UserMasterClienteIdentityId && p.UserId == user.UserId);
+            return query.Where(p => p.UserMasterClienteIdentityId == user.UserMasterClienteIdentityId && p.UserBaseId == user.UserId);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Domain.Entities.PontoVendaUser
     {
         [Required(ErrorMessage = "Informe o {0}")]
         [Display(Name = "Id usuário")]
-        public Guid UserPdvId { get; private set; }
+        public Guid UserId { get; private set; }
         public virtual User? UserPdv { get; private set; }
         public bool Validada => Validar();
 
