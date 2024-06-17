@@ -31,7 +31,7 @@ namespace Data.Mapping.PontoVendaUser
             builder.Property(u => u.UserId).IsRequired();
             builder.HasIndex(u => u.UserId).IsUnique();
 
-            builder.HasOne(updv => updv.User)
+            builder.HasOne(updv => updv.UserPdv)
                 .WithOne(updv => updv.UsuarioPontoVendaEntity);
 
         }

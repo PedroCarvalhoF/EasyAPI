@@ -5,6 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mapping\Contato\**" />
+    <EmbeddedResource Remove="Mapping\Contato\**" />
+    <None Remove="Mapping\Contato\**" />
+  </ItemGroup>
     <ItemGroup>
     <ProjectReference Include="..\Api.Domain\Domain.csproj" />
     
@@ -21,7 +27,6 @@
       <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="Mapping\Contato\" />
       <Folder Include="Mapping\Pessoa\Endereco\" />
     </ItemGroup>
 

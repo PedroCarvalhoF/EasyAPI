@@ -60,7 +60,7 @@ namespace Data.Implementations.PontoVendaUser
 
                 query = Include(query);
 
-                query = query.Where(u => u.User!.Id == userId);
+                query = query.Where(u => u.UserPdv!.Id == userId);
 
                 var entity = await query.FirstOrDefaultAsync();
 
@@ -76,7 +76,7 @@ namespace Data.Implementations.PontoVendaUser
         {
             try
             {
-                query = query.Include(pdv => pdv.User);
+                query = query.Include(pdv => pdv.UserPdv);
                 return query;
             }
             catch (Exception ex)

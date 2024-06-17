@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E8E45DDC-47FB-4175-A14F-AA467FAB8102}"
 	ProjectSection(SolutionItems) = preProject
-		Precesso.txt = Precesso.txt
+		Desafio.txt = Desafio.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "src\Api.Application\Api.csproj", "{C7C8697E-473E-4A85-A896-B298B1DE6D97}"
@@ -22,7 +22,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "src\Api.Service\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Test", "src\Api.Data.Test\Data.Test.csproj", "{C24467B3-7012-4CAE-835D-92F6FE3418A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{9A47D083-77E9-4724-B26D-B0776CD85833}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{9A47D083-77E9-4724-B26D-B0776CD85833}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

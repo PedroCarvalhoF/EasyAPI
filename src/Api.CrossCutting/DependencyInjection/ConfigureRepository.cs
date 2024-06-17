@@ -2,19 +2,13 @@
 using Api.Data.Repository;
 using Api.Domain.Interfaces.Services.CategoriaPreco;
 using Api.Domain.Interfaces.Services.CategoriaProduto;
-using Api.Domain.Interfaces.Services.Identity;
 using Api.Domain.Interfaces.Services.Pedido;
-using Api.Domain.Interfaces.Services.PontoVenda;
 using Api.Domain.Interfaces.Services.PrecoProdutoService;
 using Api.Domain.Interfaces.Services.ProdutoMedida;
-using Api.Identity.Interfaces;
-using Api.Identity.Services;
 using Api.Service.Services.CategoriaPreco;
 using Api.Service.Services.CategoriaProduto;
 using Api.Service.Services.Pedido;
 using Api.Service.Services.PrecoProduto;
-using Application.UseCases.Handlers.PontoVenda;
-using Application.UseCases.Handlers.PontoVenda.Periodo;
 using CrossCutting.DependencyInjection.Extensions;
 using Data.Implementations;
 using Data.Implementations.FormaPagamento;
@@ -30,7 +24,6 @@ using Data.Implementations.PrecoProduto;
 using Data.Implementations.Produto;
 using Data.Implementations.Produto.ProdutoMedida;
 using Data.Implementations.Produto.ProdutoTipo;
-using Data.Implementations.UserMasterCliente;
 using Data.Repository;
 using Domain.Interfaces;
 using Domain.Interfaces.Repository;
@@ -41,7 +34,6 @@ using Domain.Interfaces.Repository.PedidoSituacao;
 using Domain.Interfaces.Repository.PontoVenda;
 using Domain.Interfaces.Repository.PontoVendaUser;
 using Domain.Interfaces.Repository.Produto;
-using Domain.Interfaces.Repository.UserMasterCliente;
 using Domain.Interfaces.Services.FormaPagamento;
 using Domain.Interfaces.Services.ItemPedido;
 using Domain.Interfaces.Services.PagamentoPedido;
@@ -51,9 +43,6 @@ using Domain.Interfaces.Services.PeriodoPontoVenda;
 using Domain.Interfaces.Services.PontoVendaUser;
 using Domain.Interfaces.Services.Produto;
 using Domain.Interfaces.Services.ProdutoTipo;
-using Domain.Interfaces.Services.UserMasterCliente;
-using Identity.Interfaces;
-using Identity.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Services.FormaPagamento;
@@ -66,7 +55,6 @@ using Service.Services.PontoVendaUser;
 using Service.Services.Produto;
 using Service.Services.ProdutoMedidaService;
 using Service.Services.ProdutoTipoService;
-using Service.Services.UserMaster;
 
 
 #endregion
@@ -79,21 +67,14 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
 
+            ConfiguracaoUsersUsersIdentities.UsersUsersIdentities(serviceCollection);
             ConfiguracaoExternas.Configure(serviceCollection);
             ConfiguracaoBancoDados.Configurar(serviceCollection, configuration);
             ConfiguracaoIQuery.Configurar(serviceCollection);
             ConfiguracaoPessoas.Pessoas(serviceCollection);
-
-            serviceCollection.AddTransient<PeriodoPontoVendaServiceHandler>();
-            serviceCollection.AddTransient<PontoVendaServiceHandler>();
+            ConfiguracaoPontoVenda.PontoVendas(serviceCollection);
 
 
-            serviceCollection.AddScoped<IUserService, UserService>();
-            serviceCollection.AddScoped<IUserRole, UserRoleServices>();
-            serviceCollection.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
-
-            serviceCollection.AddTransient<IUserMasterClienteServices, UserMasterClienteServices>();
-            serviceCollection.AddTransient<IUserMasterClienteRepository, UserMasterClienteImplementacao>();
 
             serviceCollection.AddScoped<IPDFRepository, PDFRepository>();
 
@@ -113,7 +94,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
 
             serviceCollection.AddScoped<IItemPedidoService, ItemPedidoService>();
-            
+
             serviceCollection.AddScoped<IPedidoService, PedidoService>();
             serviceCollection.AddScoped<ICategoriaProdutoService, CategoriaProdutoService>();
             serviceCollection.AddScoped<IProdutoService, ProdutoService>();

@@ -49,12 +49,12 @@ namespace Domain.Dtos.PontoVenda.Dashboards
         }
         public static string GetUsuarioResponsavelAberturaCaixa(T pdv)
         {
-            Identity.UserIdentity.User? user = pdv.UserPdvCreate.User;
+            Identity.UserIdentity.User? user = pdv.UserPdvCreate.UserPdv;
             return user.Nome;
         }
         public static string GetUsuarioOperadorCaixa(T pdv)
         {
-            Identity.UserIdentity.User? user = pdv.UserPdvUsing.User;
+            Identity.UserIdentity.User? user = pdv.UserPdvUsing.UserPdv;
             return user.Nome;
         }
         public static int QtdPedidos(T pdv, bool validos = true)

@@ -75,9 +75,9 @@ namespace Data.Implementations.PontoVenda
         private IQueryable<PontoVendaEntity> FullIncludes(IQueryable<PontoVendaEntity> query)
         {
             query = query.Include(userAbriu => userAbriu.UserPdvCreate)
-                         .ThenInclude(u => u.User)
+                         .ThenInclude(u => u.UserPdv)
                          .Include(userPDV => userPDV.UserPdvUsing)
-                         .ThenInclude(u => u.User)
+                         .ThenInclude(u => u.UserPdv)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
             query = query.Include(pedido => pedido.PedidoEntities)
@@ -86,7 +86,7 @@ namespace Data.Implementations.PontoVenda
                          .ThenInclude(p => p.SituacaoPedidoEntity)
                          .Include(pedido => pedido.PedidoEntities)
                          .ThenInclude(p => p.UserRegistro)
-                         .ThenInclude(userReg => userReg.User);
+                         .ThenInclude(userReg => userReg.UserPdv);
 
             query = query.Include(pedido => pedido.PedidoEntities)
                          .ThenInclude(p => p.ItensPedidoEntities)

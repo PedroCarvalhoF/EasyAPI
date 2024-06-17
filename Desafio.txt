@@ -1,0 +1,2 @@
+Refatorar todas entidades e enriquecer 
+trazer pra camada de applicantion a service

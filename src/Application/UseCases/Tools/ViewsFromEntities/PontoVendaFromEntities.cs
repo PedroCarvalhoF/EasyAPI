@@ -15,9 +15,9 @@ namespace Application.UseCases.Tools.ViewsFromEntities
                                  createAt: pdv.CreateAt,
                                  updateAt: pdv.UpdateAt,
                           userPdvCreateId: pdv.UserPdvCreateId,
-                        nomeUserPdvCreate: pdv.UserPdvCreate.User.UserName,
+                        nomeUserPdvCreate: pdv.UserPdvCreate.UserPdv.Nome,
                            userPdvUsingId: pdv.UserPdvUsing.Id,
-                         nomeUserPdvUsing: pdv.UserPdvUsing.User.Nome,
+                         nomeUserPdvUsing: pdv.UserPdvUsing.UserPdv.Nome,
                 periodoPontoVendaEntityId: pdv.PeriodoPontoVendaEntityId,
                          descricaoPeriodo: pdv.PeriodoPontoVendaEntity.DescricaoPeriodo,
                             abertoFechado: pdv.Habilitado));

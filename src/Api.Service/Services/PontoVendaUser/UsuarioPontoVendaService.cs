@@ -116,7 +116,7 @@ namespace Service.Services.PontoVendaUser
                     return resposta.ErroCadastro();
                 }
 
-                var resultCreate = await GetByIdUser(entity.UserId);
+                var resultCreate = await GetByIdUser(entity.UserPdvId);
                 if (resultCreate.Status)
                     return resultCreate.CadastroOk();
                 else

@@ -37,6 +37,7 @@ using Domain.Entities.Produto;
 using Domain.Entities.ProdutoTipo;
 using Domain.Entities.TesteEntidade;
 using Domain.Identity.UserIdentity;
+using Domain.UserIdentity.Masters;
 using Domain.UserIdentity.MasterUsers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -148,7 +149,7 @@ namespace Api.Data.Context
 
             //manipulando user identities
             modelBuilder.Entity<UsuarioPontoVendaEntity>(new UsuarioPontoVendaMap().Configure);
-            modelBuilder.Entity<global::Domain.UserIdentity.Masters.UserMasterClienteEntity>(new UserMasterClienteMap().Configure);
+            modelBuilder.Entity<UserMasterClienteEntity>(new UserMasterClienteMap().Configure);
 
 
             modelBuilder.Entity<ProdutoTipoEntity>(new TipoProdutoMap().Configure);
@@ -199,9 +200,6 @@ namespace Api.Data.Context
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
-
-
-
         }
     }
 }
