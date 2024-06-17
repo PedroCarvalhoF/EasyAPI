@@ -1,8 +1,10 @@
 ﻿using Api.Data.Context;
 using Api.Data.Repository;
 using Api.Domain.Entities.PontoVenda;
+using Data.Query;
 using Domain.Dtos.PontoVenda.Filtros;
 using Domain.Interfaces.Repository.PontoVenda;
+using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Implementations.PontoVenda
@@ -16,130 +18,85 @@ namespace Data.Implementations.PontoVenda
             _dbSet = context.Set<PontoVendaEntity>();
 
         }
-        public async Task<IEnumerable<PontoVendaEntity>> GetPdvs(bool include = false)
+        public async Task<IEnumerable<PontoVendaEntity>> GetAll(UserMasterUserDtoCreate users)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
-
-            if (include)
+            try
             {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(users);
+
                 query = FullIncludes(query);
+
+                var entities = await query.ToArrayAsync();
+
+                return entities;
             }
-            else
+            catch (Exception ex)
             {
-                query = Includes(query);
+
+                throw new Exception(ex.Message);
             }
-
-
-            var result = await query.ToArrayAsync();
-
-            return result;
         }
-        public async Task<PontoVendaEntity> GetByIdPdv(Guid pdvId, bool include = false)
+        public async Task<PontoVendaEntity> GetById(Guid id, UserMasterUserDtoCreate users)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
-
-            if (include)
+            try
             {
+                var query = _dbSet.AsNoTracking();
+
+                query = query.FiltroUserMasterCliente(users).Where(pdv => pdv.Id == id);
+
                 query = FullIncludes(query);
+
+                var entity = await query.SingleOrDefaultAsync();
+
+                return entity;
             }
-            else
+            catch (Exception ex)
             {
-                query = Includes(query);
+
+                throw new Exception(ex.Message);
             }
-
-
-            query = query.Where(pdv => pdv.Id.Equals(pdvId));
-
-            var result = await query.FirstOrDefaultAsync();
-            return result;
-        }
-
-        public async Task<IEnumerable<PontoVendaEntity>> GetByIdPerfilUsuario(Guid idUser, bool include = false)
-        {
-            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
-
-            if (include)
-            {
-                query = FullIncludes(query);
-            }
-            else
-            {
-                query = Includes(query);
-            }
-
-
-            query = query.Where(pdv => pdv.UserPdvUsingId.Equals(idUser));
-
-            var result = await query.ToArrayAsync();
-            return result;
         }
 
-        public async Task<IEnumerable<PontoVendaEntity>> AbertosFechados(bool abertoFechado, bool include = false)
+        public Task<bool> Exists(PontoVendaEntity entityPdv, UserMasterUserDtoCreate users)
         {
-            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
-
-            if (include)
+            try
             {
-                query = FullIncludes(query);
+                throw new NotImplementedException();
             }
-            else
+            catch (Exception ex)
             {
-                query = Includes(query);
+
+                throw new Exception(ex.Message);
             }
-
-
-            query = query.Where(pdv => pdv.AbertoFechado == abertoFechado);
-
-            var result = await query.ToArrayAsync();
-            return result;
         }
-        public async Task<IEnumerable<PontoVendaEntity>> FiltrarByData(PontoVendaDtoFiltrarData data, bool include = false)
-        {
-            IQueryable<PontoVendaEntity> query = _dbSet.AsNoTracking();
 
-            //query = query.Where(pdv => pdv.CreateAt.Value.Date >= data.DataInicial && pdv.CreateAt.Value.Date <= data.DataFinal);
-
-            if (include)
-            {
-                query = FullIncludes(query);
-            }
-            else
-            {
-                query = Includes(query);
-            }
-
-
-            var result = await query.ToArrayAsync();
-
-            return result;
-        }
         private IQueryable<PontoVendaEntity> FullIncludes(IQueryable<PontoVendaEntity> query)
         {
-
-            query = query.Include(userAbriu => userAbriu.UserPdvCreate).ThenInclude(u => u.User)
-                         .Include(userPDV => userPDV.UserPdvUsing).ThenInclude(u => u.User)
+            query = query.Include(userAbriu => userAbriu.UserPdvCreate)
+                         .ThenInclude(u => u.User)
+                         .Include(userPDV => userPDV.UserPdvUsing)
+                         .ThenInclude(u => u.User)
                          .Include(periodo => periodo.PeriodoPontoVendaEntity);
 
-            query = query.Include(pedido => pedido.PedidoEntities).ThenInclude(cat_preco => cat_preco.CategoriaPrecoEntity).Include(sit => sit.PedidoEntities).ThenInclude(sit => sit.SituacaoPedidoEntity).Include(userReg => userReg.PedidoEntities).ThenInclude(userReg => userReg.UserRegistro).ThenInclude(userReg => userReg.User);
+            query = query.Include(pedido => pedido.PedidoEntities)
+                         .ThenInclude(p => p.CategoriaPrecoEntity)
+                         .Include(pedido => pedido.PedidoEntities)
+                         .ThenInclude(p => p.SituacaoPedidoEntity)
+                         .Include(pedido => pedido.PedidoEntities)
+                         .ThenInclude(p => p.UserRegistro)
+                         .ThenInclude(userReg => userReg.User);
 
-            query = query.Include(pedido => pedido.PedidoEntities).ThenInclude(itens_ped => itens_ped.ItensPedidoEntities).ThenInclude(prod => prod.ProdutoEntity);
+            query = query.Include(pedido => pedido.PedidoEntities)
+                         .ThenInclude(p => p.ItensPedidoEntities)
+                         .ThenInclude(itens_ped => itens_ped.ProdutoEntity);
 
-
-            query = query.Include(pdv => pdv.PedidoEntities).ThenInclude(pgt => pgt.PagamentoPedidoEntities).ThenInclude(forma => forma.FormaPagamentoEntity);
+            query = query.Include(pdv => pdv.PedidoEntities)
+                         .ThenInclude(p => p.PagamentoPedidoEntities)
+                         .ThenInclude(pgt => pgt.FormaPagamentoEntity);
 
             return query;
         }
-
-        private IQueryable<PontoVendaEntity> Includes(IQueryable<PontoVendaEntity> query)
-        {
-
-            query = query.Include(userAbriu => userAbriu.UserPdvCreate).ThenInclude(u => u.User)
-                         .Include(userPDV => userPDV.UserPdvUsing).ThenInclude(u => u.User)
-                         .Include(periodo => periodo.PeriodoPontoVendaEntity);
-
-            return query;
-        }
-
-
     }
 }

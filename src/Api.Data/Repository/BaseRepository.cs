@@ -5,17 +5,19 @@ using Domain.Interfaces;
 using Domain.UserIdentity.Masters;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using System.Data;
 
 namespace Api.Data.Repository
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        protected readonly MyContext _context;
+        private readonly MyContext _context;
         private readonly DbSet<T> _dataset;
         public BaseRepository(MyContext context)
         {
-            _context = context;
-            _dataset = _context.Set<T>();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _dataset = context.Set<T>();
+
         }
         public async Task<IEnumerable<T>> SelectAsync(UserMasterUserDtoCreate? user = null)
         {

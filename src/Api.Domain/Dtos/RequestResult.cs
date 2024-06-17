@@ -20,6 +20,18 @@
             return this;
         }
 
+        public RequestResult Ok(string? detalhes, object? data = null)
+        {
+            this.Status = true;
+            this.StatusCode = 200;
+            this.Mensagem = $"Requisição realizada com sucesso.{detalhes}";
+            if (data == null)
+                this.Data = new List<string>();
+            else
+                this.Data = data;
+            return this;
+        }
+
         public RequestResult BadRequest(string detalhes, object? data = null)
         {
             this.Status = false;

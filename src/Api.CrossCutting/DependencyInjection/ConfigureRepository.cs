@@ -12,8 +12,8 @@ using Api.Identity.Services;
 using Api.Service.Services.CategoriaPreco;
 using Api.Service.Services.CategoriaProduto;
 using Api.Service.Services.Pedido;
-using Api.Service.Services.PontoVendaService;
 using Api.Service.Services.PrecoProduto;
+using Application.UseCases.Handlers.PontoVenda;
 using Application.UseCases.Handlers.PontoVenda.Periodo;
 using CrossCutting.DependencyInjection.Extensions;
 using Data.Implementations;
@@ -85,7 +85,7 @@ namespace CrossCutting.DependencyInjection
             ConfiguracaoPessoas.Pessoas(serviceCollection);
 
             serviceCollection.AddTransient<PeriodoPontoVendaServiceHandler>();
-
+            serviceCollection.AddTransient<PontoVendaServiceHandler>();
 
 
             serviceCollection.AddScoped<IUserService, UserService>();
@@ -113,7 +113,7 @@ namespace CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IItemPedidoRepository, ItemPedidoImplementacao>();
 
             serviceCollection.AddScoped<IItemPedidoService, ItemPedidoService>();
-            serviceCollection.AddScoped<IPontoVendaService, PontoVendaService>();
+            
             serviceCollection.AddScoped<IPedidoService, PedidoService>();
             serviceCollection.AddScoped<ICategoriaProdutoService, CategoriaProdutoService>();
             serviceCollection.AddScoped<IProdutoService, ProdutoService>();
