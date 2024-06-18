@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Easy.CrossCutting.Mappings;
 
 namespace Easy.Api.Extensions
 {

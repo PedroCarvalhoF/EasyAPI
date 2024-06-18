@@ -1,6 +1,7 @@
 using Easy.Api.Extensions;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
+using Easy.CrossCutting.DependencyInjection;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 

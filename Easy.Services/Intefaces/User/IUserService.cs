@@ -1,4 +1,5 @@
-﻿using Easy.Services.DTOs.UserIdentity;
+﻿using Easy.Services.DTOs;
+using Easy.Services.DTOs.UserIdentity;
 
 namespace Easy.Services.Intefaces.User
 {

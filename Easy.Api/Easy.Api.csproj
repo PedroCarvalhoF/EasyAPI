@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Easy.Services\Easy.Services.csproj" />
+    <ProjectReference Include="..\Easy.CrossCutting\Easy.CrossCutting.csproj" />
   </ItemGroup>
 
 </Project>
