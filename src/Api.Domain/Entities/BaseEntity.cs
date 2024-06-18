@@ -2,6 +2,7 @@ namespace Api.Domain.Entities
 {
     public abstract class BaseEntity
     {
+        protected BaseEntity() { }
         public Guid Id { get; protected set; }
         public DateTime CreateAt { get; protected set; }
         public DateTime? UpdateAt { get; protected set; }

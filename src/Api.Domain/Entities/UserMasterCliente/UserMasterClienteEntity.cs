@@ -1,14 +1,29 @@
-﻿using Api.Domain.Entities;
-using Domain.Entities.User;
+﻿using Domain.Entities.User;
 using Domain.Entities.UserMasterUser;
 
 namespace Domain.Entities.UserMasterCliente
 {
     public class UserMasterClienteEntity
     {
-        public Guid UserMasterId { get; set; }
-        public virtual UserEntity? UserMaster { get; set; }
-        public virtual ICollection<UserMasterUserEntity>? UsersMasterUsers { get; set; }
-       
+        public Guid UserMasterId { get; private set; }
+        public virtual UserEntity? UserMaster { get; private set; }
+        public virtual ICollection<UserMasterUserEntity>? UsersMasterUsers { get; private set; }
+        public bool IsValid => Validate();
+
+        private bool Validate()
+        {
+            return UserMasterId != Guid.Empty;
+        }
+        UserMasterClienteEntity(Guid userMasterId)
+        {
+
+            if (userMasterId == Guid.Empty)
+                throw new ArgumentException("UserMasterId cannot be empty.", nameof(userMasterId));
+
+            UserMasterId = userMasterId;
+        }
+
+        public static UserMasterClienteEntity Create(Guid userMasterId)
+            => new UserMasterClienteEntity(userMasterId);
     }
 }

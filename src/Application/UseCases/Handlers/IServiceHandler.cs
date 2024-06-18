@@ -1,5 +1,4 @@
-﻿using Application.Results;
-using Application.UseCases.Commands;
+﻿using Application.UseCases.Commands;
 
 namespace Application.UseCases.Handlers
 {

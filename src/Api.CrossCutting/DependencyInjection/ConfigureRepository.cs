@@ -2,6 +2,7 @@
 using Application.Interfaces.Repository;
 using CrossCutting.DependencyInjection.Extensions;
 using Data.Repository;
+using Domain.Entities.UserMasterCliente;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,8 +14,10 @@ namespace CrossCutting.DependencyInjection
         {
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
+            serviceCollection.AddScoped(typeof(IUsuarioMasterClienteRepository<>),typeof(UsuarioMasterClienteRepository<>));
 
             ConfiguracaoBancoDados.Configurar(serviceCollection, configuration);
+            ServiceCollectionUserIdentity.Configure(serviceCollection);
 
         }
     }

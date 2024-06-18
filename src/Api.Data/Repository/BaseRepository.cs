@@ -116,21 +116,23 @@ namespace Api.Data.Repository
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
-            try
-            {
-                var result = await _dataset.SingleOrDefaultAsync(p => p.Id == item.Id && p.UserMasterClienteIdentityId == item.UserMasterClienteIdentityId);
-                if (result == null) throw new ArgumentException($"Registro não localizado para realizar alteração");
+            //try
+            //{
+            //    var result = await _dataset.SingleOrDefaultAsync(p => p.Id == item.Id && p.UserMasterClienteIdentityId == item.UserMasterClienteIdentityId);
+            //    if (result == null) throw new ArgumentException($"Registro não localizado para realizar alteração");
 
-                item.AtulizarData(result.CreateAt);
-                _context.Entry(result).CurrentValues.SetValues(item);
-                await _context.SaveChangesAsync();
+            //    item.AtulizarData(result.CreateAt);
+            //    _context.Entry(result).CurrentValues.SetValues(item);
+            //    await _context.SaveChangesAsync();
 
-                return item;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Erro ao atualizar item: " + ex.Message);
-            }
+            //    return item;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("Erro ao atualizar item: " + ex.Message);
+            //}
+
+            return item;
         }
         public async Task<bool> DesabilitarHabilitar(Guid id)
         {

@@ -21,9 +21,7 @@ namespace CrossCutting.DependencyInjection.Extensions
                 AddDbContext<MyContext>(options =>
                              options.UseMySql(desenvolvimento, serverVersion));
 
-                serviceCollection.
-                    AddDbContext<MyContext>(options =>
-                                 options.UseMySql(desenvolvimento, serverVersion));
+               
             }
 
             serviceCollection.AddIdentityCore<UserEntity>()
