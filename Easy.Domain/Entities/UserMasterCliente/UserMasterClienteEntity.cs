@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterUser;
+using Easy.Domain.Tools.Validation;
 
 namespace Easy.Domain.Entities.UserMasterCliente
 {
@@ -14,16 +15,14 @@ namespace Easy.Domain.Entities.UserMasterCliente
         {
             return UserMasterId != Guid.Empty;
         }
-        UserMasterClienteEntity(Guid userMasterId)
+        public UserMasterClienteEntity(Guid userMasterId)
         {
-
-            if (userMasterId == Guid.Empty)
-                throw new ArgumentException("UserMasterId cannot be empty.", nameof(userMasterId));
+            DomainValidation.When(userMasterId == Guid.Empty, "Informe o UserMasterId");
 
             UserMasterId = userMasterId;
         }
 
-        public static UserMasterClienteEntity Create(Guid userMasterId)
-            => new UserMasterClienteEntity(userMasterId);
+        //public static UserMasterClienteEntity Create(Guid userMasterId)
+        //    => new UserMasterClienteEntity(userMasterId);
     }
 }

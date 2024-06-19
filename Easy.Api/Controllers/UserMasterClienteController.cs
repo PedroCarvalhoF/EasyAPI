@@ -1,4 +1,6 @@
 ﻿using Easy.Domain.Intefaces;
+using Easy.Services.CQRS.UserMasterCliente.Command;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easy.Api.Controllers;
@@ -7,17 +9,16 @@ namespace Easy.Api.Controllers;
 [ApiController]
 public class UserMasterClienteController : ControllerBase
 {
-    private readonly IUnitOfWork _unitOfWork;
-    public UserMasterClienteController(IUnitOfWork unitOfWork)
+    private readonly IMediator _mediator;
+    public UserMasterClienteController(IMediator mediator)
     {
-        _unitOfWork = unitOfWork;
+        _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetUsers()
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateUserMasterClienteCommand command)
     {
-        var users = await _unitOfWork.UsuarioMasterClienteRepository.GetAllAsync();
-        return Ok(users);
+        return Ok(await _mediator.Send(command));
     }
 
 }
