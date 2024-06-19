@@ -22,7 +22,7 @@ public class GetUsersQuery : IRequest<RequestResult>
 
         public async Task<RequestResult> Handle(GetUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await _UserDapperRepository.GetUsers();
+            var users = await _UserDapperRepository.GetUsersAsync();
             var usersDtos = _mapper.Map<IEnumerable<UserView>>(users);
 
             return new RequestResult().Ok(usersDtos);

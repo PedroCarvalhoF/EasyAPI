@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="CQRS\UserMasterCliente\Queries\" />
     <Folder Include="CQRS\UserMasterUser\Queries\" />
+    <Folder Include="Intefaces\" />
   </ItemGroup>
 
   <ItemGroup>

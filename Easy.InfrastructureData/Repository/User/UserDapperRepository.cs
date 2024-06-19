@@ -13,14 +13,19 @@ public class UserDapperRepository : IUserDapperRepository
     {
         _dbConnection = dbConnection;
     }
-    public async Task<IEnumerable<UserEntity>> GetUsers()
+    public async Task<IEnumerable<UserEntity>> GetUsersAsync()
     {
-        string query = "SELECT `aspnetusers`.`Id`,    `aspnetusers`.`Nome`,    `aspnetusers`.`SobreNome`,        `aspnetusers`.`UserName`,      `aspnetusers`.`Email`   FROM `desenvolvimento`.`aspnetusers`;\r\n";
+        string query = "SELECT * FROM aspnetusers";
         return await _dbConnection.QueryAsync<UserEntity>(query);
     }
-    public async Task<UserEntity> GetUserById(Guid id)
+    public async Task<UserEntity> GetUserByIdAsync(Guid id)
     {
-        string query = "SELECT * FROM desenvolvimento.aspnetuser where Id = @Id";
+        string query = "SELECT * FROM aspnetusers WHERE Id = @Id";
         return await _dbConnection.QueryFirstOrDefaultAsync<UserEntity>(query, new { Id = id });
+    }
+    public async Task<UserEntity> GetUserByEmailAsync(string email)
+    {
+        string query = "SELECT * FROM aspnetusers WHERE Email = @email";
+        return await _dbConnection.QueryFirstOrDefaultAsync<UserEntity>(query, new { Email = email });
     }
 }

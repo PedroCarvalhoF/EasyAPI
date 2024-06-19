@@ -9,6 +9,7 @@ namespace Easy.Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+//[Authorize]
 public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -31,11 +32,24 @@ public class AccountController : ControllerBase
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(updateSenha));
     }
 
-    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult> GetUsersAsync()
     {
         var getUser = new GetUsersQuery();
+        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult> GetUserByIdAsync(Guid id)
+    {
+        var getUser = new GetUserByIdQuery(id);
+        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
+    }
+
+    [HttpGet("{email}/user-by-email")]
+    public async Task<ActionResult> GetUserByIdAsync(string email)
+    {
+        var getUser = new GetUserByEmailQuery(email);
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
     }
 
