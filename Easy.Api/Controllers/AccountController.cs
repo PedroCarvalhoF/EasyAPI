@@ -19,7 +19,7 @@ public class AccountController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("CadastraUsuario")]
-    public async Task<ActionResult> Cadastrar([FromBody] CreateUserCommand create)
+    public async Task<ActionResult> Cadastrar([FromBody] UserCreateCommand create)
     {
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(create));
     }

@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Easy.Services.CQRS.User.Command
 {
-    public class CreateUserCommand : IRequest<RequestResult>
+    public class UserCreateCommand : IRequest<RequestResult>
     {
-        public CreateUserCommand(string nome, string sobreNome, string email, string senha, string senhaConfirmacao)
+        public UserCreateCommand(string nome, string sobreNome, string email, string senha, string senhaConfirmacao)
         {
             Nome = nome;
             SobreNome = sobreNome;
