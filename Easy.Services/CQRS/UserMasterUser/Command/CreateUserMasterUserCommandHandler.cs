@@ -21,7 +21,7 @@ public class CreateUserMasterUserCommandHandler : IRequestHandler<CreateUserMast
             var entity = UserMasterUserEntity.Create(request.UserClienteId, request.UserMasterUserId);
             if (!entity.isValid) return new RequestResult().EntidadeInvalida();
            
-            var resultCreateEntity = await _repository.InsertGenericAsync(entity);
+            var resultCreateEntity = await _repository.InsertAsync(entity);
             if (resultCreateEntity == null)
                 return new RequestResult().BadRequest("Não foi possível cadastrar usuário oa cliente");
 

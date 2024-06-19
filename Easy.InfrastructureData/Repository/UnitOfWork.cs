@@ -1,43 +1,24 @@
 ﻿using Easy.Domain.Entities.User;
-using Easy.Domain.Entities.UserMasterUser;
+using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
-using Easy.Domain.Intefaces.Repository.UsuarioMasterCliente;
 using Easy.InfrastructureData.Context;
-using Easy.InfrastructureData.Repository.UsuarioMasterCliente;
 using Microsoft.AspNetCore.Identity;
 
 namespace Easy.InfrastructureData.Repository;
 
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private IUsuarioMasterClienteRepository _userMClienteRepository;
     private UserManager<UserEntity> _userManager;
     private readonly MyContext _context;
 
-    private readonly IRepositoryGeneric<UserMasterUserEntity> _userMasterUserGeneric;
+    private readonly IRepositoryGeneric<UserMasterClienteEntity> _userMasterClienteRepository;
 
-    public UnitOfWork(MyContext context, UserManager<UserEntity> userManager)
+    public UnitOfWork(MyContext context, UserManager<UserEntity> userManager, IRepositoryGeneric<UserMasterClienteEntity> userMasterClienteRepository)
     {
         _context = context;
         _userManager = userManager;
-    }
-
-    public IUsuarioMasterClienteRepository UsuarioMasterClienteRepository
-    {
-        get
-        {
-            return _userMClienteRepository = _userMClienteRepository ??
-                new UsuarioMasterClienteRepository(_context);
-        }
-    }
-
-    public IRepositoryGeneric<UserMasterUserEntity> UserMasterUserRepositoryGeneric
-    {
-        get
-        {
-            return _userMasterUserGeneric;
-        }
+        _userMasterClienteRepository = userMasterClienteRepository;
     }
 
     public UserManager<UserEntity> UserManager
@@ -47,10 +28,21 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             return _userManager;
         }
     }
-
-    public async Task CommitAsync()
+    public IRepositoryGeneric<UserMasterClienteEntity> UserMasterClienteRespository
     {
-        await _context.SaveChangesAsync();
+        get
+        {
+            return _userMasterClienteRepository;
+        }
+    }
+
+    public async Task<bool> CommitAsync()
+    {
+        var result = await _context.SaveChangesAsync();
+        if (result > 0)
+            return true;
+
+        return false;
     }
 
     public void Dispose()

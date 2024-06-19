@@ -3,7 +3,7 @@ using Easy.Domain.Entities.User;
 using Easy.Domain.Intefaces.Repository.User;
 using System.Data;
 
-namespace Easy.InfrastructureData.Repository.User;
+namespace Easy.InfrastructureData.Repository.Dapper;
 
 public class UserDapperRepository : IUserDapperRepository
 {

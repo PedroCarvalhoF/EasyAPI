@@ -1,12 +1,14 @@
 ﻿using Easy.Domain.Entities.User;
-using Easy.Domain.Intefaces.Repository.UsuarioMasterCliente;
+using Easy.Domain.Entities.UserMasterCliente;
+using Easy.Domain.Intefaces.Repository;
 using Microsoft.AspNetCore.Identity;
 
 namespace Easy.Domain.Intefaces;
 
 public interface IUnitOfWork
 {
-    IUsuarioMasterClienteRepository UsuarioMasterClienteRepository { get; }
+    //APENAS PERSISTENCIAS
     UserManager<UserEntity> UserManager { get; }
-    Task CommitAsync();
+    IRepositoryGeneric<UserMasterClienteEntity> UserMasterClienteRespository { get; }
+    Task<bool> CommitAsync();
 }

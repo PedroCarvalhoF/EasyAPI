@@ -34,6 +34,18 @@ namespace Easy.Services.DTOs
             return this;
         }
 
+        public RequestResult BadRequest(object? data = null)
+        {
+            this.Status = false;
+            this.StatusCode = 400;
+            this.Mensagem = $"Falha ao realizar a requisição.";
+            if (data == null)
+                this.Data = new List<string>();
+            else
+                this.Data = data;
+            return this;
+        }
+
         public RequestResult BadRequest(string detalhes, object? data = null)
         {
             this.Status = false;

@@ -1,13 +1,14 @@
 ﻿using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Intefaces;
+using Easy.Services.DTOs;
 using MediatR;
 
 namespace Easy.Services.CQRS.UserMasterCliente.Command;
 
-public class CreateUserMasterClienteCommand : IRequest<bool>
+public class CreateUserMasterClienteCommand : IRequest<RequestResult>
 {
     public Guid UserMasterId { get; set; }
-    public class CreateUserMasterClienteCommandHandler : IRequestHandler<CreateUserMasterClienteCommand, bool>
+    public class CreateUserMasterClienteCommandHandler : IRequestHandler<CreateUserMasterClienteCommand, RequestResult>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -16,14 +17,16 @@ public class CreateUserMasterClienteCommand : IRequest<bool>
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<bool> Handle(CreateUserMasterClienteCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult> Handle(CreateUserMasterClienteCommand request, CancellationToken cancellationToken)
         {
             var newUserMCliente = new UserMasterClienteEntity(request.UserMasterId);
-            await _unitOfWork.UsuarioMasterClienteRepository.InsertAsync(newUserMCliente);
-            await _unitOfWork.CommitAsync();
-            if (newUserMCliente != null) return true;
+            await _unitOfWork.UserMasterClienteRespository.InsertAsync(newUserMCliente);
+            var commit = await _unitOfWork.CommitAsync();
 
-            return false;
+            if (commit)
+                return new RequestResult().Ok();
+
+            return new RequestResult().BadRequest();
         }
     }
 

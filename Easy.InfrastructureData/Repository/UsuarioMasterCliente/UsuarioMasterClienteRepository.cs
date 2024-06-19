@@ -1,11 +1,10 @@
 ﻿using Easy.Domain.Entities.UserMasterCliente;
-using Easy.Domain.Intefaces.Repository.UsuarioMasterCliente;
 using Easy.InfrastructureData.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.UsuarioMasterCliente;
 
-public class UsuarioMasterClienteRepository : IUsuarioMasterClienteRepository
+public class UsuarioMasterClienteRepository 
 {
     private readonly MyContext db;
     public UsuarioMasterClienteRepository(MyContext context)

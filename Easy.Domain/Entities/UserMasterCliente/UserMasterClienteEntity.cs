@@ -15,14 +15,15 @@ namespace Easy.Domain.Entities.UserMasterCliente
         {
             return UserMasterId != Guid.Empty;
         }
+        public UserMasterClienteEntity()
+        {
+
+        }
         public UserMasterClienteEntity(Guid userMasterId)
         {
             DomainValidation.When(userMasterId == Guid.Empty, "Informe o UserMasterId");
 
             UserMasterId = userMasterId;
         }
-
-        //public static UserMasterClienteEntity Create(Guid userMasterId)
-        //    => new UserMasterClienteEntity(userMasterId);
     }
 }

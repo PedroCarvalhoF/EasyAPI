@@ -1,4 +1,5 @@
 ﻿using Easy.Services.CQRS.UserMasterCliente.Command;
+using Easy.Services.CQRS.UserMasterCliente.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,4 +21,10 @@ public class UserMasterClienteController : ControllerBase
         return Ok(await _mediator.Send(command));
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetUserMasterClienteAsync()
+    {
+        var command = new UserMasterClienteGetUsersMastersClientes();
+        return Ok(await _mediator.Send(command));
+    }
 }
