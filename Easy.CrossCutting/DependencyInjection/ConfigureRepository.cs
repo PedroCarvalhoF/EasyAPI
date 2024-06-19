@@ -24,6 +24,9 @@ namespace Easy.CrossCutting.DependencyInjection
             serviceCollection.AddScoped<IUsuarioMasterClienteRepository, UsuarioMasterClienteRepository>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");
+            serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));
+
         }
     }
 }
