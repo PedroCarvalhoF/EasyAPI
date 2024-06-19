@@ -1,5 +1,6 @@
 ﻿
 using Easy.CrossCutting.DependencyInjection.Extensions;
+using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.UsuarioMasterCliente;
 using Easy.InfrastructureData.Repository;
@@ -15,10 +16,13 @@ namespace Easy.CrossCutting.DependencyInjection
         {
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             serviceCollection.AddScoped(typeof(IRepositoryGeneric<>), typeof(RepositoryGeneric<>));
-            serviceCollection.AddScoped(typeof(IUsuarioMasterClienteRepository<>), typeof(UsuarioMasterClienteRepository<>));
 
             ConfiguracaoBancoDados.Configurar(serviceCollection, configuration);
             ServiceCollectionUserIdentity.Configure(serviceCollection);
+
+            // UnitOfWork
+            serviceCollection.AddScoped<IUsuarioMasterClienteRepository, UsuarioMasterClienteRepository>();
+            serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
 
         }
     }

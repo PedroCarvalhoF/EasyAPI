@@ -2,12 +2,11 @@
 
 namespace Easy.Domain.Intefaces.Repository.UsuarioMasterCliente
 {
-    public interface IUsuarioMasterClienteRepository<T> where T : UserMasterClienteEntity
+    public interface IUsuarioMasterClienteRepository
     {
-        Task<T> InsertAsync(T item);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<T>? GetByIdAsync(Guid id);
-        Task<bool> Exists(Guid id);
+        Task<IEnumerable<UserMasterClienteEntity>> GetAllAsync();
+        Task<UserMasterClienteEntity> GetByIdAsync(Guid id);
+        Task<UserMasterClienteEntity> InsertAsync(UserMasterClienteEntity item);
 
     }
 }

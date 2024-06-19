@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
+using Easy.Domain.Tools.Validation;
 using Microsoft.AspNetCore.Identity;
 
 namespace Easy.Domain.Entities.User
@@ -8,6 +9,16 @@ namespace Easy.Domain.Entities.User
     {
         UserEntity(string nome, string sobreNome, string userName, string email)
         {
+            DomainValidation.When(string.IsNullOrEmpty(nome),
+                "Informe o nome");
+            DomainValidation.When(string.IsNullOrEmpty(sobreNome),
+               "Informe o sobre nome");
+            DomainValidation.When(string.IsNullOrEmpty(userName),
+               "Informe o user name");
+            DomainValidation.When(string.IsNullOrEmpty(email),
+               "Informe o e-mail");
+
+
             Nome = nome;
             SobreNome = sobreNome;
             UserName = email;
@@ -19,9 +30,9 @@ namespace Easy.Domain.Entities.User
         public string Nome { get; private set; }
         public string SobreNome { get; private set; }
         public string ImagemURL { get; private set; }
-        public virtual ICollection<UserRoleEntity>? UserRoles { get; set; }
-        public virtual UserMasterClienteEntity? UserMasterCliente { get; set; }
-        public virtual UserMasterUserEntity? UserMasterUser { get; set; }
+        public virtual ICollection<UserRoleEntity>? UserRoles { get; private set; }
+        public virtual UserMasterClienteEntity? UserMasterCliente { get; private set; }
+        public virtual UserMasterUserEntity? UserMasterUser { get; private set; }
 
         public static UserEntity CreateUser(string nome, string sobreNome, string userName, string email)
             => new UserEntity(nome, sobreNome, userName, email);

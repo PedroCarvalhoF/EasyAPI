@@ -10,10 +10,12 @@ namespace Easy.InfrastructureData.Context
 {
     public class MyContext : IdentityDbContext<UserEntity, RoleEntity, Guid, IdentityUserClaim<Guid>, UserRoleEntity, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
+
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
 
         }
+        public DbSet<UserMasterClienteEntity> UserMasterClienteEntity { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

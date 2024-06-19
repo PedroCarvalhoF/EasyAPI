@@ -41,8 +41,6 @@ app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader());
 
-
-
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
