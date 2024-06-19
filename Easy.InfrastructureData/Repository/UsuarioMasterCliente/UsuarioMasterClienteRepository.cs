@@ -15,19 +15,19 @@ public class UsuarioMasterClienteRepository : IUsuarioMasterClienteRepository
 
     public async Task<IEnumerable<UserMasterClienteEntity>> GetAllAsync()
     {
-        return await db.UserMasterClienteEntity.Include(user=>user.UserMaster).ToArrayAsync();
+        return await db.UserMasterCliente.Include(user=>user.UserMaster).ToArrayAsync();
     }
 
     public async Task<UserMasterClienteEntity> GetByIdAsync(Guid id)
     {
-        return await db.UserMasterClienteEntity.FindAsync(id);
+        return await db.UserMasterCliente.FindAsync(id);
 
     }
 
     public async Task<UserMasterClienteEntity> InsertAsync(UserMasterClienteEntity item)
     {
         if (item == null) throw new ArgumentNullException(nameof(item));
-        await db.UserMasterClienteEntity.AddAsync(item);
+        await db.UserMasterCliente.AddAsync(item);
         return item;
     }
 }

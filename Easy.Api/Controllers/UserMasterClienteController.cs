@@ -1,5 +1,4 @@
-﻿using Easy.Domain.Intefaces;
-using Easy.Services.CQRS.UserMasterCliente.Command;
+﻿using Easy.Services.CQRS.UserMasterCliente.Command;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

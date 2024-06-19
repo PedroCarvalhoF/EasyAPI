@@ -15,7 +15,7 @@ namespace Easy.InfrastructureData.Context
         {
 
         }
-        public DbSet<UserMasterClienteEntity> UserMasterClienteEntity { get; set; }
+        public DbSet<UserMasterClienteEntity> UserMasterCliente { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

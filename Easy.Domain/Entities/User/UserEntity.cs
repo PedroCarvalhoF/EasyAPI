@@ -4,10 +4,11 @@ using Easy.Domain.Tools.Validation;
 using Microsoft.AspNetCore.Identity;
 
 namespace Easy.Domain.Entities.User
-{
+{   
     public class UserEntity : IdentityUser<Guid>
     {
-        UserEntity(string nome, string sobreNome, string userName, string email)
+        public UserEntity() { }
+        public UserEntity(string nome, string sobreNome, string userName, string email)
         {
             DomainValidation.When(string.IsNullOrEmpty(nome),
                 "Informe o nome");

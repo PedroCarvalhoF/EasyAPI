@@ -5,7 +5,7 @@ namespace Easy.Services.Intefaces.User
 {
     internal interface IUserService
     {
-        Task<RequestResult> GetAll();
+        Task<RequestResult> GetUsers();
         Task<RequestResult> GetUserById(Guid id);
         Task<RequestResult> GetUserByEmail(string email);
         Task<RequestResult> Create(UsuarioCadastroRequest usuarioCadastro);
