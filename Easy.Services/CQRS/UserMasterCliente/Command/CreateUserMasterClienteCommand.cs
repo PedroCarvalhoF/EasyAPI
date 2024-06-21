@@ -19,15 +19,22 @@ public class CreateUserMasterClienteCommand : IRequest<RequestResult>
 
         public async Task<RequestResult> Handle(CreateUserMasterClienteCommand request, CancellationToken cancellationToken)
         {
-            var newUserMCliente = new UserMasterClienteEntity(request.UserMasterId);
-            await _unitOfWork.UserMasterClienteRepository.AddMemberAsync(newUserMCliente);
-            var commit = await _unitOfWork.CommitAsync();
+            try
+            {
+                var newUserMCliente = new UserMasterClienteEntity(request.UserMasterId);
+                await _unitOfWork.UserMasterClienteRepository.AddMemberAsync(newUserMCliente);
+                var commit = await _unitOfWork.CommitAsync();
 
-            if (commit)
-                return new RequestResult().Ok();
+                if (commit)
+                    return new RequestResult().Ok();
 
-            return new RequestResult().BadRequest();
+                return new RequestResult().BadRequest();
+            }
+            catch (Exception ex)
+            {
+
+                return new RequestResult().BadRequest(ex.Message);
+            }
         }
     }
-
 }

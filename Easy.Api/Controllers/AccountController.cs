@@ -46,15 +46,15 @@ public class AccountController : ControllerBase
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("by-id/{id}")]
     public async Task<ActionResult> GetUserByIdAsync(Guid id)
     {
         var getUser = new GetUserByIdQuery(id);
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
     }
 
-    [HttpGet("{email}/user-by-email")]
-    public async Task<ActionResult> GetUserByIdAsync(string email)
+    [HttpGet("by-email/{email}")]
+    public async Task<ActionResult> GetUserByEmailAsync(string email)
     {
         var getUser = new GetUserByEmailQuery(email);
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));

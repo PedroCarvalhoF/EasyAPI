@@ -1,4 +1,5 @@
 ﻿using Easy.Domain.Entities.User;
+using Easy.Domain.Entities.UserMasterUser;
 using Easy.InfrastructureData.Configurations;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.UserIdentity;
@@ -38,7 +39,7 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Request
             if (result.Succeeded)
             {
 
-                var credenciais = await GerarCredenciais(request.Email);
+                var credenciais = await GerarCredenciais(request.Email, request.Users);
                 return new RequestResult().Ok(credenciais);
             }
 
@@ -66,7 +67,7 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Request
     }
 
     #region Privados
-    private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
+    private async Task<UsuarioLoginResponse> GerarCredenciais(string email, UserMasterUserEntity userMaster)
     {
         var user = await _userManager.FindByEmailAsync(email.ToLower());
 
@@ -76,8 +77,8 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Request
             return new UsuarioLoginResponse();
         }
 
-        IList<Claim> accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true);
-        IList<Claim> refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false);
+        IList<Claim> accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true, userMaster);
+        IList<Claim> refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false, userMaster);
 
         DateTime dataExpiracaoAccessToken = DateTime.Now.AddSeconds(_jwtOptions.AccessTokenExpiration);
         DateTime dataExpiracaoRefreshToken = DateTime.Now.AddSeconds(_jwtOptions.RefreshTokenExpiration);
@@ -104,15 +105,20 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Request
 
         return new JwtSecurityTokenHandler().WriteToken(jwt);
     }
-    private async Task<IList<Claim>> ObterClaims(UserEntity user, bool adicionarClaimsUsuario)
+    private async Task<IList<Claim>> ObterClaims(UserEntity user, bool adicionarClaimsUsuario, UserMasterUserEntity userMaster)
     {
-        List<Claim> claims = new List<Claim>();
+        List<Claim> claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
+                new Claim("UserMasterClienteIdentityId", userMaster.UserClienteId.ToString()),
+                new Claim("UserId", userMaster.UserMasterUserId.ToString()),
+            };
 
-        claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()));
-        claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
-        claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-        claims.Add(new Claim(JwtRegisteredClaimNames.Nbf, DateTime.Now.ToString()));
-        claims.Add(new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()));
+
 
         if (adicionarClaimsUsuario)
         {
@@ -122,7 +128,7 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Request
             claims.AddRange(userClaims);
 
             foreach (string role in roles)
-                claims.Add(new Claim("role", role));
+                claims.Add(new Claim("roles", role));
         }
 
         return claims;

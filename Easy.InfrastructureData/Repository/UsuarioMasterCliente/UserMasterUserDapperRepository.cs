@@ -16,7 +16,19 @@ namespace Easy.InfrastructureData.Repository.UsuarioMasterCliente
 
         public async Task<UserMasterUserEntity> GetUserMasterClienteByIdAsync(Guid id)
         {
-            string query = "SELECT * FROM usermasteruserentity WHERE Id = @UserClienteId";
+            string query = $@"  SELECT 
+                                    uMu.*, 
+                                    userCliente.UserName AS UserClienteName,
+                                    userMaster.UserName AS UserMasterName
+                                FROM 
+                                    desenvolvimento.usermasteruserentity AS uMu
+                                INNER JOIN 
+                                    desenvolvimento.aspnetusers AS userCliente 
+                                    ON uMu.UserClienteId = userCliente.Id
+                                INNER JOIN 
+                                    desenvolvimento.aspnetusers AS userMaster 
+                                    ON uMu.UserMasterUserId = userMaster.Id;";
+
             return await _dbConnection.QueryFirstOrDefaultAsync<UserMasterUserEntity>(query, new { UserClienteId = id });
         }
 

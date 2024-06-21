@@ -35,14 +35,14 @@ namespace Easy.InfrastructureData.Repository
             return true;
         }
 
-        public Task<T> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dataset.FindAsync(id);
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dataset.ToArrayAsync();
         }
     }
 }
