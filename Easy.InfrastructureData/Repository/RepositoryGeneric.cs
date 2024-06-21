@@ -34,5 +34,15 @@ namespace Easy.InfrastructureData.Repository
             _dataset.Remove(entity);
             return true;
         }
+
+        public Task<T> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<T>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

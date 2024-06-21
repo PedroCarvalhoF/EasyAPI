@@ -20,7 +20,7 @@ namespace Easy.Domain.Entities.UserMasterUser
             return true;
         }
 
-        UserMasterUserEntity(Guid userClienteId, Guid? userMasterUserId)
+        public UserMasterUserEntity(Guid userClienteId, Guid? userMasterUserId)
         {
             if (userClienteId == Guid.Empty || userMasterUserId == Guid.Empty)
                 throw new Exception("Necessário o idMaster e IdUser");

@@ -9,6 +9,5 @@
         public bool Habilitado { get; protected set; }
         public Guid? UserMasterClienteId { get; protected set; }
         public Guid? UserMasterUserId { get; protected set; }
-
     }
 }

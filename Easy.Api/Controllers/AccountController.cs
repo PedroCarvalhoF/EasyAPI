@@ -32,6 +32,13 @@ public class AccountController : ControllerBase
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(updateSenha));
     }
 
+    [AllowAnonymous]
+    [HttpPost("Login")]
+    public async Task<ActionResult> Login([FromBody] UserLoginCommand login)
+    {
+        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(login));
+    }
+
     [HttpGet]
     public async Task<ActionResult> GetUsersAsync()
     {

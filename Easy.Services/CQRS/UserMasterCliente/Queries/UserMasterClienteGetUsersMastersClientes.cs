@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Easy.Domain.Intefaces.Repository.UsuarioMasterCliente;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.UserMaster;
 using MediatR;
 
 namespace Easy.Services.CQRS.UserMasterCliente.Queries
@@ -23,7 +24,7 @@ namespace Easy.Services.CQRS.UserMasterCliente.Queries
                 try
                 {
                     var entities = await _repository.GetUsersMastersClientesAsync();
-                    return new RequestResult().Ok(entities);
+                    return new RequestResult().Ok(_mapper.Map<IEnumerable<UserMasterClienteView>>(entities));
                 }
                 catch (Exception ex)
                 {

@@ -8,17 +8,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Easy.Domain\Easy.Domain.csproj" />
+    <ProjectReference Include="..\Easy.InfrastructureData\Easy.InfrastructureData.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\UserMasterUser\Queries\" />
     <Folder Include="Intefaces\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="MediatR" Version="12.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />   
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />   
   </ItemGroup>
 
 

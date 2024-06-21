@@ -4,8 +4,10 @@ namespace Easy.Domain.Intefaces.Repository
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
-        Task<T> InsertAsync(T item);                
+        Task<T> GetById(int id);
+        Task<IEnumerable<T>> GetAll(int id);
+        Task<T> InsertAsync(T item);
         Task<T> UpdateAsync(T item);
-        Task<bool> DeleteAsync(Guid id);        
+        Task<bool> DeleteAsync(Guid id);
     }
 }

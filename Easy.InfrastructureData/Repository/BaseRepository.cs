@@ -79,6 +79,16 @@ namespace Easy.InfrastructureData.Repository
                 throw new Exception($"Erro ao deletar item com ID: {id}. Detalhes: " + ex.Message);
             }
         }
+
+        public Task<T> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<T>> GetAll(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

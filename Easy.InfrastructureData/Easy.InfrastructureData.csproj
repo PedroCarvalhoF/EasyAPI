@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Mapping\" />
-    <Folder Include="Repository\EntityFramework\" />
   </ItemGroup>
 
    <ItemGroup>

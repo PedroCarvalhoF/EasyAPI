@@ -2,9 +2,11 @@
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.User;
+using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.Domain.Intefaces.Repository.UsuarioMasterCliente;
 using Easy.InfrastructureData.Repository;
 using Easy.InfrastructureData.Repository.Dapper;
+using Easy.InfrastructureData.Repository.UserMasterCliente;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -26,6 +28,7 @@ namespace Easy.CrossCutting.DependencyInjection
             //Dapper
             serviceCollection.AddScoped<IUserMasterClienteDapperRepository, UserMasterClienteDapperRepository>();
             serviceCollection.AddScoped<IUserDapperRepository, UserDapperRepository>();
+            serviceCollection.AddScoped<IUserMasterUserDapperRepository, UserMasterUserDapperRepository>();
 
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");
             serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));

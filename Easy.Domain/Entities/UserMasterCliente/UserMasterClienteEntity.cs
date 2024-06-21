@@ -7,7 +7,7 @@ namespace Easy.Domain.Entities.UserMasterCliente
     public class UserMasterClienteEntity
     {
         public Guid UserMasterId { get; private set; }
-        public virtual UserEntity? UserMaster { get; private set; }
+        public virtual UserEntity? UserMaster { get;  set; }
         public virtual ICollection<UserMasterUserEntity>? UsersMasterUsers { get; private set; }
         public bool IsValid => Validate();
 

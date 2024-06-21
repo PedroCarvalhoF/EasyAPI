@@ -7,10 +7,10 @@ namespace Easy.Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-public class UserMasterClienteController : ControllerBase
+public class AccountUserMasterClienteController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public UserMasterClienteController(IMediator mediator)
+    public AccountUserMasterClienteController(IMediator mediator)
     {
         _mediator = mediator;
     }

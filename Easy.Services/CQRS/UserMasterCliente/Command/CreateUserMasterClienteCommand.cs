@@ -20,7 +20,7 @@ public class CreateUserMasterClienteCommand : IRequest<RequestResult>
         public async Task<RequestResult> Handle(CreateUserMasterClienteCommand request, CancellationToken cancellationToken)
         {
             var newUserMCliente = new UserMasterClienteEntity(request.UserMasterId);
-            await _unitOfWork.UserMasterClienteRespository.InsertAsync(newUserMCliente);
+            await _unitOfWork.UserMasterClienteRepository.AddMemberAsync(newUserMCliente);
             var commit = await _unitOfWork.CommitAsync();
 
             if (commit)
