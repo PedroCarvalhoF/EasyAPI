@@ -1,0 +1,17 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+
+namespace Easy.InfrastructureIdentity.Context;
+
+public class IdentityContextFactory : IDesignTimeDbContextFactory<IdentityDataContext>
+{
+    public IdentityDataContext CreateDbContext(string[] args)
+    {
+        string DefaultConnectionDESENVOLVIMENTO = "Server=localhost;Port=3306;DataBase=desenvolvimento;Uid=root;password=010203;";
+
+        DbContextOptionsBuilder<IdentityDataContext> optionsBuilder = new DbContextOptionsBuilder<IdentityDataContext>();
+        optionsBuilder.UseMySql(DefaultConnectionDESENVOLVIMENTO, new MySqlServerVersion(new Version(8, 0, 21)));
+
+        return new IdentityDataContext(optionsBuilder.Options);
+    }
+}

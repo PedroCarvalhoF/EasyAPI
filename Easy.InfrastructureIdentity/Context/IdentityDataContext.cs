@@ -1,26 +1,24 @@
-﻿using Easy.Domain.Entities.Produto;
-using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
-using Easy.InfrastructureData.Mapping;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 
-namespace Easy.InfrastructureData.Context
+namespace Easy.InfrastructureIdentity.Context
 {
-    public class MyContext : DbContext
+    public class IdentityDataContext : IdentityDbContext<UserEntity, RoleEntity, Guid,
+                                                          IdentityUserClaim<Guid>, UserRoleEntity, IdentityUserLogin<Guid>,
+                                                          IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
     {
+        public IdentityDataContext(DbContextOptions<IdentityDataContext> options) : base(options) { }
 
-        public MyContext(DbContextOptions<MyContext> options) : base(options)
-        {
-
-        }
         public DbSet<UserMasterUserEntity> UsersMastersUsers { get; set; }
         public DbSet<UserMasterClienteEntity> UserMasterCliente { get; set; }
-        public DbSet<CategoriaProdutoEntity> CategoriasProdutos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CategoriaProdutoMap());
-
+           
             base.OnModelCreating(modelBuilder);
             //configurando USER
             modelBuilder.Entity<UserRoleEntity>(userRole =>

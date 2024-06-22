@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using System.Reflection;
 
 namespace Easy.Api.Extensions
 {
@@ -12,27 +11,27 @@ namespace Easy.Api.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
-                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 //options.IncludeXmlComments(xmlPath);
 
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Easy.API",
+                    Title = "EasyCashier.Api",
                     Version = "v1"
                 });
 
                 options.SwaggerDoc("v2", new OpenApiInfo
                 {
-                    Title = "Easy.API",
+                    Title = "EasyCashier.Api",
                     Version = "v2"
                 });
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Description = @"Autorização JWT usando o esquema Bearer.
-                                    Digite 'Bearer' [espaço] e depois seu token na entrada de texto abaixo.
-                                    Exemplo: 'Portador 12345abcdef'",
+                    Description = @"JWT Authorization header using the Bearer scheme. 
+                                Enter 'Bearer' [space] and then your token in the text input below. 
+                                Example: 'Bearer 12345abcdef'",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey,
@@ -40,7 +39,7 @@ namespace Easy.Api.Extensions
                 });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+            {
                 {
                 new OpenApiSecurityScheme
                 {
@@ -56,7 +55,7 @@ namespace Easy.Api.Extensions
                     },
                     new List<string>()
                 }
-                });
+            });
             });
         }
 
@@ -65,11 +64,11 @@ namespace Easy.Api.Extensions
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                IApiVersionDescriptionProvider? apiVersionProvider = app.Services.GetService<IApiVersionDescriptionProvider>();
+                var apiVersionProvider = app.Services.GetService<IApiVersionDescriptionProvider>();
                 if (apiVersionProvider == null)
                     throw new ArgumentException("API Versioning not registered.");
 
-                foreach (ApiVersionDescription description in apiVersionProvider.ApiVersionDescriptions)
+                foreach (var description in apiVersionProvider.ApiVersionDescriptions)
                 {
                     options.SwaggerEndpoint(
                     $"/swagger/{description.GroupName}/swagger.json",

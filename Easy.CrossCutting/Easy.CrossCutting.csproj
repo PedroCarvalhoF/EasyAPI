@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Easy.Domain\Easy.Domain.csproj" />
     <ProjectReference Include="..\Easy.InfrastructureData\Easy.InfrastructureData.csproj" />
+    <ProjectReference Include="..\Easy.InfrastructureIdentity\Easy.InfrastructureIdentity.csproj" />
     <ProjectReference Include="..\Easy.Services\Easy.Services.csproj" />
   </ItemGroup>
 

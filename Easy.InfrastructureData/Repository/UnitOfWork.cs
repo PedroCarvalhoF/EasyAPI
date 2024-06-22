@@ -1,9 +1,13 @@
-﻿using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities;
+using Easy.Domain.Entities.Produto;
+using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
+using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.InfrastructureData.Context;
+using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,6 +19,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private readonly UserManager<UserEntity> _userManager;
     private IUserMasterClienteRepository? _userMasterClienteRepository;
     private IRepositoryGeneric<UserMasterUserEntity> _userMasterClienteRespository;
+    private ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> _categoriaProdutoRepository;
 
     public UnitOfWork(MyContext context, UserManager<UserEntity> userManager)
     {
@@ -45,6 +50,15 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         {
             return _userMasterClienteRespository = _userMasterClienteRespository ??
                new RepositoryGeneric<UserMasterUserEntity>(_context);
+        }
+    }
+
+    public ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> CategoriaProdutoRepository
+    {
+        get
+        {
+            return _categoriaProdutoRepository = _categoriaProdutoRepository ??
+                new CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>(_context);
         }
     }
 

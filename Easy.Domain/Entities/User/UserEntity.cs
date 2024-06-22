@@ -2,23 +2,20 @@
 using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Tools.Validation;
 using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 
 namespace Easy.Domain.Entities.User
-{   
+{
     public class UserEntity : IdentityUser<Guid>
     {
         public UserEntity() { }
         public UserEntity(string nome, string sobreNome, string userName, string email)
         {
-            DomainValidation.When(string.IsNullOrEmpty(nome),
-                "Informe o nome");
-            DomainValidation.When(string.IsNullOrEmpty(sobreNome),
-               "Informe o sobre nome");
-            DomainValidation.When(string.IsNullOrEmpty(userName),
-               "Informe o user name");
-            DomainValidation.When(string.IsNullOrEmpty(email),
-               "Informe o e-mail");
-
+            DomainValidation.When(string.IsNullOrEmpty(nome), "Informe o nome");
+            DomainValidation.When(string.IsNullOrEmpty(sobreNome), "Informe o sobre nome");
+            DomainValidation.When(string.IsNullOrEmpty(userName), "Informe o user name");
+            DomainValidation.When(string.IsNullOrEmpty(email), "Informe o e-mail");
 
             Nome = nome;
             SobreNome = sobreNome;

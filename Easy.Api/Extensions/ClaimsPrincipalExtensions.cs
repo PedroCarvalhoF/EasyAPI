@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using Easy.Domain.Entities;
+using Easy.Services.DTOs.UserClaims;
+using System.Security.Claims;
 
 namespace Easy.Api.Extensions
 {
@@ -22,6 +24,23 @@ namespace Easy.Api.Extensions
                 return filtroId;
             }
             return Guid.Empty;
+        }
+
+        public static FiltroBase GetUserMasterUser(this ClaimsPrincipal user)
+        {
+            var userId = Guid.Parse(user.FindFirst("UserId")?.Value);
+            var userMasterClienteIdentityId = Guid.Parse(user.FindFirst("ClienteId")?.Value);
+
+            return new FiltroBase(userMasterClienteIdentityId, userMasterClienteIdentityId);
+        }
+        public static DtoUserClaims GetUserMasterUserDatalhes(this ClaimsPrincipal user)
+        {
+            return new DtoUserClaims
+                (
+                 userMasterId: user.FindFirst("ClienteId")?.Value,
+                 userId: user.FindFirst("UserId")?.Value,
+                 userName: user.FindFirst(ClaimTypes.Email)?.Value
+                );
         }
     }
 }
