@@ -5,6 +5,7 @@ using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
+using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
@@ -20,11 +21,14 @@ namespace Easy.InfrastructureData.Repository;
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly MyContext _context;
-    private readonly UserManager<UserEntity> _userManager;
+
     private IUserMasterClienteRepository<UserMasterClienteEntity> _userMasterClienteRepository;
     private IUserMasterUserRepository<UserMasterUserEntity> _userMasterUserRepository;
     private ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> _categorioProdutoRepository;
 
+
+    //Using Base - teste
+    private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     public UnitOfWork(MyContext context)
     {
         _context = context;
@@ -38,7 +42,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new UserMasterClienteRepository<UserMasterClienteEntity>(_context);
         }
     }
-    public IUserMasterUserRepository<UserMasterUserEntity> UserMasterUserRepository    {
+    public IUserMasterUserRepository<UserMasterUserEntity> UserMasterUserRepository
+    {
         get
         {
             return _userMasterUserRepository = _userMasterUserRepository ??
@@ -54,12 +59,22 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         }
     }
 
+
+    //TEMP TESTE CATEGORIA COM BASE REPOSITORY
+    public IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository
+    {
+        get
+        {
+            return _categoriaProdutoBaseRepository = _categoriaProdutoBaseRepository ??
+                new BaseRepository<CategoriaProdutoEntity>(_context);
+        }
+    }
+
     public async Task<bool> CommitAsync()
     {
         var result = await _context.SaveChangesAsync();
         if (result > 0)
             return true;
-
         return false;
     }
     public void Dispose()

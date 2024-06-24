@@ -5,114 +5,60 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository
 {
-    public class BaseRepository<T, F> : IBaseRepository<BaseEntity, FiltroBase> where T : BaseEntity where F : FiltroBase
+    public class BaseRepository<T> : IBaseRepository<T> where T : BaseEntity
     {
-        private readonly MyContext _context;
+        protected readonly MyContext _context;
         private readonly DbSet<T> _dataset;
+
         public BaseRepository(MyContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _dataset = context.Set<T>();
-
+            _context = context;
+            _dataset = _context.Set<T>();
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        private IQueryable<T> ApplyFilter(IQueryable<T> query, FiltroBase users)
         {
-            throw new NotImplementedException();
+            return query.Where(e => e.UserMasterClienteIdentityId == users.clienteId);
         }
 
-        public Task<IEnumerable<BaseEntity>> GetAll(int id)
+        public async Task<T> InsertAsync(T item)
         {
-            throw new NotImplementedException();
+            await _dataset.AddAsync(item);            
+            return item;
         }
 
-        public Task<BaseEntity> GetById(int id)
+        public async Task<T> UpdateAsync(T item)
         {
-            throw new NotImplementedException();
+            _dataset.Update(item);          
+            return item;
         }
 
-        public Task<BaseEntity> InsertAsync(BaseEntity item)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+            if (result == null)
+            {
+                return false;
+            }
+            _dataset.Remove(result);
+          
+            return true;
         }
 
-        public Task<BaseEntity> UpdateAsync(BaseEntity item)
+        public async Task<T> SelectAsync(Guid id, FiltroBase users)
         {
-            throw new NotImplementedException();
+            return await ApplyFilter(_dataset.AsNoTracking(), users)
+                .SingleOrDefaultAsync(p => p.Id.Equals(id));
         }
 
-        //public async Task<T> InsertAsync(T item)
-        //{
-        //    if (item == null) throw new ArgumentNullException(nameof(item));
+        public async Task<IEnumerable<T>> SelectAsync(FiltroBase users)
+        {
+            return await ApplyFilter(_dataset.AsNoTracking(), users).ToListAsync();
+        }
 
-        //    try
-        //    {
-        //        _dataset.Add(item);
-        //        await _context.SaveChangesAsync();
-
-        //        return item;
-        //    }
-        //    catch (DbUpdateException ex)
-        //    {
-        //        if (ex.InnerException is MySqlException mySqlEx && mySqlEx.Number == 1452) // 1452 é o código de erro MySQL para violação de chave estrangeira
-        //        {
-        //            throw new Exception("Não foi possível inserir devido a falta de alguma dependencia.");
-        //        }
-        //        throw new Exception("Erro ao inserir item: " + ex.InnerException?.Message ?? ex.Message);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Erro ao inserir item: " + ex.Message);
-        //    }
-        //}
-
-
-        //public async Task<T> UpdateAsync(T item)
-        //{
-        //    if (item == null) throw new ArgumentNullException(nameof(item));
-
-        //    try
-        //    {
-        //        var result = await _dataset.SingleOrDefaultAsync(p => p.Id == item.Id);
-        //        if (result == null) throw new ArgumentException($"Registro não localizado para realizar alteração");
-
-        //        _context.Entry(result).CurrentValues.SetValues(item);
-        //        await _context.SaveChangesAsync();
-
-        //        return item;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Erro ao atualizar item: " + ex.Message);
-        //    }
-        //}
-
-        //public async Task<bool> DeleteAsync(Guid id)
-        //{
-        //    try
-        //    {
-        //        var result = await _dataset.SingleOrDefaultAsync(p => p.Id == id);
-        //        if (result == null) return false;
-
-        //        _dataset.Remove(result);
-        //        await _context.SaveChangesAsync();
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception($"Erro ao deletar item com ID: {id}. Detalhes: " + ex.Message);
-        //    }
-        //}
-
-        //public Task<T> GetById(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<IEnumerable<T>> GetAll(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public async Task<bool> ExistAsync(Guid id, FiltroBase users)
+        {
+            return await ApplyFilter(_dataset, users).AnyAsync(p => p.Id.Equals(id));
+        }
     }
 }
-

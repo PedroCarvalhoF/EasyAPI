@@ -23,8 +23,14 @@ public class GetCategoriasQuery : IRequest<RequestResult>
 
         public async Task<RequestResult> Handle(GetCategoriasQuery request, CancellationToken cancellationToken)
         {
-            var categorias = await _unitOfWork.CategoriaProdutoRepository.GetCategoriasProdutoAsync(request.FiltroBase);
+            var categorias = await _unitOfWork.CategoriaProdutoBaseRepository.SelectAsync(request.FiltroBase);
             return new RequestResult().Ok(categorias);
         }
+
+        //public async Task<RequestResult> Handle(GetCategoriasQuery request, CancellationToken cancellationToken)
+        //{
+        //    var categorias = await _unitOfWork.CategoriaProdutoRepository.GetCategoriasProdutoAsync(request.FiltroBase);
+        //    return new RequestResult().Ok(categorias);
+        //}
     }
 }

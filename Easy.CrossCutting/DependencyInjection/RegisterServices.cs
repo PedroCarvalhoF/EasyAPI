@@ -23,7 +23,7 @@ namespace Easy.CrossCutting.DependencyInjection
 
             IdentityConfiguration.Configurar(serviceCollection, configuration);
 
-            serviceCollection.AddScoped(typeof(IBaseRepository<BaseEntity, FiltroBase>), typeof(BaseRepository<BaseEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
             serviceCollection.AddScoped<IUserService, UserService>();
 

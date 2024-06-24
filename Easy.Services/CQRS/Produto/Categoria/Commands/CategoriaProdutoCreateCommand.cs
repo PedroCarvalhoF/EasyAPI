@@ -38,7 +38,7 @@ public class CategoriaProdutoCreateCommand : IRequest<RequestResult>
                 if (!categoriaEntity.isBaseValida)
                     return new RequestResult().EntidadeInvalida();
 
-                await _unitOfWork.CategoriaProdutoRepository.Create(categoriaEntity);
+                await _unitOfWork.CategoriaProdutoBaseRepository.InsertAsync(categoriaEntity);
                 var result = await _unitOfWork.CommitAsync();
                 if (result)
                 {
@@ -55,5 +55,34 @@ public class CategoriaProdutoCreateCommand : IRequest<RequestResult>
                 return new RequestResult().BadRequest(ex.Message);
             }
         }
+
+
+
+        //CategoriaProdutoRepository
+        //public async Task<RequestResult> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
+        //{
+        //    try
+        //    {
+        //        var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.FiltroBase);
+        //        if (!categoriaEntity.isBaseValida)
+        //            return new RequestResult().EntidadeInvalida();
+
+            //        await _unitOfWork.CategoriaProdutoRepository.Create(categoriaEntity);
+            //        var result = await _unitOfWork.CommitAsync();
+            //        if (result)
+            //        {
+            //            await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
+            //            return new RequestResult().Ok("Categoria de produto criada com sucesso.");
+            //        }
+
+
+            //        return new RequestResult().BadRequest("Não foi possível cadastrar cadastrar categoria");
+            //    }
+            //    catch (Exception ex)
+            //    {
+
+            //        return new RequestResult().BadRequest(ex.Message);
+            //    }
+            //}
     }
 }

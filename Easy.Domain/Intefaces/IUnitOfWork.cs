@@ -2,6 +2,7 @@
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
+using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
@@ -13,5 +14,9 @@ public interface IUnitOfWork
     IUserMasterClienteRepository<UserMasterClienteEntity> UserMasterClienteRepository { get; }
     IUserMasterUserRepository<UserMasterUserEntity> UserMasterUserRepository { get; }
     ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> CategoriaProdutoRepository { get; }
+
+
+    //TEMP TESTE COM BASE REPOSITORY
+    IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository { get; }
     Task<bool> CommitAsync();
 }
