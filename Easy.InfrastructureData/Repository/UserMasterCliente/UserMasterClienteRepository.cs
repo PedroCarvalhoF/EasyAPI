@@ -19,7 +19,7 @@ namespace Easy.InfrastructureData.Repository.UserMasterCliente
             if (create == null)
                 throw new ArgumentNullException(nameof(create));
 
-            await _context.Set<T>().AddAsync(create);            
+            await _context.Set<T>().AddAsync(create);
             return create;
         }
 

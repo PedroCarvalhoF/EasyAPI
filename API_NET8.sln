@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easy.InfrastructureData", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easy.CrossCutting", "Easy.CrossCutting\Easy.CrossCutting.csproj", "{54F56C77-6C4B-43AA-8BFD-D5D78CECEBFF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easy.Api", "Easy.Api\Easy.Api.csproj", "{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.ApiNew", "Easy.ApiNew\Easy.ApiNew.csproj", "{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.Api", "Easy.ApiNew\Easy.Api.csproj", "{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{54F56C77-6C4B-43AA-8BFD-D5D78CECEBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54F56C77-6C4B-43AA-8BFD-D5D78CECEBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54F56C77-6C4B-43AA-8BFD-D5D78CECEBFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Release|Any CPU.ActiveCfg = Release|Any CPU

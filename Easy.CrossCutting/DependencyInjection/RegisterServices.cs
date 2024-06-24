@@ -18,11 +18,11 @@ namespace Easy.CrossCutting.DependencyInjection
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
 
-            IdentityConfiguration.Configurar(serviceCollection, configuration);            
+            IdentityConfiguration.Configurar(serviceCollection, configuration);
 
             serviceCollection.AddScoped(typeof(IBaseRepository<BaseEntity, FiltroBase>), typeof(BaseRepository<BaseEntity, FiltroBase>));
 
-            
+
 
 
             serviceCollection.AddScoped<IUserService, UserService>();
@@ -36,7 +36,7 @@ namespace Easy.CrossCutting.DependencyInjection
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");
             serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));
 
-           
+
 
         }
     }

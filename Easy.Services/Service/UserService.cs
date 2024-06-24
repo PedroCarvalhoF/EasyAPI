@@ -1,5 +1,4 @@
-﻿using Easy.Domain.Entities;
-using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities.User;
 using Easy.InfrastructureData.Configuration;
 using Easy.Services.DTOs.UserIdentity;
 using Microsoft.AspNetCore.Identity;
