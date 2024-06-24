@@ -1,4 +1,6 @@
-﻿using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities;
+using Easy.Domain.Entities.User;
+using Easy.Domain.Intefaces;
 using Easy.InfrastructureData.Configuration;
 using Easy.Services.DTOs.UserIdentity;
 using Microsoft.AspNetCore.Identity;
@@ -15,14 +17,17 @@ namespace Easy.Services.Service
         private readonly SignInManager<UserEntity> _signInManager;
         private readonly UserManager<UserEntity> _userManager;
         private readonly JwtOptions _jwtOptions;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserService(SignInManager<UserEntity> signInManager,
                            UserManager<UserEntity> userManager,
-                           IOptions<JwtOptions> jwtOptions)
+                           IOptions<JwtOptions> jwtOptions,
+                           IUnitOfWork unitOfWork)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _jwtOptions = jwtOptions.Value;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest user)
@@ -44,7 +49,16 @@ namespace Easy.Services.Service
         {
             var result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
             if (result.Succeeded)
-                return await GerarCredenciais(usuarioLogin.Email);
+            {
+                var userSelecionado = await _userManager.FindByEmailAsync(usuarioLogin.Email);
+
+                var mUser = await _unitOfWork.UserMasterUserRepository.GetById(userSelecionado.Id);
+
+                var filtro = new FiltroBase(mUser.UserClienteId, mUser.UserMasterUserId);
+
+                return await GerarCredenciais(usuarioLogin.Email, filtro);
+            }
+
 
             var usuarioLoginResponse = new UsuarioLoginResponse();
             if (!result.Succeeded)
@@ -61,11 +75,11 @@ namespace Easy.Services.Service
 
             return usuarioLoginResponse;
         }
-        private async Task<UsuarioLoginResponse> GerarCredenciais(string email)
+        private async Task<UsuarioLoginResponse> GerarCredenciais(string email, FiltroBase filtro)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true);
-            var refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false);
+            var accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true, filtro);
+            var refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false, filtro);
 
             var dataExpiracaoAccessToken = DateTime.Now.AddSeconds(_jwtOptions.AccessTokenExpiration);
             var dataExpiracaoRefreshToken = DateTime.Now.AddSeconds(_jwtOptions.RefreshTokenExpiration);
@@ -97,7 +111,7 @@ namespace Easy.Services.Service
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
 
-        private async Task<IList<Claim>> ObterClaims(UserEntity user, bool adicionarClaimsUsuario)
+        private async Task<IList<Claim>> ObterClaims(UserEntity user, bool adicionarClaimsUsuario, FiltroBase filtro)
         {
             var claims = new List<Claim>
             {
@@ -106,8 +120,8 @@ namespace Easy.Services.Service
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),
-                //new Claim("ClienteId", filtro.clienteId.ToString()),
-                //new Claim("UserId", filtro.userId.ToString())
+                new Claim("ClienteId", filtro.clienteId.ToString()),
+                new Claim("UserId", filtro.userId.ToString())
             };
 
             if (adicionarClaimsUsuario)

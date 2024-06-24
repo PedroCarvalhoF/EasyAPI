@@ -8,8 +8,8 @@ namespace Easy.Domain.Entities
         public DateTime CreateAt { get; protected set; }
         public DateTime? UpdateAt { get; protected set; }
         public bool Habilitado { get; protected set; }
-        public Guid? UserMasterClienteIdentityId { get; protected set; }
-        public Guid? UserId { get; protected set; }
+        public Guid UserMasterClienteIdentityId { get; protected set; }
+        public Guid UserId { get; protected set; }
         public bool isBaseValida => ValidarBase();
 
         private bool ValidarBase()
@@ -27,34 +27,37 @@ namespace Easy.Domain.Entities
         protected BaseEntity() { }
 
         //create
-        protected BaseEntity(Guid clienteId, Guid userId)
+        protected BaseEntity(FiltroBase users)
         {
-            DomainValidation.When(clienteId == Guid.Empty,
+            DomainValidation.When(users.clienteId == Guid.Empty,
                                  "Informe o id do Cliente Master");
-            DomainValidation.When(userId == Guid.Empty,
+            DomainValidation.When(users.userId == Guid.Empty,
                                  "Informe o id do Usuário Master");
 
             Id = Guid.NewGuid();
             CreateAt = DateTime.UtcNow;
             UpdateAt = null;
             Habilitado = true;
-            UserMasterClienteIdentityId = clienteId;
-            UserId = userId;
+            UserMasterClienteIdentityId = users.clienteId;
+            UserId = users.userId;
 
         }
 
         //update
-        protected BaseEntity(Guid idBase, bool habilitado, Guid clienteId, Guid userId)
+        protected BaseEntity(Guid idBase, bool habilitado, FiltroBase users)
         {
-            DomainValidation.When(clienteId == Guid.Empty,
+            DomainValidation.When(users.clienteId == Guid.Empty,
                                 "Informe o id do Cliente Master");
-            DomainValidation.When(userId == Guid.Empty,
+            DomainValidation.When(users.userId == Guid.Empty,
                                  "Informe o id do Usuário Master");
+            DomainValidation.When(idBase == Guid.Empty,
+                                  "Informe o id para realizar alteração");
+
             Id = idBase;
             UpdateAt = DateTime.Now;
             Habilitado = habilitado;
-            UserMasterClienteIdentityId = clienteId;
-            UserId = userId;
+            UserMasterClienteIdentityId = users.clienteId;
+            UserId = users.userId;
         }
 
         public void AtulizarData(DateTime dataParaAtualizar)

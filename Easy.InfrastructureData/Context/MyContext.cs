@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities.Produto.CategoriaProduto;
+using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
 using Microsoft.AspNetCore.Identity;
@@ -15,6 +16,7 @@ public class MyContext : IdentityDbContext
     }
     public DbSet<UserMasterUserEntity> UsersMastersUsers { get; set; }
     public DbSet<UserMasterClienteEntity> UserMasterCliente { get; set; }
+    public DbSet<CategoriaProdutoEntity> CategoriasProdutos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

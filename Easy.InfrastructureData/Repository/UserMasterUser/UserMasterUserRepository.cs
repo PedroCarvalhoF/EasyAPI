@@ -30,6 +30,6 @@ public class UserMasterUserRepository<T> : IUserMasterUserRepository<T> where T 
 
     public async Task<T> GetById(Guid userId)
     {
-        return await _context.Set<T>().FindAsync(userId);
+        return await _context.Set<T>().SingleOrDefaultAsync(us => us.UserMasterUserId == userId);
     }
 }
