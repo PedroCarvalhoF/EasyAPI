@@ -1,4 +1,4 @@
-﻿using Easy.InfrastructureIdentity.Configurations;
+﻿using Easy.InfrastructureData.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

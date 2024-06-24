@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easy.CrossCutting", "Easy.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easy.Api", "Easy.Api\Easy.Api.csproj", "{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.InfrastructureIdentity", "Easy.InfrastructureIdentity\Easy.InfrastructureIdentity.csproj", "{69DAD83E-EE5E-4A8F-B4EE-0809A88BFEE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Easy.ApiNew", "Easy.ApiNew\Easy.ApiNew.csproj", "{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9458D97D-6035-4D3D-9AF3-4125E6CC38B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{69DAD83E-EE5E-4A8F-B4EE-0809A88BFEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{69DAD83E-EE5E-4A8F-B4EE-0809A88BFEE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{69DAD83E-EE5E-4A8F-B4EE-0809A88BFEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{69DAD83E-EE5E-4A8F-B4EE-0809A88BFEE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0F400BE-6C31-49D9-B1DE-209DDFDD2149}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

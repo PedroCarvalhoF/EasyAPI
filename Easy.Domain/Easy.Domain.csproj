@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="Entities\PontoVenda\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Intefaces\Repository\User\" />
   </ItemGroup>
 
   <ItemGroup>

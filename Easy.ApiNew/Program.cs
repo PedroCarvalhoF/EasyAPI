@@ -1,33 +1,16 @@
-using Easy.Api.Extensions;
+using Easy.ApiNew.Extensions;
 using Easy.CrossCutting.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using System.Text.Json.Serialization;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-// Configure dependencies
-builder.Services.ConfigureDependenciesRepository(builder.Configuration);
-builder.Services.AutoMapperConfig();
-
-// Add controllers with JSON options
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
-    })
-    .AddNewtonsoftJson(options =>
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
-// Add API versioning and Swagger
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddCors();
+builder.Services.AddControllers();
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddVersioning();
-builder.Services.AddSwaggerPersonalizado();
-
-// Configure authentication
+builder.Services.AddSwagger();
 builder.Services.AddAuthentication(builder.Configuration);
-
-
+builder.Services.ConfigureDependenciesRepository(builder.Configuration);
 
 WebApplication app = builder.Build();
 

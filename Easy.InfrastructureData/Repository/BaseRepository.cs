@@ -2,7 +2,6 @@
 using Easy.Domain.Intefaces.Repository;
 using Easy.InfrastructureData.Context;
 using Microsoft.EntityFrameworkCore;
-using MySqlConnector;
 
 namespace Easy.InfrastructureData.Repository
 {

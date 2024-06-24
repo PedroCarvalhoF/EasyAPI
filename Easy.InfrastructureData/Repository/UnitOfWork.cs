@@ -1,14 +1,12 @@
-﻿using Easy.Domain.Entities;
-using Easy.Domain.Entities.Produto;
-using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities.User;
+using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
-using Easy.Domain.Intefaces.Repository;
-using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
+using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
-using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
+using Easy.InfrastructureData.Repository.UserMasterUser;
 using Microsoft.AspNetCore.Identity;
 
 namespace Easy.InfrastructureData.Repository;
@@ -17,48 +15,30 @@ public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly MyContext _context;
     private readonly UserManager<UserEntity> _userManager;
-    private IUserMasterClienteRepository? _userMasterClienteRepository;
-    private IRepositoryGeneric<UserMasterUserEntity> _userMasterClienteRespository;
-    private ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> _categoriaProdutoRepository;
+    private IUserMasterClienteRepository<UserMasterClienteEntity> _userMasterClienteRepository;
+    private IUserMasterUserRepository<UserMasterUserEntity> _userMasterUserRepository;
 
-    public UnitOfWork(MyContext context, UserManager<UserEntity> userManager)
+    public UnitOfWork(MyContext context)
     {
         _context = context;
-        _userManager = userManager;
+
     }
 
-    public UserManager<UserEntity> UserManager
-    {
-        get
-        {
-            return _userManager;
-        }
-    }
-
-    public IUserMasterClienteRepository UserMasterClienteRepository
+    public IUserMasterClienteRepository<UserMasterClienteEntity> UserMasterClienteRepository
     {
         get
         {
             return _userMasterClienteRepository = _userMasterClienteRepository ??
-                new UserMasterClienteRepository(_context);
+                new UserMasterClienteRepository<UserMasterClienteEntity>(_context);
         }
     }
 
-    public IRepositoryGeneric<UserMasterUserEntity> UserMasterUserRepository
+    public IUserMasterUserRepository<UserMasterUserEntity> UserMasterUserRepository
     {
         get
         {
-            return _userMasterClienteRespository = _userMasterClienteRespository ??
-               new RepositoryGeneric<UserMasterUserEntity>(_context);
-        }
-    }
-
-    public ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> CategoriaProdutoRepository
-    {
-        get
-        {
-            return _categoriaProdutoRepository = _categoriaProdutoRepository ??
-                new CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>(_context);
+            return _userMasterUserRepository = _userMasterUserRepository ??
+                new UserMasterUserRepository<UserMasterUserEntity>(_context);
         }
     }
 

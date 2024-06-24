@@ -1,12 +1,11 @@
 ﻿using Easy.Domain.Entities.UserMasterCliente;
 
-namespace Easy.Domain.Intefaces.Repository.UserMasterCliente;
-
-public interface IUserMasterClienteRepository
+namespace Easy.Domain.Intefaces.Repository.UserMasterCliente
 {
-    Task<IEnumerable<UserMasterClienteEntity>> GetMembersAsync();
-    Task<UserMasterClienteEntity> GetMemberByIdAsync(Guid userCli);
-    Task<UserMasterClienteEntity> AddMemberAsync(UserMasterClienteEntity userCli);
-    void UpdateMember(UserMasterClienteEntity userCli);
-    Task<UserMasterClienteEntity> DeleteMember(Guid userCli);
+    public interface IUserMasterClienteRepository<T> where T : UserMasterClienteEntity
+    {
+        Task<IEnumerable<T>> GetAll();
+        Task<T> GetById(Guid userClienteId);
+        Task<T> CadastrarCliente(T create);
+    }
 }

@@ -58,22 +58,6 @@ namespace Easy.Services.DTOs
             return this;
         }
 
-        public RequestResult BadCreate(string? detalhes = null, object? data = null)
-        {
-            this.Status = false;
-            this.StatusCode = 400;
-
-            if (detalhes == null)
-                this.Mensagem = $"Falha ao realizar a requisição. Não foi possível realizar o cadastro.";
-            else
-                this.Mensagem = $"Falha ao realizar a requisição. Detalhes: {detalhes}";
-
-            if (data == null)
-                this.Data = new List<string>();
-            else
-                this.Data = data;
-            return this;
-        }
 
         public RequestResult IsNullOrCountZero()
         {
@@ -100,16 +84,5 @@ namespace Easy.Services.DTOs
             return this;
         }
 
-        public RequestResult BadUpdate(object? data = null)
-        {
-            this.Status = false;
-            this.StatusCode = 400;
-            this.Mensagem = $"Falha ao realizar a requisição. Não foi possível realizar alteração.";
-            if (data == null)
-                this.Data = new List<string>();
-            else
-                this.Data = data;
-            return this;
-        }
     }
 }

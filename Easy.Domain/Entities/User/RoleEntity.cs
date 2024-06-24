@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 
 namespace Easy.Domain.Entities.User
 {

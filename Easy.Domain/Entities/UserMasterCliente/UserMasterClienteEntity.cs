@@ -7,7 +7,7 @@ namespace Easy.Domain.Entities.UserMasterCliente
     public class UserMasterClienteEntity
     {
         public Guid UserMasterId { get; private set; }
-        public virtual UserEntity? UserMaster { get;  set; }
+        public virtual UserEntity? UserMaster { get; set; }
         public virtual ICollection<UserMasterUserEntity>? UsersMasterUsers { get; private set; }
         public bool IsValid => Validate();
 
@@ -15,10 +15,7 @@ namespace Easy.Domain.Entities.UserMasterCliente
         {
             return UserMasterId != Guid.Empty;
         }
-        public UserMasterClienteEntity()
-        {
-
-        }
+        public UserMasterClienteEntity() { }
         public UserMasterClienteEntity(Guid userMasterId)
         {
             DomainValidation.When(userMasterId == Guid.Empty, "Informe o UserMasterId");

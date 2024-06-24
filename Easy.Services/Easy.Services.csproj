@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Easy.Domain\Easy.Domain.csproj" />
     <ProjectReference Include="..\Easy.InfrastructureData\Easy.InfrastructureData.csproj" />
-    <ProjectReference Include="..\Easy.InfrastructureIdentity\Easy.InfrastructureIdentity.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,8 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CQRS\CategoriaProduto\Notification\" />
-    <Folder Include="CQRS\CategoriaProduto\Queries\" />
+    <Folder Include="CQRS\UserMasterCliente\Notificacao\" />
+    <Folder Include="CQRS\UserMasterCliente\Queries\" />
+    <Folder Include="CQRS\UserMasterUser\Notification\" />
+    <Folder Include="CQRS\UserMasterUser\Queries\" />
+    <Folder Include="CQRS\User\Queries\" />
   </ItemGroup>
 
 

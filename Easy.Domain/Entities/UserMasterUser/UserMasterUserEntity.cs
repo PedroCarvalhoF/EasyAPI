@@ -7,7 +7,7 @@ namespace Easy.Domain.Entities.UserMasterUser
     {
         public Guid UserClienteId { get; private set; }
         public virtual UserMasterClienteEntity? UserCliente { get; private set; }
-        public Guid? UserMasterUserId { get; private set; }
+        public Guid UserMasterUserId { get; private set; }
         public virtual UserEntity? UserMasterUser { get; private set; }
 
         public bool isValid => Validar();
@@ -20,7 +20,7 @@ namespace Easy.Domain.Entities.UserMasterUser
             return true;
         }
 
-        public UserMasterUserEntity(Guid userClienteId, Guid? userMasterUserId)
+        public UserMasterUserEntity(Guid userClienteId, Guid userMasterUserId)
         {
             if (userClienteId == Guid.Empty || userMasterUserId == Guid.Empty)
                 throw new Exception("Necessário o idMaster e IdUser");
@@ -29,7 +29,7 @@ namespace Easy.Domain.Entities.UserMasterUser
             UserMasterUserId = userMasterUserId;
         }
 
-        public static UserMasterUserEntity Create(Guid userClienteId, Guid? userMasterUserId)
+        public static UserMasterUserEntity Create(Guid userClienteId, Guid userMasterUserId)
             => new UserMasterUserEntity(userClienteId, userMasterUserId);
 
     }

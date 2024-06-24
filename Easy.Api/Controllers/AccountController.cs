@@ -1,7 +1,7 @@
-﻿using Easy.Api.Tools;
-using Easy.Services.CQRS.User.Command;
-using Easy.Services.CQRS.User.Queries;
+﻿using Easy.Services.CQRS.User.Command;
+using Easy.Services.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,7 +9,7 @@ namespace Easy.Api.Controllers;
 
 [Route("[controller]")]
 [ApiController]
-//[Authorize]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class AccountController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -17,47 +17,24 @@ public class AccountController : ControllerBase
     {
         _mediator = mediator;
     }
-
     [AllowAnonymous]
-    [HttpPost("CadastraUsuario")]
-    public async Task<ActionResult> Cadastrar([FromBody] UserCreateCommand create)
+    [HttpPost("cadastrar")]
+    public async Task<ActionResult<RequestResult>> CadastrarUsuario(UserCreateCommand command)
     {
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(create));
-    }
-
-    [AllowAnonymous]
-    [HttpPost("AlterarSenhaUsuario")]
-    public async Task<ActionResult> AlterarSenha([FromBody] AlterarSenhaUserCommand updateSenha)
-    {
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(updateSenha));
+        return await _mediator.Send(command);
     }
 
     [AllowAnonymous]
     [HttpPost("Login")]
-    public async Task<ActionResult> Login([FromBody] UserLoginCommand login)
+    public async Task<ActionResult<RequestResult>> Login([FromBody] UserLoginCommand command)
     {
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(login));
+        return await _mediator.Send(command);
     }
 
-    [HttpGet]
-    public async Task<ActionResult> GetUsersAsync()
+    [HttpGet("login")]
+    public async Task<ActionResult> TesteAutorize()
     {
-        var getUser = new GetUsersQuery();
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
-    }
-
-    [HttpGet("by-id/{id}")]
-    public async Task<ActionResult> GetUserByIdAsync(Guid id)
-    {
-        var getUser = new GetUserByIdQuery(id);
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
-    }
-
-    [HttpGet("by-email/{email}")]
-    public async Task<ActionResult> GetUserByEmailAsync(string email)
-    {
-        var getUser = new GetUserByEmailQuery(email);
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getUser));
+        return Ok("Voce conseguiu !!!!");
     }
 
 }
