@@ -8,11 +8,12 @@ public class CategoriaProdutoMap : IEntityTypeConfiguration<CategoriaProdutoEnti
 {
     public void Configure(EntityTypeBuilder<CategoriaProdutoEntity> builder)
     {
-        builder.ToTable("CategoriasProdutos");
-        builder.HasKey(c => c.Id);
+        builder.ToTable("CategoriasProdutos");        
 
         builder.Property(c => c.DescricaoCategoria).HasMaxLength(60).IsRequired();
 
+
+        builder.HasKey(b => b.Id);
         builder.Property(b => b.UserMasterClienteIdentityId).IsRequired();
         builder.Property(b => b.UserId).IsRequired();
         builder.Property(b => b.CreateAt).HasColumnType("datetime").IsRequired();

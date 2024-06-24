@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.Produto.CategoriaProduto;
+﻿using Easy.Domain.Entities.Produto;
+using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
@@ -17,6 +18,7 @@ public class MyContext : IdentityDbContext
     public DbSet<UserMasterUserEntity> UsersMastersUsers { get; set; }
     public DbSet<UserMasterClienteEntity> UserMasterCliente { get; set; }
     public DbSet<CategoriaProdutoEntity> CategoriasProdutos { get; set; }
+    public DbSet<ProdutoEntity> Produtos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
