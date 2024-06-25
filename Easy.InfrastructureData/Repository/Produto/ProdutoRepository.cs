@@ -3,6 +3,7 @@ using Easy.Domain.Entities.Produto;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
+using Easy.InfrastructureData.Tools.Produto;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
@@ -10,8 +11,8 @@ namespace Easy.InfrastructureData.Repository.Produto;
 
 public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : ProdutoEntity where F : FiltroBase
 {
-    private readonly DbSet<ProdutoEntity> _dbSet;
     private readonly MyContext _contexto;
+    private DbSet<ProdutoEntity> _dbSet;
 
     public ProdutoRepository(MyContext contexto)
     {
@@ -23,45 +24,54 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
     {
         try
         {
-            var query = _dbSet.AsNoTracking();
+            var produto = await
 
-            query = query.FiltroUserMasterCliente(userFiltro).Where(p => p.NomeProduto.ToLower() == nome || p.Codigo == codigo);
+                    _dbSet.AsNoTracking()
+                          .IncludeProdutos()
+                          .FiltroCliente(userFiltro)
+                          .Where(p => p.NomeProduto.ToLower() == nome.ToLower() || p.Codigo == codigo)
+                          .SingleOrDefaultAsync();
 
-            var produto = await query.SingleOrDefaultAsync();
-            if (produto != null)
-                return true;
+            if (produto == null)
+                return false;
 
-            return false;
+            return true;
+        }
+        catch (InvalidCastException ex)
+        {
+            // Captura e loga a exceção específica
+            Console.WriteLine($"InvalidCastException: {ex.Message}");
+            throw;
         }
         catch (Exception ex)
         {
-
+            // Captura e loga outras exceções
+            Console.WriteLine($"Exception: {ex.Message}");
             throw new Exception(ex.Message);
         }
     }
+
+
 
     public async Task<bool> DeleteAsync(Guid id, F userFiltro)
     {
         try
         {
-            var query = _dbSet.AsNoTracking();
-            query = query.FiltroUserMasterCliente(userFiltro);
+            var produto = await
 
-            query = query.Where(p => p.Id == id);
+                _dbSet.AsNoTracking()
+                      .FiltroCliente(userFiltro)
+                      .SingleOrDefaultAsync(p => p.Id == id);
 
-            var produto = await query.SingleOrDefaultAsync();
             if (produto != null)
             {
                 _contexto.Remove(produto);
                 return true;
             }
-
-
             return false;
         }
         catch (Exception ex)
         {
-
             throw new Exception(ex.Message);
         }
     }
@@ -88,11 +98,13 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
     {
         try
         {
-            var query = _dbSet.AsNoTracking();
+            var produto = await
 
-            query = query.FiltroUserMasterCliente(userFiltro).Where(p => p.Id == id);
+                    _dbSet.AsNoTracking()
+                          .FiltroCliente(userFiltro)
+                          .IncludeProdutos()
+                          .SingleOrDefaultAsync(p => p.Id == id);
 
-            var produto = await query.SingleOrDefaultAsync();
             if (produto == null)
                 return new ProdutoEntity();
 
@@ -109,11 +121,12 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
     {
         try
         {
-            var query = _dbSet.AsNoTracking();
+            var produtos = await
 
-            query = query.FiltroUserMasterCliente(userFiltro);
-
-            var produtos = await query.ToArrayAsync();
+                    _dbSet.AsNoTracking()
+                          .FiltroCliente(userFiltro)
+                          .IncludeProdutos()
+                          .ToArrayAsync();
 
             return produtos;
         }
@@ -127,7 +140,7 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
     {
         try
         {
-            var result = await _contexto.Produtos.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+            var result = await _dbSet.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
             _contexto.Produtos.Entry(result).CurrentValues.SetValues(item);
             _contexto.Update(item);
             return item;

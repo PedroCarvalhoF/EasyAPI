@@ -23,7 +23,7 @@ public class CategoriaProdutoRepository<T, F> : ICategoriaProdutoRepository<T, F
             FiltroBase filtro = new FiltroBase(create.UserMasterClienteIdentityId, create.UserId);
 
             var categoriaEmUso = await _context.CategoriasProdutos.AsNoTracking()
-                .Where(c => c.DescricaoCategoria.ToLower() == create.DescricaoCategoria.ToLower()).FiltroUserMasterCliente(filtro)
+                .Where(c => c.DescricaoCategoria.ToLower() == create.DescricaoCategoria.ToLower()).FiltroCliente(filtro)
                 .FirstOrDefaultAsync();
 
             if (categoriaEmUso != null)
@@ -52,7 +52,7 @@ public class CategoriaProdutoRepository<T, F> : ICategoriaProdutoRepository<T, F
     public async Task<CategoriaProdutoEntity> GetById(Guid categoriaId, F users)
     {
         var categoria = await _context.CategoriasProdutos.AsNoTracking()
-                              .FiltroUserMasterCliente(users).Where(c => c.Id == categoriaId).SingleOrDefaultAsync();
+                              .FiltroCliente(users).Where(c => c.Id == categoriaId).SingleOrDefaultAsync();
         return categoria;
     }
 
@@ -61,7 +61,7 @@ public class CategoriaProdutoRepository<T, F> : ICategoriaProdutoRepository<T, F
         try
         {
             var categorias = await _context.CategoriasProdutos.AsNoTracking()
-                                  .FiltroUserMasterCliente(users).ToArrayAsync();
+                                  .FiltroCliente(users).ToArrayAsync();
             return categorias;
         }
         catch (Exception ex)

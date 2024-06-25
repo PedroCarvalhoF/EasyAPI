@@ -9,9 +9,9 @@ public class ProdutoEntity : BaseEntity
 {
     public string NomeProduto { get; private set; }
     public string Codigo { get; private set; }
-    public string Descricao { get; private set; }
-    public string Observacoes { get; private set; }
-    public string ImagemUrl { get; private set; }
+    public string? Descricao { get; private set; }
+    public string? Observacoes { get; private set; }
+    public string? ImagemUrl { get; private set; }
     public Guid CategoriaProdutoEntityId { get; private set; }
     public virtual CategoriaProdutoEntity? CategoriaProdutoEntity { get; private set; }
     public MedidaProdutoEnum MedidaProdutoEnum { get; private set; }
@@ -28,9 +28,11 @@ public class ProdutoEntity : BaseEntity
         DomainValidation.When(string.IsNullOrWhiteSpace(codigo), "Informe o código do produto.");
         DomainValidation.When(codigo.Length > 100, "Código muito extenso. Máximo 100 caracteres");
 
-        DomainValidation.When(descricao.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+        if (descricao != null)
+            DomainValidation.When(descricao.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
 
-        DomainValidation.When(observacoes.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+        if (observacoes != null)
+            DomainValidation.When(observacoes.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
 
         DomainValidation.When(categoriaProdutoEntityId == Guid.Empty, "Informe a categoria do produto");
 
