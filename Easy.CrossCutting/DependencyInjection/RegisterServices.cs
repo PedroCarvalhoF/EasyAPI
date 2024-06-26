@@ -13,6 +13,7 @@ using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
 using Easy.InfrastructureData.Repository.UserMasterUser;
+using Easy.InfrastructureData.Seeds;
 using Easy.Services.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,8 @@ namespace Easy.CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
+            //seeds testes
+            serviceCollection.AddTransient<ISeedsTeste, SeedsTeste>();
 
             IdentityConfiguration.Configurar(serviceCollection, configuration);
 

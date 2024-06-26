@@ -1,8 +1,11 @@
-﻿using Easy.Domain.Entities.Produto;
+﻿using Easy.Domain.Entities.PDV.CategoriaPreco;
+using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
+using Easy.InfrastructureData.Mapping;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +21,16 @@ public class MyContext : IdentityDbContext
     public DbSet<UserMasterUserEntity> UsersMastersUsers { get; set; }
     public DbSet<UserMasterClienteEntity> UserMasterCliente { get; set; }
     public DbSet<CategoriaProdutoEntity> CategoriasProdutos { get; set; }
+    public DbSet<FormaPagamentoEntity> FormasPagamentos { get; set; }
+    public DbSet<CategoriaPrecoEntity> CategoriasPrecos { get; set; }
     public DbSet<ProdutoEntity> Produtos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new CategoriaProdutoMap());
+        modelBuilder.ApplyConfiguration(new ProdutoMap());
+        modelBuilder.ApplyConfiguration(new FormaPagamentoMap());
+        modelBuilder.ApplyConfiguration(new CategoriaPrecoMap());
 
         base.OnModelCreating(modelBuilder);
         //configurando USER

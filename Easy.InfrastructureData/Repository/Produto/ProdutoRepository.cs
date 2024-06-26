@@ -140,8 +140,9 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
     {
         try
         {
-            var result = await _dbSet.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+            var result = await _dbSet.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));            
             _contexto.Produtos.Entry(result).CurrentValues.SetValues(item);
+            item.AtulizarData(result.CreateAt);
             _contexto.Update(item);
             return item;
         }

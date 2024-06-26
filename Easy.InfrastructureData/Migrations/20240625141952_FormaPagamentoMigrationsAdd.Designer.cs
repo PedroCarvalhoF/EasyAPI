@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easy.InfrastructureData.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240623003406_Incial")]
-    partial class Incial
+    [Migration("20240625141952_FormaPagamentoMigrationsAdd")]
+    partial class FormaPagamentoMigrationsAdd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,129 @@ namespace Easy.InfrastructureData.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.FormaPagamento.FormaPagamentoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Codigo")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("DescricaFormaPagamento")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormasPagamentos", (string)null);
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("DescricaoCategoria")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("varchar(60)");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CategoriasProdutos", (string)null);
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.Produto.ProdutoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoriaProdutoEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Codigo")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Descricao")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ImagemUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("MedidaProdutoEnum")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomeProduto")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<string>("Observacoes")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<int>("TipoProdutoEnum")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaProdutoEntityId");
+
+                    b.ToTable("Produtos", (string)null);
+                });
 
             modelBuilder.Entity("Easy.Domain.Entities.User.RoleEntity", b =>
                 {
@@ -258,6 +381,17 @@ namespace Easy.InfrastructureData.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Easy.Domain.Entities.Produto.ProdutoEntity", b =>
+                {
+                    b.HasOne("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", "CategoriaProdutoEntity")
+                        .WithMany("Produtos")
+                        .HasForeignKey("CategoriaProdutoEntityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CategoriaProdutoEntity");
+                });
+
             modelBuilder.Entity("Easy.Domain.Entities.User.UserRoleEntity", b =>
                 {
                     b.HasOne("Easy.Domain.Entities.User.RoleEntity", "Role")
@@ -341,6 +475,11 @@ namespace Easy.InfrastructureData.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.User.RoleEntity", b =>

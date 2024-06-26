@@ -1,5 +1,7 @@
 ﻿#region Usings
 using Easy.Domain.Entities;
+using Easy.Domain.Entities.PDV.CategoriaPreco;
+using Easy.Domain.Entities.PDV.FormaPagamento;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
@@ -7,11 +9,15 @@ using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
+using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
+using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
+using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
+using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
 using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
@@ -28,7 +34,8 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IUserMasterUserRepository<UserMasterUserEntity> _userMasterUserRepository;
     private ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> _categorioProdutoRepository;
     private IProdutoRepository<ProdutoEntity, FiltroBase> _produtoRepository;
-
+    private IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoRepository;
+    private ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> _categoriaPrecoRepository;
     //Using Base - teste
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     public UnitOfWork(MyContext context)
@@ -79,6 +86,23 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new ProdutoRepository<ProdutoEntity, FiltroBase>(_context);
         }
     }
+    public IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoRepository
+    {
+        get
+        {
+            return _formaPagamentoRepository = _formaPagamentoRepository ??
+                new FormaPagamentoRepository<FormaPagamentoEntity, FiltroBase>(_context);
+        }
+    }
+    public ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> CategoriaPrecoRepository
+    {
+        get
+        {
+            return _categoriaPrecoRepository = _categoriaPrecoRepository ??
+                new CategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase>(_context);
+        }
+    }
+
     public async Task<bool> CommitAsync()
     {
         var result = await _context.SaveChangesAsync();

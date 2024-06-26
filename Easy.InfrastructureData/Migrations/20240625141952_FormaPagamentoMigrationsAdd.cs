@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Easy.InfrastructureData.Migrations
 {
     /// <inheritdoc />
-    public partial class Incial : Migration
+    public partial class FormaPagamentoMigrationsAdd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -69,6 +70,45 @@ namespace Easy.InfrastructureData.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "CategoriasProdutos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DescricaoCategoria = table.Column<string>(type: "varchar(60)", maxLength: 60, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserMasterClienteIdentityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CategoriasProdutos", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "FormasPagamentos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    DescricaFormaPagamento = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Codigo = table.Column<int>(type: "int", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserMasterClienteIdentityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FormasPagamentos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -212,6 +252,42 @@ namespace Easy.InfrastructureData.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "Produtos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    NomeProduto = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Codigo = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Descricao = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Observacoes = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ImagemUrl = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CategoriaProdutoEntityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    MedidaProdutoEnum = table.Column<int>(type: "int", nullable: false),
+                    TipoProdutoEnum = table.Column<int>(type: "int", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdateAt = table.Column<DateTime>(type: "datetime", nullable: true),
+                    Habilitado = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    UserMasterClienteIdentityId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Produtos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Produtos_CategoriasProdutos_CategoriaProdutoEntityId",
+                        column: x => x.CategoriaProdutoEntityId,
+                        principalTable: "CategoriasProdutos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "UsersMastersUsers",
                 columns: table => new
                 {
@@ -274,6 +350,11 @@ namespace Easy.InfrastructureData.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Produtos_CategoriaProdutoEntityId",
+                table: "Produtos",
+                column: "CategoriaProdutoEntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UsersMastersUsers_UserMasterUserId",
                 table: "UsersMastersUsers",
                 column: "UserMasterUserId",
@@ -299,10 +380,19 @@ namespace Easy.InfrastructureData.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "FormasPagamentos");
+
+            migrationBuilder.DropTable(
+                name: "Produtos");
+
+            migrationBuilder.DropTable(
                 name: "UsersMastersUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "CategoriasProdutos");
 
             migrationBuilder.DropTable(
                 name: "UserMasterCliente");

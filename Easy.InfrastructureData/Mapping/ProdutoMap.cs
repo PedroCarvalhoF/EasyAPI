@@ -11,8 +11,8 @@ namespace Easy.InfrastructureData.Mapping
             builder.ToTable("Produtos");
 
             builder.HasKey(b => b.Id);
-            builder.Property(b => b.UserMasterClienteIdentityId).IsRequired().HasColumnType("uniqueidentifier");
-            builder.Property(b => b.UserId).IsRequired().HasColumnType("uniqueidentifier");
+            builder.Property(b => b.UserMasterClienteIdentityId).IsRequired();
+            builder.Property(b => b.UserId).IsRequired();
             builder.Property(b => b.CreateAt).HasColumnType("datetime").IsRequired();
             builder.Property(b => b.UpdateAt).HasColumnType("datetime");
             builder.Property(b => b.Habilitado).IsRequired();

@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CQRS\PDV\CategoriaPreco\Commands\Notification\" />
+    <Folder Include="CQRS\PDV\FormaPagamento\Commands\Notifications\" />
     <Folder Include="CQRS\UserMasterCliente\Notificacao\" />
     <Folder Include="CQRS\UserMasterCliente\Queries\" />
     <Folder Include="CQRS\UserMasterUser\Notification\" />
