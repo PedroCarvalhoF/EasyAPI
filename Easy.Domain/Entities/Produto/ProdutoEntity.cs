@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.Produto.CategoriaProduto;
+﻿using Easy.Domain.Entities.PDV.PrecoProduto;
+using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Enuns;
 using Easy.Domain.Tools;
 using Easy.Domain.Tools.Validation;
@@ -16,6 +17,8 @@ public class ProdutoEntity : BaseEntity
     public virtual CategoriaProdutoEntity? CategoriaProdutoEntity { get; private set; }
     public MedidaProdutoEnum MedidaProdutoEnum { get; private set; }
     public ProdutoTipoEnum TipoProdutoEnum { get; private set; }
+
+    public ICollection<PrecoProdutoEntity> PrecosProdutos { get; set; }
 
     public ProdutoEntity() { }
     //create

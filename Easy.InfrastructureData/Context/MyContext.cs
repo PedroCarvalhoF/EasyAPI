@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
@@ -24,6 +25,7 @@ public class MyContext : IdentityDbContext
     public DbSet<FormaPagamentoEntity> FormasPagamentos { get; set; }
     public DbSet<CategoriaPrecoEntity> CategoriasPrecos { get; set; }
     public DbSet<ProdutoEntity> Produtos { get; set; }
+    public DbSet<PrecoProdutoEntity> PrecosProdutos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -31,6 +33,7 @@ public class MyContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new ProdutoMap());
         modelBuilder.ApplyConfiguration(new FormaPagamentoMap());
         modelBuilder.ApplyConfiguration(new CategoriaPrecoMap());
+        modelBuilder.ApplyConfiguration(new PrecoProdutoMap());
 
         base.OnModelCreating(modelBuilder);
         //configurando USER

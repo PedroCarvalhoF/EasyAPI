@@ -22,6 +22,8 @@
   <ItemGroup>
     <Folder Include="CQRS\PDV\CategoriaPreco\Commands\Notification\" />
     <Folder Include="CQRS\PDV\FormaPagamento\Commands\Notifications\" />
+    <Folder Include="CQRS\PDV\PrecoProduto\Commands\Notifications\" />
+    <Folder Include="CQRS\PDV\PrecoProduto\Commands\Validations\" />
     <Folder Include="CQRS\UserMasterCliente\Notificacao\" />
     <Folder Include="CQRS\UserMasterCliente\Queries\" />
     <Folder Include="CQRS\UserMasterUser\Notification\" />

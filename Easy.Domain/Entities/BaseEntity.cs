@@ -60,10 +60,11 @@ namespace Easy.Domain.Entities
             UserId = users.userId;
         }
 
-        public void AtulizarData(DateTime dataParaAtualizar)
+        public void DataCriacao(DateTime dataParaAtualizar)
         {
-            CreateAt = dataParaAtualizar;
-            UpdateAt = DateTime.Now;
+            CreateAt = dataParaAtualizar;         
         }
+
+      
     }
 }

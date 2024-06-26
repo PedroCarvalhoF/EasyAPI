@@ -2,6 +2,7 @@
 using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
@@ -11,6 +12,7 @@ using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
+using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
@@ -18,6 +20,7 @@ using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
+using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
@@ -36,6 +39,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IProdutoRepository<ProdutoEntity, FiltroBase> _produtoRepository;
     private IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoRepository;
     private ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> _categoriaPrecoRepository;
+    private IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> _precoProdutoRepository;
     //Using Base - teste
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     public UnitOfWork(MyContext context)
@@ -67,17 +71,6 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>(_context);
         }
     }
-
-
-    //TEMP TESTE CATEGORIA COM BASE REPOSITORY
-    public IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository
-    {
-        get
-        {
-            return _categoriaProdutoBaseRepository = _categoriaProdutoBaseRepository ??
-                new BaseRepository<CategoriaProdutoEntity>(_context);
-        }
-    }
     public IProdutoRepository<ProdutoEntity, FiltroBase> ProdutoRepository
     {
         get
@@ -102,6 +95,26 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new CategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase>(_context);
         }
     }
+
+    public IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> PrecoProdutoRepository
+    {
+        get
+        {
+            return _precoProdutoRepository = _precoProdutoRepository ??
+                new PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>(_context);
+        }
+    }
+
+    //TEMP TESTE CATEGORIA COM BASE REPOSITORY
+    public IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository
+    {
+        get
+        {
+            return _categoriaProdutoBaseRepository = _categoriaProdutoBaseRepository ??
+                new BaseRepository<CategoriaProdutoEntity>(_context);
+        }
+    }
+
 
     public async Task<bool> CommitAsync()
     {

@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Tools.Validation;
+﻿using Easy.Domain.Entities.PDV.PrecoProduto;
+using Easy.Domain.Tools.Validation;
 
 namespace Easy.Domain.Entities.PDV.CategoriaPreco;
 
@@ -8,6 +9,7 @@ public class CategoriaPrecoEntity : BaseEntity
     public string DescricaoCategoriaPreco { get; private set; }
     public bool Validada => Validar();
 
+    public ICollection<PrecoProdutoEntity> PrecosProdutos { get; set; }
     private bool Validar()
     {
         if (DescricaoCategoriaPreco == null) return false;

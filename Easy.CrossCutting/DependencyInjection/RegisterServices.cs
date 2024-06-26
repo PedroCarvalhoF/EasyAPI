@@ -1,14 +1,17 @@
 ﻿using Easy.CrossCutting.DependencyInjection.Extensions;
 using Easy.Domain.Entities;
+using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
+using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Repository;
+using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
@@ -47,6 +50,9 @@ namespace Easy.CrossCutting.DependencyInjection
               (typeof(IProdutoRepository<ProdutoEntity, FiltroBase>),
                typeof(ProdutoRepository<ProdutoEntity, FiltroBase>));
 
+            serviceCollection.AddScoped
+            (typeof(IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>),
+             typeof(PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>));
 
 
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");

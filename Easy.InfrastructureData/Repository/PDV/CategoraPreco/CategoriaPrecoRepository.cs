@@ -106,7 +106,7 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
         try
         {
             var result = await _dbSet.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
-            item.AtulizarData(result.CreateAt);
+            item.DataCriacao(result.CreateAt);
             _contexto.Entry(result).CurrentValues.SetValues(item);
             _contexto.Update(item);
             return item;
