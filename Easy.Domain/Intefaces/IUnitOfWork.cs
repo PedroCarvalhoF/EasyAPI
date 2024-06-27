@@ -3,6 +3,7 @@ using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
 using Easy.Domain.Entities.PDV.PrecoProduto;
+using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.UserMasterCliente;
@@ -11,6 +12,7 @@ using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
+using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
@@ -28,6 +30,8 @@ public interface IUnitOfWork
     IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoRepository { get; }
     ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> CategoriaPrecoRepository { get; }
     IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> PrecoProdutoRepository { get; }
+
+    IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> UsuarioPdvRepository { get; }
 
     //TEMP TESTE COM BASE REPOSITORY
     IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository { get; }

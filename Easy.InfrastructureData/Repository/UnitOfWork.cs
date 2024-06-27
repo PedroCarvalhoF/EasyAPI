@@ -3,6 +3,7 @@ using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
 using Easy.Domain.Entities.PDV.PrecoProduto;
+using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
@@ -13,6 +14,7 @@ using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
+using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
@@ -21,6 +23,7 @@ using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
 using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
+using Easy.InfrastructureData.Repository.PDV.UsuarioPdv;
 using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
@@ -40,6 +43,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoRepository;
     private ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> _categoriaPrecoRepository;
     private IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> _precoProdutoRepository;
+    private IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> _usuarioPdvRepository;
     //Using Base - teste
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     public UnitOfWork(MyContext context)
@@ -95,13 +99,21 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new CategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase>(_context);
         }
     }
-
     public IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> PrecoProdutoRepository
     {
         get
         {
             return _precoProdutoRepository = _precoProdutoRepository ??
                 new PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>(_context);
+        }
+    }
+
+    public IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> UsuarioPdvRepository
+    {
+        get
+        {
+            return _usuarioPdvRepository = _usuarioPdvRepository ??
+                new UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>(_context);
         }
     }
 
