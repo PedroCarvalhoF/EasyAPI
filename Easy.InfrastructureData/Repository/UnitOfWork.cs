@@ -2,6 +2,7 @@
 using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Entities.Produto;
@@ -13,6 +14,7 @@ using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
+using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
 using Easy.Domain.Intefaces.Repository.Produto;
@@ -22,6 +24,7 @@ using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
+using Easy.InfrastructureData.Repository.PDV.Periodo;
 using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 using Easy.InfrastructureData.Repository.PDV.UsuarioPdv;
 using Easy.InfrastructureData.Repository.Produto;
@@ -32,7 +35,7 @@ using Microsoft.AspNetCore.Identity;
 
 #endregion
 namespace Easy.InfrastructureData.Repository;
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class UnitOfWork : IUnitOfWork/*, IDisposable*/
 {
     private readonly MyContext _context;
 
@@ -44,6 +47,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> _categoriaPrecoRepository;
     private IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> _precoProdutoRepository;
     private IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> _usuarioPdvRepository;
+    private IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> _periodoPdvRepository;
     //Using Base - teste
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     public UnitOfWork(MyContext context)
@@ -127,7 +131,14 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         }
     }
 
-
+    public IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvRepository
+    {
+        get
+        {
+            return _periodoPdvRepository = _periodoPdvRepository ??
+                new PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>(_context);
+        }
+    }
     public async Task<bool> CommitAsync()
     {
         var result = await _context.SaveChangesAsync();
@@ -135,8 +146,15 @@ public class UnitOfWork : IUnitOfWork, IDisposable
             return true;
         return false;
     }
-    public void Dispose()
-    {
-        _context.Dispose();
-    }
+
+    //private bool _disposed = false;
+    //~UnitOfWork() =>
+    //      Dispose();
+
+    //public void Dispose()
+    //{
+    //    if (!_disposed)
+    //        _context.Dispose();
+    //    GC.SuppressFinalize(this);
+    //}
 }

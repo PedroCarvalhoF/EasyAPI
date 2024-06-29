@@ -49,6 +49,7 @@ public class CategoriaProdutoRepository<T, F> : ICategoriaProdutoRepository<T, F
         return false;
     }
 
+
     public async Task<CategoriaProdutoEntity> GetById(Guid categoriaId, F users)
     {
         var categoria = await _context.CategoriasProdutos.AsNoTracking()
@@ -76,4 +77,14 @@ public class CategoriaProdutoRepository<T, F> : ICategoriaProdutoRepository<T, F
         _context.Update(create);
         return create;
     }
+
+    private bool _disposed = false;
+    public void Dispose()
+    {
+        if (!_disposed)
+            _context.Dispose();
+        GC.SuppressFinalize(this);
+    }
+
+    ~CategoriaProdutoRepository() => Dispose();
 }

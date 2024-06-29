@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities.PDV.PDV;
+using Easy.Domain.Entities.User;
 
 namespace Easy.Domain.Entities.PDV.UserPDV;
 
@@ -6,6 +7,8 @@ public class UsuarioPdvEntity : BaseEntity
 {
     public Guid UserPdvId { get; private set; }
     public virtual UserEntity UserPdv { get; private set; }
+    //public virtual ICollection<PontoVendaEntity>? UsuariosGerentesPdvs { get; set; }
+    //public virtual ICollection<PontoVendaEntity>? UsuariosPdvs { get; set; }
     public bool Validada => Validar();
     public UsuarioPdvEntity() { }
     UsuarioPdvEntity(Guid userPdvId, FiltroBase users) : base(users)

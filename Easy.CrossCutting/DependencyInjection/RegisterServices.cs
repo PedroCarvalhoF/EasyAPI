@@ -1,11 +1,14 @@
-﻿using Easy.CrossCutting.DependencyInjection.Extensions;
+﻿#region Usings
+using Easy.CrossCutting.DependencyInjection.Extensions;
 using Easy.Domain.Entities;
+using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
+using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
 using Easy.Domain.Intefaces.Repository.Produto;
@@ -13,6 +16,7 @@ using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Repository;
+using Easy.InfrastructureData.Repository.PDV.Periodo;
 using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 using Easy.InfrastructureData.Repository.PDV.UsuarioPdv;
 using Easy.InfrastructureData.Repository.Produto;
@@ -23,6 +27,9 @@ using Easy.InfrastructureData.Seeds;
 using Easy.Services.Service;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
+
+#endregion
 
 namespace Easy.CrossCutting.DependencyInjection
 {
@@ -59,7 +66,11 @@ namespace Easy.CrossCutting.DependencyInjection
 
             serviceCollection.AddScoped
            (typeof(IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>),
-            typeof( UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));
+            typeof(UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));
+
+            serviceCollection.AddScoped
+        (typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>),
+         typeof(PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>));
 
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");
             serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));
