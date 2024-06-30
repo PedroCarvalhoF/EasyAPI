@@ -1,4 +1,5 @@
 ﻿
+using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Tools;
 using Easy.Domain.Tools.Validation;
 
@@ -7,8 +8,8 @@ namespace Easy.Domain.Entities.PDV.Periodo;
 public class PeriodoPdvEntity : BaseEntity
 {
     public string DescricaoPeriodo { get; private set; }
+    public virtual ICollection<PontoVendaEntity> PontosVendas { get; private set; }
     public bool Validada => Validar();
-
     private bool Validar()
     {
         if (DescricaoPeriodo == string.Empty) return false;

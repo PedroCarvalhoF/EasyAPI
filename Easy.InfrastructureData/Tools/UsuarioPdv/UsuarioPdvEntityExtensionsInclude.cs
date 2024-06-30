@@ -1,5 +1,4 @@
 ﻿using Easy.Domain.Entities.PDV.UserPDV;
-using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Tools.UsuarioPdv
 {

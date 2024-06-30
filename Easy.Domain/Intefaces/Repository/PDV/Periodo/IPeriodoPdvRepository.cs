@@ -3,7 +3,7 @@ using Easy.Domain.Entities.PDV.Periodo;
 
 namespace Easy.Domain.Intefaces.Repository.PDV.Periodo;
 
-public interface IPeriodoPdvRepository<T, F>  where T : PeriodoPdvEntity where F : FiltroBase
+public interface IPeriodoPdvRepository<T, F> where T : PeriodoPdvEntity where F : FiltroBase
 {
     Task<T> InsertAsync(T item, F filtro);
     Task<T> Update(T item, F filto);

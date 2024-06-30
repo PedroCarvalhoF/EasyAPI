@@ -44,5 +44,5 @@ public class PrecoProdutoEntity : BaseEntity
     public static PrecoProdutoEntity Update(Guid id, bool habilitado, Guid produtoEntityId, Guid categoriaPrecoEntityId, decimal preco, FiltroBase filtro)
         => new PrecoProdutoEntity(id, habilitado, produtoEntityId, categoriaPrecoEntityId, preco, filtro);
 
-   
+
 }

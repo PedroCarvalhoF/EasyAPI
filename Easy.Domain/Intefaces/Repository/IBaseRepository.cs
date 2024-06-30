@@ -4,11 +4,9 @@ namespace Easy.Domain.Intefaces.Repository
 {
     public interface IBaseRepository<T> where T : BaseEntity
     {
+        Task<IEnumerable<T>> SelectAsync(FiltroBase filtro);
+        Task<T> SelectAsync(Guid id, FiltroBase filtro);
         Task<T> InsertAsync(T item);
-        Task<T> UpdateAsync(T item);
-        Task<bool> DeleteAsync(Guid id);
-        Task<T> SelectAsync(Guid id, FiltroBase users);
-        Task<IEnumerable<T>> SelectAsync(FiltroBase users);
-        Task<bool> ExistAsync(Guid id, FiltroBase users);
+        Task<T> UpdateAsync(T item, FiltroBase filtro);
     }
 }

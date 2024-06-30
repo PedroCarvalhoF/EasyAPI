@@ -23,7 +23,7 @@ public class CategoriaProdutoController : ControllerBase
     public async Task<ActionResult<RequestResult>> CadastrarUsuario()
     {
         var getCommand = new GetCategoriasQuery();
-        getCommand.SetFiltro(User.GetUserMasterUserDatalhes());        
+        getCommand.SetFiltro(User.GetUserMasterUserDatalhes());
         return await _mediator.Send(getCommand);
     }
 

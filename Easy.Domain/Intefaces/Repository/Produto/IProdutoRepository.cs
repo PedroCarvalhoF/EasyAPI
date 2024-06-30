@@ -9,7 +9,7 @@ namespace Easy.Domain.Intefaces.Repository.Produto
         Task<ProdutoEntity> UpdateAsync(T item, F userFiltro);
         Task<bool> DeleteAsync(Guid id, F userFiltro);
         Task<ProdutoEntity> SelectAsync(Guid id, F userFiltro);
-        Task<IEnumerable<ProdutoEntity>> SelectAsync(F userFiltro);       
+        Task<IEnumerable<ProdutoEntity>> SelectAsync(F userFiltro);
         Task<bool> CodigoNomeExists(string codigo, string nome, F userFiltro);
     }
 }

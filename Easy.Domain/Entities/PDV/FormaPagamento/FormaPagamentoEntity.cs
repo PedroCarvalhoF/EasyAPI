@@ -3,7 +3,7 @@
 namespace Easy.Domain.Entities.PDV.FormaPagamento;
 
 public class FormaPagamentoEntity : BaseEntity
-{    
+{
     public string DescricaFormaPagamento { get; set; }
     public int Codigo { get; set; }
 

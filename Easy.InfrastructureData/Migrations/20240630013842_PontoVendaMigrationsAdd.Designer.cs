@@ -4,6 +4,7 @@ using Easy.InfrastructureData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easy.InfrastructureData.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20240630013842_PontoVendaMigrationsAdd")]
+    partial class PontoVendaMigrationsAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,7 +103,7 @@ namespace Easy.InfrastructureData.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
@@ -109,7 +112,7 @@ namespace Easy.InfrastructureData.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -131,7 +134,7 @@ namespace Easy.InfrastructureData.Migrations
 
                     b.HasIndex("UsuarioPdvId");
 
-                    b.ToTable("PontosVendas", (string)null);
+                    b.ToTable("PontoVendaEntity");
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.PDV.Periodo.PeriodoPdvEntity", b =>
@@ -205,7 +208,8 @@ namespace Easy.InfrastructureData.Migrations
 
             modelBuilder.Entity("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", b =>
                 {
-                    b.Property<Guid>("UserPdvId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreateAt")
@@ -213,9 +217,6 @@ namespace Easy.InfrastructureData.Migrations
 
                     b.Property<bool>("Habilitado")
                         .HasColumnType("tinyint(1)");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("UpdateAt")
                         .HasColumnType("datetime");
@@ -226,7 +227,13 @@ namespace Easy.InfrastructureData.Migrations
                     b.Property<Guid>("UserMasterClienteIdentityId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("UserPdvId");
+                    b.Property<Guid>("UserPdvId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserPdvId")
+                        .IsUnique();
 
                     b.ToTable("UsuariosPdvs", (string)null);
                 });
@@ -558,19 +565,19 @@ namespace Easy.InfrastructureData.Migrations
                     b.HasOne("Easy.Domain.Entities.PDV.Periodo.PeriodoPdvEntity", "PeriodoPdv")
                         .WithMany("PontosVendas")
                         .HasForeignKey("PeriodoPdvId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", "UsuarioGerentePdv")
-                        .WithMany("UsuariosGerentesPdvs")
+                        .WithMany()
                         .HasForeignKey("UsuarioGerentePdvId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", "UsuarioPdv")
-                        .WithMany("UsuariosPdvs")
+                        .WithMany()
                         .HasForeignKey("UsuarioPdvId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("PeriodoPdv");
@@ -714,13 +721,6 @@ namespace Easy.InfrastructureData.Migrations
             modelBuilder.Entity("Easy.Domain.Entities.PDV.Periodo.PeriodoPdvEntity", b =>
                 {
                     b.Navigation("PontosVendas");
-                });
-
-            modelBuilder.Entity("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", b =>
-                {
-                    b.Navigation("UsuariosGerentesPdvs");
-
-                    b.Navigation("UsuariosPdvs");
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", b =>

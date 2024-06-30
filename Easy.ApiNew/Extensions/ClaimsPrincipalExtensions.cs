@@ -1,5 +1,4 @@
 ﻿using Easy.Domain.Entities;
-using Easy.Services.DTOs.UserClaims;
 using System.Security.Claims;
 
 namespace Easy.Api.Extensions

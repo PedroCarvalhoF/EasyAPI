@@ -56,7 +56,7 @@ public class PeriodoPdvRepository<T, F> : IPeriodoPdvRepository<T, F> where T : 
         {
             var result = await SelectAsync(item.Id, filtro);
             item.DataCriacao(result.CreateAt);
-            _context.Set<T>().Entry(result).CurrentValues.SetValues(item);          
+            _context.Set<T>().Entry(result).CurrentValues.SetValues(item);
             _context.Update(item);
             return item;
         }

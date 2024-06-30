@@ -8,7 +8,7 @@ public class CategoriaProdutoMap : IEntityTypeConfiguration<CategoriaProdutoEnti
 {
     public void Configure(EntityTypeBuilder<CategoriaProdutoEntity> builder)
     {
-        builder.ToTable("CategoriasProdutos");        
+        builder.ToTable("CategoriasProdutos");
 
         builder.Property(c => c.DescricaoCategoria).HasMaxLength(60).IsRequired();
 

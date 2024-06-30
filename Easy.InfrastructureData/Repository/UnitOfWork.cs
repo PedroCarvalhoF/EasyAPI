@@ -2,18 +2,19 @@
 using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
-using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
+using Easy.Domain.Intefaces.Repository.PDV.Pdv;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
@@ -24,6 +25,7 @@ using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
+using Easy.InfrastructureData.Repository.PDV.PDV;
 using Easy.InfrastructureData.Repository.PDV.Periodo;
 using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 using Easy.InfrastructureData.Repository.PDV.UsuarioPdv;
@@ -31,7 +33,7 @@ using Easy.InfrastructureData.Repository.Produto;
 using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
 using Easy.InfrastructureData.Repository.UserMasterUser;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 #endregion
 namespace Easy.InfrastructureData.Repository;
@@ -48,8 +50,11 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
     private IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> _precoProdutoRepository;
     private IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> _usuarioPdvRepository;
     private IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> _periodoPdvRepository;
+    private IPontoVendaRepository<PontoVendaEntity, FiltroBase> _pontoVendaRepository;
+
     //Using Base - teste
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
+    private IBaseRepository<PontoVendaEntity> _pontoVendaBaseRepository;
     public UnitOfWork(MyContext context)
     {
         _context = context;
@@ -111,13 +116,28 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
                 new PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>(_context);
         }
     }
-
     public IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> UsuarioPdvRepository
     {
         get
         {
             return _usuarioPdvRepository = _usuarioPdvRepository ??
                 new UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>(_context);
+        }
+    }
+    public IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvRepository
+    {
+        get
+        {
+            return _periodoPdvRepository = _periodoPdvRepository ??
+                new PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>(_context);
+        }
+    }
+    public IPontoVendaRepository<PontoVendaEntity, FiltroBase> PontoVendaRepository
+    {
+        get
+        {
+            return _pontoVendaRepository = _pontoVendaRepository ??
+                new PontoVendaRepository(_context);
         }
     }
 
@@ -130,21 +150,40 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
                 new BaseRepository<CategoriaProdutoEntity>(_context);
         }
     }
-
-    public IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvRepository
+    public IBaseRepository<PontoVendaEntity> PontoVendaBaseRepository
     {
         get
         {
-            return _periodoPdvRepository = _periodoPdvRepository ??
-                new PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>(_context);
+            return _pontoVendaBaseRepository = _pontoVendaBaseRepository ??
+                new BaseRepository<PontoVendaEntity>(_context);
         }
     }
+
+
+
+
     public async Task<bool> CommitAsync()
     {
-        var result = await _context.SaveChangesAsync();
-        if (result > 0)
-            return true;
-        return false;
+        try
+        {
+            var result = await _context.SaveChangesAsync();
+            if (result > 0)
+                return true;
+            return false;
+        }
+        catch (DbUpdateException ex)
+        {
+            if (ex.InnerException.Message != null)
+                throw new Exception(ex.InnerException.Message);
+
+            throw new Exception(ex.Message);
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+
     }
 
     //private bool _disposed = false;

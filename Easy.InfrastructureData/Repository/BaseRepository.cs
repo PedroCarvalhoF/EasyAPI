@@ -23,26 +23,25 @@ namespace Easy.InfrastructureData.Repository
 
         public async Task<T> InsertAsync(T item)
         {
-            await _dataset.AddAsync(item);            
+            await _dataset.AddAsync(item);
             return item;
         }
 
-        public async Task<T> UpdateAsync(T item)
+        public async Task<T> UpdateAsync(T item, FiltroBase filtro)
         {
-            _dataset.Update(item);          
-            return item;
-        }
-
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var result = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
-            if (result == null)
+            try
             {
-                return false;
+                var result = await SelectAsync(item.Id, filtro);
+                item.DataCriacao(result.CreateAt);
+                _context.Set<T>().Entry(result).CurrentValues.SetValues(item);
+                _context.Update(item);
+                return item;
             }
-            _dataset.Remove(result);
-          
-            return true;
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task<T> SelectAsync(Guid id, FiltroBase users)
@@ -53,12 +52,8 @@ namespace Easy.InfrastructureData.Repository
 
         public async Task<IEnumerable<T>> SelectAsync(FiltroBase users)
         {
-            return await ApplyFilter(_dataset.AsNoTracking(), users).ToListAsync();
+            return await ApplyFilter(_dataset.AsNoTracking(), users).ToArrayAsync();
         }
 
-        public async Task<bool> ExistAsync(Guid id, FiltroBase users)
-        {
-            return await ApplyFilter(_dataset, users).AnyAsync(p => p.Id.Equals(id));
-        }
     }
 }

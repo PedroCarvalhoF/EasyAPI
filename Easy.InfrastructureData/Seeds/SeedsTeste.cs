@@ -9,5 +9,5 @@ public class SeedsTeste : ISeedsTeste
     public SeedsTeste(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
-    }   
+    }
 }
