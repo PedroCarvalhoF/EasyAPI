@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easy.InfrastructureData.Migrations
 {
     [DbContext(typeof(MyContext))]
-    [Migration("20240626042631_CategoriaPrecoMigrationsAdd")]
-    partial class CategoriaPrecoMigrationsAdd
+    [Migration("20240701171124_PedidoMigrationsAdd")]
+    partial class PedidoMigrationsAdd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -91,6 +91,212 @@ namespace Easy.InfrastructureData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FormasPagamentos", (string)null);
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.PDV.PontoVendaEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Aberto")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("PeriodoPdvId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UsuarioGerentePdvId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UsuarioPdvId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PeriodoPdvId");
+
+                    b.HasIndex("UsuarioGerentePdvId");
+
+                    b.HasIndex("UsuarioPdvId");
+
+                    b.ToTable("PontosVendas", (string)null);
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.Pedido.PedidoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<ulong>("Cancelado")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CategoriaPrecoId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("Desconto")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("NumeroPedido")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Observacoes")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<Guid>("PontoVendaEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("TipoPedido")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaPrecoId");
+
+                    b.HasIndex("PontoVendaEntityId");
+
+                    b.ToTable("Pedidos", (string)null);
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.Periodo.PeriodoPdvEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("DescricaoPeriodo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PeriodosPdvs");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.PrecoProduto.PrecoProdutoEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoriaPrecoEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ProdutoEntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoriaPrecoEntityId");
+
+                    b.HasIndex("ProdutoEntityId");
+
+                    b.ToTable("PrecosProdutos", (string)null);
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("Habilitado")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime?>("UpdateAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserMasterClienteIdentityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("UserPdvId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserPdvId")
+                        .IsUnique();
+
+                    b.ToTable("UsuariosPdvs", (string)null);
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", b =>
@@ -415,6 +621,82 @@ namespace Easy.InfrastructureData.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.PDV.PontoVendaEntity", b =>
+                {
+                    b.HasOne("Easy.Domain.Entities.PDV.Periodo.PeriodoPdvEntity", "PeriodoPdv")
+                        .WithMany("PontosVendas")
+                        .HasForeignKey("PeriodoPdvId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", "UsuarioGerentePdv")
+                        .WithMany("UsuariosGerentesPdvs")
+                        .HasForeignKey("UsuarioGerentePdvId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", "UsuarioPdv")
+                        .WithMany("UsuariosPdvs")
+                        .HasForeignKey("UsuarioPdvId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("PeriodoPdv");
+
+                    b.Navigation("UsuarioGerentePdv");
+
+                    b.Navigation("UsuarioPdv");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.Pedido.PedidoEntity", b =>
+                {
+                    b.HasOne("Easy.Domain.Entities.PDV.CategoriaPreco.CategoriaPrecoEntity", "CategoriaPreco")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("CategoriaPrecoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Easy.Domain.Entities.PDV.PDV.PontoVendaEntity", "PontoVendaEntity")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("PontoVendaEntityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CategoriaPreco");
+
+                    b.Navigation("PontoVendaEntity");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.PrecoProduto.PrecoProdutoEntity", b =>
+                {
+                    b.HasOne("Easy.Domain.Entities.PDV.CategoriaPreco.CategoriaPrecoEntity", "CategoriaPreco")
+                        .WithMany("PrecosProdutos")
+                        .HasForeignKey("CategoriaPrecoEntityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Easy.Domain.Entities.Produto.ProdutoEntity", "Produto")
+                        .WithMany("PrecosProdutos")
+                        .HasForeignKey("ProdutoEntityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CategoriaPreco");
+
+                    b.Navigation("Produto");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", b =>
+                {
+                    b.HasOne("Easy.Domain.Entities.User.UserEntity", "UserPdv")
+                        .WithOne("UsuarioPdv")
+                        .HasForeignKey("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", "UserPdvId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("UserPdv");
+                });
+
             modelBuilder.Entity("Easy.Domain.Entities.Produto.ProdutoEntity", b =>
                 {
                     b.HasOne("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", "CategoriaProdutoEntity")
@@ -511,9 +793,38 @@ namespace Easy.InfrastructureData.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.CategoriaPreco.CategoriaPrecoEntity", b =>
+                {
+                    b.Navigation("Pedidos");
+
+                    b.Navigation("PrecosProdutos");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.PDV.PontoVendaEntity", b =>
+                {
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.Periodo.PeriodoPdvEntity", b =>
+                {
+                    b.Navigation("PontosVendas");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.PDV.UserPDV.UsuarioPdvEntity", b =>
+                {
+                    b.Navigation("UsuariosGerentesPdvs");
+
+                    b.Navigation("UsuariosPdvs");
+                });
+
             modelBuilder.Entity("Easy.Domain.Entities.Produto.CategoriaProduto.CategoriaProdutoEntity", b =>
                 {
                     b.Navigation("Produtos");
+                });
+
+            modelBuilder.Entity("Easy.Domain.Entities.Produto.ProdutoEntity", b =>
+                {
+                    b.Navigation("PrecosProdutos");
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.User.RoleEntity", b =>
@@ -528,6 +839,8 @@ namespace Easy.InfrastructureData.Migrations
                     b.Navigation("UserMasterUser");
 
                     b.Navigation("UserRoles");
+
+                    b.Navigation("UsuarioPdv");
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.UserMasterCliente.UserMasterClienteEntity", b =>

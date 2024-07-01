@@ -1,6 +1,7 @@
 ﻿using Easy.Domain.Entities;
 using Easy.Domain.Intefaces.Repository;
 using Easy.InfrastructureData.Context;
+using Easy.InfrastructureData.Tools;
 using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository
@@ -23,10 +24,17 @@ namespace Easy.InfrastructureData.Repository
 
         public async Task<T> InsertAsync(T item)
         {
-            await _dataset.AddAsync(item);
-            return item;
-        }
+            try
+            {
+                await _dataset.AddAsync(item);
+                return item;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
+        }
         public async Task<T> UpdateAsync(T item, FiltroBase filtro)
         {
             try
@@ -43,17 +51,25 @@ namespace Easy.InfrastructureData.Repository
                 throw new Exception(ex.Message);
             }
         }
-
-        public async Task<T> SelectAsync(Guid id, FiltroBase users)
+        public async Task<T>? SelectAsync(Guid id, FiltroBase users)
         {
-            return await ApplyFilter(_dataset.AsNoTracking(), users)
+            var result = 
+                await ApplyFilter(_dataset.AsNoTracking(), users)
                 .SingleOrDefaultAsync(p => p.Id.Equals(id));
-        }
 
+            if (result == null)
+                return null;
+
+            return result;
+        }
         public async Task<IEnumerable<T>> SelectAsync(FiltroBase users)
         {
-            return await ApplyFilter(_dataset.AsNoTracking(), users).ToArrayAsync();
-        }
+            var result = await
+                _dataset.FiltroCliente(users)
+                .AsNoTracking()
+                .ToArrayAsync();
 
+            return result;           
+        }
     }
 }

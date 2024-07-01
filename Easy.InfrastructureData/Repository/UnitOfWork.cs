@@ -3,6 +3,7 @@ using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
 using Easy.Domain.Entities.PDV.PDV;
+using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.PDV.UserPDV;
@@ -15,6 +16,7 @@ using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
 using Easy.Domain.Intefaces.Repository.PDV.Pdv;
+using Easy.Domain.Intefaces.Repository.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
@@ -26,6 +28,7 @@ using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
 using Easy.InfrastructureData.Repository.PDV.PDV;
+using Easy.InfrastructureData.Repository.PDV.Pedido;
 using Easy.InfrastructureData.Repository.PDV.Periodo;
 using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 using Easy.InfrastructureData.Repository.PDV.UsuarioPdv;
@@ -51,10 +54,11 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
     private IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> _usuarioPdvRepository;
     private IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> _periodoPdvRepository;
     private IPontoVendaRepository<PontoVendaEntity, FiltroBase> _pontoVendaRepository;
-
+    private IPedidoRepository<PedidoEntity, FiltroBase> _pedidoRepository;
     //Using Base - teste
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     private IBaseRepository<PontoVendaEntity> _pontoVendaBaseRepository;
+    private IBaseRepository<PedidoEntity> _pedidoBaseRepository;
     public UnitOfWork(MyContext context)
     {
         _context = context;
@@ -159,8 +163,23 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
         }
     }
 
+    public IPedidoRepository<PedidoEntity, FiltroBase> PedidoRepository
+    {
+        get
+        {
+            return _pedidoRepository = _pedidoRepository ??
+                new PedidoRepository(_context);
+        }
+    }
 
-
+    public IBaseRepository<PedidoEntity> PedidoBaseRepository
+    {
+        get
+        {
+            return _pedidoBaseRepository = _pedidoBaseRepository ??
+                new BaseRepository<PedidoEntity>(_context);
+        }
+    }
 
     public async Task<bool> CommitAsync()
     {

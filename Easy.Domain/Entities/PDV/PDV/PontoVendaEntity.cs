@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.PDV.Periodo;
+﻿using Easy.Domain.Entities.PDV.Pedido;
+using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Tools.Validation;
 namespace Easy.Domain.Entities.PDV.PDV;
@@ -12,7 +13,7 @@ public class PontoVendaEntity : BaseEntity
     public bool Aberto { get; set; }
     public Guid PeriodoPdvId { get; set; }
     public virtual PeriodoPdvEntity? PeriodoPdv { get; set; }
-
+    public virtual ICollection<PedidoEntity> Pedidos { get; set; }
     public bool Validada => Validar();
 
 

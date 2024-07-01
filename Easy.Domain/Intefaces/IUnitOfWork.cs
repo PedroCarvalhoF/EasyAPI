@@ -3,6 +3,7 @@ using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
 using Easy.Domain.Entities.PDV.PDV;
+using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.PDV.UserPDV;
@@ -14,6 +15,7 @@ using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
 using Easy.Domain.Intefaces.Repository.PDV.Pdv;
+using Easy.Domain.Intefaces.Repository.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
@@ -37,9 +39,13 @@ public interface IUnitOfWork
     IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvRepository { get; }
     IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> UsuarioPdvRepository { get; }
     IPontoVendaRepository<PontoVendaEntity, FiltroBase> PontoVendaRepository { get; }
+    IPedidoRepository<PedidoEntity, FiltroBase> PedidoRepository { get; }
+
 
     //TEMP TESTE COM BASE REPOSITORY
     IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository { get; }
     IBaseRepository<PontoVendaEntity> PontoVendaBaseRepository { get; }
+
+    IBaseRepository<PedidoEntity> PedidoBaseRepository { get; }
     Task<bool> CommitAsync();
 }

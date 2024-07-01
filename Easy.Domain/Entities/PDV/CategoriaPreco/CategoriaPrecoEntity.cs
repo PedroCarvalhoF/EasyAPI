@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.PDV.PrecoProduto;
+﻿using Easy.Domain.Entities.PDV.Pedido;
+using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Tools.Validation;
 
 namespace Easy.Domain.Entities.PDV.CategoriaPreco;
@@ -10,6 +11,7 @@ public class CategoriaPrecoEntity : BaseEntity
     public bool Validada => Validar();
 
     public ICollection<PrecoProdutoEntity> PrecosProdutos { get; set; }
+    public virtual ICollection<PedidoEntity> Pedidos { get; set; }
     private bool Validar()
     {
         if (DescricaoCategoriaPreco == null) return false;
