@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Entities.PDV.Periodo;
@@ -34,7 +35,7 @@ public class MyContext : IdentityDbContext
     public DbSet<PeriodoPdvEntity> PeriodosPdvs { get; set; }
     public DbSet<PontoVendaEntity> PontosVendas { get; set; }
     public DbSet<PedidoEntity> Pedidos { get; set; }
-
+    public DbSet<ItemPedidoEntity> ItensPedidos { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new CategoriaProdutoMap());
@@ -46,6 +47,7 @@ public class MyContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new UsuarioPdvMap());
         modelBuilder.ApplyConfiguration(new PontoVendaMap());
         modelBuilder.ApplyConfiguration(new PedidoMap());
+        modelBuilder.ApplyConfiguration(new ItemPedidoMap());
 
         base.OnModelCreating(modelBuilder);
         //configurando USER

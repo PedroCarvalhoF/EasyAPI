@@ -59,12 +59,15 @@ namespace Easy.Domain.Entities
             UserMasterClienteIdentityId = users.clienteId;
             UserId = users.userId;
         }
-
         public void DataCriacao(DateTime dataParaAtualizar)
         {
             CreateAt = dataParaAtualizar;
         }
 
+        public void Atualizacao()
+        {
+            UpdateAt = DateTime.Now;
+        }
 
     }
 }

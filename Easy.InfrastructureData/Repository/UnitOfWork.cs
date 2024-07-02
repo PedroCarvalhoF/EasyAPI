@@ -2,6 +2,7 @@
 using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
+using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Entities.PDV.Periodo;
@@ -15,6 +16,7 @@ using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
+using Easy.Domain.Intefaces.Repository.PDV.ItemPedido;
 using Easy.Domain.Intefaces.Repository.PDV.Pdv;
 using Easy.Domain.Intefaces.Repository.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
@@ -27,6 +29,7 @@ using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
+using Easy.InfrastructureData.Repository.PDV.ItemPedido;
 using Easy.InfrastructureData.Repository.PDV.PDV;
 using Easy.InfrastructureData.Repository.PDV.Pedido;
 using Easy.InfrastructureData.Repository.PDV.Periodo;
@@ -55,10 +58,12 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
     private IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase> _periodoPdvRepository;
     private IPontoVendaRepository<PontoVendaEntity, FiltroBase> _pontoVendaRepository;
     private IPedidoRepository<PedidoEntity, FiltroBase> _pedidoRepository;
-    //Using Base - teste
+    private IItemPedidoRepository<ItemPedidoEntity, FiltroBase> _itemPedidoRepository;
+   
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     private IBaseRepository<PontoVendaEntity> _pontoVendaBaseRepository;
     private IBaseRepository<PedidoEntity> _pedidoBaseRepository;
+    private IBaseRepository<ItemPedidoEntity> _itemPedidoBaseRepository;
     public UnitOfWork(MyContext context)
     {
         _context = context;
@@ -162,7 +167,6 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
                 new BaseRepository<PontoVendaEntity>(_context);
         }
     }
-
     public IPedidoRepository<PedidoEntity, FiltroBase> PedidoRepository
     {
         get
@@ -171,7 +175,6 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
                 new PedidoRepository(_context);
         }
     }
-
     public IBaseRepository<PedidoEntity> PedidoBaseRepository
     {
         get
@@ -180,7 +183,22 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
                 new BaseRepository<PedidoEntity>(_context);
         }
     }
-
+    public IItemPedidoRepository<ItemPedidoEntity, FiltroBase> ItemPedidoRepository
+    {
+        get
+        {
+            return _itemPedidoRepository = _itemPedidoRepository ??
+                new ItemPedidoRepository(_context);
+        }
+    }
+    public IBaseRepository<ItemPedidoEntity> ItemPedidoBaseRepository
+    {
+        get
+        {
+            return _itemPedidoBaseRepository = _itemPedidoBaseRepository ??
+                new ItemPedidoRepository(_context);
+        }
+    }
     public async Task<bool> CommitAsync()
     {
         try

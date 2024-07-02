@@ -1,6 +1,7 @@
 ﻿#region Usings
 using Easy.CrossCutting.DependencyInjection.Extensions;
 using Easy.Domain.Entities;
+using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Entities.PDV.PrecoProduto;
@@ -9,6 +10,7 @@ using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository;
+using Easy.Domain.Intefaces.Repository.PDV.ItemPedido;
 using Easy.Domain.Intefaces.Repository.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
@@ -18,6 +20,7 @@ using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Repository;
+using Easy.InfrastructureData.Repository.PDV.ItemPedido;
 using Easy.InfrastructureData.Repository.PDV.Pedido;
 using Easy.InfrastructureData.Repository.PDV.Periodo;
 using Easy.InfrastructureData.Repository.PDV.PrecoProduto;
@@ -55,28 +58,13 @@ namespace Easy.CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IUserMasterClienteRepository<>), typeof(UserMasterClienteRepository<>));
             serviceCollection.AddScoped(typeof(IUserMasterUserRepository<>), typeof(UserMasterUserRepository<>));
 
-            serviceCollection.AddScoped
-                (typeof(ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>),
-                 typeof(CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>));
-
-            serviceCollection.AddScoped
-              (typeof(IProdutoRepository<ProdutoEntity, FiltroBase>),
-               typeof(ProdutoRepository<ProdutoEntity, FiltroBase>));
-
-            serviceCollection.AddScoped
-            (typeof(IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>),
-             typeof(PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>));
-
-            serviceCollection.AddScoped
-           (typeof(IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>),
-            typeof(UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));
-
-            serviceCollection.AddScoped
-        (typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>),
-         typeof(PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>));
-
-
+            serviceCollection.AddScoped(typeof(ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>), typeof(CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(IProdutoRepository<ProdutoEntity, FiltroBase>), typeof(ProdutoRepository<ProdutoEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>), typeof(PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>), typeof(UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>), typeof(PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPedidoRepository<PedidoEntity, FiltroBase>), typeof(PedidoRepository));
+            //serviceCollection.AddScoped(typeof(IItemPedidoRepository<ItemPedidoEntity, FiltroBase>), typeof(ItemPedidoRepository));
 
 
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");

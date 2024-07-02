@@ -103,7 +103,7 @@ public class PedidoEntity : BaseEntity
         if (valorDesconto > SubTotal)
             throw new ArgumentException("Valor do desconto não pode ultrapassar o valor do pedido.");
 
-        Desconto += valorDesconto;
+        Desconto = valorDesconto;
 
         CalcularTotalPedido();
     }

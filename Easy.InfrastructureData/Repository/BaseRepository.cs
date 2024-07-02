@@ -53,9 +53,9 @@ namespace Easy.InfrastructureData.Repository
         }
         public async Task<T>? SelectAsync(Guid id, FiltroBase users)
         {
-            var result = 
-                await ApplyFilter(_dataset.AsNoTracking(), users)
-                .SingleOrDefaultAsync(p => p.Id.Equals(id));
+            var result =
+     await ApplyFilter(_dataset.AsNoTracking(), users)
+     .SingleOrDefaultAsync(p => p.Id.Equals(id));
 
             if (result == null)
                 return null;
@@ -69,7 +69,7 @@ namespace Easy.InfrastructureData.Repository
                 .AsNoTracking()
                 .ToArrayAsync();
 
-            return result;           
+            return result;
         }
     }
 }
