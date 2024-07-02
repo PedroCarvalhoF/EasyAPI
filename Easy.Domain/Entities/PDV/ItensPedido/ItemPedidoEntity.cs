@@ -14,7 +14,7 @@ public class ItemPedidoEntity : BaseEntity
     public bool Cancelado { get; set; }
     public Guid ProdutoId { get; set; }
     public ProdutoEntity? Produto { get; set; }
-    public Guid? PedidoId { get; set; }
+    public Guid PedidoId { get; set; }
     public PedidoEntity? Pedido { get; set; }
     public bool Validada => Validar();
     private bool Validar()
@@ -29,7 +29,7 @@ public class ItemPedidoEntity : BaseEntity
 
     //INSERIR ITEM DO PEDIDO
     public ItemPedidoEntity() { }
-    ItemPedidoEntity(decimal quantidade, decimal preco, Guid produtoId, Guid? pedidoId, FiltroBase filtro) : base(filtro)
+    ItemPedidoEntity(decimal quantidade, decimal preco, Guid produtoId, Guid pedidoId, FiltroBase filtro) : base(filtro)
     {
         DomainValidation.When(quantidade <= 0, "Quantidade não pode ser menor igual a zero.");
         DomainValidation.When(preco < 0, "Preço não pode ser menor zero.");
@@ -45,7 +45,7 @@ public class ItemPedidoEntity : BaseEntity
         CalcularItem();
     }
 
-    public static ItemPedidoEntity InserirItem(decimal quantidade, decimal preco, Guid produtoId, Guid? pedidoId, FiltroBase filtro)
+    public static ItemPedidoEntity InserirItem(decimal quantidade, decimal preco, Guid produtoId, Guid pedidoId, FiltroBase filtro)
         => new ItemPedidoEntity(quantidade, preco, produtoId, pedidoId, filtro);
 
     private void CalcularItem()

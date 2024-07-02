@@ -20,10 +20,15 @@ public class PedidoRepository : BaseRepository<PedidoEntity>, IPedidoRepository<
     {
         try
         {
-            var query = _dbSet.AsNoTracking();
+            var query = _dbSet.AsQueryable() ;
+
+            if (filter.Include)
+            {
+                query = query.Include(p_itens => p_itens.ItensPedido);
+            }          
 
             query = PedidoEntityFilter.QueryablePedidoEntity(query, filter);
-
+                      
             var result = await query.ToArrayAsync();
 
             return result;

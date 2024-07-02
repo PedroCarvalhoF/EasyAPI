@@ -67,9 +67,11 @@ public class PedidoEntity : BaseEntity
     #endregion
     private void CalcularSubTotal()
     {
+        var itens_validos = ItensPedido?.Where(item => item.Habilitado == true && item.Cancelado == false).ToList() ?? new List<ItemPedidoEntity>();
 
+        SubTotal = itens_validos.Sum(item => item.TotalItem);
     }
-    private void CalcularTotalPedido()
+    public void CalcularTotalPedido()
     {
         CalcularSubTotal();
         Total = SubTotal - Desconto;

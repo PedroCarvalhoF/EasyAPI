@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Domain.Intefaces;
+using Easy.Services.CQRS.PDV.ItemPedido.Notifications;
 using Easy.Services.DTOs;
 using MediatR;
 
@@ -12,7 +13,7 @@ public class ItemPedidoCreateCommand : BaseCommands
     public Guid ProdutoId { get; set; }
     public Guid PedidoId { get; set; }
 
-    public class ItemPedidoCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<ItemPedidoCreateCommand, RequestResult>
+    public class ItemPedidoCreateCommandHandler(IUnitOfWork _repository, IMediator _mediator) : IRequestHandler<ItemPedidoCreateCommand, RequestResult>
     {
         public async Task<RequestResult> Handle(ItemPedidoCreateCommand request, CancellationToken cancellationToken)
         {
@@ -26,6 +27,10 @@ public class ItemPedidoCreateCommand : BaseCommands
                 await _repository.ItemPedidoBaseRepository.InsertAsync(itemPedidoEntity);
                 if (!await _repository.CommitAsync())
                     return new RequestResult().BadRequest("Não foi possível inserir item.");
+
+
+                //atualizar pedido
+                await _mediator.Publish(new ItemPedidoNotification(itemPedidoEntity.PedidoId, filtro));
 
                 return new RequestResult().Ok("Item inserido com sucesso.");
             }

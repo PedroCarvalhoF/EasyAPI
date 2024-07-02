@@ -1,8 +1,7 @@
 ﻿using Easy.Api.Extensions;
 using Easy.Api.Tools;
-using Easy.Services.CQRS.PDV.Pdv.Commands;
-using Easy.Services.CQRS.PDV.Pdv.Queries;
 using Easy.Services.CQRS.PDV.Pedido.Commands;
+using Easy.Services.CQRS.PDV.Pedido.Queries;
 using Easy.Services.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,20 +20,13 @@ public class PedidoController : ControllerBase
         _mediator = mediator;
     }
 
-    //[HttpGet]
-    //public async Task<ActionResult<RequestResult>> SelectAsync()
-    //{
-    //    GetPontoVendaQuery command = new GetPontoVendaQuery();
-    //    command.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
-    //}
+    [HttpPost("filtro-pedido")]
+    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] GetPedidosFilterPedidosQueries command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+    }
 
-    //[HttpGet("filtro/")]
-    //public async Task<ActionResult<RequestResult>> SelectAsync([FromBody] GetPontoVendaQueryPdvFilter command)
-    //{
-    //    command.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
-    //}
 
     [HttpPost]
     public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] PedidoVendaCreateCommand command)
@@ -45,6 +37,13 @@ public class PedidoController : ControllerBase
 
     [HttpPost("cancelar-pedido")]
     public async Task<ActionResult<RequestResult>> CancelarPedidoAsync([FromBody] PedidoCancelarCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [HttpPost("atualizar-pedido")]
+    public async Task<ActionResult<RequestResult>> AtualizarPedidoAsync([FromBody] PedidoAtualizarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
