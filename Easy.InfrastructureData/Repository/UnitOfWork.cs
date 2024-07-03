@@ -3,6 +3,7 @@ using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.FormaPagamento;
 using Easy.Domain.Entities.PDV.ItensPedido;
+using Easy.Domain.Entities.PDV.PagamentoPedido;
 using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Entities.PDV.Periodo;
@@ -17,6 +18,7 @@ using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.FormaPagamento;
 using Easy.Domain.Intefaces.Repository.PDV.ItemPedido;
+using Easy.Domain.Intefaces.Repository.PDV.PagamentoPedido;
 using Easy.Domain.Intefaces.Repository.PDV.Pdv;
 using Easy.Domain.Intefaces.Repository.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
@@ -30,6 +32,7 @@ using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 using Easy.InfrastructureData.Repository.PDV.FormaPagamento;
 using Easy.InfrastructureData.Repository.PDV.ItemPedido;
+using Easy.InfrastructureData.Repository.PDV.PagamentoPedido;
 using Easy.InfrastructureData.Repository.PDV.PDV;
 using Easy.InfrastructureData.Repository.PDV.Pedido;
 using Easy.InfrastructureData.Repository.PDV.Periodo;
@@ -43,7 +46,7 @@ using Microsoft.EntityFrameworkCore;
 
 #endregion
 namespace Easy.InfrastructureData.Repository;
-public class UnitOfWork : IUnitOfWork/*, IDisposable*/
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly MyContext _context;
 
@@ -59,11 +62,13 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
     private IPontoVendaRepository<PontoVendaEntity, FiltroBase> _pontoVendaRepository;
     private IPedidoRepository<PedidoEntity, FiltroBase> _pedidoRepository;
     private IItemPedidoRepository<ItemPedidoEntity, FiltroBase> _itemPedidoRepository;
-   
+    private IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase> _pagamentoPedidoRepository;
+
     private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
     private IBaseRepository<PontoVendaEntity> _pontoVendaBaseRepository;
     private IBaseRepository<PedidoEntity> _pedidoBaseRepository;
     private IBaseRepository<ItemPedidoEntity> _itemPedidoBaseRepository;
+    private IBaseRepository<PagamentoPedidoEntity> _pagamentoPedidoBaseRepository;
     public UnitOfWork(MyContext context)
     {
         _context = context;
@@ -199,6 +204,22 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
                 new ItemPedidoRepository(_context);
         }
     }
+    public IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase> PagamentoPedidoRespoitory
+    {
+        get
+        {
+            return _pagamentoPedidoRepository = _pagamentoPedidoRepository ??
+                new PagamentoPedidoRepository(_context);
+        }
+    }
+    public IBaseRepository<PagamentoPedidoEntity> PagamentoPedidoBaseRepository
+    {
+        get
+        {
+            return _pagamentoPedidoBaseRepository = _pagamentoPedidoBaseRepository ??
+                new BaseRepository<PagamentoPedidoEntity>(_context);
+        }
+    }
     public async Task<bool> CommitAsync()
     {
         try
@@ -220,17 +241,15 @@ public class UnitOfWork : IUnitOfWork/*, IDisposable*/
 
             throw new Exception(ex.Message);
         }
-
+        finally
+        {
+            Dispose();
+        }
+        
     }
-
-    //private bool _disposed = false;
-    //~UnitOfWork() =>
-    //      Dispose();
-
-    //public void Dispose()
-    //{
-    //    if (!_disposed)
-    //        _context.Dispose();
-    //    GC.SuppressFinalize(this);
-    //}
+    public void Dispose()
+    {
+        _context.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }

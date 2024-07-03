@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.PDV.ItensPedido;
+using Easy.Domain.Entities.PDV.PagamentoPedido;
 using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Enuns.Pdv.Pedido;
 using Easy.Domain.Tools.Validation;
@@ -20,6 +21,7 @@ public class PedidoEntity : BaseEntity
     public virtual PontoVendaEntity? PontoVendaEntity { get; private set; }
     public virtual CategoriaPrecoEntity? CategoriaPreco { get; private set; }
     public virtual ICollection<ItemPedidoEntity>? ItensPedido { get; set; }
+    public virtual ICollection<PagamentoPedidoEntity> Pagamentos { get; private set; }
     public bool Validada => Validar();
 
     private bool Validar()

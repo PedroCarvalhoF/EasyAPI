@@ -53,13 +53,10 @@ namespace Easy.InfrastructureData.Repository
         }
         public async Task<T>? SelectAsync(Guid id, FiltroBase users)
         {
-            var result =
-     await ApplyFilter(_dataset.AsNoTracking(), users)
-     .SingleOrDefaultAsync(p => p.Id.Equals(id));
-
-            if (result == null)
-                return null;
-
+            var result = await
+                _dataset.AsNoTracking()
+                .FiltroCliente(users)
+                .SingleOrDefaultAsync(t => t.Id == id);
             return result;
         }
         public async Task<IEnumerable<T>> SelectAsync(FiltroBase users)

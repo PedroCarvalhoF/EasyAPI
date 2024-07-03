@@ -4,6 +4,7 @@ using Easy.InfrastructureData.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easy.InfrastructureData.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20240702222927_PagamentoPedidoMigrationsAdd")]
+    partial class PagamentoPedidoMigrationsAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,7 +198,7 @@ namespace Easy.InfrastructureData.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("FormaPagamentoId")
                         .HasColumnType("char(36)");
@@ -207,7 +210,7 @@ namespace Easy.InfrastructureData.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime?>("UpdateAt")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -216,7 +219,7 @@ namespace Easy.InfrastructureData.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<decimal>("ValorPago")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(65,30)");
 
                     b.HasKey("Id");
 
@@ -224,7 +227,7 @@ namespace Easy.InfrastructureData.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("PagamentosPedidos", (string)null);
+                    b.ToTable("PagamentosPedidos");
                 });
 
             modelBuilder.Entity("Easy.Domain.Entities.PDV.Pedido.PedidoEntity", b =>
@@ -762,13 +765,13 @@ namespace Easy.InfrastructureData.Migrations
                     b.HasOne("Easy.Domain.Entities.PDV.FormaPagamento.FormaPagamentoEntity", "FormaPagamento")
                         .WithMany("Pagamentos")
                         .HasForeignKey("FormaPagamentoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Easy.Domain.Entities.PDV.Pedido.PedidoEntity", "Pedido")
                         .WithMany("Pagamentos")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("FormaPagamento");

@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Tools.Validation;
+﻿using Easy.Domain.Entities.PDV.PagamentoPedido;
+using Easy.Domain.Tools.Validation;
 
 namespace Easy.Domain.Entities.PDV.FormaPagamento;
 
@@ -6,7 +7,7 @@ public class FormaPagamentoEntity : BaseEntity
 {
     public string DescricaFormaPagamento { get; set; }
     public int Codigo { get; set; }
-
+    public virtual ICollection<PagamentoPedidoEntity> Pagamentos { get; private set; }
     public bool Validada => Validar();
 
     private bool Validar()
