@@ -1,5 +1,0 @@
-Controle de Versao
-
-1.0.000 - 		13/05/2024- 	Modelo para Desenvolvimento
-1.1.000 -		21/05/2024-	Modelo para Desenvolvimento
-1.2.000 -		26/05/2024-	Modelo para Desenvolvimento
