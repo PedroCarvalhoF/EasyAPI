@@ -1,5 +1,7 @@
+using AutoMapper;
 using Easy.ApiNew.Extensions;
 using Easy.CrossCutting.DependencyInjection;
+using Easy.CrossCutting.Mappings;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 
@@ -22,6 +24,17 @@ builder.Services.AddControllers()
     options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
 })
 .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+var config = new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new DtoToModelProfile());
+    cfg.AddProfile(new EntityToDtoProfile());
+    cfg.AddProfile(new ModelToEntityProfile());
+});
+
+IMapper mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 
 WebApplication app = builder.Build();

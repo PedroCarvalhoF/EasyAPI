@@ -47,6 +47,8 @@ namespace Easy.Services.Service
 
         public async Task<UsuarioLoginResponse> Login(UsuarioLoginRequest usuarioLogin)
         {
+            var usuarioLoginResponse = new UsuarioLoginResponse();
+
             var result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
             if (result.Succeeded)
             {
@@ -56,11 +58,10 @@ namespace Easy.Services.Service
 
                 var filtro = new FiltroBase(mUser.UserClienteId, mUser.UserMasterUserId);
 
-                return await GerarCredenciais(usuarioLogin.Email, filtro);
+                usuarioLoginResponse = await GerarCredenciais(usuarioLogin.Email, filtro);
+                usuarioLoginResponse.UsuarioReponseDetails(userSelecionado.Nome, userSelecionado.Email, userSelecionado.Id);
             }
 
-
-            var usuarioLoginResponse = new UsuarioLoginResponse();
             if (!result.Succeeded)
             {
                 if (result.IsLockedOut)
@@ -86,7 +87,6 @@ namespace Easy.Services.Service
 
             var accessToken = GerarToken(accessTokenClaims, dataExpiracaoAccessToken);
             var refreshToken = GerarToken(refreshTokenClaims, dataExpiracaoRefreshToken);
-
             return new UsuarioLoginResponse
             (
                 sucesso: true,

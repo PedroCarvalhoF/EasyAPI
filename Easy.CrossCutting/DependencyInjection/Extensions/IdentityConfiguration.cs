@@ -1,5 +1,12 @@
-﻿using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities;
+using Easy.Domain.Entities.User;
+using Easy.Domain.Intefaces.Repository.User;
+using Easy.Domain.Intefaces.Repository.UserMasterCliente;
+using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.InfrastructureData.Context;
+using Easy.InfrastructureData.Repository.User;
+using Easy.InfrastructureData.Repository.UserMasterCliente;
+using Easy.InfrastructureData.Repository.UserMasterUser;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +43,9 @@ namespace Easy.CrossCutting.DependencyInjection.Extensions
                 return connection;
             });
 
+            serviceCollection.AddScoped<IUserDappperRepository, UserDapperRepository>();
+            serviceCollection.AddScoped<IUserMasterClienteDapperRepository, UserMasterClienteDapperRepository>();
+            serviceCollection.AddScoped<IUserMasterUserDapperRepository<FiltroBase>, UserMasterUserDapperRepository>();
         }
     }
 }

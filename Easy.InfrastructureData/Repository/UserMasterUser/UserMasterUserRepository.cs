@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.UserMasterUser;
 
-public class UserMasterUserRepository<T> : IUserMasterUserRepository<T> where T : UserMasterUserEntity
+public class UserMasterUserRepository<T> : IUserMasterUserRepository<UserMasterUserEntity>
 {
     private readonly MyContext _context;
 
@@ -14,22 +14,31 @@ public class UserMasterUserRepository<T> : IUserMasterUserRepository<T> where T 
         _context = context;
     }
 
-    public async Task<T> Cadastrar(T create)
+    public async Task<UserMasterUserEntity> Cadastrar(UserMasterUserEntity create)
     {
         if (create == null)
             throw new ArgumentNullException(nameof(create));
+        await _context.Set<UserMasterUserEntity>().AddAsync(create);
 
-        await _context.Set<T>().AddAsync(create);
         return create;
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public async Task<UserMasterUserEntity> GetById(Guid userId)
     {
-        return await _context.Set<T>().ToArrayAsync();
-    }
+        try
+        {
+            var result =
+                await _context.Set<UserMasterUserEntity>().AsNoTracking()
+                .Where(uM => uM.UserMasterUserId == userId)
+                .SingleOrDefaultAsync();
 
-    public async Task<T> GetById(Guid userId)
-    {
-        return await _context.Set<T>().SingleOrDefaultAsync(us => us.UserMasterUserId == userId);
+            return result;
+
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
     }
 }

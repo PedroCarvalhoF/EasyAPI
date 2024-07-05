@@ -9,7 +9,7 @@
   <ItemGroup>
     <Folder Include="Enuns\Pdv\Periodo\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Intefaces\Repository\User\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

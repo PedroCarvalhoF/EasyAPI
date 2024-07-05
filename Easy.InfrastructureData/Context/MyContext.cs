@@ -47,8 +47,7 @@ public class MyContext : IdentityDbContext
         modelBuilder.ApplyConfiguration(new FormaPagamentoMap());
         modelBuilder.ApplyConfiguration(new CategoriaPrecoMap());
         modelBuilder.ApplyConfiguration(new PrecoProdutoMap());
-        modelBuilder.ApplyConfiguration(new UsuarioPdvMap());
-        modelBuilder.ApplyConfiguration(new UsuarioPdvMap());
+        modelBuilder.ApplyConfiguration(new UsuarioPdvMap());        
         modelBuilder.ApplyConfiguration(new PontoVendaMap());
         modelBuilder.ApplyConfiguration(new PedidoMap());
         modelBuilder.ApplyConfiguration(new ItemPedidoMap());

@@ -33,10 +33,7 @@
     <Folder Include="CQRS\PDV\PrecoProduto\Commands\Notifications\" />
     <Folder Include="CQRS\PDV\PrecoProduto\Commands\Validations\" />
     <Folder Include="CQRS\UserMasterCliente\Notificacao\" />
-    <Folder Include="CQRS\UserMasterCliente\Queries\" />
     <Folder Include="CQRS\UserMasterUser\Notification\" />
-    <Folder Include="CQRS\UserMasterUser\Queries\" />
-    <Folder Include="CQRS\User\Queries\" />
   </ItemGroup>
 
 

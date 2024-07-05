@@ -43,12 +43,11 @@ namespace Easy.CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            //seeds testes
-            serviceCollection.AddTransient<ISeedsTeste, SeedsTeste>();
+            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
 
             IdentityConfiguration.Configurar(serviceCollection, configuration);
-
-            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            
 
             serviceCollection.AddScoped<IUserService, UserService>();
 
@@ -57,15 +56,13 @@ namespace Easy.CrossCutting.DependencyInjection
 
             serviceCollection.AddScoped(typeof(IUserMasterClienteRepository<>), typeof(UserMasterClienteRepository<>));
             serviceCollection.AddScoped(typeof(IUserMasterUserRepository<>), typeof(UserMasterUserRepository<>));
-
             serviceCollection.AddScoped(typeof(ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>), typeof(CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IProdutoRepository<ProdutoEntity, FiltroBase>), typeof(ProdutoRepository<ProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>), typeof(PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>), typeof(UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>), typeof(PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPedidoRepository<PedidoEntity, FiltroBase>), typeof(PedidoRepository));
-            //serviceCollection.AddScoped(typeof(IItemPedidoRepository<ItemPedidoEntity, FiltroBase>), typeof(ItemPedidoRepository));
-
+        
 
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");
             serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));

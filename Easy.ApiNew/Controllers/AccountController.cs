@@ -1,4 +1,5 @@
 ﻿using Easy.Services.CQRS.User.Command;
+using Easy.Services.CQRS.User.Queries;
 using Easy.Services.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -28,5 +29,12 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<RequestResult>> Login([FromBody] UserLoginCommand command)
     {
         return await _mediator.Send(command);
+    }
+
+    [AllowAnonymous]
+    [HttpGet("GetUsers")]
+    public async Task<ActionResult<RequestResult>> GetUsersAsync()
+    {
+        return await _mediator.Send(new GetUsersQuery());
     }
 }

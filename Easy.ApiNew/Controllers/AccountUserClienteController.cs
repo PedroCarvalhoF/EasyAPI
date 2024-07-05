@@ -1,7 +1,9 @@
 ﻿using Easy.Api.Tools;
 using Easy.Services.CQRS.UserMasterCliente.Command;
+using Easy.Services.CQRS.UserMasterCliente.Queries;
 using Easy.Services.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easy.ApiNew.Controllers;
@@ -21,6 +23,12 @@ public class AccountsUserClienteController : ControllerBase
     public async Task<ActionResult<RequestResult>> CadastrarUserCliente([FromBody] UserMasterClienteCreateCommand command)
     {
         return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+    }
+    [AllowAnonymous]
+    [HttpGet("get-clientes")]
+    public async Task<ActionResult<RequestResult>> CadastrarUserCliente()
+    {
+        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(new GetUserMasterClienteQuery()));
     }
 
 }

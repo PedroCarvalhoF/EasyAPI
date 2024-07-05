@@ -12,7 +12,7 @@ public class UserMasterUserCreateCommandHandler(IUnitOfWork _unitOfWork) : IRequ
     {
         try
         {
-            var userMasterUserEntity = UserMasterUserEntity.Create(request.Filtro.clienteId, request.Filtro.clienteId);
+            var userMasterUserEntity = UserMasterUserEntity.Create(request.Filtro.clienteId, request.Filtro.userId);
             if (!userMasterUserEntity.isValid)
                 return new RequestResult().EntidadeInvalida();
 

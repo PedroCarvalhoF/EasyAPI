@@ -12,9 +12,9 @@ namespace Easy.CrossCutting.Mappings
     {
         public EntityToDtoProfile()
         {
-            CreateMap<UserView, UserEntity>().ReverseMap();
-            CreateMap<UserMasterClienteView, UserMasterClienteEntity>().ReverseMap();
-            CreateMap<UserMasterUserView, UserMasterUserEntity>().ReverseMap();
+            CreateMap<UserDto, UserEntity>().ReverseMap();
+            CreateMap<UserMasterClienteDto, UserMasterClienteEntity>().ReverseMap();
+            CreateMap<UserMasterUserDto, UserMasterUserEntity>().ReverseMap();
         }
     }
 }
