@@ -21,33 +21,33 @@ public class PontoVendaController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> SelectAsync()
+    public async Task<ActionResult<RequestResultForUpdate>> SelectAsync()
     {
         GetPontoVendaQuery command = new GetPontoVendaQuery();
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpGet("filtro/")]
-    public async Task<ActionResult<RequestResult>> SelectAsync([FromBody] GetPontoVendaQueryPdvFilter command)
+    public async Task<ActionResult<RequestResultForUpdate>> SelectAsync([FromBody] GetPontoVendaQueryPdvFilter command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 
     [HttpPost("encerrar")]
-    public async Task<ActionResult<RequestResult>> EncerrarPdvAsync(PontoVendaEncerrarCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> EncerrarPdvAsync(PontoVendaEncerrarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] PontoVendaCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PontoVendaCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 }

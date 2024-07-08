@@ -5,13 +5,13 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pedido.Commands;
 
-public class PedidoAtualizarCommand : BaseCommands
+public class PedidoAtualizarCommand : BaseCommandsForUpdate
 {
     public Guid IdPedido { get; set; }
 
-    public class PedidoAtualizarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoAtualizarCommand, RequestResult>
+    public class PedidoAtualizarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoAtualizarCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(PedidoAtualizarCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PedidoAtualizarCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -31,18 +31,18 @@ public class PedidoAtualizarCommand : BaseCommands
                 pedidoSelecionado.CalcularTotalPedido();
 
                 if (!pedidoSelecionado.Validada)
-                    return new RequestResult().BadRequest("Erro ao validar pedido.");
+                    return new RequestResultForUpdate().BadRequest("Erro ao validar pedido.");
 
                 await _repository.PedidoBaseRepository.UpdateAsync(pedidoSelecionado, filtro);
                 if (!await _repository.CommitAsync())
-                    return new RequestResult().BadRequest("Não foi possível atualizar pedido.");
+                    return new RequestResultForUpdate().BadRequest("Não foi possível atualizar pedido.");
 
-                return new RequestResult().Ok("Pedido atualizado.");
+                return new RequestResultForUpdate().Ok("Pedido atualizado.");
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

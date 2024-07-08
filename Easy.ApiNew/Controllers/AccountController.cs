@@ -1,6 +1,7 @@
 ﻿using Easy.Services.CQRS.User.Command;
 using Easy.Services.CQRS.User.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.UserIdentity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,21 +20,21 @@ public class AccountController : ControllerBase
     }
     [AllowAnonymous]
     [HttpPost("cadastrar")]
-    public async Task<ActionResult<RequestResult>> CadastrarUsuario(UserCreateCommand command)
+    public async Task<ActionResult<RequestResult<UsuarioCadastroResponse>>> CadastrarUsuario(UserCreateCommand command)
     {
         return await _mediator.Send(command);
     }
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<ActionResult<RequestResult>> Login([FromBody] UserLoginCommand command)
+    public async Task<ActionResult<RequestResult<UsuarioLoginResponse>>> Login([FromBody] UserLoginCommand command)
     {
         return await _mediator.Send(command);
     }
 
     [AllowAnonymous]
     [HttpGet("GetUsers")]
-    public async Task<ActionResult<RequestResult>> GetUsersAsync()
+    public async Task<ActionResult<RequestResultForUpdate>> GetUsersAsync()
     {
         return await _mediator.Send(new GetUsersQuery());
     }

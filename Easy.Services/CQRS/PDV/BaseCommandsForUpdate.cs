@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV;
 
-public abstract class BaseCommands : IRequest<RequestResult>
+public abstract class BaseCommandsForUpdate : IRequest<RequestResultForUpdate>
 {
     private FiltroBase FiltroBase { get; set; }
     public void SetUsers(FiltroBase user)

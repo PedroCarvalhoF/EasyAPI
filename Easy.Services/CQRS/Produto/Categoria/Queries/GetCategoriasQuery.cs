@@ -5,13 +5,13 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Queries;
 
-public class GetCategoriasQuery : IRequest<RequestResult>
+public class GetCategoriasQuery : IRequest<RequestResultForUpdate>
 {
     FiltroBase FiltroBase { get; set; }
     public void SetFiltro(FiltroBase filtroBase)
       => FiltroBase = filtroBase;
 
-    public class GetCategoriaQueryHandler : IRequestHandler<GetCategoriasQuery, RequestResult>
+    public class GetCategoriaQueryHandler : IRequestHandler<GetCategoriasQuery, RequestResultForUpdate>
     {
         //FUTURAMENTE UTILIZAR DAPPER
         private readonly IUnitOfWork _unitOfWork;
@@ -21,10 +21,10 @@ public class GetCategoriasQuery : IRequest<RequestResult>
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<RequestResult> Handle(GetCategoriasQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetCategoriasQuery request, CancellationToken cancellationToken)
         {
             var categorias = await _unitOfWork.CategoriaProdutoBaseRepository.SelectAsync(request.FiltroBase);
-            return new RequestResult().Ok(categorias);
+            return new RequestResultForUpdate().Ok(categorias);
         }
 
         //public async Task<RequestResult> Handle(GetCategoriasQuery request, CancellationToken cancellationToken)

@@ -20,15 +20,15 @@ public class AccountsUserClienteController : ControllerBase
     }
 
     [HttpPost("cadastrar-cliente")]
-    public async Task<ActionResult<RequestResult>> CadastrarUserCliente([FromBody] UserMasterClienteCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CadastrarUserCliente([FromBody] UserMasterClienteCreateCommand command)
     {
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
     [AllowAnonymous]
     [HttpGet("get-clientes")]
-    public async Task<ActionResult<RequestResult>> CadastrarUserCliente()
+    public async Task<ActionResult<RequestResultForUpdate>> CadastrarUserCliente()
     {
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(new GetUserMasterClienteQuery()));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(new GetUserMasterClienteQuery()));
     }
 
 }

@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Commands;
 
-public class ProdutoUpdateCommandHandler(IUnitOfWork _repository) : IRequestHandler<ProdutoUpdateCommand, RequestResult>
+public class ProdutoUpdateCommandHandler(IUnitOfWork _repository) : IRequestHandler<ProdutoUpdateCommand, RequestResultForUpdate>
 {
-    public async Task<RequestResult> Handle(ProdutoUpdateCommand request, CancellationToken cancellationToken)
+    public async Task<RequestResultForUpdate> Handle(ProdutoUpdateCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -16,14 +16,14 @@ public class ProdutoUpdateCommandHandler(IUnitOfWork _repository) : IRequestHand
             await _repository.ProdutoRepository.UpdateAsync(produtoUpdateEntity, request.GetFiltro());
             var commitResult = await _repository.CommitAsync();
             if (commitResult)
-                return new RequestResult().Ok("Produto alterado.");
+                return new RequestResultForUpdate().Ok("Produto alterado.");
 
-            return new RequestResult().Ok("Não foi possível realizar alteração");
+            return new RequestResultForUpdate().Ok("Não foi possível realizar alteração");
         }
         catch (Exception ex)
         {
 
-            return new RequestResult().BadRequest(ex.Message);
+            return new RequestResultForUpdate().BadRequest(ex.Message);
         }
     }
 }

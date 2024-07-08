@@ -21,7 +21,7 @@ public class FormaPagamentoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> GetAsync()
+    public async Task<ActionResult<RequestResultForUpdate>> GetAsync()
     {
         var getCommand = new GetFormaPagamentosQueries();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
@@ -30,7 +30,7 @@ public class FormaPagamentoController : ControllerBase
 
     [HttpGet("{id}/")]
 
-    public async Task<ActionResult<RequestResult>> GetByIdAsync(Guid id)
+    public async Task<ActionResult<RequestResultForUpdate>> GetByIdAsync(Guid id)
     {
         var getCommand = new GetFormaPagamentoByIdQuery();
         getCommand.Id = id;
@@ -39,17 +39,17 @@ public class FormaPagamentoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] FormaPagamentoCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] FormaPagamentoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
-    public async Task<ActionResult<RequestResult>> UpdateAsync([FromBody] FormaPagamentoUpdateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] FormaPagamentoUpdateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 

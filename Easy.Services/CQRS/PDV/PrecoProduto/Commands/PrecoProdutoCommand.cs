@@ -1,6 +1,6 @@
 ﻿namespace Easy.Services.CQRS.PDV.PrecoProduto.Commands;
 
-public class PrecoProdutoCommand : BaseCommands
+public class PrecoProdutoCommand : BaseCommandsForUpdate
 {
     public Guid ProdutoEntityId { get; set; }
     public Guid CategoriaPrecoEntityId { get; set; }

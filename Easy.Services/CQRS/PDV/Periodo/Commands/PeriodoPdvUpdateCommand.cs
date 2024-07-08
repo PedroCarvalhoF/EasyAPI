@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Periodo.Commands;
 
-public class PeriodoPdvUpdateCommand : BaseCommands
+public class PeriodoPdvUpdateCommand : BaseCommandsForUpdate
 {
     public PeriodoPdvUpdateCommand(Guid id, bool habilitado, string descricaoPeriodo)
     {
@@ -17,34 +17,34 @@ public class PeriodoPdvUpdateCommand : BaseCommands
     public bool Habilitado { get; private set; }
     public string DescricaoPeriodo { get; private set; }
 
-    public class PeriodoPdvUpdateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PeriodoPdvUpdateCommand, RequestResult>
+    public class PeriodoPdvUpdateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PeriodoPdvUpdateCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(PeriodoPdvUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PeriodoPdvUpdateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var filtro = request.GetFiltro();
                 var periodoPdvUpdateEntity = PeriodoPdvEntity.Update(request.Id, request.Habilitado, request.DescricaoPeriodo, filtro);
                 if (!periodoPdvUpdateEntity.Validada)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
 
 
                 var periodoExists = await _repository.PeriodoPdvRepository.SelectAsync(periodoPdvUpdateEntity.DescricaoPeriodo, filtro);
                 if (periodoExists != null)
-                    return new RequestResult().BadRequest("Descrição do período está em uso.");
+                    return new RequestResultForUpdate().BadRequest("Descrição do período está em uso.");
 
                 await _repository.PeriodoPdvRepository.Update(periodoPdvUpdateEntity, filtro);
                 if (await _repository.CommitAsync())
-                    return new RequestResult().Ok();
+                    return new RequestResultForUpdate().Ok();
 
-                return new RequestResult().BadRequest();
+                return new RequestResultForUpdate().BadRequest();
 
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

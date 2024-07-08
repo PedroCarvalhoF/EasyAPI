@@ -7,9 +7,9 @@ using MediatR;
 
 namespace Easy.Services.CQRS.UserMasterCliente.Queries;
 
-public class GetUserMasterClienteQuery : BaseCommands
+public class GetUserMasterClienteQuery : BaseCommandsForUpdate
 {
-    public class GetUserMasterClienteQueryHandler : IRequestHandler<GetUserMasterClienteQuery, RequestResult>
+    public class GetUserMasterClienteQueryHandler : IRequestHandler<GetUserMasterClienteQuery, RequestResultForUpdate>
     {
         private readonly IUserMasterClienteDapperRepository _repository;
         private readonly IMapper _mapper;
@@ -20,17 +20,17 @@ public class GetUserMasterClienteQuery : BaseCommands
             _mapper = mapper;
         }
 
-        public async Task<RequestResult> Handle(GetUserMasterClienteQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetUserMasterClienteQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var entities = await _repository.GetUsersClientesAsync();
-                return new RequestResult().Ok(_mapper.Map<IEnumerable<UserDto>>(entities));
+                return new RequestResultForUpdate().Ok(_mapper.Map<IEnumerable<UserDto>>(entities));
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

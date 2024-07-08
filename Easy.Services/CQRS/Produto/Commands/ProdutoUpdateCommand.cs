@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Commands;
 
-public class ProdutoUpdateCommand : IRequest<RequestResult>
+public class ProdutoUpdateCommand : IRequest<RequestResultForUpdate>
 {
     public Guid Id { get; set; }
     public bool Habilitado { get; set; }

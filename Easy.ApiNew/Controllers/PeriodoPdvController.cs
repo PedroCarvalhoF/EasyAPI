@@ -21,7 +21,7 @@ public class PeriodoPdvController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> GetAsync()
+    public async Task<ActionResult<RequestResultForUpdate>> GetAsync()
     {
         var getCommand = new GetPeriodoPdvQueries();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
@@ -30,7 +30,7 @@ public class PeriodoPdvController : ControllerBase
 
     [HttpGet("{id}/")]
 
-    public async Task<ActionResult<RequestResult>> GetByIdAsync(Guid id)
+    public async Task<ActionResult<RequestResultForUpdate>> GetByIdAsync(Guid id)
     {
         var getCommand = new GetPeriodoPdvByIdQuery();
         getCommand.Id = id;
@@ -39,16 +39,16 @@ public class PeriodoPdvController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] PeriodoPdvCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PeriodoPdvCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
-    public async Task<ActionResult<RequestResult>> UpdateAsync([FromBody] PeriodoPdvUpdateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] PeriodoPdvUpdateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 }

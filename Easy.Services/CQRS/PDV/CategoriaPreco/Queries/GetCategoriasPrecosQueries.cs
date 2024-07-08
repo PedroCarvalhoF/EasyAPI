@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.CategoriaPreco.Queries;
 
-public class GetCategoriasPrecosQueries : IRequest<RequestResult>
+public class GetCategoriasPrecosQueries : IRequest<RequestResultForUpdate>
 {
     private FiltroBase FiltroBase { get; set; }
     public void SetUsers(FiltroBase user)
@@ -13,19 +13,19 @@ public class GetCategoriasPrecosQueries : IRequest<RequestResult>
     public FiltroBase GetFiltro()
        => FiltroBase;
 
-    public class GetCategoriasPrecosQueriesHandler(IUnitOfWork _repository) : IRequestHandler<GetCategoriasPrecosQueries, RequestResult>
+    public class GetCategoriasPrecosQueriesHandler(IUnitOfWork _repository) : IRequestHandler<GetCategoriasPrecosQueries, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetCategoriasPrecosQueries request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetCategoriasPrecosQueries request, CancellationToken cancellationToken)
         {
             try
             {
                 var categoriasPrecosEntities = await _repository.CategoriaPrecoRepository.SelectAsync(request.GetFiltro());
-                return new RequestResult().Ok(categoriasPrecosEntities);
+                return new RequestResultForUpdate().Ok(categoriasPrecosEntities);
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

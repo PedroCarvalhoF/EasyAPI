@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.UserMasterCliente.Command;
 
-public class UserMasterClienteCreateCommand : IRequest<RequestResult>
+public class UserMasterClienteCreateCommand : IRequest<RequestResultForUpdate>
 {
     public Guid UserId { get; set; }
 }

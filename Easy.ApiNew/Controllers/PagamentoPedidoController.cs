@@ -21,17 +21,17 @@ public class PagamentoPedidoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] PagamentoPedidoInserirCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PagamentoPedidoInserirCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> PagamentosPedidosAsync()
+    public async Task<ActionResult<RequestResultForUpdate>> PagamentosPedidosAsync()
     {
         var getCommand = new GetPagamentoPedidoQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(getCommand));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(getCommand));
     }
 }

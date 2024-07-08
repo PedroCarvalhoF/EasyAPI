@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Commands;
 
-public class CategoriaProdutoCreateCommand : IRequest<RequestResult>
+public class CategoriaProdutoCreateCommand : IRequest<RequestResultForUpdate>
 {
     public string DescricaoCategoria { get; private set; }
     FiltroBase FiltroBase { get; set; }
@@ -19,7 +19,7 @@ public class CategoriaProdutoCreateCommand : IRequest<RequestResult>
     }
 
 
-    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResult>
+    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResultForUpdate>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
@@ -30,29 +30,29 @@ public class CategoriaProdutoCreateCommand : IRequest<RequestResult>
             _mediator = mediator;
         }
 
-        public async Task<RequestResult> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.FiltroBase);
                 if (!categoriaEntity.isBaseValida)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
                 await _unitOfWork.CategoriaProdutoBaseRepository.InsertAsync(categoriaEntity);
                 var result = await _unitOfWork.CommitAsync();
                 if (result)
                 {
                     await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
-                    return new RequestResult().Ok("Categoria de produto criada com sucesso.");
+                    return new RequestResultForUpdate().Ok("Categoria de produto criada com sucesso.");
                 }
 
 
-                return new RequestResult().BadRequest("Não foi possível cadastrar cadastrar categoria");
+                return new RequestResultForUpdate().BadRequest("Não foi possível cadastrar cadastrar categoria");
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
 

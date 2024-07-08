@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Queries;
 
-public class GetProdutoByIdQuery : IRequest<RequestResult>
+public class GetProdutoByIdQuery : IRequest<RequestResultForUpdate>
 {
     public Guid IdProduto { get; set; }
     private FiltroBase FiltroBase { get; set; }
@@ -14,22 +14,22 @@ public class GetProdutoByIdQuery : IRequest<RequestResult>
     public FiltroBase GetFiltro()
        => FiltroBase;
 
-    public class GetProdutoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetProdutoByIdQuery, RequestResult>
+    public class GetProdutoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetProdutoByIdQuery, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetProdutoByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetProdutoByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var produto = await _repository.ProdutoRepository.SelectAsync(request.IdProduto, request.GetFiltro());
                 if (produto != null)
-                    return new RequestResult().Ok(produto);
+                    return new RequestResultForUpdate().Ok(produto);
 
-                return new RequestResult().BadRequest("Produto não localizado");
+                return new RequestResultForUpdate().BadRequest("Produto não localizado");
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

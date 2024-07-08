@@ -20,15 +20,15 @@ public class PrecoProdutoController : ControllerBase
         _mediator = mediator;
     }
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] PrecoProdutoCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PrecoProdutoCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> GetAynsc()
+    public async Task<ActionResult<RequestResultForUpdate>> GetAynsc()
     {
         var getCommand = new GetPrecosProdutosQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());

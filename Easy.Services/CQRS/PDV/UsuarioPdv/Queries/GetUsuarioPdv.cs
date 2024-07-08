@@ -6,12 +6,12 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.UsuarioPdv.Queries;
 
-public class GetUsuarioPdv : BaseCommands
+public class GetUsuarioPdv : BaseCommandsForUpdate
 {
     public UsuarioPdvFiltroEnum UsuarioPdvFiltroEnum { get; set; }
-    public class GetUsuarioPdvHandler(IUnitOfWork _repository) : IRequestHandler<GetUsuarioPdv, RequestResult>
+    public class GetUsuarioPdvHandler(IUnitOfWork _repository) : IRequestHandler<GetUsuarioPdv, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetUsuarioPdv request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetUsuarioPdv request, CancellationToken cancellationToken)
         {
             try
             {
@@ -23,11 +23,11 @@ public class GetUsuarioPdv : BaseCommands
                 else
                     result = await _repository.UsuarioPdvRepository.SelectAsync(request.UsuarioPdvFiltroEnum, filtro);
 
-                return new RequestResult().Ok(result);
+                return new RequestResultForUpdate().Ok(result);
             }
             catch (Exception ex)
             {
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

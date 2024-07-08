@@ -21,7 +21,7 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> GetProdutosAynsc()
+    public async Task<ActionResult<RequestResultForUpdate>> GetProdutosAynsc()
     {
         var getCommand = new GetProdutosQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
@@ -30,7 +30,7 @@ public class ProdutoController : ControllerBase
 
     [HttpGet("{idProduto}/")]
 
-    public async Task<ActionResult<RequestResult>> GetProdutoByIdAsync(Guid idProduto)
+    public async Task<ActionResult<RequestResultForUpdate>> GetProdutoByIdAsync(Guid idProduto)
     {
         var getCommand = new GetProdutoByIdQuery();
         getCommand.IdProduto = idProduto;
@@ -39,17 +39,17 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CadastraProdutoAsync([FromBody] ProdutoCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CadastraProdutoAsync([FromBody] ProdutoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
-    public async Task<ActionResult<RequestResult>> AlterarProdutoAsync([FromBody] ProdutoUpdateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> AlterarProdutoAsync([FromBody] ProdutoUpdateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 

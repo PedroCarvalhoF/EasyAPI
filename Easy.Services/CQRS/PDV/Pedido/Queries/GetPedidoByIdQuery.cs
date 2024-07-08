@@ -6,14 +6,14 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pedido.Queries;
 
-public class GetPedidoByIdQuery : BaseCommands
+public class GetPedidoByIdQuery : BaseCommandsForUpdate
 {
     public Guid Id { get; set; }
 
-    public class GetPedidoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPedidoByIdQuery, RequestResult>
+    public class GetPedidoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPedidoByIdQuery, RequestResultForUpdate>
     {
 
-        public async Task<RequestResult> Handle(GetPedidoByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetPedidoByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {               
@@ -22,7 +22,7 @@ public class GetPedidoByIdQuery : BaseCommands
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

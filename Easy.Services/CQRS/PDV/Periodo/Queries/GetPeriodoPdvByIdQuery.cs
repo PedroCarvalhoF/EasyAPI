@@ -4,23 +4,23 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Periodo.Queries;
 
-public class GetPeriodoPdvByIdQuery : BaseCommands
+public class GetPeriodoPdvByIdQuery : BaseCommandsForUpdate
 {
     public Guid Id { get; set; }
 
-    public class GetPeriodoPdvByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPeriodoPdvByIdQuery, RequestResult>
+    public class GetPeriodoPdvByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPeriodoPdvByIdQuery, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetPeriodoPdvByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetPeriodoPdvByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var periodoEntity = await _repository.PeriodoPdvRepository.SelectAsync(request.Id, request.GetFiltro());
-                return new RequestResult().Ok(periodoEntity);
+                return new RequestResultForUpdate().Ok(periodoEntity);
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

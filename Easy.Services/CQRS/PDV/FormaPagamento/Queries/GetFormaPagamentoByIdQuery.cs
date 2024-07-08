@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.FormaPagamento.Queries;
 
-public class GetFormaPagamentoByIdQuery : IRequest<RequestResult>
+public class GetFormaPagamentoByIdQuery : IRequest<RequestResultForUpdate>
 {
     public Guid Id { get; set; }
     private FiltroBase FiltroBase { get; set; }
@@ -14,20 +14,20 @@ public class GetFormaPagamentoByIdQuery : IRequest<RequestResult>
     public FiltroBase GetFiltro()
        => FiltroBase;
 
-    public class GetFormaPagamentoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetFormaPagamentoByIdQuery, RequestResult>
+    public class GetFormaPagamentoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetFormaPagamentoByIdQuery, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetFormaPagamentoByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetFormaPagamentoByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var formaPagamento = await _repository.FormaPagamentoRepository.SelectAsync(request.Id, request.GetFiltro());
 
-                return new RequestResult().Ok(formaPagamento);
+                return new RequestResultForUpdate().Ok(formaPagamento);
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

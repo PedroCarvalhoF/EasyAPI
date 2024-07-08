@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Commands;
 
-public class ProdutoCreateCommandHandler : IRequestHandler<ProdutoCreateCommand, RequestResult>
+public class ProdutoCreateCommandHandler : IRequestHandler<ProdutoCreateCommand, RequestResultForUpdate>
 {
     private readonly IUnitOfWork _repository;
     public ProdutoCreateCommandHandler(IUnitOfWork uow)
@@ -13,7 +13,7 @@ public class ProdutoCreateCommandHandler : IRequestHandler<ProdutoCreateCommand,
         _repository = uow;
     }
 
-    public async Task<RequestResult> Handle(ProdutoCreateCommand request, CancellationToken cancellationToken)
+    public async Task<RequestResultForUpdate> Handle(ProdutoCreateCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -23,14 +23,14 @@ public class ProdutoCreateCommandHandler : IRequestHandler<ProdutoCreateCommand,
             var resultCommit = await _repository.CommitAsync();
 
             if (resultCommit)
-                return new RequestResult().Ok("Produto criado com sucesso.");
+                return new RequestResultForUpdate().Ok("Produto criado com sucesso.");
 
-            return new RequestResult().BadRequest("Não foi possível cadastrar");
+            return new RequestResultForUpdate().BadRequest("Não foi possível cadastrar");
         }
         catch (Exception ex)
         {
 
-            return new RequestResult().BadRequest(ex.Message);
+            return new RequestResultForUpdate().BadRequest(ex.Message);
         }
     }
 }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.UserMasterCliente.Command;
 
-public class UserMasterClienteCreateCommandHandler : IRequestHandler<UserMasterClienteCreateCommand, RequestResult>
+public class UserMasterClienteCreateCommandHandler : IRequestHandler<UserMasterClienteCreateCommand, RequestResultForUpdate>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -14,24 +14,24 @@ public class UserMasterClienteCreateCommandHandler : IRequestHandler<UserMasterC
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<RequestResult> Handle(UserMasterClienteCreateCommand request, CancellationToken cancellationToken)
+    public async Task<RequestResultForUpdate> Handle(UserMasterClienteCreateCommand request, CancellationToken cancellationToken)
     {
         try
         {
             var userMCliente = new UserMasterClienteEntity(request.UserId);
             if (!userMCliente.IsValid)
-                return new RequestResult().EntidadeInvalida();
+                return new RequestResultForUpdate().EntidadeInvalida();
 
             await _unitOfWork.UserMasterClienteRepository.CadastrarCliente(userMCliente);
             if (!await _unitOfWork.CommitAsync())
-                return new RequestResult().BadRequest("Não foi possível cadastrar cliente master.");
+                return new RequestResultForUpdate().BadRequest("Não foi possível cadastrar cliente master.");
 
-            return new RequestResult().Ok("Cliente master cadastrado com sucesso!");
+            return new RequestResultForUpdate().Ok("Cliente master cadastrado com sucesso!");
         }
         catch (Exception ex)
         {
 
-            return new RequestResult().BadRequest(ex.Message);
+            return new RequestResultForUpdate().BadRequest(ex.Message);
         }
     }
 }

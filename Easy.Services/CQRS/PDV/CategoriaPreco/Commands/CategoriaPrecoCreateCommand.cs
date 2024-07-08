@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.CategoriaPreco.Commands;
 
-public class CategoriaPrecoCreateCommand : IRequest<RequestResult>
+public class CategoriaPrecoCreateCommand : IRequest<RequestResultForUpdate>
 {
     public CategoriaPrecoCreateCommand(int codigo, string descricaFormaPagamento)
     {

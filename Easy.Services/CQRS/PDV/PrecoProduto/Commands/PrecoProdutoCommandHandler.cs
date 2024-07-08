@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.PrecoProduto.Commands;
 
-public class PrecoProdutoCommandHandler(IUnitOfWork _repository) : IRequestHandler<PrecoProdutoCommand, RequestResult>
+public class PrecoProdutoCommandHandler(IUnitOfWork _repository) : IRequestHandler<PrecoProdutoCommand, RequestResultForUpdate>
 {
-    public async Task<RequestResult> Handle(PrecoProdutoCommand request, CancellationToken cancellationToken)
+    public async Task<RequestResultForUpdate> Handle(PrecoProdutoCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -21,32 +21,32 @@ public class PrecoProdutoCommandHandler(IUnitOfWork _repository) : IRequestHandl
                 var precoProdutoCreate = PrecoProdutoEntity.Create(request.ProdutoEntityId, request.CategoriaPrecoEntityId, request.Preco, users);
 
                 if (!precoProdutoCreate.isBaseValida)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
                 await _repository.PrecoProdutoRepository.InsertAsync(precoProdutoCreate, users);
                 if (await _repository.CommitAsync())
-                    return new RequestResult().Ok("Preco cadastrado com sucesso!");
+                    return new RequestResultForUpdate().Ok("Preco cadastrado com sucesso!");
             }
             else
             {
                 var precoProdutoUpdate = PrecoProdutoEntity.Update(precoProdutoExists.Id, true, precoProdutoExists.ProdutoEntityId, precoProdutoExists.CategoriaPrecoEntityId, request.Preco, users);
 
                 if (!precoProdutoUpdate.isBaseValida)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
                 await _repository.PrecoProdutoRepository.UpdatePreco(precoProdutoUpdate, users);
                 if (await _repository.CommitAsync())
-                    return new RequestResult().Ok("Preço alterado com sucesso!");
+                    return new RequestResultForUpdate().Ok("Preço alterado com sucesso!");
             }
 
 
-            return new RequestResult().BadRequest();
+            return new RequestResultForUpdate().BadRequest();
 
         }
         catch (Exception ex)
         {
 
-            return new RequestResult().BadRequest(ex.Message);
+            return new RequestResultForUpdate().BadRequest(ex.Message);
         }
     }
 }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Queries;
 
-public class GetProdutosQuery : IRequest<RequestResult>
+public class GetProdutosQuery : IRequest<RequestResultForUpdate>
 {
     private FiltroBase FiltroBase { get; set; }
     public void SetUsers(FiltroBase user)
@@ -13,14 +13,14 @@ public class GetProdutosQuery : IRequest<RequestResult>
     public FiltroBase GetFiltro()
        => FiltroBase;
 
-    public class GetProdutosQueryHandler(IUnitOfWork _unitOfWork) : IRequestHandler<GetProdutosQuery, RequestResult>
+    public class GetProdutosQueryHandler(IUnitOfWork _unitOfWork) : IRequestHandler<GetProdutosQuery, RequestResultForUpdate>
     {
 
-        public async Task<RequestResult> Handle(GetProdutosQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetProdutosQuery request, CancellationToken cancellationToken)
         {
             var produtos = await _unitOfWork.ProdutoRepository.SelectAsync(request.GetFiltro());
 
-            return new RequestResult().Ok(produtos);
+            return new RequestResultForUpdate().Ok(produtos);
         }
     }
 }

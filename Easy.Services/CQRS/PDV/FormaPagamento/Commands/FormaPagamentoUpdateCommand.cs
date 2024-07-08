@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.FormaPagamento.Commands;
 
-public class FormaPagamentoUpdateCommand : IRequest<RequestResult>
+public class FormaPagamentoUpdateCommand : IRequest<RequestResultForUpdate>
 {
     public Guid Id { get; set; }
     public bool Habilitado { get; set; }

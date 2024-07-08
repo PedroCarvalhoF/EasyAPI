@@ -20,23 +20,23 @@ public class ItemPedidoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] ItemPedidoCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] ItemPedidoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("cancelar-item")]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] ItemPedidoCancelarCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] ItemPedidoCancelarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("aplicar-desconto-item")]
-    public async Task<ActionResult<RequestResult>> AplicarDescontoItemAsync([FromBody] ItemPedidoAplicarDescontoCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> AplicarDescontoItemAsync([FromBody] ItemPedidoAplicarDescontoCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 }

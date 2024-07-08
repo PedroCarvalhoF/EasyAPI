@@ -1,88 +1,43 @@
-﻿using Easy.Services.DTOs.UserClaims;
-
+﻿
 namespace Easy.Services.DTOs
 {
-    public class RequestResult
+    public class RequestResult<T> where T : class
     {
-        public bool Status { get; set; }
-        public int StatusCode { get; private set; }
+        public bool Status { get; set; } = false;
+        public int StatusCode { get; private set; } = 400;
         public string? Mensagem { get; private set; }
-        public DtoUserClaims? DtoUserClaims { get; private set; }
-        public object? Data { get; private set; }
+        public T? Data { get; private set; }
 
-        public RequestResult Ok(object? data = null)
+        RequestResult(T? data, string? mensagem)
         {
-            this.Status = true;
-            this.StatusCode = 200;
-            this.Mensagem = "Requisição realizada com sucesso.";
-            if (data == null)
-                this.Data = new List<string>();
+            Status = true;
+            StatusCode = 200;
+
+            if (string.IsNullOrEmpty(mensagem))
+                Mensagem = "Requisição realizada com sucesso.";
             else
-                this.Data = data;
-            return this;
+                Mensagem = mensagem;
+
+            Data = data;
         }
 
-        public RequestResult Ok(string? detalhes, object? data = null)
+        RequestResult(string? mensagem)
         {
-            this.Status = true;
-            this.StatusCode = 200;
-            this.Mensagem = $"Requisição realizada com sucesso.{detalhes}";
-            if (data == null)
-                this.Data = new List<string>();
+            Status = false;
+            StatusCode = 400;
+
+            if (string.IsNullOrEmpty(mensagem))
+                Mensagem = "Não foi possível relizar requisição.";
             else
-                this.Data = data;
-            return this;
-        }
-
-        public RequestResult BadRequest(object? data = null)
-        {
-            this.Status = false;
-            this.StatusCode = 400;
-            this.Mensagem = $"Falha ao realizar a requisição.";
-            if (data == null)
-                this.Data = new List<string>();
-            else
-                this.Data = data;
-            return this;
-        }
-
-        public RequestResult BadRequest(string detalhes, object? data = null)
-        {
-            this.Status = false;
-            this.StatusCode = 400;
-            this.Mensagem = $"Falha ao realizar a requisição. Detalhes: {detalhes}.";
-            if (data == null)
-                this.Data = new List<string>();
-            else
-                this.Data = data;
-            return this;
+                Mensagem = mensagem;
+            Data = null;
         }
 
 
-        public RequestResult IsNullOrCountZero()
-        {
-            this.Status = false;
-            this.StatusCode = 200;
-            this.Mensagem = $"Nenhum resultado encontrado.";
-            this.Data = new List<string>();
-            return this;
-        }
-        public void SetUsersDetails(DtoUserClaims dto)
-        {
-            this.DtoUserClaims = new DtoUserClaims(dto.UserMasterId, dto.UserId, dto.UserName);
-        }
+        public static RequestResult<T> Ok(T? data, string? mensagem)
+        => new RequestResult<T>(data, mensagem);
 
-        public RequestResult EntidadeInvalida(object? data = null)
-        {
-            this.Status = false;
-            this.StatusCode = 400;
-            this.Mensagem = $"Falha ao realizar a requisição. Detalhes: Entidade não foi validada.";
-            if (data == null)
-                this.Data = new List<string>();
-            else
-                this.Data = data;
-            return this;
-        }
-
+        public static RequestResult<T> BadRequest(string? mensagem)
+        => new RequestResult<T>(mensagem);
     }
 }

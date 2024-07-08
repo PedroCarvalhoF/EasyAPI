@@ -5,15 +5,15 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.PagamentoPedido.Commands;
 
-public class PagamentoPedidoInserirCommand : BaseCommands
+public class PagamentoPedidoInserirCommand : BaseCommandsForUpdate
 {
     public Guid FormaPagamentoId { get; set; }
     public Guid PedidoId { get; set; }
     public decimal ValorPago { get; set; }
 
-    public class PagamentoPedidoInserirCommandHandler(IUnitOfWork _repository) : IRequestHandler<PagamentoPedidoInserirCommand, RequestResult>
+    public class PagamentoPedidoInserirCommandHandler(IUnitOfWork _repository) : IRequestHandler<PagamentoPedidoInserirCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(PagamentoPedidoInserirCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PagamentoPedidoInserirCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -21,18 +21,18 @@ public class PagamentoPedidoInserirCommand : BaseCommands
 
                 var pagamentoPedidoEntity = PagamentoPedidoEntity.Inserir(request.FormaPagamentoId, request.PedidoId, request.ValorPago, filtro);
                 if (!pagamentoPedidoEntity.Validada)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
                 await _repository.PagamentoPedidoBaseRepository.InsertAsync(pagamentoPedidoEntity);
 
                 if (!await _repository.CommitAsync())
-                    return new RequestResult().BadRequest("Não foi possível inserir pagamento.");
+                    return new RequestResultForUpdate().BadRequest("Não foi possível inserir pagamento.");
 
-                return new RequestResult().Ok("Pagamento inserido.");
+                return new RequestResultForUpdate().Ok("Pagamento inserido.");
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

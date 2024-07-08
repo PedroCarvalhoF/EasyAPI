@@ -2,6 +2,7 @@
 using Easy.Domain.Entities.User;
 using Easy.Domain.Intefaces;
 using Easy.InfrastructureData.Configuration;
+using Easy.Services.DTOs;
 using Easy.Services.DTOs.UserIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -30,7 +31,7 @@ namespace Easy.Services.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<UsuarioCadastroResponse> CadastrarUsuario(UsuarioCadastroRequest user)
+        public async Task<RequestResult<UsuarioCadastroResponse>> CadastrarUsuario(UsuarioCadastroRequest user)
         {
             var identityUser = UserEntity.CreateUser(user.Nome, user.SobreNome, user.Email, user.Email);
 
@@ -38,14 +39,21 @@ namespace Easy.Services.Service
             if (result.Succeeded)
                 await _userManager.SetLockoutEnabledAsync(identityUser, false);
 
-            var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded);
+            var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded, identityUser.Id);
             if (!result.Succeeded && result.Errors.Count() > 0)
                 usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
 
-            return usuarioCadastroResponse;
+            if (result.Succeeded)
+            {
+                return RequestResult<UsuarioCadastroResponse>.Ok(usuarioCadastroResponse, "Usuário cadastrado com sucesso.");
+            }
+            else
+            {
+                return RequestResult<UsuarioCadastroResponse>.BadRequest("Falha ao cadastrar usuário.");
+            }
         }
 
-        public async Task<UsuarioLoginResponse> Login(UsuarioLoginRequest usuarioLogin)
+        public async Task<RequestResult<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
             var usuarioLoginResponse = new UsuarioLoginResponse();
 
@@ -74,7 +82,8 @@ namespace Easy.Services.Service
                     usuarioLoginResponse.AdicionarErro("Usuário ou senha estão incorretos");
             }
 
-            return usuarioLoginResponse;
+            return RequestResult<UsuarioLoginResponse>.Ok(usuarioLoginResponse, "Login realizado com sucesso.");
+
         }
         private async Task<UsuarioLoginResponse> GerarCredenciais(string email, FiltroBase filtro)
         {

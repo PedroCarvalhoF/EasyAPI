@@ -5,15 +5,15 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pedido.Commands;
 
-public class PedidoVendaCreateCommand : BaseCommands
+public class PedidoVendaCreateCommand : BaseCommandsForUpdate
 {
     public string? NumeroPedido { get; set; }
     public Guid PontoVendaId { get; set; }
     public Guid CategoriaPrecoId { get; set; }
 
-    public class PedidoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoVendaCreateCommand, RequestResult>
+    public class PedidoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoVendaCreateCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(PedidoVendaCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PedidoVendaCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -21,19 +21,19 @@ public class PedidoVendaCreateCommand : BaseCommands
                 var pedidoVendaEntity = PedidoEntity.GerarPedidoVenda(request.NumeroPedido, request.PontoVendaId, request.CategoriaPrecoId, filtro);
 
                 if (!pedidoVendaEntity.Validada)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
                 await _repository.PedidoBaseRepository.InsertAsync(pedidoVendaEntity);
 
                 if (!await _repository.CommitAsync())
-                    return new RequestResult().BadRequest("Não foi possível gerar pedido venda");
+                    return new RequestResultForUpdate().BadRequest("Não foi possível gerar pedido venda");
 
-                return new RequestResult().Ok("Pedido de venda gereado com sucesso");
+                return new RequestResultForUpdate().Ok("Pedido de venda gereado com sucesso");
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

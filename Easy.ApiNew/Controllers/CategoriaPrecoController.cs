@@ -21,7 +21,7 @@ public class CategoriaPrecoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> GetAsync()
+    public async Task<ActionResult<RequestResultForUpdate>> GetAsync()
     {
         var getCommand = new GetCategoriasPrecosQueries();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
@@ -30,7 +30,7 @@ public class CategoriaPrecoController : ControllerBase
 
     [HttpGet("{id}/")]
 
-    public async Task<ActionResult<RequestResult>> GetByIdAsync(Guid id)
+    public async Task<ActionResult<RequestResultForUpdate>> GetByIdAsync(Guid id)
     {
         var getCommand = new GetCategoriaPrecoByIdQuery();
         getCommand.Id = id;
@@ -39,16 +39,16 @@ public class CategoriaPrecoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] CategoriaPrecoCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] CategoriaPrecoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
-    public async Task<ActionResult<RequestResult>> UpdateAsync([FromBody] CategoriaPrecoUpdateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] CategoriaPrecoUpdateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 }

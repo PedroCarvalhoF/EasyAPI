@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Commands;
 
-public class ProdutoCreateCommand : IRequest<RequestResult>
+public class ProdutoCreateCommand : IRequest<RequestResultForUpdate>
 {
     public string NomeProduto { get; set; }
     public string Codigo { get; set; }

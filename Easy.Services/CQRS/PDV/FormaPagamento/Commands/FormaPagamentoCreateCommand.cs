@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.FormaPagamento.Commands;
 
-public class FormaPagamentoCreateCommand : IRequest<RequestResult>
+public class FormaPagamentoCreateCommand : IRequest<RequestResultForUpdate>
 {
     public FormaPagamentoCreateCommand(string descricaFormaPagamento, int codigo)
     {

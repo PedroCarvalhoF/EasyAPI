@@ -20,7 +20,7 @@ public class CategoriaProdutoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult>> CadastrarUsuario()
+    public async Task<ActionResult<RequestResultForUpdate>> CadastrarUsuario()
     {
         var getCommand = new GetCategoriasQuery();
         getCommand.SetFiltro(User.GetUserMasterUserDatalhes());
@@ -28,7 +28,7 @@ public class CategoriaProdutoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CadastrarUsuario([FromBody] CategoriaProdutoCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CadastrarUsuario([FromBody] CategoriaProdutoCreateCommand command)
     {
         command.SetFiltro(User.GetUserMasterUserDatalhes());
         return await _mediator.Send(command);

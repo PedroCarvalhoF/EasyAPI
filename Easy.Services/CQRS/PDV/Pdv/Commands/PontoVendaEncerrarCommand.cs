@@ -4,13 +4,13 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pdv.Commands;
 
-public class PontoVendaEncerrarCommand : BaseCommands
+public class PontoVendaEncerrarCommand : BaseCommandsForUpdate
 {
     public Guid IdPdv { get; set; }
 
-    public class PontoVendaEncerrarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PontoVendaEncerrarCommand, RequestResult>
+    public class PontoVendaEncerrarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PontoVendaEncerrarCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(PontoVendaEncerrarCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PontoVendaEncerrarCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -19,18 +19,18 @@ public class PontoVendaEncerrarCommand : BaseCommands
                 pdvSelecionado.EncerrarPontoVenda();
 
                 if (!pdvSelecionado.Validada)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
                 await _repository.PontoVendaBaseRepository.UpdateAsync(pdvSelecionado, request.GetFiltro());
                 if (await _repository.CommitAsync())
-                    return new RequestResult().Ok();
+                    return new RequestResultForUpdate().Ok();
 
-                return new RequestResult().BadRequest("Não foi possível encerrar ponto de venda.");
+                return new RequestResultForUpdate().BadRequest("Não foi possível encerrar ponto de venda.");
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

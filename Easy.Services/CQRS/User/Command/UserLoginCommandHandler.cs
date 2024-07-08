@@ -5,35 +5,22 @@ using MediatR;
 
 namespace Easy.Services.CQRS.User.Command;
 
-public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, RequestResult>
+public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, RequestResult<UsuarioLoginResponse>>
 {
     private readonly IUserService _userService;
-
     public UserLoginCommandHandler(IUserService userService)
     {
         _userService = userService;
     }
-
-    public async Task<RequestResult> Handle(UserLoginCommand request, CancellationToken cancellationToken)
+    public async Task<RequestResult<UsuarioLoginResponse>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
     {
-        try
+        var userRequest = new UsuarioLoginRequest
         {
-            var userRequest = new UsuarioLoginRequest
-            {
-                Email = request.Email,
-                Senha = request.Senha
-            };
+            Email = request.Email,
+            Senha = request.Senha
+        };
 
-            var resultUser = await _userService.Login(userRequest);
-            if (resultUser.sucesso)
-                return new RequestResult().Ok(resultUser);
-
-            return new RequestResult().BadRequest(resultUser);
-        }
-        catch (Exception ex)
-        {
-
-            return new RequestResult().BadRequest(ex.Message);
-        }
+        var resultUser = await _userService.Login(userRequest);
+        return resultUser;
     }
 }

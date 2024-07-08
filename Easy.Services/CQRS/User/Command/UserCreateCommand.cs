@@ -1,10 +1,11 @@
 ﻿using Easy.Services.DTOs;
+using Easy.Services.DTOs.UserIdentity;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
 namespace Easy.Services.CQRS.User.Command
 {
-    public class UserCreateCommand : IRequest<RequestResult>
+    public class UserCreateCommand : IRequest<RequestResult<UsuarioCadastroResponse>>
     {
         public UserCreateCommand(string nome, string sobreNome, string email, string senha, string senhaConfirmacao)
         {

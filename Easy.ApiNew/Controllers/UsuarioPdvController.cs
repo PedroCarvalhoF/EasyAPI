@@ -20,26 +20,26 @@ public class UsuarioPdvController : ControllerBase
         _mediator = mediator;
     }
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CadastrarUsuarioAsync([FromBody] UsuarioPdvCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CadastrarUsuarioAsync([FromBody] UsuarioPdvCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 
     [HttpPost("habilitar/")]
-    public async Task<ActionResult<RequestResult>> DesabilitadrUsuarioPdvAsync([FromBody] UsuarioPdvDesabilitarHabilitarCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> DesabilitadrUsuarioPdvAsync([FromBody] UsuarioPdvDesabilitarHabilitarCommand command)
     {
 
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("filtrar/")]
-    public async Task<ActionResult<RequestResult>> FiltrarUsuarioPdvAsync([FromBody] GetUsuarioPdv command)
+    public async Task<ActionResult<RequestResultForUpdate>> FiltrarUsuarioPdvAsync([FromBody] GetUsuarioPdv command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 }

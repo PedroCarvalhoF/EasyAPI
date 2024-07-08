@@ -21,31 +21,31 @@ public class PedidoController : ControllerBase
     }
 
     [HttpPost("filtro-pedido")]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] GetPedidosFilterPedidosQueries command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] GetPedidosFilterPedidosQueries command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult>> CreateAsync([FromBody] PedidoVendaCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PedidoVendaCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("cancelar-pedido")]
-    public async Task<ActionResult<RequestResult>> CancelarPedidoAsync([FromBody] PedidoCancelarCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CancelarPedidoAsync([FromBody] PedidoCancelarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("atualizar-pedido")]
-    public async Task<ActionResult<RequestResult>> AtualizarPedidoAsync([FromBody] PedidoAtualizarCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> AtualizarPedidoAsync([FromBody] PedidoAtualizarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 }

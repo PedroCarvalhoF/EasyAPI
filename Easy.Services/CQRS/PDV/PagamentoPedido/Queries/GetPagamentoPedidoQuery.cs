@@ -4,21 +4,21 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.PagamentoPedido.Queries;
 
-public class GetPagamentoPedidoQuery : BaseCommands
+public class GetPagamentoPedidoQuery : BaseCommandsForUpdate
 {
-    public class GetPagamentoPedidoQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPagamentoPedidoQuery, RequestResult>
+    public class GetPagamentoPedidoQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPagamentoPedidoQuery, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetPagamentoPedidoQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetPagamentoPedidoQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var pagamentoEntities = await _repository.PagamentoPedidoBaseRepository.SelectAsync(request.GetFiltro());
-                return new RequestResult().Ok(pagamentoEntities);
+                return new RequestResultForUpdate().Ok(pagamentoEntities);
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

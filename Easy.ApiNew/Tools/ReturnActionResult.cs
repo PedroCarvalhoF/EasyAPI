@@ -1,25 +1,22 @@
 ﻿using Easy.Services.DTOs;
-using Easy.Services.DTOs.UserClaims;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace Easy.Api.Tools;
-
-public class ReturnActionResult : Controller
+namespace Easy.Api.Tools
 {
-    public ActionResult ParseToActionResult(RequestResult request, DtoUserClaims dtoUserClaims = null)
+    public class ReturnActionResult<T> : Controller where T : class
     {
-        if (dtoUserClaims != null)
-            request.SetUsersDetails(dtoUserClaims);
-
-        switch (request.StatusCode)
-        {
-            case (int)HttpStatusCode.OK:
-                return Ok(request);
-            case (int)HttpStatusCode.BadRequest:
-                return BadRequest(request);
-            default:
-                return BadRequest(request);
+        public ActionResult ParseToActionResult(RequestResult<T> requestResult)
+        {            
+            switch (requestResult.StatusCode)
+            {
+                case (int)HttpStatusCode.OK:
+                    return Ok(requestResult);
+                case (int)HttpStatusCode.BadRequest:
+                    return BadRequest(requestResult);
+                default:
+                    return BadRequest(requestResult);
+            }
         }
     }
 }

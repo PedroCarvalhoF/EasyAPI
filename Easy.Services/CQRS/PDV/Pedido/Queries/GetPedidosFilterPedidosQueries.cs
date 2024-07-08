@@ -5,12 +5,12 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pedido.Queries;
 
-public class GetPedidosFilterPedidosQueries : BaseCommands
+public class GetPedidosFilterPedidosQueries : BaseCommandsForUpdate
 {
     public PedidoEntityFilter FiltroPedido { get; set; }
-    public class GetPedidosQueriesHandler(IUnitOfWork _repository) : IRequestHandler<GetPedidosFilterPedidosQueries, RequestResult>
+    public class GetPedidosQueriesHandler(IUnitOfWork _repository) : IRequestHandler<GetPedidosFilterPedidosQueries, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(GetPedidosFilterPedidosQueries request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(GetPedidosFilterPedidosQueries request, CancellationToken cancellationToken)
         {
             try
             {
@@ -21,12 +21,12 @@ public class GetPedidosFilterPedidosQueries : BaseCommands
                 pedido.CalcularTotalPedido();
 
                 
-                return new RequestResult().Ok(entities);
+                return new RequestResultForUpdate().Ok(entities);
             }
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Easy.Services.CQRS.User.Command
 {
-    public class AlterarSenhaUserCommand : IRequest<RequestResult>
+    public class AlterarSenhaUserCommand : IRequest<RequestResultForUpdate>
     {
         public AlterarSenhaUserCommand(Guid idUser, string senhaAntiga, string novaSenha, string confirmPassword)
         {

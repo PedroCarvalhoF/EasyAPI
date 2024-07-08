@@ -4,15 +4,15 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.ItemPedido.Commands
 {
-    public class ItemPedidoAplicarDescontoCommand : BaseCommands
+    public class ItemPedidoAplicarDescontoCommand : BaseCommandsForUpdate
     {
         public Guid IdItemPedido { get; set; }
         public decimal? DescontoValorReal { get; set; }
         public decimal? DescontoPercentual { get; set; }
 
-        public class ItemPedidoAplicarDescontoCommandHandler(IUnitOfWork _repository) : IRequestHandler<ItemPedidoAplicarDescontoCommand, RequestResult>
+        public class ItemPedidoAplicarDescontoCommandHandler(IUnitOfWork _repository) : IRequestHandler<ItemPedidoAplicarDescontoCommand, RequestResultForUpdate>
         {
-            public async Task<RequestResult> Handle(ItemPedidoAplicarDescontoCommand request, CancellationToken cancellationToken)
+            public async Task<RequestResultForUpdate> Handle(ItemPedidoAplicarDescontoCommand request, CancellationToken cancellationToken)
             {
                 try
                 {
@@ -32,14 +32,14 @@ namespace Easy.Services.CQRS.PDV.ItemPedido.Commands
 
                     await _repository.ItemPedidoBaseRepository.UpdateAsync(itemPedidoSelecionado, filtro);
                     if (!await _repository.CommitAsync())
-                        return new RequestResult().BadRequest("Não foi possível aplicar desconto.");
+                        return new RequestResultForUpdate().BadRequest("Não foi possível aplicar desconto.");
 
-                    return new RequestResult().Ok("Desconto aplicado.");
+                    return new RequestResultForUpdate().Ok("Desconto aplicado.");
                 }
                 catch (Exception ex)
                 {
 
-                    return new RequestResult().BadRequest(ex.Message);
+                    return new RequestResultForUpdate().BadRequest(ex.Message);
                 }
             }
         }

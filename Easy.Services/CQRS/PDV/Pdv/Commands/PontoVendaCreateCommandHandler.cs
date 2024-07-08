@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pdv.Commands
 {
-    public class PontoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PontoVendaCreateCommand, RequestResult>
+    public class PontoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PontoVendaCreateCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResult> Handle(PontoVendaCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PontoVendaCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -15,20 +15,20 @@ namespace Easy.Services.CQRS.PDV.Pdv.Commands
                     PontoVendaEntity.Create(request.UsuarioGerentePdvId, request.UsuarioPdvId, request.PeriodoPdvId, request.GetFiltro());
 
                 if (!pontoVendaEntityCreate.Validada)
-                    return new RequestResult().EntidadeInvalida();
+                    return new RequestResultForUpdate().EntidadeInvalida();
 
                 await _repository.PontoVendaBaseRepository.InsertAsync(pontoVendaEntityCreate);
                 if (await _repository.CommitAsync())
-                    return new RequestResult().Ok();
+                    return new RequestResultForUpdate().Ok();
 
-                return new RequestResult().BadRequest();
+                return new RequestResultForUpdate().BadRequest();
 
             }
 
             catch (Exception ex)
             {
 
-                return new RequestResult().BadRequest(ex.Message);
+                return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }
     }
