@@ -35,5 +35,5 @@ public class CategoriaProdutoEntity : BaseEntity
         => new CategoriaProdutoEntity(descricaoCategoria, users);
 
     public static CategoriaProdutoEntity Update(Guid id, bool habilitado, string descricaoCategoria, FiltroBase users)
-       => new CategoriaProdutoEntity(descricaoCategoria, users);
+       => new CategoriaProdutoEntity(id, habilitado, descricaoCategoria, users);
 }
