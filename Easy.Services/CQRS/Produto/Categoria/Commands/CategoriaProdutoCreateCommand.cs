@@ -1,58 +1,61 @@
-﻿using Easy.Domain.Entities;
+﻿using AutoMapper;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces;
 using Easy.Services.CQRS.Produto.Categoria.Commands.Notifications;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.CategoriaProduto;
 using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Commands;
 
-public class CategoriaProdutoCreateCommand : IRequest<RequestResultForUpdate>
+public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDto>
 {
     public string DescricaoCategoria { get; private set; }
-    FiltroBase FiltroBase { get; set; }
-    public void SetFiltro(FiltroBase filtroBase)
-      => FiltroBase = filtroBase;
     public CategoriaProdutoCreateCommand(string descricaoCategoria)
     {
         DescricaoCategoria = descricaoCategoria;
     }
 
 
-    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResultForUpdate>
+    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResult<CategoriaProdutoDto>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public CategoriaProdutoCreateCommandHandler(IUnitOfWork unitOfWork, IMediator mediator)
+        public CategoriaProdutoCreateCommandHandler(IUnitOfWork unitOfWork, IMediator mediator, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mediator = mediator;
+            _mapper = mapper;
         }
 
-        public async Task<RequestResultForUpdate> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CategoriaProdutoDto>> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.FiltroBase);
+                var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.GetFiltro());
                 if (!categoriaEntity.isBaseValida)
-                    return new RequestResultForUpdate().EntidadeInvalida();
+                    return RequestResult<CategoriaProdutoDto>.BadRequest("Entidade inválida.");
 
                 await _unitOfWork.CategoriaProdutoBaseRepository.InsertAsync(categoriaEntity);
                 var result = await _unitOfWork.CommitAsync();
-                if (result)
+                if (!result)
                 {
-                    await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
-                    return new RequestResultForUpdate().Ok("Categoria de produto criada com sucesso.");
+
+                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível cadastrar categoria do produto");
                 }
 
+                await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
 
-                return new RequestResultForUpdate().BadRequest("Não foi possível cadastrar cadastrar categoria");
+                var categorioDto = _mapper.Map<CategoriaProdutoDto>(categoriaEntity);
+
+                return RequestResult<CategoriaProdutoDto>.Ok(categorioDto, "Categoria criada com sucesso.");
             }
             catch (Exception ex)
             {
 
-                return new RequestResultForUpdate().BadRequest(ex.Message);
+                return RequestResult<CategoriaProdutoDto>.BadRequest(ex.Message);
             }
         }
 

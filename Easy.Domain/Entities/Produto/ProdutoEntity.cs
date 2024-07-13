@@ -15,7 +15,7 @@ public class ProdutoEntity : BaseEntity
     public string? Observacoes { get; private set; }
     public string? ImagemUrl { get; private set; }
     public Guid CategoriaProdutoEntityId { get; private set; }
-    public virtual CategoriaProdutoEntity? CategoriaProdutoEntity { get; private set; }
+    public virtual CategoriaProdutoEntity? CategoriaProdutoEntity { get; set; }
     public MedidaProdutoEnum MedidaProdutoEnum { get; private set; }
     public ProdutoTipoEnum TipoProdutoEnum { get; private set; }
 
@@ -33,11 +33,19 @@ public class ProdutoEntity : BaseEntity
         DomainValidation.When(string.IsNullOrWhiteSpace(codigo), "Informe o código do produto.");
         DomainValidation.When(codigo.Length > 100, "Código muito extenso. Máximo 100 caracteres");
 
-        if (descricao != null)
+        if (descricao is null)
+            Descricao = string.Empty;
+        else
             DomainValidation.When(descricao.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
 
-        if (observacoes != null)
+        if (observacoes is null)
+            Observacoes = string.Empty;
+        else
             DomainValidation.When(observacoes.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+
+        if (imagemUrl is null)
+            ImagemUrl = "sem_img.jpg";
+
 
         DomainValidation.When(categoriaProdutoEntityId == Guid.Empty, "Informe a categoria do produto");
 
@@ -46,10 +54,7 @@ public class ProdutoEntity : BaseEntity
         DomainValidation.When(tipoProdutoEnum <= 0, "Informe o tipo do produto");
 
         NomeProduto = PrimeiraLetraSempreMaiuscula.Formatar(nomeProduto);
-        Codigo = codigo;
-        Descricao = descricao;
-        Observacoes = observacoes;
-        ImagemUrl = imagemUrl;
+        Codigo = codigo;       
         CategoriaProdutoEntityId = categoriaProdutoEntityId;
         MedidaProdutoEnum = medidaProdutoEnum;
         TipoProdutoEnum = tipoProdutoEnum;

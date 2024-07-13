@@ -5,7 +5,7 @@ namespace Easy.Services.Service.CategoriaProduto;
 
 public interface ICategoriaProdutoService<F> where F : FiltroBase
 {
-    Task<CategoriaProdutoView> SelectAsync(Guid idCategoria, F filtro);
-    Task<IEnumerable<CategoriaProdutoView>> SelectAsync(F filtro);
+    Task<CategoriaProdutoDto> SelectAsync(Guid idCategoria, F filtro);
+    Task<IEnumerable<CategoriaProdutoDto>> SelectAsync(F filtro);
 
 }

@@ -34,10 +34,10 @@ namespace Easy.Services.DTOs
         }
 
 
-        public static RequestResult<T> Ok(T data, string? mensagem)
+        public static RequestResult<T> Ok(T data, string? mensagem = "Requesição realizada com sucesso.")
         => new RequestResult<T>(data, mensagem);
 
-        public static RequestResult<T> BadRequest(string? mensagem)
+        public static RequestResult<T> BadRequest(string? mensagem = "Não foi possível realizar requisição.")
         => new RequestResult<T>(mensagem);
     }
 }

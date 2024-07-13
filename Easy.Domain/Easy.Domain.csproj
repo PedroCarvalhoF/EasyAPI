@@ -8,8 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Enuns\Pdv\Periodo\" />
-    <Folder Include="Helpers\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
   <ItemGroup>

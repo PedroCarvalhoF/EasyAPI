@@ -5,7 +5,7 @@ using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Dapper.Queries;
 using System.Data;
 
-namespace Easy.InfrastructureData.Repository.Produto.Categoria;
+namespace Easy.InfrastructureData.Dapper.Repository;
 
 public class CategoriaProdutoDapperRepository : ICategoriaProdutoDapperRepository<FiltroBase>
 {

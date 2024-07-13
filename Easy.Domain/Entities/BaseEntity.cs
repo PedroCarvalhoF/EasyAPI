@@ -63,7 +63,6 @@ namespace Easy.Domain.Entities
         {
             CreateAt = dataParaAtualizar;
         }
-
         public void Atualizacao()
         {
             UpdateAt = DateTime.Now;

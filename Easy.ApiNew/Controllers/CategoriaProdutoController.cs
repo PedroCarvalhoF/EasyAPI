@@ -21,7 +21,7 @@ public class CategoriaProdutoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoView>>>> GetCategoriasProdutos()
+    public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoDto>>>> GetCategoriasProdutos()
     {
         var getCommand = new GetCategoriaProdutoQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
@@ -29,7 +29,7 @@ public class CategoriaProdutoController : ControllerBase
     }
 
     [HttpGet("{idCategoria}")]
-    public async Task<ActionResult<RequestResult<CategoriaProdutoView>>> GetCategoriaProdutudoByIdCategoria(Guid idCategoria)
+    public async Task<ActionResult<RequestResult<CategoriaProdutoDto>>> GetCategoriaProdutudoByIdCategoria(Guid idCategoria)
     {
         var getCommand = new GetCategoriaProdutoQueryById(idCategoria);
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
@@ -37,18 +37,16 @@ public class CategoriaProdutoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CadastrarCategoria([FromBody] CategoriaProdutoCreateCommand command)
-    {
-        command.SetFiltro(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(command);
-    }
-
-    [HttpPut]
-    public async Task<ActionResult<RequestResult<CategoriaProdutoView>>> AlterarCategoria([FromBody] CategoriaProdutoUpdateCommand command)
+    public async Task<ActionResult<RequestResult<CategoriaProdutoDto>>> CadastrarCategoria([FromBody] CategoriaProdutoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return await _mediator.Send(command);
     }
 
-
+    [HttpPut]
+    public async Task<ActionResult<RequestResult<CategoriaProdutoDto>>> AlterarCategoria([FromBody] CategoriaProdutoUpdateCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return await _mediator.Send(command);
+    }
 }

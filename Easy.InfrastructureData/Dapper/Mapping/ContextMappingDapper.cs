@@ -4,4 +4,6 @@ public static class ContextMappingDapper
 {
     public static string GetCategoriaProdutoTable()
         => "desenvolvimento.categoriasprodutos";
+    public static string GetProdutoTable()
+       => "desenvolvimento.produtos";
 }
