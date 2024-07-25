@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Commands;
 
-public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDto>
+public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDtoView>
 {
     public string DescricaoCategoria { get; private set; }
     public CategoriaProdutoCreateCommand(string descricaoCategoria)
@@ -17,7 +17,7 @@ public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDto>
     }
 
 
-    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResult<CategoriaProdutoDto>>
+    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResult<CategoriaProdutoDtoView>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMediator _mediator;
@@ -30,32 +30,32 @@ public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDto>
             _mapper = mapper;
         }
 
-        public async Task<RequestResult<CategoriaProdutoDto>> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CategoriaProdutoDtoView>> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.GetFiltro());
                 if (!categoriaEntity.isBaseValida)
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Entidade inválida.");
+                    return RequestResult<CategoriaProdutoDtoView>.BadRequest("Entidade inválida.");
 
                 await _unitOfWork.CategoriaProdutoBaseRepository.InsertAsync(categoriaEntity);
                 var result = await _unitOfWork.CommitAsync();
                 if (!result)
                 {
 
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível cadastrar categoria do produto");
+                    return RequestResult<CategoriaProdutoDtoView>.BadRequest("Não foi possível cadastrar categoria do produto");
                 }
 
                 await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
 
-                var categorioDto = _mapper.Map<CategoriaProdutoDto>(categoriaEntity);
+                var categorioDto = _mapper.Map<CategoriaProdutoDtoView>(categoriaEntity);
 
-                return RequestResult<CategoriaProdutoDto>.Ok(categorioDto, "Categoria criada com sucesso.");
+                return RequestResult<CategoriaProdutoDtoView>.Ok(categorioDto, "Categoria criada com sucesso.");
             }
             catch (Exception ex)
             {
 
-                return RequestResult<CategoriaProdutoDto>.BadRequest(ex.Message);
+                return RequestResult<CategoriaProdutoDtoView>.BadRequest(ex.Message);
             }
         }
 

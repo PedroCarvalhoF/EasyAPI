@@ -1,5 +1,7 @@
 ﻿using Easy.Domain.Entities;
+using Easy.Domain.Entities.Produto;
 using Easy.Domain.Intefaces.Repository.Produto;
+using Easy.InfrastructureData.Repository.Produto;
 using Easy.Services.CQRS.Produto.Helper;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.Produto;
@@ -9,11 +11,11 @@ namespace Easy.Services.CQRS.Produto.Queries;
 
 public class GetProdutosQuery : BaseCommands<IEnumerable<ProdutoDtoView>>
 {
-    public class GetProdutosQueryHandler(IProdutoDapperRepository<FiltroBase> _produtoDapperRepository) : IRequestHandler<GetProdutosQuery, RequestResult<IEnumerable<ProdutoDtoView>>>
+    public class GetProdutosQueryHandler(IProdutoRepository<ProdutoEntity, FiltroBase> _produtoDapperRepository) : IRequestHandler<GetProdutosQuery, RequestResult<IEnumerable<ProdutoDtoView>>>
     {
         public async Task<RequestResult<IEnumerable<ProdutoDtoView>>> Handle(GetProdutosQuery request, CancellationToken cancellationToken)
         {
-            var produtoEntities = await _produtoDapperRepository.GetProdutosAsync(request.GetFiltro());
+            var produtoEntities = await _produtoDapperRepository.SelectAsync(request.GetFiltro());
 
             var produtos = produtoEntities.Select(prod => new ProdutoDtoView
             {

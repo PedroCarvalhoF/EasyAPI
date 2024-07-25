@@ -3,6 +3,8 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.CategoriaPreco.Commands;
 using Easy.Services.CQRS.PDV.CategoriaPreco.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.CategoriaPreco;
+using Easy.Services.DTOs.CategoriaProduto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +32,7 @@ public class CategoriaPrecoController : ControllerBase
 
     [HttpGet("{id}/")]
 
-    public async Task<ActionResult<RequestResultForUpdate>> GetByIdAsync(Guid id)
+    public async Task<ActionResult<RequestResult<CategoriaPrecoDto>>> GetByIdAsync(Guid id)
     {
         var getCommand = new GetCategoriaPrecoByIdQuery();
         getCommand.Id = id;
@@ -39,16 +41,16 @@ public class CategoriaPrecoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] CategoriaPrecoCreateCommand command)
+    public async Task<ActionResult<RequestResult<CategoriaPrecoDtoView>>> CreateAsync([FromBody] CategoriaPrecoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<CategoriaPrecoDtoView>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
     public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] CategoriaPrecoUpdateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<CategoriaPrecoDtoView>().ParseToActionResult(await _mediator.Send(command));
     }
 }

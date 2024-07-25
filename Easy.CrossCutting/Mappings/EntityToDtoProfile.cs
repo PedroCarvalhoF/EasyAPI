@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Entities.User;
 using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Entities.UserMasterUser;
+using Easy.Services.DTOs.CategoriaPreco;
 using Easy.Services.DTOs.CategoriaProduto;
 using Easy.Services.DTOs.Produto;
 using Easy.Services.DTOs.User;
@@ -21,11 +23,15 @@ namespace Easy.CrossCutting.Mappings
             CreateMap<UserMasterUserDto, UserMasterUserEntity>().ReverseMap();
 
             //Categoria de Produto
-            CreateMap<CategoriaProdutoDto, CategoriaProdutoEntity>().ReverseMap();
+            CreateMap<CategoriaProdutoDtoView, CategoriaProdutoEntity>().ReverseMap();
 
             //Produto
             CreateMap<ProdutoDtoView, ProdutoEntity>().ReverseMap();
             CreateMap<ProdutoDto, ProdutoEntity>().ReverseMap();
+
+            //Categoria de Preço
+            CreateMap<CategoriaPrecoDtoView, CategoriaPrecoEntity>().ReverseMap();
+            CreateMap<CategoriaPrecoEntity, CategoriaPrecoDto>().ReverseMap();
         }
     }
 }

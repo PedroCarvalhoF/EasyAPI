@@ -1,29 +1,41 @@
-﻿using Easy.Domain.Entities;
+﻿using AutoMapper;
+using Easy.Domain.Entities.PDV.CategoriaPreco;
+using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.CategoriaPreco;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.CategoriaPreco.Commands;
 
-public class CategoriaPrecoUpdateCommand : IRequest<RequestResultForUpdate>
+public class CategoriaPrecoUpdateCommand : BaseCommands<CategoriaPrecoDtoView>
 {
-    public CategoriaPrecoUpdateCommand(int codigo, string descricaFormaPagamento, Guid id, bool habilitado)
+    public required CategoriaPrecoDtoUpdate Categoria { get; set; }
+    public class CategoriaPrecoUpdateCommandHandler(IUnitOfWork _repository, IMapper _mapper) : IRequestHandler<CategoriaPrecoUpdateCommand, RequestResult<CategoriaPrecoDtoView>>
     {
-        Codigo = codigo;
-        DescricaFormaPagamento = descricaFormaPagamento;
-        Id = id;
-        Habilitado = habilitado;
+        public async Task<RequestResult<CategoriaPrecoDtoView>> Handle(CategoriaPrecoUpdateCommand request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var categoriaPrecoUpdateEntity = CategoriaPrecoEntity.Update(request.Categoria.Id, request.Categoria.Habilitado, request.Categoria.Codigo, request.Categoria.DescricaoCategoriaPreco, request.GetFiltro());
+
+                if (!categoriaPrecoUpdateEntity.isBaseValida)
+                    return RequestResult<CategoriaPrecoDtoView>.BadRequest();
+
+                await _repository.CategoriaPrecoRepository.UpdateAsync(categoriaPrecoUpdateEntity, request.GetFiltro());
+
+                if (!await _repository.CommitAsync())
+                    return RequestResult<CategoriaPrecoDtoView>.BadRequest();
+
+                var dto = _mapper.Map<CategoriaPrecoDtoView>(categoriaPrecoUpdateEntity);
+
+                return RequestResult<CategoriaPrecoDtoView>.Ok(dto, "Categoria alterada com sucesso");
+
+            }
+            catch (Exception ex)
+            {
+                return RequestResult<CategoriaPrecoDtoView>.BadRequest(ex.Message);
+            }
+        }
     }
 
-    public Guid Id { get; private set; }
-    public bool Habilitado { get; private set; }
-
-    public int Codigo { get; private set; }
-    public string DescricaFormaPagamento { get; private set; }
-
-
-    private FiltroBase FiltroBase { get; set; }
-    public void SetUsers(FiltroBase user)
-        => FiltroBase = user;
-    public FiltroBase GetFiltro()
-       => FiltroBase;
 }

@@ -7,9 +7,9 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Queries;
 
-public class GetCategoriaProdutoQuery : BaseCommands<IEnumerable<CategoriaProdutoDto>>
+public class GetCategoriaProdutoQuery : BaseCommands<IEnumerable<CategoriaProdutoDtoView>>
 {
-    public class GetCategoriaQueryHandler : IRequestHandler<GetCategoriaProdutoQuery, RequestResult<IEnumerable<CategoriaProdutoDto>>>
+    public class GetCategoriaQueryHandler : IRequestHandler<GetCategoriaProdutoQuery, RequestResult<IEnumerable<CategoriaProdutoDtoView>>>
     {
         //FUTURAMENTE UTILIZAR DAPPER
         private readonly ICategoriaProdutoDapperRepository<FiltroBase> _repository;
@@ -21,11 +21,11 @@ public class GetCategoriaProdutoQuery : BaseCommands<IEnumerable<CategoriaProdut
             _mapper = mapper;
         }
 
-        public async Task<RequestResult<IEnumerable<CategoriaProdutoDto>>> Handle(GetCategoriaProdutoQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResult<IEnumerable<CategoriaProdutoDtoView>>> Handle(GetCategoriaProdutoQuery request, CancellationToken cancellationToken)
         {
             var entities = await _repository.GetCategoriaProdutoEnity(request.GetFiltro());
-            var dtos = _mapper.Map<ICollection<CategoriaProdutoDto>>(entities);
-            return RequestResult<IEnumerable<CategoriaProdutoDto>>.Ok(dtos, "Consulta realizada com sucesso.");
+            var dtos = _mapper.Map<ICollection<CategoriaProdutoDtoView>>(entities);
+            return RequestResult<IEnumerable<CategoriaProdutoDtoView>>.Ok(dtos, "Consulta realizada com sucesso.");
         }
     }
 }

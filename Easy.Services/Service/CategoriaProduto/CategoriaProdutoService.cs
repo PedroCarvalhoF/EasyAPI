@@ -5,12 +5,12 @@ namespace Easy.Services.Service.CategoriaProduto;
 
 public class CategoriaProdutoService : ICategoriaProdutoService<FiltroBase>
 {
-    public Task<CategoriaProdutoDto> SelectAsync(Guid idCategoria, FiltroBase filtro)
+    public Task<CategoriaProdutoDtoView> SelectAsync(Guid idCategoria, FiltroBase filtro)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<CategoriaProdutoDto>> SelectAsync(FiltroBase filtro)
+    public Task<IEnumerable<CategoriaProdutoDtoView>> SelectAsync(FiltroBase filtro)
     {
         throw new NotImplementedException();
     }

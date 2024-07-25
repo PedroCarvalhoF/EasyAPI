@@ -13,7 +13,7 @@ public class ProdutoDto
     public string? Descricao { get;  set; }
     public string? Observacoes { get;  set; }
     public string? ImagemUrl { get;  set; }    
-    public virtual CategoriaProdutoDto? CategoriaProdutoEntity { get; set; }
+    public virtual CategoriaProdutoDtoView? CategoriaProdutoEntity { get; set; }
     public MedidaProdutoEnum MedidaProdutoEnum { get;  set; }
     public ProdutoTipoEnum TipoProdutoEnum { get;  set; }
 }

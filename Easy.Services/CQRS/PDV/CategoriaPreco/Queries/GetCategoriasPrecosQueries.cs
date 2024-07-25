@@ -1,6 +1,8 @@
-﻿using Easy.Domain.Entities;
+﻿using AutoMapper;
+using Easy.Domain.Entities;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.CategoriaPreco;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.CategoriaPreco.Queries;
@@ -13,14 +15,15 @@ public class GetCategoriasPrecosQueries : IRequest<RequestResultForUpdate>
     public FiltroBase GetFiltro()
        => FiltroBase;
 
-    public class GetCategoriasPrecosQueriesHandler(IUnitOfWork _repository) : IRequestHandler<GetCategoriasPrecosQueries, RequestResultForUpdate>
+    public class GetCategoriasPrecosQueriesHandler(IUnitOfWork _repository, IMapper _mapper) : IRequestHandler<GetCategoriasPrecosQueries, RequestResultForUpdate>
     {
         public async Task<RequestResultForUpdate> Handle(GetCategoriasPrecosQueries request, CancellationToken cancellationToken)
         {
             try
             {
                 var categoriasPrecosEntities = await _repository.CategoriaPrecoRepository.SelectAsync(request.GetFiltro());
-                return new RequestResultForUpdate().Ok(categoriasPrecosEntities);
+                var dtos = _mapper.Map<IEnumerable<CategoriaPrecoDtoView>>(categoriasPrecosEntities);
+                return new RequestResultForUpdate().Ok(dtos);
             }
             catch (Exception ex)
             {

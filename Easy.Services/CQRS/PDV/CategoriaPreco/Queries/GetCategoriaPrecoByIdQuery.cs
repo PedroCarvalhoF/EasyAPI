@@ -1,34 +1,31 @@
-﻿using Easy.Domain.Entities;
+﻿using AutoMapper;
+using Easy.Domain.Entities;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.CategoriaPreco;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.CategoriaPreco.Queries;
 
-public class GetCategoriaPrecoByIdQuery : IRequest<RequestResultForUpdate>
+public class GetCategoriaPrecoByIdQuery : BaseCommands<CategoriaPrecoDto>
 {
-    private FiltroBase FiltroBase { get; set; }
     public Guid Id { get; set; }
-
-    public void SetUsers(FiltroBase user)
-        => FiltroBase = user;
-    public FiltroBase GetFiltro()
-       => FiltroBase;
-
-    public class GetCategoriaPrecoByIdQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetCategoriaPrecoByIdQuery, RequestResultForUpdate>
+    public class GetCategoriaPrecoByIdQueryHandler(IUnitOfWork _repository, IMapper _mapper) : IRequestHandler<GetCategoriaPrecoByIdQuery, RequestResult<CategoriaPrecoDto>>
     {
-        public async Task<RequestResultForUpdate> Handle(GetCategoriaPrecoByIdQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CategoriaPrecoDto>> Handle(GetCategoriaPrecoByIdQuery request, CancellationToken cancellationToken)
         {
             try
             {
-                var categoriasPrecosEntities = await _repository.CategoriaPrecoRepository.SelectAsync(request.Id, request.GetFiltro());
+                var categoriaPrecoEntity = await _repository.CategoriaPrecoRepository.SelectAsync(request.Id, request.GetFiltro());
 
-                return new RequestResultForUpdate().Ok(categoriasPrecosEntities);
+                var dto = _mapper.Map<CategoriaPrecoDto>(categoriaPrecoEntity);
+
+                return RequestResult<CategoriaPrecoDto>.Ok(dto);
             }
             catch (Exception ex)
             {
 
-                return new RequestResultForUpdate().BadRequest(ex.Message);
+                return RequestResult<CategoriaPrecoDto>.BadRequest(ex.Message);
             }
         }
     }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Queries;
 
-public class GetCategoriaProdutoQueryById : BaseCommands<CategoriaProdutoDto>
+public class GetCategoriaProdutoQueryById : BaseCommands<CategoriaProdutoDtoView>
 {
     public GetCategoriaProdutoQueryById(Guid idCategoria)
     {
@@ -15,7 +15,7 @@ public class GetCategoriaProdutoQueryById : BaseCommands<CategoriaProdutoDto>
     }
 
     public Guid IdCategoria { get; private set; }
-    public class GetCategoriaProdutoQueryByIdHandler : IRequestHandler<GetCategoriaProdutoQueryById, RequestResult<CategoriaProdutoDto>>
+    public class GetCategoriaProdutoQueryByIdHandler : IRequestHandler<GetCategoriaProdutoQueryById, RequestResult<CategoriaProdutoDtoView>>
     {
         private readonly ICategoriaProdutoDapperRepository<FiltroBase> _repository;
         private readonly IMapper _mapper;
@@ -26,22 +26,22 @@ public class GetCategoriaProdutoQueryById : BaseCommands<CategoriaProdutoDto>
             _mapper = mapper;
         }
 
-        public async Task<RequestResult<CategoriaProdutoDto>> Handle(GetCategoriaProdutoQueryById request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CategoriaProdutoDtoView>> Handle(GetCategoriaProdutoQueryById request, CancellationToken cancellationToken)
         {
             try
             {
                 var categoriaProdutoEntity = await _repository.GetCategoriaProdutoById(request.IdCategoria, request.GetFiltro());
                 if (categoriaProdutoEntity == null)
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Categoria do produto não foi localizada.");
+                    return RequestResult<CategoriaProdutoDtoView>.BadRequest("Categoria do produto não foi localizada.");
 
-                var categoriaProdutoDto = _mapper.Map<CategoriaProdutoDto>(categoriaProdutoEntity);
+                var categoriaProdutoDto = _mapper.Map<CategoriaProdutoDtoView>(categoriaProdutoEntity);
 
-                return RequestResult<CategoriaProdutoDto>.Ok(categoriaProdutoDto, "Categoria do produto localizada.");
+                return RequestResult<CategoriaProdutoDtoView>.Ok(categoriaProdutoDto, "Categoria do produto localizada.");
             }
             catch (Exception ex)
             {
 
-                return RequestResult<CategoriaProdutoDto>.BadRequest(ex.Message);
+                return RequestResult<CategoriaProdutoDtoView>.BadRequest(ex.Message);
             }
         }
     }
