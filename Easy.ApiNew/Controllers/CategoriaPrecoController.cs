@@ -23,11 +23,11 @@ public class CategoriaPrecoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResultForUpdate>> GetAsync()
+    public async Task<ActionResult<IEnumerable<CategoriaProdutoDtoView>>> GetAsync()
     {
         var getCommand = new GetCategoriasPrecosQueries();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
+        return new ReturnActionResult<IEnumerable<CategoriaPrecoDtoView>>().ParseToActionResult(await _mediator.Send(getCommand));
     }
 
     [HttpGet("{id}/")]

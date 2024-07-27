@@ -82,9 +82,9 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
         try
         {
             return await _dbSet
-                .AsNoTracking()
+                //.AsNoTracking()
                 .FiltroCliente(filtro)
-                .SingleOrDefaultAsync(c => c.Id == id);
+                .SingleOrDefaultAsync(c => c.Id == id) ?? new CategoriaPrecoEntity();
         }
         catch (Exception ex)
         {
@@ -98,6 +98,7 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
         return await _dbSet
             .AsNoTracking()
             .FiltroCliente(filtro)
+            .OrderBy(cat => cat.DescricaoCategoriaPreco)
             .ToArrayAsync();
     }
 
