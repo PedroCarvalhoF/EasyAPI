@@ -1,6 +1,8 @@
-﻿using Easy.Services.CQRS.User.Command;
+﻿using Easy.Api.Tools;
+using Easy.Services.CQRS.User.Command;
 using Easy.Services.CQRS.User.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.User;
 using Easy.Services.DTOs.UserIdentity;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,17 +21,26 @@ public class AccountController : ControllerBase
         _mediator = mediator;
     }
     [AllowAnonymous]
-    [HttpPost("cadastrar")]
+    [HttpPost("create-user")]
     public async Task<ActionResult<RequestResult<UsuarioCadastroResponse>>> CadastrarUsuario(UserCreateCommand command)
     {
-        return await _mediator.Send(command);
+        return new ReturnActionResult<UserDtoCreateResult>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [AllowAnonymous]
     [HttpPost("login")]
     public async Task<ActionResult<RequestResult<UsuarioLoginResponse>>> Login([FromBody] UserLoginCommand command)
     {
-        return await _mediator.Send(command);
+        try
+        {
+            return await _mediator.Send(command);
+        }
+        catch (Exception ex)
+        {
+
+            return new ReturnActionResult<UsuarioLoginResponse>().BadRequest(ex.Message);
+        }
+       
     }
 
     [AllowAnonymous]

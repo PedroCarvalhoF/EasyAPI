@@ -20,39 +20,40 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
         _contexto = contexto;
     }
 
-    public async Task<bool> CodigoNomeExists(string codigo, string nome, F userFiltro)
+    public async Task<ProdutoEntity> NomeProdutoExists(string nome, F userFiltro)
     {
         try
         {
-            var produto = await
+            return await
 
                     _dbSet.AsNoTracking()
                           .IncludeProdutos()
                           .FiltroCliente(userFiltro)
-                          .Where(p => p.NomeProduto.ToLower() == nome.ToLower() || p.Codigo == codigo)
-                          .SingleOrDefaultAsync();
-
-            if (produto == null)
-                return false;
-
-            return true;
-        }
-        catch (InvalidCastException ex)
-        {
-            // Captura e loga a exceção específica
-            Console.WriteLine($"InvalidCastException: {ex.Message}");
-            throw;
+                          .Where(p => p.NomeProduto.ToLower() == nome.ToLower())
+                          .SingleOrDefaultAsync() ?? new ProdutoEntity();
         }
         catch (Exception ex)
         {
-            // Captura e loga outras exceções
-            Console.WriteLine($"Exception: {ex.Message}");
             throw new Exception(ex.Message);
         }
     }
 
-
-
+    public async Task<ProdutoEntity> CodigoProdutoExists(string codigo, F filtro)
+    {
+        try
+        {
+            return await
+                     _dbSet.AsNoTracking()
+                           .IncludeProdutos()
+                           .FiltroCliente(filtro)
+                           .Where(p => p.Codigo == codigo)
+                           .SingleOrDefaultAsync() ?? new ProdutoEntity();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
     public async Task<bool> DeleteAsync(Guid id, F userFiltro)
     {
         try
@@ -79,17 +80,11 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
     {
         try
         {
-            var codigoNomeExists = await CodigoNomeExists(item.Codigo, item.NomeProduto, userFiltro);
-            if (codigoNomeExists)
-                throw new ArgumentException("Nome e código devem ser exclusívos.");
-
             _contexto.Add(item);
             return item;
-
         }
         catch (Exception ex)
         {
-
             throw new Exception(ex.Message);
         }
     }
@@ -152,4 +147,6 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
             throw new Exception(ex.Message);
         }
     }
+
+
 }

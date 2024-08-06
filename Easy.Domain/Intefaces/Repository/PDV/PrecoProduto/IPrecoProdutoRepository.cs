@@ -9,4 +9,5 @@ public interface IPrecoProdutoRepository<T, F> where T : PrecoProdutoEntity wher
     Task<T> UpdatePreco(T item, F userFiltro);
     Task<IEnumerable<T>> SelectAsync(F userFiltro);
     Task<T>? SelectAsync(Guid idProduto, Guid idCategoriaPreco, F userFiltro);
+    Task<IEnumerable<T>> SelectPrecosByIdProdutoAsync(Guid idProduto, F userFiltro);
 }

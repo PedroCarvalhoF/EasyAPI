@@ -36,15 +36,24 @@ public class ProdutoEntity : BaseEntity
         if (descricao is null)
             Descricao = string.Empty;
         else
+        {
             DomainValidation.When(descricao.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+            this.Descricao = descricao;
+        }
+
 
         if (observacoes is null)
             Observacoes = string.Empty;
         else
+        {
             DomainValidation.When(observacoes.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+            this.Observacoes = observacoes;
+        }
 
         if (imagemUrl is null)
             ImagemUrl = "sem_img.jpg";
+        else
+            ImagemUrl = imagemUrl;
 
 
         DomainValidation.When(categoriaProdutoEntityId == Guid.Empty, "Informe a categoria do produto");
@@ -54,7 +63,7 @@ public class ProdutoEntity : BaseEntity
         DomainValidation.When(tipoProdutoEnum <= 0, "Informe o tipo do produto");
 
         NomeProduto = PrimeiraLetraSempreMaiuscula.Formatar(nomeProduto);
-        Codigo = codigo;       
+        Codigo = codigo;
         CategoriaProdutoEntityId = categoriaProdutoEntityId;
         MedidaProdutoEnum = medidaProdutoEnum;
         TipoProdutoEnum = tipoProdutoEnum;
@@ -70,9 +79,28 @@ public class ProdutoEntity : BaseEntity
         DomainValidation.When(string.IsNullOrWhiteSpace(codigo), "Informe o código do produto.");
         DomainValidation.When(codigo.Length > 100, "Código muito extenso. Máximo 100 caracteres");
 
-        DomainValidation.When(descricao.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+        if (descricao is null)
+            Descricao = string.Empty;
+        else
+        {
+            DomainValidation.When(descricao.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+            this.Descricao = descricao;
+        }
 
-        DomainValidation.When(observacoes.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+
+        if (observacoes is null)
+            Observacoes = string.Empty;
+        else
+        {
+            DomainValidation.When(observacoes.Length > 100, "Descrição muito extensa. Máximo 100 caracteres");
+            this.Observacoes = observacoes;
+        }
+
+        if (imagemUrl is null)
+            ImagemUrl = "sem_img.jpg";
+        else
+            ImagemUrl = imagemUrl;
+
 
         DomainValidation.When(categoriaProdutoEntityId == Guid.Empty, "Informe a categoria do produto");
 
@@ -82,9 +110,6 @@ public class ProdutoEntity : BaseEntity
 
         NomeProduto = PrimeiraLetraSempreMaiuscula.Formatar(nomeProduto);
         Codigo = codigo;
-        Descricao = descricao;
-        Observacoes = observacoes;
-        ImagemUrl = imagemUrl;
         CategoriaProdutoEntityId = categoriaProdutoEntityId;
         MedidaProdutoEnum = medidaProdutoEnum;
         TipoProdutoEnum = tipoProdutoEnum;
@@ -95,4 +120,10 @@ public class ProdutoEntity : BaseEntity
 
     public static ProdutoEntity Update(Guid id, bool habilitado, string nomeProduto, string codigo, string descricao, string observacoes, string imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum, FiltroBase users)
        => new ProdutoEntity(id, habilitado, nomeProduto, codigo, descricao, observacoes, imagemUrl, categoriaProdutoEntityId, medidaProdutoEnum, tipoProdutoEnum, users);
+
+    public void HabilitarDesabilitar()
+    {
+        Habilitado = !Habilitado;
+        UpdateAt = DateTime.Now;
+    }
 }

@@ -1,11 +1,8 @@
-﻿using Easy.Domain.Entities;
-using Easy.Domain.Enuns;
-using Easy.Services.DTOs;
-using MediatR;
+﻿using Easy.Domain.Enuns;
 
-namespace Easy.Services.CQRS.Produto.Commands;
+namespace Easy.Services.DTOs.Produto;
 
-public class ProdutoUpdateCommand : IRequest<RequestResultForUpdate>
+public class ProdutoDtoUpdate
 {
     public Guid Id { get; set; }
     public bool Habilitado { get; set; }
@@ -17,11 +14,4 @@ public class ProdutoUpdateCommand : IRequest<RequestResultForUpdate>
     public Guid CategoriaProdutoEntityId { get; set; }
     public MedidaProdutoEnum MedidaProdutoEnum { get; set; }
     public ProdutoTipoEnum TipoProdutoEnum { get; set; }
-
-
-    private FiltroBase FiltroBase { get; set; }
-    public void SetUsers(FiltroBase user)
-        => FiltroBase = user;
-    public FiltroBase GetFiltro()
-       => FiltroBase;
 }

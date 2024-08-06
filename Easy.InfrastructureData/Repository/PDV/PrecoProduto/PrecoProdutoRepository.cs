@@ -5,6 +5,7 @@ using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
 using Easy.InfrastructureData.Tools.PrecoProduto;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 
@@ -56,10 +57,14 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
     {
         try
         {
-            var result = await
-                _dbSet.AsNoTracking()
-                .FiltroCliente(userFiltro)
-                .FirstOrDefaultAsync(cp => cp.ProdutoEntityId == idProduto && cp.CategoriaPrecoEntityId == idCategoriaPreco);
+            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(userFiltro).Where(cp => cp.ProdutoEntityId == idProduto && cp.CategoriaPrecoEntityId == idCategoriaPreco); 
+
+            if (typeof(T) == typeof(PrecoProdutoEntity))
+            {
+                query = (IQueryable<T>)PrecoProdutoEntityExtensionsInclude.IncludePrecosProdutos((IQueryable<PrecoProdutoEntity>)query);
+            }
+
+            var result = await query.SingleOrDefaultAsync();
 
             if (result == null)
                 return result;
@@ -68,6 +73,28 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
         }
         catch (Exception ex)
         {
+            throw new Exception(ex.Message);
+        }
+    }
+
+    public async Task<IEnumerable<T>> SelectPrecosByIdProdutoAsync(Guid idProduto, F userFiltro)
+    {
+        try
+        {
+            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(userFiltro).Where(preco_produto => preco_produto.Produto.Id == idProduto);
+
+            if (typeof(T) == typeof(PrecoProdutoEntity))
+            {
+                query = (IQueryable<T>)PrecoProdutoEntityExtensionsInclude.IncludePrecosProdutos((IQueryable<PrecoProdutoEntity>)query);
+            }
+
+            var result = await query.ToArrayAsync();
+            return result;
+
+        }
+        catch (Exception ex)
+        {
+
             throw new Exception(ex.Message);
         }
     }

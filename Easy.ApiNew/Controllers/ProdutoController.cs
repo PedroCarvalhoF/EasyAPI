@@ -40,17 +40,17 @@ public class ProdutoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult<ProdutoDtoView>>> CadastraProdutoAsync([FromBody] ProdutoCreateCommand command)
+    public async Task<ActionResult<RequestResult<ProdutoDtoView>>> CadastraProdutoAsync([FromBody] ProdutoCommandCreate command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<ProdutoDtoView>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
-    public async Task<ActionResult<RequestResultForUpdate>> AlterarProdutoAsync([FromBody] ProdutoUpdateCommand command)
+    public async Task<ActionResult<ProdutoDto>> AlterarProdutoAsync([FromBody] ProdutoCommandUpdate command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<ProdutoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
 

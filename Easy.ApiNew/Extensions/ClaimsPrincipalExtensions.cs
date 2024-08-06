@@ -27,7 +27,7 @@ namespace Easy.Api.Extensions
 
         public static FiltroBase GetUserMasterUserDatalhes(this ClaimsPrincipal user)
         {
-            return new FiltroBase(Guid.Parse(user.FindFirst("ClienteId")?.Value), Guid.Parse(user.FindFirst("UserId")?.Value));
+            return new FiltroBase(Guid.Parse(user.FindFirst("ClienteId")?.Value ?? throw new ArgumentException("Cliente não localizado.")), Guid.Parse(user.FindFirst("UserId")?.Value ?? throw new ArgumentException("Usuário não localizado")));
         }
     }
 }

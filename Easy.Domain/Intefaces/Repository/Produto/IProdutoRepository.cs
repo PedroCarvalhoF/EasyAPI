@@ -10,6 +10,7 @@ namespace Easy.Domain.Intefaces.Repository.Produto
         Task<bool> DeleteAsync(Guid id, F userFiltro);
         Task<ProdutoEntity> SelectAsync(Guid id, F userFiltro);
         Task<IEnumerable<ProdutoEntity>> SelectAsync(F userFiltro);
-        Task<bool> CodigoNomeExists(string codigo, string nome, F userFiltro);
+        Task<ProdutoEntity> CodigoProdutoExists(string codigo, F filtro);
+        Task<ProdutoEntity> NomeProdutoExists(string nome, F filtro);
     }
 }

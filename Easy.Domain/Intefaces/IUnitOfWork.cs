@@ -54,4 +54,5 @@ public interface IUnitOfWork
     IBaseRepository<ItemPedidoEntity> ItemPedidoBaseRepository { get; }
     IBaseRepository<PagamentoPedidoEntity> PagamentoPedidoBaseRepository { get; }
     Task<bool> CommitAsync();
+    void FinalizarContexto();
 }

@@ -243,9 +243,14 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         }
         finally
         {
-            Dispose();
+            
         }
         
+    }
+
+    public void FinalizarContexto()
+    {
+        Dispose();
     }
     public void Dispose()
     {

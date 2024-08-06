@@ -1,13 +1,14 @@
 ﻿using Easy.Domain.Entities.PDV.UserPDV;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.UsuarioPdv;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.UsuarioPdv.Commands;
 
 public class UsuarioPdvCreateCommand : BaseCommandsForUpdate
 {
-    public Guid UserPdvId { get; set; }
+    public required UsuarioPdvDtoCreate UsuarioPdv { get; set; }
 
     public class UsuarioPdvCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<UsuarioPdvCreateCommand, RequestResultForUpdate>
     {
@@ -15,7 +16,9 @@ public class UsuarioPdvCreateCommand : BaseCommandsForUpdate
         {
             try
             {
-                var usuarioPdv = UsuarioPdvEntity.Create(request.UserPdvId, request.GetFiltro());
+                var filtro = request.GetFiltro();                               
+
+                var usuarioPdv = UsuarioPdvEntity.Create(request.UsuarioPdv.UserPdvId, filtro);
                 if (!usuarioPdv.Validada)
                     return new RequestResultForUpdate().EntidadeInvalida();
 

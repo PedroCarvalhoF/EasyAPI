@@ -6,4 +6,9 @@ public static class ContextMappingDapper
         => "desenvolvimento.categoriasprodutos";
     public static string GetProdutoTable()
        => "desenvolvimento.produtos";
+
+    public static string GetUserMasterUserTable()
+        => "desenvolvimento.usermastercliente";
+    public static string GetUserTable()
+        => "desenvolvimento.aspnetusers";
 }

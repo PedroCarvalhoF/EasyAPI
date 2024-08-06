@@ -3,6 +3,7 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.PrecoProduto.Commands;
 using Easy.Services.CQRS.PDV.PrecoProduto.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.PrecoProduto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,39 +21,26 @@ public class PrecoProdutoController : ControllerBase
         _mediator = mediator;
     }
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PrecoProdutoCommand command)
-    {
+    public async Task<ActionResult<PrecoProdutoDtoView>> CreateAsync([FromBody] PrecoProdutoCommand command)
+        {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PrecoProdutoDtoView>().ParseToActionResult(await _mediator.Send(command));
     }
 
-
     [HttpGet]
-    public async Task<ActionResult<RequestResultForUpdate>> GetAynsc()
+    public async Task<ActionResult<List<PrecoProdutoDtoView>>> GetAynsc()
     {
         var getCommand = new GetPrecosProdutosQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
+        return new ReturnActionResult<List<PrecoProdutoDtoView>>().ParseToActionResult(await _mediator.Send(getCommand));
     }
 
-    //[HttpGet("{idProduto}/")]
-
-    //public async Task<ActionResult<RequestResult>> GetProdutoByIdAsync(Guid idProduto)
-    //{
-    //    var getCommand = new GetProdutoByIdQuery();
-    //    getCommand.IdProduto = idProduto;
-    //    getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return await _mediator.Send(getCommand);
-    //}
-
-
-
-    //[HttpPut]
-    //public async Task<ActionResult<RequestResult>> AlterarProdutoAsync([FromBody] ProdutoUpdateCommand command)
-    //{
-    //    command.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult().ParseToActionResult(await _mediator.Send(command));
-    //}
-
-
+    [HttpGet("{idProduto}")]
+    public async Task<ActionResult<List<PrecoProdutoDtoView>>> GetPrecoProdutoByIdProduto(Guid idProduto)
+    {
+        var getCommand = new GetPrecoProdutoByProduto();
+        getCommand.IdProduto = idProduto;
+        getCommand.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<List<PrecoProdutoDtoView>>().ParseToActionResult(await _mediator.Send(getCommand));
+    }
 }

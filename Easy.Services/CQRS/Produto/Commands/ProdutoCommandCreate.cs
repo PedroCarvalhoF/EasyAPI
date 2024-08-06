@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Commands;
 
-public class ProdutoCreateCommand : BaseCommands<ProdutoDtoView>
+public class ProdutoCommandCreate : BaseCommands<ProdutoDtoView>
 {
     public string NomeProduto { get; set; }
     public string Codigo { get; set; }
@@ -18,7 +18,7 @@ public class ProdutoCreateCommand : BaseCommands<ProdutoDtoView>
     public Guid CategoriaProdutoEntityId { get; set; }
     public MedidaProdutoEnum MedidaProdutoEnum { get; set; }
     public ProdutoTipoEnum TipoProdutoEnum { get; set; }
-    public class ProdutoCreateCommandHandler : IRequestHandler<ProdutoCreateCommand, RequestResult<ProdutoDtoView>>
+    public class ProdutoCreateCommandHandler : IRequestHandler<ProdutoCommandCreate, RequestResult<ProdutoDtoView>>
     {
         private readonly IUnitOfWork _repository;
         private readonly IMapper _mapper;
@@ -28,7 +28,7 @@ public class ProdutoCreateCommand : BaseCommands<ProdutoDtoView>
             _mapper = mapper;
         }
 
-        public async Task<RequestResult<ProdutoDtoView>> Handle(ProdutoCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<ProdutoDtoView>> Handle(ProdutoCommandCreate request, CancellationToken cancellationToken)
         {
             try
             {

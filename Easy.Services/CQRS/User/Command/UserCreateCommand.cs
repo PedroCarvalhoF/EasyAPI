@@ -1,38 +1,64 @@
-﻿using Easy.Services.DTOs;
+﻿using Easy.Domain.Entities.User;
+using Easy.Services.DTOs;
+using Easy.Services.DTOs.User;
 using Easy.Services.DTOs.UserIdentity;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Easy.Services.CQRS.User.Command
 {
-    public class UserCreateCommand : IRequest<RequestResult<UsuarioCadastroResponse>>
+    public class UserCreateCommand : IRequest<RequestResult<UserDtoCreateResult>>
     {
-        public UserCreateCommand(string nome, string sobreNome, string email, string senha, string senhaConfirmacao)
+        public required UserDtoCreate UserCreate { get; set; }
+        public class UserCreateCommandHandler : IRequestHandler<UserCreateCommand, RequestResult<UserDtoCreateResult>>
         {
-            Nome = nome;
-            SobreNome = sobreNome;
-            Email = email;
-            Senha = senha;
-            SenhaConfirmacao = senhaConfirmacao;
+            private readonly UserManager<UserEntity> _userManager;
+
+            public UserCreateCommandHandler(UserManager<UserEntity> userManager)
+            {
+                _userManager = userManager;
+            }
+
+            public async Task<RequestResult<UserDtoCreateResult>> Handle(UserCreateCommand request, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var userExists = await _userManager.FindByEmailAsync(request.UserCreate.Email);
+                    if (userExists != null)
+                        return RequestResult<UserDtoCreateResult>.BadRequest("E-mail já esta em uso");
+
+                    var userCreateEntity = UserEntity.CreateUser(request.UserCreate.Nome, request.UserCreate.SobreNome, request.UserCreate.Email, request.UserCreate.Email);
+
+                    var userCreateResult = await _userManager.CreateAsync(userCreateEntity, request.UserCreate.Senha);
+
+                    var usuarioCadastroResponse = new UsuarioCadastroResponse(true, userCreateEntity.Id);
+                    if (userCreateResult.Succeeded)
+                    {
+                        await _userManager.SetLockoutEnabledAsync(userCreateEntity, false);
+
+                        var userCreate = await _userManager.FindByEmailAsync(request.UserCreate.Email);
+
+                        var userCreateDto = new UserDtoCreateResult
+                        {
+                            IdUserCreate = userCreate.Id
+                        };
+
+                        return RequestResult<UserDtoCreateResult>.Ok(userCreateDto);
+                    }
+
+
+                    if (!userCreateResult.Succeeded && userCreateResult.Errors.Count() > 0)
+                        usuarioCadastroResponse.AdicionarErros(userCreateResult.Errors.Select(r => r.Description));
+
+                    return RequestResult<UserDtoCreateResult>.BadRequest(userCreateResult.Errors.Select(r => r.Description).FirstOrDefault());
+
+                }
+                catch (Exception ex)
+                {
+                    return RequestResult<UserDtoCreateResult>.BadRequest(ex.Message);
+                }
+            }
         }
-
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public string Nome { get; private set; }
-
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public string SobreNome { get; private set; }
-
-
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [EmailAddress(ErrorMessage = "O campo {0} é inválido")]
-        public string Email { get; private set; }
-
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        [StringLength(50, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres", MinimumLength = 6)]
-        public string Senha { get; private set; }
-
-        [Compare(nameof(Senha), ErrorMessage = "As senhas devem ser iguais")]
-        public string SenhaConfirmacao { get; private set; }
 
     }
 }
