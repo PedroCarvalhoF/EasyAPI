@@ -2,7 +2,6 @@
 using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.PrecoProduto.Commands;
 using Easy.Services.CQRS.PDV.PrecoProduto.Queries;
-using Easy.Services.DTOs;
 using Easy.Services.DTOs.PrecoProduto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +21,7 @@ public class PrecoProdutoController : ControllerBase
     }
     [HttpPost]
     public async Task<ActionResult<PrecoProdutoDtoView>> CreateAsync([FromBody] PrecoProdutoCommand command)
-        {
+    {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<PrecoProdutoDtoView>().ParseToActionResult(await _mediator.Send(command));
     }

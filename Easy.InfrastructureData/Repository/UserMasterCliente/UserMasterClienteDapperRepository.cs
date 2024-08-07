@@ -1,6 +1,5 @@
 ﻿using Dapper;
 using Easy.Domain.Entities.User;
-using Easy.Domain.Entities.UserMasterCliente;
 using Easy.Domain.Intefaces.Repository.UserMasterCliente;
 using System.Data;
 
@@ -18,7 +17,7 @@ namespace Easy.InfrastructureData.Repository.UserMasterCliente
         {
             try
             {
-                string query = 
+                string query =
                     @"SELECT * FROM desenvolvimento.usermastercliente as user_master
                       JOIN desenvolvimento.aspnetusers as user on user_master.UserMasterId = user.Id";
                 return await _dbConnection.QueryAsync<UserEntity>(query);

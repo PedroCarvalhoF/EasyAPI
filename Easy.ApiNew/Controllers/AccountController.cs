@@ -33,14 +33,26 @@ public class AccountController : ControllerBase
     {
         try
         {
-            return await _mediator.Send(command);
+            try
+            {
+                return await _mediator.Send(command);
+            }
+            catch (Exception ex)
+            {
+
+                UsuarioLoginResponse response = new UsuarioLoginResponse();
+                response.AdicionarErro(ex.Message);
+
+                return RequestResult<UsuarioLoginResponse>.BadRequest(ex.Message);
+            }
+
         }
         catch (Exception ex)
         {
 
             return new ReturnActionResult<UsuarioLoginResponse>().BadRequest(ex.Message);
         }
-       
+
     }
 
     [AllowAnonymous]

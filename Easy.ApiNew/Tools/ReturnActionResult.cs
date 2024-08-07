@@ -7,7 +7,7 @@ namespace Easy.Api.Tools
     public class ReturnActionResult<T> : Controller where T : class
     {
         public ActionResult ParseToActionResult(RequestResult<T> requestResult)
-        {            
+        {
             switch (requestResult.StatusCode)
             {
                 case (int)HttpStatusCode.OK:

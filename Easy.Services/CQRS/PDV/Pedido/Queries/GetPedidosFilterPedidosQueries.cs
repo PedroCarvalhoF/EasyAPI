@@ -20,7 +20,7 @@ public class GetPedidosFilterPedidosQueries : BaseCommandsForUpdate
 
                 pedido.CalcularTotalPedido();
 
-                
+
                 return new RequestResultForUpdate().Ok(entities);
             }
             catch (Exception ex)

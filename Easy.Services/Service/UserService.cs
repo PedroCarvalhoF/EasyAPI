@@ -66,7 +66,7 @@ namespace Easy.Services.Service
 
                 if (mUser == null)
                     throw new ArgumentException("Usuário não crendeciado para ter acesso.");
-               
+
                 var filtro = new FiltroBase(mUser.UserClienteId, mUser.UserMasterUserId);
 
                 usuarioLoginResponse = await GerarCredenciais(usuarioLogin.Email, filtro);

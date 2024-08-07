@@ -27,7 +27,7 @@ namespace Easy.InfrastructureData.Dapper.Queries
                             and
                             Id=@idCat";
 
-            var parameters = new { idCliente = filtro.clienteId , idCat = idCategoria };
+            var parameters = new { idCliente = filtro.clienteId, idCat = idCategoria };
 
             return new QueryModel(query, parameters);
         }

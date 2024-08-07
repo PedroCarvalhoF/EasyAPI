@@ -1,7 +1,5 @@
 ﻿using Easy.Api.Extensions;
 using Easy.Api.Tools;
-using Easy.Domain.Entities.User;
-using Easy.Domain.Entities.UserMasterUser;
 using Easy.Services.CQRS.UserMasterUser.Command;
 using Easy.Services.CQRS.UserMasterUser.Queries;
 using Easy.Services.DTOs;

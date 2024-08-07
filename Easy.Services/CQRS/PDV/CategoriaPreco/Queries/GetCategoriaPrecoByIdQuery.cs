@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Easy.Domain.Entities;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.CategoriaPreco;

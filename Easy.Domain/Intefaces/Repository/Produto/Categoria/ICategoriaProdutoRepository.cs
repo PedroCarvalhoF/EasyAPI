@@ -8,6 +8,6 @@ public interface ICategoriaProdutoRepository<T, F> : IDisposable where T : Categ
     Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriasProdutoAsync(F users);
     Task<CategoriaProdutoEntity> GetById(Guid userClienteId, F users);
     Task<CategoriaProdutoEntity> Create(T create);
-     CategoriaProdutoEntity Update(T create);
+    CategoriaProdutoEntity Update(T create);
     Task<bool> Delete(Guid id, F users);
 }

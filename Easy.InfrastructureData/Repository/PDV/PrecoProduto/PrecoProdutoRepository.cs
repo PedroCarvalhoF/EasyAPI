@@ -5,7 +5,6 @@ using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
 using Easy.InfrastructureData.Tools.PrecoProduto;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 
 namespace Easy.InfrastructureData.Repository.PDV.PrecoProduto;
 
@@ -57,7 +56,7 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
     {
         try
         {
-            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(userFiltro).Where(cp => cp.ProdutoEntityId == idProduto && cp.CategoriaPrecoEntityId == idCategoriaPreco); 
+            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(userFiltro).Where(cp => cp.ProdutoEntityId == idProduto && cp.CategoriaPrecoEntityId == idCategoriaPreco);
 
             if (typeof(T) == typeof(PrecoProdutoEntity))
             {

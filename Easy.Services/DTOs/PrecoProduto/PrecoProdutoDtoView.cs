@@ -1,6 +1,4 @@
-﻿using Easy.Domain.Entities.PDV.PrecoProduto;
-
-namespace Easy.Services.DTOs.PrecoProduto;
+﻿namespace Easy.Services.DTOs.PrecoProduto;
 
 public class PrecoProdutoDtoView
 {

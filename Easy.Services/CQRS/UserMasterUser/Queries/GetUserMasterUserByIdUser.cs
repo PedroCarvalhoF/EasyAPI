@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using Easy.Domain.Entities;
-using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
-using Easy.Domain.Intefaces.Repository.UserMasterUser;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.User;
 using Easy.Services.Tools.UseCase.Dto;

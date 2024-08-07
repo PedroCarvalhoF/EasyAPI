@@ -6,7 +6,7 @@ public class PedidoEntityFilter
     public Guid? IdPedido { get; set; }
     public static IQueryable<PedidoEntity> QueryablePedidoEntity(IQueryable<PedidoEntity> query, PedidoEntityFilter filtro)
     {
-       
+
 
 
         if (filtro.IdPedido.HasValue)

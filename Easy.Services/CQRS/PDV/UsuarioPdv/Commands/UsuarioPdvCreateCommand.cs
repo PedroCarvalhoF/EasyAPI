@@ -16,7 +16,7 @@ public class UsuarioPdvCreateCommand : BaseCommandsForUpdate
         {
             try
             {
-                var filtro = request.GetFiltro();                               
+                var filtro = request.GetFiltro();
 
                 var usuarioPdv = UsuarioPdvEntity.Create(request.UsuarioPdv.UserPdvId, filtro);
                 if (!usuarioPdv.Validada)

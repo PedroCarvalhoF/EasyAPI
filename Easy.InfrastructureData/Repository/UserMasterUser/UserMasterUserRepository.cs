@@ -30,7 +30,7 @@ public class UserMasterUserRepository<T> : IUserMasterUserRepository<UserMasterU
             var result =
                 await _context.Set<UserMasterUserEntity>().AsNoTracking()
                 .Where(uM => uM.UserMasterUserId == userId)
-                .Include(u=>u.UserMasterUser)
+                .Include(u => u.UserMasterUser)
                 .SingleOrDefaultAsync();
 
             return result;

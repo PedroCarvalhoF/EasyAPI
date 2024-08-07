@@ -1,6 +1,4 @@
-﻿using Easy.Domain.Entities;
-using Easy.Domain.Entities.PDV.Pedido;
-using Easy.Domain.Intefaces;
+﻿using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
 using MediatR;
 
@@ -16,7 +14,7 @@ public class GetPedidoByIdQuery : BaseCommandsForUpdate
         public async Task<RequestResultForUpdate> Handle(GetPedidoByIdQuery request, CancellationToken cancellationToken)
         {
             try
-            {               
+            {
                 return null;
             }
             catch (Exception ex)

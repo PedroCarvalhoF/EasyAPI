@@ -39,5 +39,8 @@ namespace Easy.Services.DTOs
 
         public static RequestResult<T> BadRequest(string? mensagem = "Não foi possível realizar requisição.")
         => new RequestResult<T>(mensagem);
+
+        public static RequestResult<T> BadRequest(T data, string? mensagem = "Não foi possível realizar requisição.")
+       => new RequestResult<T>(mensagem);
     }
 }

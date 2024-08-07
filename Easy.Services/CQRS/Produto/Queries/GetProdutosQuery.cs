@@ -1,7 +1,6 @@
 ﻿using Easy.Domain.Entities;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Intefaces.Repository.Produto;
-using Easy.InfrastructureData.Repository.Produto;
 using Easy.Services.CQRS.Produto.Helper;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.Produto;
