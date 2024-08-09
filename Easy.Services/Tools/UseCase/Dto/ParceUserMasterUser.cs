@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.UserMasterUser;
+﻿using Easy.Domain.Entities.User;
+using Easy.Domain.Entities.UserMasterUser;
 using Easy.Services.DTOs.User;
 
 namespace Easy.Services.Tools.UseCase.Dto
@@ -15,6 +16,6 @@ namespace Easy.Services.Tools.UseCase.Dto
                     Nome = userEntity.UserMasterUser.Nome,
                     SobreNome = userEntity.UserMasterUser.SobreNome
                 };
-        }
+        }        
     }
 }

@@ -1,32 +1,23 @@
-﻿using AutoMapper;
-using Easy.Domain.Entities;
+﻿using Easy.Domain.Entities;
 using Easy.Domain.Intefaces.Repository.UserMasterUser;
-using Easy.Services.CQRS.PDV;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.User;
+using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
 
 namespace Easy.Services.CQRS.UserMasterUser.Queries;
 
-public class GetUserMasterUserQuery : BaseCommandsForUpdate
+public class GetUserMasterUserQuery : BaseCommands<IEnumerable<UserDto>>
 {
-    public class GetUserMasterUserQueryHandler : IRequestHandler<GetUserMasterUserQuery, RequestResultForUpdate>
+    public class GetUserMasterUserQueryHandler(IUserMasterUserDapperRepository<FiltroBase> _repository) : IRequestHandler<GetUserMasterUserQuery, RequestResult<IEnumerable<UserDto>>>
     {
-        private readonly IUserMasterUserDapperRepository<FiltroBase> _repository;
-        private readonly IMapper _mapper;
-
-        public GetUserMasterUserQueryHandler(IUserMasterUserDapperRepository<FiltroBase> repository, IMapper mapper)
-        {
-            _repository = repository;
-            _mapper = mapper;
-        }
-
-        public async Task<RequestResultForUpdate> Handle(GetUserMasterUserQuery request, CancellationToken cancellationToken)
+        public async Task<RequestResult<IEnumerable<UserDto>>> Handle(GetUserMasterUserQuery request, CancellationToken cancellationToken)
         {
             try
             {
                 var result = await _repository.GetUsersMasterUsersAsync(request.GetFiltro());
-                return new RequestResultForUpdate().Ok(_mapper.Map<ICollection<UserDto>>(result));
+                var dtos = DtoMapper.ParceUsersDtos(result);
+                return RequestResult<IEnumerable<UserDto>>.Ok(dtos);
             }
             catch (Exception ex)
             {

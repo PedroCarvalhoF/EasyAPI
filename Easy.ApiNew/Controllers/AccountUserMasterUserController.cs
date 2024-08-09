@@ -30,11 +30,11 @@ public class AccountsUserMasterUserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResultForUpdate>> GetUserByClienteIdAsync()
+    public async Task<ActionResult<RequestResult<IEnumerable<UserDto>>>> GetUserByClienteIdAsync()
     {
         var command = new GetUserMasterUserQuery();
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<IEnumerable<UserDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
 
