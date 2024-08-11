@@ -2,32 +2,37 @@
 using Easy.Domain.Enuns.Pdv.UserPDV;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.User;
+using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.UsuarioPdv.Queries;
 
-public class GetUsuarioPdv : BaseCommandsForUpdate
+public class GetUsuarioPdv : BaseCommands<IEnumerable<UserDto>>
 {
     public UsuarioPdvFiltroEnum UsuarioPdvFiltroEnum { get; set; }
-    public class GetUsuarioPdvHandler(IUnitOfWork _repository) : IRequestHandler<GetUsuarioPdv, RequestResultForUpdate>
+    public class GetUsuarioPdvHandler(IUnitOfWork _repository) : IRequestHandler<GetUsuarioPdv, RequestResult<IEnumerable<UserDto>>>
     {
-        public async Task<RequestResultForUpdate> Handle(GetUsuarioPdv request, CancellationToken cancellationToken)
+        public async Task<RequestResult<IEnumerable<UserDto>>> Handle(GetUsuarioPdv request, CancellationToken cancellationToken)
         {
             try
             {
-                IEnumerable<UsuarioPdvEntity> result;
+                IEnumerable<UsuarioPdvEntity> usuariosPdvsEntities;
+
                 var filtro = request.GetFiltro();
 
                 if (request.UsuarioPdvFiltroEnum == UsuarioPdvFiltroEnum.TodosUsuarios)
-                    result = await _repository.UsuarioPdvRepository.SelectAsync(request.GetFiltro());
+                    usuariosPdvsEntities = await _repository.UsuarioPdvRepository.SelectAsync(request.GetFiltro());
                 else
-                    result = await _repository.UsuarioPdvRepository.SelectAsync(request.UsuarioPdvFiltroEnum, filtro);
+                    usuariosPdvsEntities = await _repository.UsuarioPdvRepository.SelectAsync(request.UsuarioPdvFiltroEnum, filtro);
 
-                return new RequestResultForUpdate().Ok(result);
+                var usersDtos = DtoMapper.ParceUsersDtos(usuariosPdvsEntities);
+
+                return RequestResult<IEnumerable<UserDto>>.Ok(usersDtos);
             }
             catch (Exception ex)
             {
-                return new RequestResultForUpdate().BadRequest(ex.Message);
+                return RequestResult<IEnumerable<UserDto>>.BadRequest(ex.Message);
             }
         }
     }

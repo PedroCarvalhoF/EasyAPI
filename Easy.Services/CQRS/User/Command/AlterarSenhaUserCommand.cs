@@ -1,36 +1,44 @@
-﻿using Easy.Services.DTOs;
+﻿using Easy.Domain.Entities.User;
+using Easy.Services.DTOs;
+using Easy.Services.DTOs.User;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Easy.Services.CQRS.User.Command
 {
-    public class AlterarSenhaUserCommand : IRequest<RequestResultForUpdate>
+    public class AlterarSenhaUserCommand : BaseCommands<UserDtoUpdateSenhaResult>
     {
-        public AlterarSenhaUserCommand(Guid idUser, string senhaAntiga, string novaSenha, string confirmPassword)
+        public UserDtoUpdateSenha UserDtoUpdateSenha { get; private set; }
+
+        public AlterarSenhaUserCommand(UserDtoUpdateSenha userDtoUpdateSenha)
         {
-            IdUser = idUser;
-            SenhaAntiga = senhaAntiga;
-            NovaSenha = novaSenha;
-            ConfirmPassword = confirmPassword;
+            UserDtoUpdateSenha = userDtoUpdateSenha;
         }
 
-        [Required]
-        [Display(Name = "Id do Usuario")]
-        public Guid IdUser { get; private set; }
+        public class AlterarSenhaUserCommandHandler(UserManager<UserEntity> _userManager) : IRequestHandler<AlterarSenhaUserCommand, RequestResult<UserDtoUpdateSenhaResult>>
+        {
+            public async Task<RequestResult<UserDtoUpdateSenhaResult>> Handle(AlterarSenhaUserCommand request, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var user = await _userManager.FindByEmailAsync(request.UserDtoUpdateSenha.email);
+                    if (user == null)
+                        return RequestResult<UserDtoUpdateSenhaResult>.BadRequest("Usuário não localizado.");
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var resultUpdatePassword = await _userManager.ResetPasswordAsync(user, token, request.UserDtoUpdateSenha.NovaSenha);
 
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Senha Antiga.")]
-        public string SenhaAntiga { get; private set; }
+                    if (resultUpdatePassword.Succeeded)
+                        return RequestResult<UserDtoUpdateSenhaResult>.Ok(mensagem: "Senha alterada com sucesso.");
 
-        [Required]
-        [DataType(DataType.Password)]
-        [Display(Name = "Nova Senha.")]
-        public string NovaSenha { get; private set; }
+                    return RequestResult<UserDtoUpdateSenhaResult>.BadRequest(resultUpdatePassword.Errors.FirstOrDefault()!.Description);
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirma Nova Senha")]
-        [Compare("NovaSenha", ErrorMessage = "As senhas não combinão.")]
-        public string ConfirmPassword { get; private set; }
+                }
+                catch (Exception ex)
+                {
+
+                    return RequestResult<UserDtoUpdateSenhaResult>.BadRequest(ex.Message);
+                }
+            }
+        }
     }
 }

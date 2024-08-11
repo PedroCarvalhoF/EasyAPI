@@ -149,5 +149,11 @@ namespace Easy.Services.Service
 
             return claims;
         }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(UserEntity user)
+        {
+            var token = await _userManager.GenerateUserTokenAsync(user, TokenOptions.DefaultProvider, "PasswordReset");
+            return token;
+        }
     }
 }

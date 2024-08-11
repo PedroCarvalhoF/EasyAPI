@@ -12,7 +12,6 @@ public class GetUserMasterUserByIdUser : BaseCommands<UserDto>
 {
     [Required]
     public Guid IdUser { get; private set; }
-
     public GetUserMasterUserByIdUser(Guid idUser)
     {
         IdUser = idUser;

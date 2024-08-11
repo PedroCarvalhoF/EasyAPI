@@ -1,13 +1,13 @@
 ﻿using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.UsuarioPdv;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.UsuarioPdv.Commands;
 
 public class UsuarioPdvDesabilitarHabilitarCommand : BaseCommandsForUpdate
 {
-    public Guid UserPdvId { get; set; }
-    public bool Habiitado { get; set; }
+    public required UsuarioPdvDtoHabilitarDesabilitar userDto { get; set; }
 
     public class UsuarioPdvDesabilitarCommandHandler(IUnitOfWork _repository) : IRequestHandler<UsuarioPdvDesabilitarHabilitarCommand, RequestResultForUpdate>
     {
@@ -15,11 +15,11 @@ public class UsuarioPdvDesabilitarHabilitarCommand : BaseCommandsForUpdate
         {
             try
             {
-                var usuarioHabilitar = await _repository.UsuarioPdvRepository.SelectByIdUsuarioPdvAsync(request.UserPdvId, request.GetFiltro());
+                var usuarioHabilitar = await _repository.UsuarioPdvRepository.SelectByIdUsuarioPdvAsync(request.userDto.UserPdvId, request.GetFiltro());
                 if (usuarioHabilitar == null)
                     return new RequestResultForUpdate().BadRequest("Usuário não localizado");
 
-                if (request.Habiitado)
+                if (request.userDto.Habiitado)
                 {
                     usuarioHabilitar.Habilitar();
                 }

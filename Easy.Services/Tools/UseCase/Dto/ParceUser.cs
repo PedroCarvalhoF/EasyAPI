@@ -1,4 +1,5 @@
-﻿using Easy.Domain.Entities.User;
+﻿using Easy.Domain.Entities.PDV.UserPDV;
+using Easy.Domain.Entities.User;
 using Easy.Services.DTOs.User;
 
 namespace Easy.Services.Tools.UseCase.Dto;
@@ -20,6 +21,14 @@ public partial class DtoMapper
         foreach (var user in users)
         {
             yield return ParceUserDto(user);
+        }
+    }
+
+    public static IEnumerable<UserDto> ParceUsersDtos(IEnumerable<UsuarioPdvEntity> usersPdvs)
+    {
+        foreach (var user in usersPdvs)
+        {
+            yield return ParceUserDto(user.UserPdv);
         }
     }
 }

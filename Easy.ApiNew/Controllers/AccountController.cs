@@ -26,6 +26,12 @@ public class AccountController : ControllerBase
     {
         return new ReturnActionResult<UserDtoCreateResult>().ParseToActionResult(await _mediator.Send(command));
     }
+    [AllowAnonymous]
+    [HttpPut]
+    public async Task<ActionResult<RequestResult<UserDtoUpdateSenhaResult>>> AlterarSenha([FromBody] AlterarSenhaUserCommand command)
+    {
+        return new ReturnActionResult<UserDtoUpdateSenhaResult>().ParseToActionResult(await _mediator.Send(command));
+    }
 
     [AllowAnonymous]
     [HttpPost("login")]
@@ -61,4 +67,18 @@ public class AccountController : ControllerBase
     {
         return await _mediator.Send(new GetUsersQuery());
     }
+    [AllowAnonymous]
+    [HttpPost("gerar-token-recuperar-senha")]
+    public async Task<ActionResult<RequestResult<UserDtoSolicitarTokenResult>>> TokenRecuperacaoSenha([FromBody] SolicitarTokenRecuperacaoSenhaCommand command)
+    {
+        return new ReturnActionResult<UserDtoSolicitarTokenResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("recuperar-senha")]
+    public async Task<ActionResult<RequestResult<UserDtoRecuperarSenhaResult>>> RecuperacaoSenha([FromBody] SolicitarRecuperacaoSenhaCommand command)
+    {
+        return new ReturnActionResult<UserDtoRecuperarSenhaResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
 }

@@ -43,6 +43,7 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
             var result = await
                 _dbSet.AsNoTracking()
                 .FiltroCliente(filtro)
+                .Include(us => us.UserPdv)
                 .ToArrayAsync();
 
             return result;
@@ -72,6 +73,8 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
                     query = query.Where(updv => updv.Habilitado == false);
                     break;
             }
+
+            query = query.Include(us => us.UserPdv);
 
             var result = await query.ToArrayAsync();
 
