@@ -4,8 +4,8 @@ public class UserDtoSolicitarTokenResult
 {
     public string Token { get; private set; }
 
-    public UserDtoSolicitarTokenResult(string token)
+    public UserDtoSolicitarTokenResult()
     {
-        Token = token;
+        Token = "Token criado com sucesso";
     }
 }

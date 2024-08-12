@@ -1,4 +1,5 @@
 ﻿using Easy.Domain.Entities.User;
+using Easy.Services.CQRS.User.Notification;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.User;
 using MediatR;
@@ -14,7 +15,7 @@ public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicit
         Email = email;
     }
 
-    public class SolicitarTokenRecuperacaoSenhaCommandHandler(UserManager<UserEntity> _userManager) : IRequestHandler<SolicitarTokenRecuperacaoSenhaCommand, RequestResult<UserDtoSolicitarTokenResult>>
+    public class SolicitarTokenRecuperacaoSenhaCommandHandler(UserManager<UserEntity> _userManager, IMediator _mediator) : IRequestHandler<SolicitarTokenRecuperacaoSenhaCommand, RequestResult<UserDtoSolicitarTokenResult>>
     {
         public async Task<RequestResult<UserDtoSolicitarTokenResult>> Handle(SolicitarTokenRecuperacaoSenhaCommand request, CancellationToken cancellationToken)
         {
@@ -30,9 +31,11 @@ public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicit
                 // Salvar o token na tabela AspNetUserTokens
                 await _userManager.SetAuthenticationTokenAsync(user, "Default", "PasswordResetToken", token);
 
+                var notificacao = new UserEnviarTokenRecupecaoSenhaNotificacao(token);
 
+                await _mediator.Publish(notificacao);
 
-                var recuperacaoSenhaResult = new UserDtoSolicitarTokenResult(token);
+                var recuperacaoSenhaResult = new UserDtoSolicitarTokenResult();
 
                 return RequestResult<UserDtoSolicitarTokenResult>.Ok(recuperacaoSenhaResult);
             }
@@ -45,7 +48,7 @@ public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicit
 
         private string GerarToken()
         {
-         
+
             var token = Guid.NewGuid().ToString().Replace("-", string.Empty).Trim();
             var token6Char = token.Substring(0, 6);
 
