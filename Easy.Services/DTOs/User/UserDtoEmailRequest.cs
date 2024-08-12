@@ -2,13 +2,13 @@
 
 namespace Easy.Services.DTOs.User
 {
-    public class UserDtoSolicitarToken
+    public class UserDtoEmailRequest
     {
         [Required]
         [EmailAddress]
         public string Email { get; private set; }
 
-        public UserDtoSolicitarToken(string email)
+        public UserDtoEmailRequest(string email)
         {
             Email = email;
         }

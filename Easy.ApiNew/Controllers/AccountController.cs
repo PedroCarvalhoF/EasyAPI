@@ -73,12 +73,25 @@ public class AccountController : ControllerBase
     {
         return new ReturnActionResult<UserDtoSolicitarTokenResult>().ParseToActionResult(await _mediator.Send(command));
     }
-
     [AllowAnonymous]
     [HttpPost("recuperar-senha")]
     public async Task<ActionResult<RequestResult<UserDtoRecuperarSenhaResult>>> RecuperacaoSenha([FromBody] SolicitarRecuperacaoSenhaCommand command)
     {
         return new ReturnActionResult<UserDtoRecuperarSenhaResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [AllowAnonymous]
+    [HttpPut("desabilitar-usuario")]
+    public async Task<ActionResult<RequestResult<UserDtoHabilitarDesabilitarRequestResult>>> DesabilitarUsuario([FromBody] DesabilitarUserCommand command)
+    {
+        return new ReturnActionResult<UserDtoHabilitarDesabilitarRequestResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [AllowAnonymous]
+    [HttpPut("habilitar-usuario")]
+    public async Task<ActionResult<RequestResult<UserDtoHabilitarDesabilitarRequestResult>>> HabilitarrUsuario([FromBody] HabilitarUserCommand command)
+    {
+        return new ReturnActionResult<UserDtoHabilitarDesabilitarRequestResult>().ParseToActionResult(await _mediator.Send(command));
     }
 
 }

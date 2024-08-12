@@ -36,8 +36,8 @@ namespace Easy.Services.Service
             var identityUser = UserEntity.CreateUser(user.Nome, user.SobreNome, user.Email, user.Email);
 
             var result = await _userManager.CreateAsync(identityUser, user.Senha);
-            if (result.Succeeded)
-                await _userManager.SetLockoutEnabledAsync(identityUser, false);
+            //if (result.Succeeded)
+            //    await _userManager.SetLockoutEnabledAsync(identityUser, false);
 
             var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded, identityUser.Id);
             if (!result.Succeeded && result.Errors.Count() > 0)

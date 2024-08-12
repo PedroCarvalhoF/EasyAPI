@@ -34,7 +34,7 @@ namespace Easy.Services.CQRS.User.Command
                     var usuarioCadastroResponse = new UsuarioCadastroResponse(true, userCreateEntity.Id);
                     if (userCreateResult.Succeeded)
                     {
-                        await _userManager.SetLockoutEnabledAsync(userCreateEntity, false);
+                        //await _userManager.SetLockoutEnabledAsync(userCreateEntity, false);
 
                         var userCreate = await _userManager.FindByEmailAsync(request.UserCreate.Email);
 
