@@ -49,7 +49,7 @@ public class AccountController : ControllerBase
                 UsuarioLoginResponse response = new UsuarioLoginResponse();
                 response.AdicionarErro(ex.Message);
 
-                return RequestResult<UsuarioLoginResponse>.BadRequest(ex.Message);
+                return RequestResult<UsuarioLoginResponse>.BadRequest(response);
             }
 
         }

@@ -31,7 +31,7 @@ public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicit
                 // Salvar o token na tabela AspNetUserTokens
                 await _userManager.SetAuthenticationTokenAsync(user, "Default", "PasswordResetToken", token);
 
-                var notificacao = new UserEnviarTokenRecupecaoSenhaNotificacao(token);
+                var notificacao = new UserEnviarTokenRecupecaoSenhaNotificacao(token, request.Email.Email);
 
                 await _mediator.Publish(notificacao);
 

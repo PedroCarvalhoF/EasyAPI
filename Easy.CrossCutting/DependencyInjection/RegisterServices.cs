@@ -27,6 +27,7 @@ using Easy.InfrastructureData.Repository.Produto.Categoria;
 using Easy.InfrastructureData.Repository.UserMasterCliente;
 using Easy.InfrastructureData.Repository.UserMasterUser;
 using Easy.Services.Service;
+using Easy.Services.Service.UsuarioPontoPdv;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -59,6 +60,9 @@ namespace Easy.CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>), typeof(PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPedidoRepository<PedidoEntity, FiltroBase>), typeof(PedidoRepository));
 
+            //TESTE SERVICE
+            //caso utilize deste modo CQRS não sera necessario ???? 
+            serviceCollection.AddScoped<IUsuarioPdvService, UsuarioPdvService>();
 
             var myhandlers = AppDomain.CurrentDomain.Load("Easy.Services");
             serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));
