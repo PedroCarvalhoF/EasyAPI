@@ -33,7 +33,7 @@ namespace Easy.Services.Service
 
         public async Task<RequestResult<UsuarioCadastroResponse>> CadastrarUsuario(UsuarioCadastroRequest user)
         {
-            var identityUser = UserEntity.CreateUser(user.Nome, user.SobreNome, user.Email, user.Email);
+            var identityUser = UserEntity.CreateUser(user.Nome, user.SobreNome, user.Email, user.Email, user.ImageName);
 
             var result = await _userManager.CreateAsync(identityUser, user.Senha);
             //if (result.Succeeded)

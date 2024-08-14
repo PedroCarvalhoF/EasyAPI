@@ -1,11 +1,14 @@
 ﻿using Easy.Api.Tools;
+using Easy.Domain.Entities.User;
 using Easy.Services.CQRS.User.Command;
 using Easy.Services.CQRS.User.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.User;
 using Easy.Services.DTOs.UserIdentity;
+using Easy.Services.Tools.ImageUrls;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easy.ApiNew.Controllers;
@@ -92,6 +95,49 @@ public class AccountController : ControllerBase
     public async Task<ActionResult<RequestResult<UserDtoHabilitarDesabilitarRequestResult>>> HabilitarrUsuario([FromBody] HabilitarUserCommand command)
     {
         return new ReturnActionResult<UserDtoHabilitarDesabilitarRequestResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [HttpPut("update-nome-sobrenome")]
+    public async Task<ActionResult<RequestResult<UserDto>>> UpdateNomeSobreNome([FromBody] UserCommandUpdateNomeSobreNome command)
+    {
+        return new ReturnActionResult<UserDto>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [AllowAnonymous]
+    [HttpPost("upload-image/{userId}")]
+
+    public async Task<ActionResult<RequestResult<UserDtoImageResult>>> UploadImage([FromServices] UserManager<UserEntity> _userManager, [FromServices] IUtil _util, Guid userId)
+    {
+        try
+        {
+            if (!Request.HasFormContentType)
+            {
+                return RequestResult<UserDtoImageResult>.BadRequest("Arquivo não localizado");
+            }
+
+            string _destino = "Perfil";
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user == null) return NoContent();
+
+            var file = Request.Form.Files[0];
+            if (file.Length > 0)
+            {
+                _util.DeleteImage(user.ImagemURL, _destino);
+                user.AlterarUrlImage(await _util.SaveImage(file, _destino));
+            }
+            var userRetorno = await _userManager.UpdateAsync(user);
+
+            var userAlterado = await _userManager.FindByEmailAsync(user.Email!);
+
+            var result = new UserDtoImageResult(userAlterado!.Id, userAlterado.ImagemURL!, userAlterado!.Email!);
+
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar realizar upload de Foto do Usuário. Erro: {ex.Message}");
+        }
     }
 
 }

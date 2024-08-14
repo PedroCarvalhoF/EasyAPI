@@ -59,7 +59,7 @@ if (!Directory.Exists(resourcesPath))
 
 app.UseStaticFiles(new StaticFileOptions()
 {
-    FileProvider = new PhysicalFileProvider(resourcesPath),
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Resources")),
     RequestPath = new PathString("/Resources")
 });
 

@@ -11,7 +11,7 @@ namespace Easy.ApiNew.Extensions
         public static void AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtOptions = configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions.SecurityKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtOptions!.SecurityKey));
 
             services.Configure<JwtOptions>(options =>
             {

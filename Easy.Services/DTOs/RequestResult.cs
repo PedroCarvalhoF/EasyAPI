@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.Http.HttpResults;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 namespace Easy.Services.DTOs
 {
     public class RequestResult<T> where T : class
@@ -31,8 +34,7 @@ namespace Easy.Services.DTOs
             else
                 Mensagem = mensagem;
             Data = null;
-        }
-
+        }       
 
         public static RequestResult<T> Ok(T data = null, string? mensagem = "Requesição realizada com sucesso.")
         => new RequestResult<T>(data, mensagem);

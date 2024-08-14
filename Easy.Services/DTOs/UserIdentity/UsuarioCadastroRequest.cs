@@ -21,5 +21,7 @@ namespace Easy.Services.DTOs.UserIdentity
         [Compare(nameof(Senha), ErrorMessage = "As senhas devem ser iguais")]
         public string? SenhaConfirmacao { get; set; }
 
+        public string ImageName { get; set; }
+
     }
 }

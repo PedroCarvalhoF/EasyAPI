@@ -28,6 +28,7 @@ using Easy.InfrastructureData.Repository.UserMasterCliente;
 using Easy.InfrastructureData.Repository.UserMasterUser;
 using Easy.Services.Service;
 using Easy.Services.Service.UsuarioPontoPdv;
+using Easy.Services.Tools.ImageUrls;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -42,7 +43,7 @@ namespace Easy.CrossCutting.DependencyInjection
         {
             serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-
+            serviceCollection.AddTransient<IUtil, Util>();
             IdentityConfiguration.Configurar(serviceCollection, configuration);
 
 

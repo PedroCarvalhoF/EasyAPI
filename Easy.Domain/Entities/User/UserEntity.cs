@@ -9,7 +9,7 @@ namespace Easy.Domain.Entities.User
     public class UserEntity : IdentityUser<Guid>
     {
         public UserEntity() { }
-        public UserEntity(string nome, string sobreNome, string userName, string email)
+        public UserEntity(string nome, string sobreNome, string userName, string email, string imageName = "sem-foto.png")
         {
             DomainValidation.When(string.IsNullOrEmpty(nome), "Informe o nome");
             DomainValidation.When(string.IsNullOrEmpty(sobreNome), "Informe o sobre nome");
@@ -21,7 +21,14 @@ namespace Easy.Domain.Entities.User
             UserName = email;
             Email = email;
             EmailConfirmed = true;
-            ImagemURL = string.Empty;
+
+
+            if (string.IsNullOrEmpty(imageName))
+            {
+                ImagemURL = "sem-foto.png";
+            }
+            else
+                ImagemURL = imageName;
         }
 
         public string Nome { get; private set; }
@@ -32,7 +39,18 @@ namespace Easy.Domain.Entities.User
         public virtual UserMasterUserEntity? UserMasterUser { get; private set; }
         public virtual UsuarioPdvEntity? UsuarioPdv { get; private set; }
 
-        public static UserEntity CreateUser(string nome, string sobreNome, string userName, string email)
-            => new UserEntity(nome, sobreNome, userName, email);
+        public static UserEntity CreateUser(string nome, string sobreNome, string userName, string email, string imageName)
+            => new UserEntity(nome, sobreNome, userName, email, imageName);
+
+        public void AlterarNomeSobreNome(string nome, string sobreNome)
+        {
+            Nome = nome;
+            SobreNome = sobreNome;
+        }
+
+        public void AlterarUrlImage(string imageUrl)
+        {
+            ImagemURL = imageUrl;
+        }
     }
 }

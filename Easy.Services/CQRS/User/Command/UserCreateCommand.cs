@@ -27,7 +27,7 @@ namespace Easy.Services.CQRS.User.Command
                     if (userExists != null)
                         return RequestResult<UserDtoCreateResult>.BadRequest("E-mail já esta em uso");
 
-                    var userCreateEntity = UserEntity.CreateUser(request.UserCreate.Nome, request.UserCreate.SobreNome, request.UserCreate.Email, request.UserCreate.Email);
+                    var userCreateEntity = UserEntity.CreateUser(request.UserCreate.Nome, request.UserCreate.SobreNome, request.UserCreate.Email, request.UserCreate.Email, request.UserCreate.ImagemName);
 
                     var userCreateResult = await _userManager.CreateAsync(userCreateEntity, request.UserCreate.Senha);
 

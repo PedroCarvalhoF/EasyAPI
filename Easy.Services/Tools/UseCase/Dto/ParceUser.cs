@@ -12,7 +12,8 @@ public partial class DtoMapper
             Email = user.Email,
             Id = user.Id,
             Nome = user.Nome,
-            SobreNome = user.SobreNome
+            SobreNome = user.SobreNome,
+            ImagemUrl = user.ImagemURL
         };
     }
 
