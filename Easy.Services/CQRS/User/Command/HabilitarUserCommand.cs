@@ -8,9 +8,9 @@ namespace Easy.Services.CQRS.User.Command;
 
 public class HabilitarUserCommand : BaseCommands<UserDtoHabilitarDesabilitarRequestResult>
 {
-    public UserDtoEmailRequest User { get; private set; }
+    public UserDtoRequestEmail User { get; private set; }
 
-    public HabilitarUserCommand(UserDtoEmailRequest user)
+    public HabilitarUserCommand(UserDtoRequestEmail user)
     {
         User = user;
     }

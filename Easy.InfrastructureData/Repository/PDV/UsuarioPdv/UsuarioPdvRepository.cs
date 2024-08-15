@@ -95,6 +95,7 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
             var result = await
                 _dbSet.AsNoTracking()
                 .FiltroCliente(filtro)
+                .Include(u => u.UserPdv)
                 .SingleOrDefaultAsync(updv => updv.UserPdvId == idUsuarioPdv);
 
             return result;

@@ -9,8 +9,8 @@ namespace Easy.Services.CQRS.User.Command;
 
 public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicitarTokenResult>
 {
-    public UserDtoEmailRequest Email { get; private set; }
-    public SolicitarTokenRecuperacaoSenhaCommand(UserDtoEmailRequest email)
+    public UserDtoRequestEmail Email { get; private set; }
+    public SolicitarTokenRecuperacaoSenhaCommand(UserDtoRequestEmail email)
     {
         Email = email;
     }

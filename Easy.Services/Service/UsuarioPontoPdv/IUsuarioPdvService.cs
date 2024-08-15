@@ -6,5 +6,7 @@ namespace Easy.Services.Service.UsuarioPontoPdv;
 
 public interface IUsuarioPdvService
 {
-    Task<RequestResult<UserDto>> UsuarioPdvCreateCommand(UsuarioPdvCreateCommand usuarioPdvCreateCommand);
+    Task<RequestResult<UserDto>> UsuarioPdvCreateCommand(UsuarioPdvCommandCreate command);
+    Task<RequestResult<UserDto>> HabilitarDesabilitarCommand(UsuarioPdvCommandHabilitarDesabilitar command);
+
 }

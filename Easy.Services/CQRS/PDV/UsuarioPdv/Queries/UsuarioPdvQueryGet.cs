@@ -8,12 +8,12 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.UsuarioPdv.Queries;
 
-public class GetUsuarioPdv : BaseCommands<IEnumerable<UserDto>>
+public class UsuarioPdvQueryGet : BaseCommands<IEnumerable<UserDto>>
 {
     public UsuarioPdvFiltroEnum UsuarioPdvFiltroEnum { get; set; }
-    public class GetUsuarioPdvHandler(IUnitOfWork _repository) : IRequestHandler<GetUsuarioPdv, RequestResult<IEnumerable<UserDto>>>
+    public class GetUsuarioPdvHandler(IUnitOfWork _repository) : IRequestHandler<UsuarioPdvQueryGet, RequestResult<IEnumerable<UserDto>>>
     {
-        public async Task<RequestResult<IEnumerable<UserDto>>> Handle(GetUsuarioPdv request, CancellationToken cancellationToken)
+        public async Task<RequestResult<IEnumerable<UserDto>>> Handle(UsuarioPdvQueryGet request, CancellationToken cancellationToken)
         {
             try
             {

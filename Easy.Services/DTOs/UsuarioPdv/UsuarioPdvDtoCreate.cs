@@ -2,5 +2,10 @@
 
 public class UsuarioPdvDtoCreate
 {
-    public Guid UserPdvId { get; set; }
+    public Guid UserPdvId { get; private set; }
+
+    public UsuarioPdvDtoCreate(Guid userPdvId)
+    {
+        UserPdvId = userPdvId;
+    }
 }
