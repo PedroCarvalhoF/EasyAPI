@@ -49,7 +49,7 @@ public class AccountController : ControllerBase
             catch (Exception ex)
             {
 
-                UsuarioLoginResponse response = new UsuarioLoginResponse();
+                UsuarioLoginResponse response = new();
                 response.AdicionarErro(ex.Message);
 
                 return RequestResult<UsuarioLoginResponse>.BadRequest(response);

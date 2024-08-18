@@ -52,7 +52,7 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
         }
     }
 
-    public async Task<T>? SelectAsync(Guid idProduto, Guid idCategoriaPreco, F userFiltro)
+    public async Task<PrecoProdutoEntity> SelectAsync(Guid idProduto, Guid idCategoriaPreco, F userFiltro)
     {
         try
         {
@@ -65,10 +65,7 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
 
             var result = await query.SingleOrDefaultAsync();
 
-            if (result == null)
-                return result;
-
-            return result;
+            return result ?? new PrecoProdutoEntity();
         }
         catch (Exception ex)
         {
@@ -80,7 +77,7 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
     {
         try
         {
-            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(userFiltro).Where(preco_produto => preco_produto.Produto.Id == idProduto);
+            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(userFiltro).Where(preco_produto => preco_produto.Produto!.Id == idProduto);
 
             if (typeof(T) == typeof(PrecoProdutoEntity))
             {
@@ -98,7 +95,7 @@ public class PrecoProdutoRepository<T, F> : IPrecoProdutoRepository<T, F> where 
         }
     }
 
-    public async Task<T> UpdatePreco(T item, F userFiltro)
+    public async Task<PrecoProdutoEntity> UpdatePreco(T item, F userFiltro)
     {
         try
         {

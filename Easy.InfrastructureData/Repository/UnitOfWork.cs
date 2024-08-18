@@ -119,7 +119,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         get
         {
             return _categoriaPrecoRepository = _categoriaPrecoRepository ??
-                new CategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase>(_context);
+                new CategoriaPrecoRepository(_context);
         }
     }
     public IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> PrecoProdutoRepository

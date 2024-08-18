@@ -2,11 +2,15 @@
 
 public class CategoriaPrecoDto
 {
-    public Guid Id { get; set; }
-    public DateTime CreateAt { get; set; }
-    public DateTime? UpdateAt { get; set; }
-    public bool Habilitado { get; set; }
-    public int Codigo { get; set; }
-    public string DescricaoCategoriaPreco { get; set; }
-
+    public Guid Id { get; private set; }
+    public bool Habilitado { get; private set; }
+    public int Codigo { get; private set; }
+    public string DescricaoCategoriaPreco { get; private set; }
+    public CategoriaPrecoDto(Guid id, bool habilitado, int codigo, string descricaoCategoriaPreco)
+    {
+        Id = id;
+        Habilitado = habilitado;
+        Codigo = codigo;
+        DescricaoCategoriaPreco = descricaoCategoriaPreco;
+    }
 }

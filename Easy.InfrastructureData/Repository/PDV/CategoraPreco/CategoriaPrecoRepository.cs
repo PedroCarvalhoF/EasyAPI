@@ -3,28 +3,68 @@ using Easy.Domain.Entities.PDV.CategoriaPreco;
 using Easy.Domain.Intefaces.Repository.PDV.CategoriaPreco;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
+using Easy.InfrastructureData.Tools.CategoriaPreco;
 using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.CategoraPreco;
 
-public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> where T : CategoriaPrecoEntity where F : FiltroBase
+public class CategoriaPrecoRepository : ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase>
 {
-    protected readonly MyContext _contexto;
+    protected readonly MyContext _context;
     private readonly DbSet<CategoriaPrecoEntity> _dbSet;
     public CategoriaPrecoRepository(MyContext contexto)
     {
-        _contexto = contexto;
+        _context = contexto;
         _dbSet = contexto.Set<CategoriaPrecoEntity>();
     }
 
-    public async Task<bool> CodigoDescricaoExists(int codigo, string descricao, F filtro)
+    public async Task<IEnumerable<CategoriaPrecoEntity>> GetAllAsync(FiltroBase filtro)
     {
         try
         {
-            var result = await _dbSet
-                                .AsNoTracking()
-                                .FiltroCliente(filtro)
-                                .AnyAsync(c => c.DescricaoCategoriaPreco.ToLower() == descricao.ToLower() || c.Codigo == codigo);
+            IQueryable<CategoriaPrecoEntity> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
+
+            query = CategoriaPrecoExtensionsInclude.FullInclude(query);
+
+            query = query.OrderBy(cat => cat.DescricaoCategoriaPreco);
+
+            var result = await query.ToArrayAsync();
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+    }
+    public async Task<CategoriaPrecoEntity> GetByIdAsync(Guid id, FiltroBase filtro)
+    {
+        try
+        {
+            IQueryable<CategoriaPrecoEntity> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
+
+            query = CategoriaPrecoExtensionsInclude.FullInclude(query);
+
+            var result = await query.SingleAsync(cat => cat.Id == id) ?? new CategoriaPrecoEntity();
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+    }
+    public async Task<CategoriaPrecoEntity> GetByCodigoAsync(int codigo, FiltroBase filtro)
+    {
+        try
+        {
+            IQueryable<CategoriaPrecoEntity> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
+
+            query = CategoriaPrecoExtensionsInclude.FullInclude(query);
+
+            var result = await query.SingleOrDefaultAsync(cat => cat.Codigo == codigo) ?? new CategoriaPrecoEntity();
 
             return result;
         }
@@ -35,22 +75,17 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
         }
     }
 
-    public async Task<bool> DeleteAsync(Guid id, F userFiltro)
+    public async Task<CategoriaPrecoEntity> GetByDescricaoCategoriaAsync(string descricao, FiltroBase filtro)
     {
         try
         {
-            var categoria = await _dbSet
-                            .AsNoTracking()
-                            .FiltroCliente(userFiltro)
-                            .SingleOrDefaultAsync(c => c.Id == id);
+            IQueryable<CategoriaPrecoEntity> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
 
-            var result = _contexto.CategoriasPrecos.Remove(categoria);
+            query = CategoriaPrecoExtensionsInclude.FullInclude(query);
 
-            if (result == null)
-                return await Task.FromResult(false);
+            var result = await query.SingleOrDefaultAsync(cat => cat.DescricaoCategoriaPreco == descricao) ?? new CategoriaPrecoEntity();
 
-            return await Task.FromResult(true);
-
+            return result;
         }
         catch (Exception ex)
         {
@@ -58,16 +93,11 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
             throw new Exception(ex.Message);
         }
     }
-
-    public async Task<CategoriaPrecoEntity> InsertAsync(T item, F filtro)
+    public async Task<CategoriaPrecoEntity> InsertAsync(CategoriaPrecoEntity item, FiltroBase filtro)
     {
         try
         {
-            var codigoDescricaoExists = await CodigoDescricaoExists(item.Codigo, item.DescricaoCategoriaPreco, filtro);
-            if (codigoDescricaoExists)
-                throw new ArgumentException("Código e descrição precisam ser unicos");
-
-            await _contexto.AddAsync(item);
+            await _context.AddAsync(item);
             return item;
         }
         catch (Exception ex)
@@ -77,39 +107,11 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
         }
     }
 
-    public async Task<CategoriaPrecoEntity> SelectAsync(Guid id, F filtro)
+    public CategoriaPrecoEntity UpdateAsync(CategoriaPrecoEntity item, FiltroBase filtro)
     {
         try
         {
-            return await _dbSet
-                //.AsNoTracking()
-                .FiltroCliente(filtro)
-                .SingleOrDefaultAsync(c => c.Id == id) ?? new CategoriaPrecoEntity();
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
-    }
-
-    public async Task<IEnumerable<CategoriaPrecoEntity>> SelectAsync(F filtro)
-    {
-        return await _dbSet
-            .AsNoTracking()
-            .FiltroCliente(filtro)
-            .OrderBy(cat => cat.DescricaoCategoriaPreco)
-            .ToArrayAsync();
-    }
-
-    public async Task<CategoriaPrecoEntity> UpdateAsync(T item, F filtro)
-    {
-        try
-        {
-            var result = await _dbSet.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
-            item.DataCriacao(result!.CreateAt);
-            _contexto.Entry(result).CurrentValues.SetValues(item);
-            _contexto.Update(item);
+            _context.Update(item);
             return item;
         }
         catch (Exception ex)
@@ -118,4 +120,5 @@ public class CategoriaPrecoRepository<T, F> : ICategoriaPrecoRepository<T, F> wh
             throw new Exception(ex.Message);
         }
     }
+
 }

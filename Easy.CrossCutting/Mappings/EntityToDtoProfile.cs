@@ -30,7 +30,6 @@ namespace Easy.CrossCutting.Mappings
             CreateMap<ProdutoDto, ProdutoEntity>().ReverseMap();
 
             //Categoria de Preço
-            CreateMap<CategoriaPrecoDtoView, CategoriaPrecoEntity>().ReverseMap();
             CreateMap<CategoriaPrecoEntity, CategoriaPrecoDto>().ReverseMap();
         }
     }

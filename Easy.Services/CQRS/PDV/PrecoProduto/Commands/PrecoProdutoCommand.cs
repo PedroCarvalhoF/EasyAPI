@@ -9,7 +9,7 @@ namespace Easy.Services.CQRS.PDV.PrecoProduto.Commands;
 
 public class PrecoProdutoCommand : BaseCommands<PrecoProdutoDtoView>
 {
-    public PrecoProdutoDtoCreate PrecoProdutoDtoCreate { get; set; }
+    public required PrecoProdutoDtoCreate PrecoProdutoDtoCreate { get; set; }
 
     public class PrecoProdutoCommandHandler(IUnitOfWork _repository) : IRequestHandler<PrecoProdutoCommand, RequestResult<PrecoProdutoDtoView>>
     {

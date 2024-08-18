@@ -4,7 +4,6 @@ using Easy.Services.CQRS.PDV.CategoriaPreco.Commands;
 using Easy.Services.CQRS.PDV.CategoriaPreco.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.CategoriaPreco;
-using Easy.Services.DTOs.CategoriaProduto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,34 +22,32 @@ public class CategoriaPrecoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoriaProdutoDtoView>>> GetAsync()
+    public async Task<ActionResult<IEnumerable<CategoriaPrecoDto>>> GetCategoriasPrecosAsync()
     {
         var getCommand = new GetCategoriasPrecosQueries();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<IEnumerable<CategoriaPrecoDtoView>>().ParseToActionResult(await _mediator.Send(getCommand));
+        return new ReturnActionResult<IEnumerable<CategoriaPrecoDto>>().ParseToActionResult(await _mediator.Send(getCommand));
     }
 
-    [HttpGet("{id}/")]
+    [HttpGet("by-id")]
 
-    public async Task<ActionResult<RequestResult<CategoriaPrecoDto>>> GetByIdAsync(Guid id)
+    public async Task<ActionResult<RequestResult<CategoriaPrecoDto>>> GetByIdAsync([FromBody] GetCategoriaPrecoByIdQuery command)
     {
-        var getCommand = new GetCategoriaPrecoByIdQuery();
-        getCommand.Id = id;
-        getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<CategoriaPrecoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResult<CategoriaPrecoDtoView>>> CreateAsync([FromBody] CategoriaPrecoCreateCommand command)
+    public async Task<ActionResult<RequestResult<CategoriaPrecoDto>>> CreateAsync([FromBody] CategoriaPrecoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<CategoriaPrecoDtoView>().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<CategoriaPrecoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPut]
-    public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] CategoriaPrecoUpdateCommand command)
+    public async Task<ActionResult<RequestResult<CategoriaPrecoDto>>> UpdateAsync([FromBody] CategoriaPrecoUpdateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<CategoriaPrecoDtoView>().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<CategoriaPrecoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 }
