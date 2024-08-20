@@ -29,5 +29,9 @@ public class FormaPagamentoCreateCommandHandler(IUnitOfWork _repository) : IRequ
 
             return new RequestResultForUpdate().BadRequest(ex.Message);
         }
+        finally
+        {
+            _repository.FinalizarContexto();
+        }
     }
 }

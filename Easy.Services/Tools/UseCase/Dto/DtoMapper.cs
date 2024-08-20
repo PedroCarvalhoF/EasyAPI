@@ -2,4 +2,5 @@
 
 public static partial class DtoMapper
 {
+  
 }

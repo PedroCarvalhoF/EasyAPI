@@ -67,6 +67,16 @@ namespace Easy.Domain.Entities
         {
             UpdateAt = DateTime.Now;
         }
+        public void HabilitarEntidade()
+        {
+            Habilitado = true;
+            UpdateAt = DateTime.Now;
+        }
+        public void DesabilitarEntidade()
+        {
+            Habilitado = false;
+            UpdateAt = DateTime.Now;
+        }
 
     }
 }

@@ -1,45 +1,49 @@
 ﻿using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.PeriodoPdv;
+using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Periodo.Commands;
 
-public class PeriodoPdvCreateCommand : BaseCommandsForUpdate
+public class PeriodoPdvCreateCommand : BaseCommands<PeriodoPdvDto>
 {
-    public string DescricaoPeriodo { get; private set; }
-    public PeriodoPdvCreateCommand(string descricaoPeriodo)
-    {
-        DescricaoPeriodo = descricaoPeriodo;
-    }
+    public required PeriodoPdvDtoCreate PeriodoPdvDtoCreate { get; set; }
 
-    public class PeriodoPdvCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PeriodoPdvCreateCommand, RequestResultForUpdate>
+    public class PeriodoPdvCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PeriodoPdvCreateCommand, RequestResult<PeriodoPdvDto>>
     {
-        public async Task<RequestResultForUpdate> Handle(PeriodoPdvCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<PeriodoPdvDto>> Handle(PeriodoPdvCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var filtro = request.GetFiltro();
-                var periodoEnittyCreate = PeriodoPdvEntity.Create(request.DescricaoPeriodo, request.GetFiltro());
+                var periodoEnittyCreate = PeriodoPdvEntity.Create(request.PeriodoPdvDtoCreate.DescricaoPeriodo, request.GetFiltro());
                 if (!periodoEnittyCreate.Validada)
-                    return new RequestResultForUpdate().EntidadeInvalida();
+                    return RequestResult<PeriodoPdvDto>.BadRequest();
 
-                var periodoExists = await _repository.PeriodoPdvRepository.SelectAsync(request.DescricaoPeriodo, filtro);
-                if (periodoExists != null)
-                    return new RequestResultForUpdate().BadRequest("Descrição do período está em uso.");
+
+                var periodoExists = await _repository.PeriodoPdvRepository.SelectAsync(request.PeriodoPdvDtoCreate.DescricaoPeriodo, filtro);
+                if (periodoExists.Id !=Guid.Empty)
+                    return RequestResult<PeriodoPdvDto>.BadRequest("Descrição do período já esta em uso.");
 
                 await _repository.PeriodoPdvRepository.InsertAsync(periodoEnittyCreate, filtro);
 
                 if (!await _repository.CommitAsync())
-                    return new RequestResultForUpdate().BadRequest();
+                    return RequestResult<PeriodoPdvDto>.BadRequest();
 
-                return new RequestResultForUpdate().Ok("Período criado com sucesso");
+                PeriodoPdvDto dto = DtoMapper.ParcePeriodoPdvDto(periodoEnittyCreate);
+
+                return RequestResult<PeriodoPdvDto>.Ok(dto);
 
             }
             catch (Exception ex)
             {
-
-                return new RequestResultForUpdate().BadRequest(ex.Message);
+                return RequestResult<PeriodoPdvDto>.BadRequest(ex.Message);
+            }
+            finally
+            {
+                _repository.FinalizarContexto();
             }
         }
     }

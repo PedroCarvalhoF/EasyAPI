@@ -36,6 +36,10 @@ public class CategoriaPrecoUpdateCommand : BaseCommands<CategoriaPrecoDto>
             {
                 return RequestResult<CategoriaPrecoDto>.BadRequest(ex.Message);
             }
+            finally
+            {
+                _repository.FinalizarContexto();
+            }
         }
     }
 

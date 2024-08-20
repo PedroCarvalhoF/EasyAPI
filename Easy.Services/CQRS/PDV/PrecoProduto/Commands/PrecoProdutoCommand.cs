@@ -22,7 +22,7 @@ public class PrecoProdutoCommand : BaseCommands<PrecoProdutoDtoView>
                 var precoProdutoExists = await
                     _repository.PrecoProdutoRepository.SelectAsync(request.PrecoProdutoDtoCreate.ProdutoEntityId, request.PrecoProdutoDtoCreate.CategoriaPrecoEntityId, users);
 
-                if (precoProdutoExists is null)
+                if (precoProdutoExists.Id == Guid.Empty)
                 {
                     var precoProdutoCreate = PrecoProdutoEntity.Create(request.PrecoProdutoDtoCreate.ProdutoEntityId, request.PrecoProdutoDtoCreate.CategoriaPrecoEntityId, request.PrecoProdutoDtoCreate.Preco, users);
 
@@ -35,7 +35,7 @@ public class PrecoProdutoCommand : BaseCommands<PrecoProdutoDtoView>
                         var precoEntity = await _repository.PrecoProdutoRepository.SelectAsync(precoProdutoCreate.ProdutoEntityId, precoProdutoCreate.CategoriaPrecoEntityId, users);
 
 
-                        _repository.FinalizarContexto();
+
                         return RequestResult<PrecoProdutoDtoView>.Ok(DtoMapper.ParcePrecoProduto(precoEntity));
                     }
 
@@ -51,9 +51,7 @@ public class PrecoProdutoCommand : BaseCommands<PrecoProdutoDtoView>
                     if (await _repository.CommitAsync())
                     {
                         var precoEntity = await _repository.PrecoProdutoRepository.SelectAsync(precoProdutoUpdate.ProdutoEntityId, precoProdutoUpdate.CategoriaPrecoEntityId, users);
-
-
-                        _repository.FinalizarContexto();
+                        
                         return RequestResult<PrecoProdutoDtoView>.Ok(DtoMapper.ParcePrecoProduto(precoEntity));
                     }
                 }
@@ -66,6 +64,10 @@ public class PrecoProdutoCommand : BaseCommands<PrecoProdutoDtoView>
             {
 
                 return RequestResult<PrecoProdutoDtoView>.BadRequest(ex.Message);
+            }
+            finally
+            {
+                _repository.FinalizarContexto();
             }
         }
     }

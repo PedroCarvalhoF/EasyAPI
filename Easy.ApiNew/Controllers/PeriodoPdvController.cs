@@ -3,6 +3,7 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.Periodo.Commands;
 using Easy.Services.CQRS.PDV.Periodo.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.PeriodoPdv;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,34 +22,32 @@ public class PeriodoPdvController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResultForUpdate>> GetAsync()
+    public async Task<ActionResult<IEnumerable<PeriodoPdvDto>>> GetPeriodoPdvAsync()
     {
-        var getCommand = new GetPeriodoPdvQueries();
-        getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
+        var command = new GetPeriodoPdvQueries();
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<IEnumerable<PeriodoPdvDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    [HttpGet("{id}/")]
+    [HttpPost("by-id")]
 
-    public async Task<ActionResult<RequestResultForUpdate>> GetByIdAsync(Guid id)
+    public async Task<ActionResult<PeriodoPdvDto>> GetPeriodoPdvByIdAsync([FromBody] GetPeriodoPdvByIdQuery command)
     {
-        var getCommand = new GetPeriodoPdvByIdQuery();
-        getCommand.Id = id;
-        getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PeriodoPdvCreateCommand command)
+    public async Task<ActionResult<PeriodoPdvDto>> CreatePeriodoPdvAsync([FromBody] PeriodoPdvCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    [HttpPut]
-    public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] PeriodoPdvUpdateCommand command)
+    [HttpPost("habilitar-desabilitar")]
+    public async Task<ActionResult<PeriodoPdvDto>> HabilitarDesabilitarPeriodoPdvAsync([FromBody] PeriodoPdvHabilitarDesabilitarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
     }
 }
