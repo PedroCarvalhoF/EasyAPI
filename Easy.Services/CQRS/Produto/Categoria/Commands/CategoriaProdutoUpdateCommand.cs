@@ -37,7 +37,7 @@ public class CategoriaProdutoUpdateCommand : BaseCommands<CategoriaProdutoDtoVie
                 if (!categoriaProdutoForUpdate.Validada)
                     return RequestResult<CategoriaProdutoDtoView>.BadRequest("Entidade inválida.");
 
-                await _repository.CategoriaProdutoBaseRepository.UpdateAsync(categoriaProdutoForUpdate, filtro);
+                 _repository.CategoriaProdutoBaseRepository.Update(categoriaProdutoForUpdate);
                 if (!await _repository.CommitAsync())
                     return RequestResult<CategoriaProdutoDtoView>.BadRequest("Não foi possível alterar categoria do produto.");
 

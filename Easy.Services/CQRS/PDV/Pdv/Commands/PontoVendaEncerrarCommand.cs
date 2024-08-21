@@ -21,7 +21,7 @@ public class PontoVendaEncerrarCommand : BaseCommandsForUpdate
                 if (!pdvSelecionado.Validada)
                     return new RequestResultForUpdate().EntidadeInvalida();
 
-                await _repository.PontoVendaBaseRepository.UpdateAsync(pdvSelecionado, request.GetFiltro());
+                 _repository.PontoVendaBaseRepository.Update(pdvSelecionado);
                 if (await _repository.CommitAsync())
                     return new RequestResultForUpdate().Ok();
 

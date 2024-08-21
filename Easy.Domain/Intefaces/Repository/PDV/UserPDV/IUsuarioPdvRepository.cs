@@ -6,10 +6,11 @@ namespace Easy.Domain.Intefaces.Repository.PDV.UserPDV;
 
 public interface IUsuarioPdvRepository<T, F> where T : UsuarioPdvEntity where F : FiltroBase
 {
-    Task<T> InsertAsync(T item, F filtro);
-    Task<T> UpdateAsync(T item, F filtro);
+    Task<T> InsertAsync(T item);
+    T UpdateAsync(T item, F filtro);
+    Task<T> SelectByIdUsuarioPdvAsync(Guid idUsuarioPdv, F filtro);
     Task<IEnumerable<T>> SelectAsync(F filtro);
     Task<IEnumerable<T>> SelectAsync(UsuarioPdvFiltroEnum filtroEnum, F filtro);
-    Task<T>? SelectByIdUsuarioPdvAsync(Guid idUsuarioPdv, F filtro);
+    
 
 }

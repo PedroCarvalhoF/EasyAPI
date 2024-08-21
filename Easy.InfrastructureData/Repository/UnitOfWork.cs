@@ -64,11 +64,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IItemPedidoRepository<ItemPedidoEntity, FiltroBase> _itemPedidoRepository;
     private IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase> _pagamentoPedidoRepository;
 
-    private IBaseRepository<CategoriaProdutoEntity> _categoriaProdutoBaseRepository;
-    private IBaseRepository<PontoVendaEntity> _pontoVendaBaseRepository;
-    private IBaseRepository<PedidoEntity> _pedidoBaseRepository;
-    private IBaseRepository<ItemPedidoEntity> _itemPedidoBaseRepository;
-    private IBaseRepository<PagamentoPedidoEntity> _pagamentoPedidoBaseRepository;
+    private IBaseRepository<CategoriaProdutoEntity, FiltroBase> _categoriaProdutoBaseRepository;
+    private IBaseRepository<PontoVendaEntity, FiltroBase> _pontoVendaBaseRepository;
+    private IBaseRepository<PedidoEntity, FiltroBase> _pedidoBaseRepository;
+    private IBaseRepository<ItemPedidoEntity, FiltroBase> _itemPedidoBaseRepository;
+    private IBaseRepository<PagamentoPedidoEntity, FiltroBase> _pagamentoPedidoBaseRepository;
     public UnitOfWork(MyContext context)
     {
         _context = context;
@@ -156,20 +156,20 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
 
     //TEMP TESTE CATEGORIA COM BASE REPOSITORY
-    public IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository
+    public IBaseRepository<CategoriaProdutoEntity,FiltroBase> CategoriaProdutoBaseRepository
     {
         get
         {
             return _categoriaProdutoBaseRepository = _categoriaProdutoBaseRepository ??
-                new BaseRepository<CategoriaProdutoEntity>(_context);
+                new BaseRepository<CategoriaProdutoEntity,FiltroBase>(_context);
         }
     }
-    public IBaseRepository<PontoVendaEntity> PontoVendaBaseRepository
+    public IBaseRepository<PontoVendaEntity,FiltroBase> PontoVendaBaseRepository
     {
         get
         {
             return _pontoVendaBaseRepository = _pontoVendaBaseRepository ??
-                new BaseRepository<PontoVendaEntity>(_context);
+                new BaseRepository<PontoVendaEntity,FiltroBase>(_context);
         }
     }
     public IPedidoRepository<PedidoEntity, FiltroBase> PedidoRepository
@@ -180,12 +180,12 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new PedidoRepository(_context);
         }
     }
-    public IBaseRepository<PedidoEntity> PedidoBaseRepository
+    public IBaseRepository<PedidoEntity, FiltroBase> PedidoBaseRepository
     {
         get
         {
             return _pedidoBaseRepository = _pedidoBaseRepository ??
-                new BaseRepository<PedidoEntity>(_context);
+                new BaseRepository<PedidoEntity,FiltroBase>(_context);
         }
     }
     public IItemPedidoRepository<ItemPedidoEntity, FiltroBase> ItemPedidoRepository
@@ -196,7 +196,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new ItemPedidoRepository(_context);
         }
     }
-    public IBaseRepository<ItemPedidoEntity> ItemPedidoBaseRepository
+    public IBaseRepository<ItemPedidoEntity, FiltroBase> ItemPedidoBaseRepository
     {
         get
         {
@@ -212,12 +212,12 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new PagamentoPedidoRepository(_context);
         }
     }
-    public IBaseRepository<PagamentoPedidoEntity> PagamentoPedidoBaseRepository
+    public IBaseRepository<PagamentoPedidoEntity, FiltroBase> PagamentoPedidoBaseRepository
     {
         get
         {
             return _pagamentoPedidoBaseRepository = _pagamentoPedidoBaseRepository ??
-                new BaseRepository<PagamentoPedidoEntity>(_context);
+                new BaseRepository<PagamentoPedidoEntity, FiltroBase>(_context);
         }
     }
     public async Task<bool> CommitAsync()

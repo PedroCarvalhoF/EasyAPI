@@ -4,6 +4,7 @@ using Easy.Domain.Enuns.Pdv.UserPDV;
 using Easy.Domain.Intefaces.Repository.PDV.UserPDV;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
+using Easy.InfrastructureData.Tools.UsuarioPdv;
 using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.UsuarioPdv;
@@ -18,14 +19,10 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
         _dbSet = contexto.Set<T>();
     }
 
-    public async Task<T> InsertAsync(T item, F filtro)
+    public async Task<T> InsertAsync(T item)
     {
         try
         {
-            var userPdvExists = await SelectByIdUsuarioPdvAsync(item.UserPdvId, filtro);
-            if (userPdvExists != null)
-                throw new ArgumentException("Usuário já está habilitado");
-
             var result = await _contexto.AddAsync(item);
             return item;
         }
@@ -35,16 +32,45 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
             throw new Exception(ex.Message);
         }
     }
+    public T UpdateAsync(T item, F filtro)
+    {
+        try
+        {
+            _contexto.Update(item);
+            return item;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+    public async Task<T> SelectByIdUsuarioPdvAsync(Guid idUsuarioPdv, F filtro)
+    {
+        try
+        {
+            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
 
+            query = UsuarioPdvEntityExtensionsInclude.FullInclude(query);
+
+            var result = await query.SingleOrDefaultAsync(user_pdv => user_pdv.UserPdvId == idUsuarioPdv);
+
+            return result ?? Activator.CreateInstance<T>();
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+    }
     public async Task<IEnumerable<T>> SelectAsync(F filtro)
     {
         try
         {
-            var result = await
-                _dbSet.AsNoTracking()
-                .FiltroCliente(filtro)
-                .Include(us => us.UserPdv)
-                .ToArrayAsync();
+            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
+
+            query = UsuarioPdvEntityExtensionsInclude.FullInclude(query);
+
+            var result = await query.ToArrayAsync();
 
             return result;
         }
@@ -54,12 +80,13 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
             throw new Exception(ex.Message);
         }
     }
-
     public async Task<IEnumerable<T>> SelectAsync(UsuarioPdvFiltroEnum filtroEnum, F filtro)
     {
         try
         {
             var query = _dbSet.AsNoTracking().FiltroCliente(filtro);
+
+            query = UsuarioPdvEntityExtensionsInclude.FullInclude(query);
 
             switch (filtroEnum)
             {
@@ -74,8 +101,6 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
                     break;
             }
 
-            query = query.Include(us => us.UserPdv);
-
             var result = await query.ToArrayAsync();
 
             return result;
@@ -84,45 +109,6 @@ public class UsuarioPdvRepository<T, F> : IUsuarioPdvRepository<T, F> where T : 
         catch (Exception ex)
         {
 
-            throw new Exception(ex.Message);
-        }
-    }
-
-    public async Task<T>? SelectByIdUsuarioPdvAsync(Guid idUsuarioPdv, F filtro)
-    {
-        try
-        {
-            var result = await
-                _dbSet.AsNoTracking()
-                .FiltroCliente(filtro)
-                .Include(u => u.UserPdv)
-                .SingleOrDefaultAsync(updv => updv.UserPdvId == idUsuarioPdv);
-
-            return result;
-
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
-    }
-
-    public async Task<T> UpdateAsync(T item, F filtro)
-    {
-        try
-        {
-            var existingItem = await SelectByIdUsuarioPdvAsync(item.UserPdvId, filtro);
-            if (existingItem == null)
-                throw new ArgumentException("Usuário não localizado");
-
-            item.DataCriacao(existingItem.CreateAt);
-            _contexto.Entry(existingItem).CurrentValues.SetValues(item);
-            _contexto.Update(item);
-            return existingItem;
-        }
-        catch (Exception ex)
-        {
             throw new Exception(ex.Message);
         }
     }

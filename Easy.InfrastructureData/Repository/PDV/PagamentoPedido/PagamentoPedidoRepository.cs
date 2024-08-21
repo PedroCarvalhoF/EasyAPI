@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.PagamentoPedido;
 
-public class PagamentoPedidoRepository : BaseRepository<PagamentoPedidoEntity>, IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase>
+public class PagamentoPedidoRepository : BaseRepository<PagamentoPedidoEntity,FiltroBase>, IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase>
 {
     private DbSet<PagamentoPedidoEntity> _dbSet;
     public PagamentoPedidoRepository(MyContext context) : base(context)

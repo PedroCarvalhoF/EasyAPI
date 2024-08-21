@@ -20,7 +20,7 @@ public class PedidoCancelarCommand : BaseCommandsForUpdate
 
                 pedidoSelecionado.CancelarPedido();
 
-                await _repository.PedidoBaseRepository.UpdateAsync(pedidoSelecionado, filtro);
+                 _repository.PedidoBaseRepository.Update(pedidoSelecionado);
 
                 if (!await _repository.CommitAsync())
                     return new RequestResultForUpdate().BadRequest("Não foi possível cancelar pedido");

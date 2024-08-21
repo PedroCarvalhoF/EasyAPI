@@ -1,6 +1,6 @@
 ﻿namespace Easy.Services.CQRS.PDV.Pdv.Commands;
 
-public class PontoVendaCreateCommand : BaseCommandsForUpdate
+public class PontoVendaAberturaCommand : BaseCommandsForUpdate
 {
     public Guid UsuarioGerentePdvId { get; set; }
     public Guid UsuarioPdvId { get; set; }

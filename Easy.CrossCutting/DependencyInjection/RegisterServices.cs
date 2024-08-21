@@ -41,7 +41,7 @@ namespace Easy.CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesRepository(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
-            serviceCollection.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            serviceCollection.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
 
             serviceCollection.AddTransient<IUtil, Util>();
             IdentityConfiguration.Configurar(serviceCollection, configuration);

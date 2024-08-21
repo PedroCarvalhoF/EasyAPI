@@ -44,7 +44,7 @@ public class PontoVendaController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PontoVendaCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PontoVendaAberturaCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));

@@ -8,6 +8,6 @@ public interface IPeriodoPdvRepository<T, F> where T : PeriodoPdvEntity where F 
     Task<T> InsertAsync(T item, F filtro);
     T Update(T item, F filto);
     Task<IEnumerable<T>> SelectAsync(F filtro);
-    Task<T> SelectAsync(Guid idPeriodo, F filtro);
+    Task<T> SelectAsync(Guid id, F filtro);
     Task<T> SelectAsync(string descricaoPerido, F filtro);
 }

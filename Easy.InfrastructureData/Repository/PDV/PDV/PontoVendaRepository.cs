@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.PDV;
 
-public class PontoVendaRepository : IBaseRepository<PontoVendaEntity>, IPontoVendaRepository<PontoVendaEntity, FiltroBase>
+public class PontoVendaRepository : IBaseRepository<PontoVendaEntity, FiltroBase>, IPontoVendaRepository<PontoVendaEntity, FiltroBase>
 {
     protected readonly MyContext _context;
     private DbSet<PontoVendaEntity> _dbSet;
@@ -18,89 +18,29 @@ public class PontoVendaRepository : IBaseRepository<PontoVendaEntity>, IPontoVen
         _context = context;
         _dbSet = context.Set<PontoVendaEntity>();
     }
-    public async Task<PontoVendaEntity> InsertAsync(PontoVendaEntity item)
-    {
-        try
-        {
-            var result = await _dbSet.AddAsync(item);
-            return item;
-        }
-        catch (DbUpdateException ex)
-        {
-            throw new Exception(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
-    }
-    public async Task<IEnumerable<PontoVendaEntity>> SelectAsync(FiltroBase filtro)
-    {
-        try
-        {
-            var result = await
-                _dbSet.AsNoTracking()
-                .FiltroCliente(filtro)
-                .ToArrayAsync();
-            return result;
-        }
-        catch (Exception ex)
-        {
 
-            throw new Exception(ex.Message);
-        }
+    public Task<PontoVendaEntity> InsertAsync(PontoVendaEntity item)
+    {
+        throw new NotImplementedException();
     }
 
-    public async Task<PontoVendaEntity> SelectAsync(Guid id, FiltroBase filtro)
+    public Task<IEnumerable<PontoVendaEntity>> SelectAsync(FiltroBase filtro, bool includeAll = false)
     {
-        try
-        {
-            var result = await
-                _dbSet.AsNoTracking()
-                .FiltroCliente(filtro)
-                .SingleOrDefaultAsync(pdv => pdv.Id == id);
-
-            return result;
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
+        throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<PontoVendaEntity>> SelectAsync(PontoVendaQueryFilter pdvFiltro, FiltroBase filtro)
+    public Task<PontoVendaEntity> SelectAsync(Guid id, FiltroBase filtro, bool includeAll = false)
     {
-        try
-        {
-            var query = _dbSet.AsNoTracking();
-
-            query = query.FiltroCliente(filtro);
-
-            query = PontoVendaQueryFilter.FiltroPontoVenda(query, pdvFiltro);
-
-            var result = await query.ToArrayAsync();
-
-            return result;
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
+        throw new NotImplementedException();
     }
 
-    public Task<PontoVendaEntity> UpdateAsync(PontoVendaEntity item, FiltroBase filtro)
+    public Task<IEnumerable<PontoVendaEntity>> SelectAsync(PontoVendaQueryFilter pdvFiltro, FiltroBase filtro)
     {
-        try
-        {
-            _context.Update(item);
-            return Task.FromResult(item);
-        }
-        catch (Exception ex)
-        {
+        throw new NotImplementedException();
+    }
 
-            throw new Exception(ex.Message);
-        }
+    public PontoVendaEntity Update(PontoVendaEntity item)
+    {
+        throw new NotImplementedException();
     }
 }

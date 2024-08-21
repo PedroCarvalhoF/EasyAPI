@@ -21,7 +21,7 @@ public class ItemPedidoCancelarCommand : BaseCommandsForUpdate
 
                 itemPedidoSelecionaodo.CancelarItem();
 
-                await _repository.ItemPedidoBaseRepository.UpdateAsync(itemPedidoSelecionaodo, filtro);
+                 _repository.ItemPedidoBaseRepository.Update(itemPedidoSelecionaodo);
                 if (!await _repository.CommitAsync())
                     throw new ArgumentException("Não foi possível cancelar item.");
 

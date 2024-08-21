@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.Pedido;
 
-public class PedidoRepository : BaseRepository<PedidoEntity>, IPedidoRepository<PedidoEntity, FiltroBase>
+public class PedidoRepository : BaseRepository<PedidoEntity,FiltroBase>, IPedidoRepository<PedidoEntity, FiltroBase>
 {
     protected readonly MyContext _contexto;
     private DbSet<PedidoEntity> _dbSet;

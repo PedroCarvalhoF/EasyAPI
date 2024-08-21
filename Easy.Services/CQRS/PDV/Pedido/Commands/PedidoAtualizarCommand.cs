@@ -33,7 +33,7 @@ public class PedidoAtualizarCommand : BaseCommandsForUpdate
                 if (!pedidoSelecionado.Validada)
                     return new RequestResultForUpdate().BadRequest("Erro ao validar pedido.");
 
-                await _repository.PedidoBaseRepository.UpdateAsync(pedidoSelecionado, filtro);
+                 _repository.PedidoBaseRepository.Update(pedidoSelecionado);
                 if (!await _repository.CommitAsync())
                     return new RequestResultForUpdate().BadRequest("Não foi possível atualizar pedido.");
 

@@ -32,7 +32,7 @@ public class UsuarioPdvService(IUnitOfWork _repository, UserManager<UserEntity> 
             if (!usuarioHabilitar.Validada)
                 return RequestResult<UserDto>.BadRequest("Usuário não localizado");
 
-            var usuarioDesabilitarUpdateResult = await _repository.UsuarioPdvRepository.UpdateAsync(usuarioHabilitar, command.GetFiltro());
+            var usuarioDesabilitarUpdateResult = _repository.UsuarioPdvRepository.UpdateAsync(usuarioHabilitar, command.GetFiltro());
 
             if (await _repository.CommitAsync())
                 if (usuarioDesabilitarUpdateResult.Habilitado)
@@ -59,7 +59,7 @@ public class UsuarioPdvService(IUnitOfWork _repository, UserManager<UserEntity> 
             if (!usuarioPdv.Validada)
                 return RequestResult<UserDto>.BadRequest();
 
-            await _repository.UsuarioPdvRepository.InsertAsync(usuarioPdv, request.GetFiltro());
+            await _repository.UsuarioPdvRepository.InsertAsync(usuarioPdv);
             if (!await _repository.CommitAsync())
                 return RequestResult<UserDto>.BadRequest();
 

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.ItemPedido;
 
-public class ItemPedidoRepository : BaseRepository<ItemPedidoEntity>, IItemPedidoRepository<ItemPedidoEntity, FiltroBase>
+public class ItemPedidoRepository : BaseRepository<ItemPedidoEntity,FiltroBase>, IItemPedidoRepository<ItemPedidoEntity, FiltroBase>
 {
     private DbSet<ItemPedidoEntity> _dbSet;
     public ItemPedidoRepository(MyContext context) : base(context)
@@ -14,30 +14,8 @@ public class ItemPedidoRepository : BaseRepository<ItemPedidoEntity>, IItemPedid
         _dbSet = context.Set<ItemPedidoEntity>();
     }
 
-    public async Task<IEnumerable<ItemPedidoEntity>> SelectAsync(ItemPedidoEntityFilter itemFiltro, FiltroBase filtro)
+    public Task<IEnumerable<ItemPedidoEntity>> SelectAsync(ItemPedidoEntityFilter itemFiltro, FiltroBase filtro)
     {
-        try
-        {
-            try
-            {
-                var query = _dbSet.AsNoTracking();
-
-                query = ItemPedidoEntityFilter.QueryableItemPedidoEntity(query, filtro);
-
-                var result = await query.ToArrayAsync();
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-
-                throw new Exception(ex.Message);
-            }
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
+        throw new NotImplementedException();
     }
 }

@@ -24,10 +24,10 @@ public class UsuarioPdvController : ControllerBase
         _mediator = mediator;
     }
     [HttpPost]
-    public async Task<ActionResult<UserDto>> CadastrarUsuarioAsync([FromBody] UsuarioPdvCommandCreate command)
+    public async Task<ActionResult<UsuarioPdvDto>> CadastrarUsuarioAsync([FromBody] UsuarioPdvCommandCreate command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<UserDto>().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<UsuarioPdvDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
 

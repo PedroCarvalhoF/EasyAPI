@@ -5,9 +5,9 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pdv.Commands
 {
-    public class PontoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PontoVendaCreateCommand, RequestResultForUpdate>
+    public class PontoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PontoVendaAberturaCommand, RequestResultForUpdate>
     {
-        public async Task<RequestResultForUpdate> Handle(PontoVendaCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResultForUpdate> Handle(PontoVendaAberturaCommand request, CancellationToken cancellationToken)
         {
             try
             {

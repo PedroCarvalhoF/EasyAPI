@@ -48,11 +48,11 @@ public interface IUnitOfWork
     IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase> PagamentoPedidoRespoitory { get; }
 
     //TEMP TESTE COM BASE REPOSITORY
-    IBaseRepository<CategoriaProdutoEntity> CategoriaProdutoBaseRepository { get; }
-    IBaseRepository<PontoVendaEntity> PontoVendaBaseRepository { get; }
-    IBaseRepository<PedidoEntity> PedidoBaseRepository { get; }
-    IBaseRepository<ItemPedidoEntity> ItemPedidoBaseRepository { get; }
-    IBaseRepository<PagamentoPedidoEntity> PagamentoPedidoBaseRepository { get; }
+    IBaseRepository<CategoriaProdutoEntity,FiltroBase> CategoriaProdutoBaseRepository { get; }
+    IBaseRepository<PontoVendaEntity, FiltroBase> PontoVendaBaseRepository { get; }
+    IBaseRepository<PedidoEntity, FiltroBase> PedidoBaseRepository { get; }
+    IBaseRepository<ItemPedidoEntity, FiltroBase> ItemPedidoBaseRepository { get; }
+    IBaseRepository<PagamentoPedidoEntity, FiltroBase> PagamentoPedidoBaseRepository { get; }
     Task<bool> CommitAsync();
     void FinalizarContexto();
 }
