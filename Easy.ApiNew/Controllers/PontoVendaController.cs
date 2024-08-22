@@ -3,6 +3,7 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.Pdv.Commands;
 using Easy.Services.CQRS.PDV.Pdv.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.PDV;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,35 +20,23 @@ public class PontoVendaController : ControllerBase
     {
         _mediator = mediator;
     }
-
-    [HttpGet]
-    public async Task<ActionResult<RequestResultForUpdate>> SelectAsync()
-    {
-        GetPontoVendaQuery command = new GetPontoVendaQuery();
-        command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
-    }
-
-    [HttpGet("filtro/")]
-    public async Task<ActionResult<RequestResultForUpdate>> SelectAsync([FromBody] GetPontoVendaQueryPdvFilter command)
+    [HttpPost]
+    public async Task<ActionResult<PontoVendaDto>> CreateAsync([FromBody] PontoVendaAberturaCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PontoVendaDto>().ParseToActionResult(await _mediator.Send(command));
     }
-
+    [HttpPost("get-pdv-filter")]
+    public async Task<ActionResult<IEnumerable<PontoVendaDto>>> SelectAsync([FromBody] GetPontoVendaQuery queryCommand)
+    {
+        queryCommand.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<IEnumerable<PontoVendaDto>>().ParseToActionResult(await _mediator.Send(queryCommand));
+    }   
 
     [HttpPost("encerrar")]
     public async Task<ActionResult<RequestResultForUpdate>> EncerrarPdvAsync(PontoVendaEncerrarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PontoVendaAberturaCommand command)
-    {
-        command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
-    }
-
+    }    
 }

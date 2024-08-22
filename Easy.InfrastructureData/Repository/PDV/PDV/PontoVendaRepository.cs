@@ -1,6 +1,5 @@
 ﻿using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.PDV;
-using Easy.Domain.Intefaces.Repository;
 using Easy.Domain.Intefaces.Repository.PDV.Pdv;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
@@ -8,39 +7,70 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.PDV;
 
-public class PontoVendaRepository : IBaseRepository<PontoVendaEntity, FiltroBase>, IPontoVendaRepository<PontoVendaEntity, FiltroBase>
+public class PontoVendaRepository : BaseRepository<PontoVendaEntity, FiltroBase>, IPontoVendaRepository<PontoVendaEntity, FiltroBase>
 {
-    protected readonly MyContext _context;
-    private DbSet<PontoVendaEntity> _dbSet;
+    //protected readonly MyContext _context;
+    private DbSet<PontoVendaEntity> _dataset;
 
-    public PontoVendaRepository(MyContext context)
+    public PontoVendaRepository(MyContext context) : base(context)
     {
-        _context = context;
-        _dbSet = context.Set<PontoVendaEntity>();
+        //_context = context;
+        _dataset = context.Set<PontoVendaEntity>();
     }
 
-    public Task<PontoVendaEntity> InsertAsync(PontoVendaEntity item)
+    public async Task<PontoVendaEntity> GetPdvById(Guid idPdv, FiltroBase filtro, bool includeAll = true)
     {
-        throw new NotImplementedException();
+        try
+        {
+            IQueryable<PontoVendaEntity> query = _dataset.AsNoTracking();
+
+            if (includeAll)
+            {
+                query = query.Include(user_gerente => user_gerente.UsuarioGerentePdv).ThenInclude(user => user.UserPdv);
+
+                query = query.Include(user_operador => user_operador.UsuarioPdv).ThenInclude(user => user.UserPdv);
+
+                query = query.Include(periodo => periodo.PeriodoPdv);
+
+            }
+
+            query = query.FiltroCliente(filtro);
+
+            var result = await query.SingleOrDefaultAsync(t => t.Id == idPdv);
+            return result ?? Activator.CreateInstance<PontoVendaEntity>();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
-    public Task<IEnumerable<PontoVendaEntity>> SelectAsync(FiltroBase filtro, bool includeAll = false)
+    public async Task<IEnumerable<PontoVendaEntity>> SelectAsync(PontoVendaQueryFilter pdvFiltro, FiltroBase filtro, bool includeAll = true)
     {
-        throw new NotImplementedException();
-    }
+        try
+        {
+            IQueryable<PontoVendaEntity> query = _dataset.AsNoTracking();
 
-    public Task<PontoVendaEntity> SelectAsync(Guid id, FiltroBase filtro, bool includeAll = false)
-    {
-        throw new NotImplementedException();
-    }
+            if (includeAll)
+            {
+                query = query.Include(user_gerente => user_gerente.UsuarioGerentePdv).ThenInclude(user => user!.UserPdv);
 
-    public Task<IEnumerable<PontoVendaEntity>> SelectAsync(PontoVendaQueryFilter pdvFiltro, FiltroBase filtro)
-    {
-        throw new NotImplementedException();
-    }
+                query = query.Include(user_operador => user_operador.UsuarioPdv).ThenInclude(user => user!.UserPdv);
 
-    public PontoVendaEntity Update(PontoVendaEntity item)
-    {
-        throw new NotImplementedException();
+                query = query.Include(periodo => periodo.PeriodoPdv);
+
+            }
+
+            query = query.FiltroCliente(filtro);
+
+            query = PontoVendaQueryFilter.FiltroPontoVenda(query, pdvFiltro);
+
+            var result = await query.ToArrayAsync();
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }

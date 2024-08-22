@@ -5,6 +5,7 @@ namespace Easy.Domain.Intefaces.Repository.PDV.Pdv
 {
     public interface IPontoVendaRepository<T, F> where T : PontoVendaEntity where F : FiltroBase
     {
-        Task<IEnumerable<T>> SelectAsync(PontoVendaQueryFilter pdvFiltro, F filtro);
+        Task<T> GetPdvById(Guid idPdv, FiltroBase filtro, bool includeAll = true);
+        Task<IEnumerable<T>> SelectAsync(PontoVendaQueryFilter pdvFiltro, F filtro, bool includeAll = true);
     }
 }
