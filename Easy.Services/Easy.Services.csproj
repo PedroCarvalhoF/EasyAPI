@@ -34,6 +34,7 @@
     <Folder Include="CQRS\PDV\PrecoProduto\Commands\Validations\" />
     <Folder Include="CQRS\UserMasterCliente\Notificacao\" />
     <Folder Include="CQRS\UserMasterUser\Notification\" />
+    <Folder Include="DTOs\Pedido\Request\" />
   </ItemGroup>
 
 

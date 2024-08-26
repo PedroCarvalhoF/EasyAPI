@@ -17,7 +17,7 @@ public class EmailController : ControllerBase
     {
         try
         {
-            using (SmtpClient smtp = new SmtpClient())
+            using (SmtpClient smtp = new())
             {
                 smtp.Host = "smtp.gmail.com";
                 smtp.Port = 587; // Porta correta para TLS

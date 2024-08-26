@@ -9,19 +9,21 @@ namespace Easy.Domain.Entities.PDV.Pedido;
 
 public class PedidoEntity : BaseEntity
 {
-    public TipoPedidoEnum TipoPedido { get; private set; }
-    public string NumeroPedido { get; private set; }
-    public decimal Desconto { get; private set; } // desconto
-    public decimal SubTotal { get; private set; } // soma dos itens válidos do pedido
-    public decimal Total { get; private set; } // soma dos itens - desconto
+    public TipoPedidoEnum? TipoPedido { get; private set; }
+    public string? NumeroPedido { get; private set; }
+    public decimal? Desconto { get; private set; } // desconto
+    public decimal? SubTotal { get; private set; } // soma dos itens válidos do pedido
+    public decimal? Total { get; private set; } // soma dos itens - desconto
     public string? Observacoes { get; private set; }
-    public bool Cancelado { get; private set; }
-    public Guid PontoVendaEntityId { get; private set; }
-    public Guid CategoriaPrecoId { get; private set; }
+    public bool? Cancelado { get; private set; }
+    public bool? Finalizado { get; private set; }
+    public Guid? PontoVendaEntityId { get; private set; }
     public virtual PontoVendaEntity? PontoVendaEntity { get; private set; }
+    public Guid? CategoriaPrecoId { get; private set; }
+
     public virtual CategoriaPrecoEntity? CategoriaPreco { get; private set; }
     public virtual ICollection<ItemPedidoEntity>? ItensPedido { get; set; }
-    public virtual ICollection<PagamentoPedidoEntity> Pagamentos { get; private set; }
+    public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; }
     public bool Validada => Validar();
 
     private bool Validar()
@@ -33,7 +35,7 @@ public class PedidoEntity : BaseEntity
     public PedidoEntity() { }
     PedidoEntity(TipoPedidoEnum tipoPedido, string? numeroPedido, Guid pontoVendaEntityId, Guid categoriaPrecoId, FiltroBase users) : base(users)
     {
-        DomainValidation.When(tipoPedido == null, "Informe o tipo do pedido.");
+        DomainValidation.When((int)tipoPedido > 2 || (int)tipoPedido <= 0, "Tipo do pedido inválido");
         DomainValidation.When(pontoVendaEntityId == Guid.Empty, "Informe o id do ponto de venda");
         DomainValidation.When(categoriaPrecoId == Guid.Empty, "Informe o id da categoria de preço");
 
@@ -52,6 +54,7 @@ public class PedidoEntity : BaseEntity
         Total = 0;
         Observacoes = string.Empty;
         Cancelado = false;
+        Finalizado = false;
     }
 
     public static PedidoEntity GerarPedidoVenda(string? numeroPedido, Guid pontoVendaEntityId, Guid categoriaPrecoId, FiltroBase users)
@@ -99,7 +102,7 @@ public class PedidoEntity : BaseEntity
         Observacoes = string.Empty;
         UpdateAt = DateTime.Now;
     }
-    public void AplicarDescontoPedidoValorReal(decimal valorDesconto)
+    public void AplicarDescontoPedidoValorReal(decimal? valorDesconto)
     {
         if (valorDesconto <= 0)
             throw new ArgumentException("Valor do desconto não pode ser menor ou igual a zero.");
@@ -119,7 +122,7 @@ public class PedidoEntity : BaseEntity
         if (descontoPercentual > 100)
             throw new ArgumentException("Percentual do desconto não pode ultrapassar de 100%.");
 
-        decimal valorDescontoReal = SubTotal * (descontoPercentual / 100);
+        decimal? valorDescontoReal = SubTotal * (descontoPercentual / 100);
 
         AplicarDescontoPedidoValorReal(valorDescontoReal);
     }
@@ -134,6 +137,13 @@ public class PedidoEntity : BaseEntity
             throw new ArgumentException("Pedido já está cancelado");
 
         Cancelado = true;
+        UpdateAt = DateTime.Now;
+    }
+    public void FinalizarPedido()
+    {
+        if (Finalizado.HasValue)
+            throw new ArgumentException("Pedido já esta finalizado");
+        Finalizado = true;
         UpdateAt = DateTime.Now;
     }
 }

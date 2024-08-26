@@ -17,6 +17,7 @@ public class PedidoMap : IEntityTypeConfiguration<PedidoEntity>
         builder.Property(b => b.UpdateAt).HasColumnType("datetime");
         builder.Property(b => b.Habilitado).IsRequired();
 
+       
         builder.Property(p => p.TipoPedido).IsRequired().HasColumnType("int");
         builder.Property(p => p.NumeroPedido).IsRequired().HasMaxLength(200);
         builder.Property(p => p.Desconto).IsRequired().HasColumnType("decimal(18,2)");
@@ -24,6 +25,7 @@ public class PedidoMap : IEntityTypeConfiguration<PedidoEntity>
         builder.Property(p => p.Total).IsRequired().HasColumnType("decimal(18,2)");
         builder.Property(p => p.Observacoes).IsRequired().HasMaxLength(200);
         builder.Property(p => p.Cancelado).IsRequired();
+        builder.Property(p => p.Finalizado).IsRequired();
 
         //PONTO DE VENDA REFERENCES
         builder.HasOne(p => p.PontoVendaEntity)

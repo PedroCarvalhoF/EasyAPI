@@ -3,6 +3,7 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.Pedido.Commands;
 using Easy.Services.CQRS.PDV.Pedido.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.Pedido;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +22,18 @@ public class PedidoController : ControllerBase
     }
 
     [HttpPost("filtro-pedido")]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] GetPedidosFilterPedidosQueries command)
+    public async Task<ActionResult<RequestResult<IEnumerable<PedidoDto>>>> GetPedidosAsync([FromBody] GetPedidosFilterPedidosQueries command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<IEnumerable<PedidoDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PedidoVendaCreateCommand command)
+    public async Task<ActionResult<RequestResult<PedidoDto>>> GerarPedidoAsync([FromBody] PedidoVendaCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("cancelar-pedido")]

@@ -18,7 +18,6 @@ public class PedidoAtualizarCommand : BaseCommandsForUpdate
                 var pedidoFiltro = new PedidoEntityFilter
                 {
                     IdPedido = request.IdPedido,
-                    Include = true
                 };
 
                 var filtro = request.GetFiltro();
@@ -33,7 +32,7 @@ public class PedidoAtualizarCommand : BaseCommandsForUpdate
                 if (!pedidoSelecionado.Validada)
                     return new RequestResultForUpdate().BadRequest("Erro ao validar pedido.");
 
-                 _repository.PedidoBaseRepository.Update(pedidoSelecionado);
+                _repository.PedidoBaseRepository.Update(pedidoSelecionado);
                 if (!await _repository.CommitAsync())
                     return new RequestResultForUpdate().BadRequest("Não foi possível atualizar pedido.");
 

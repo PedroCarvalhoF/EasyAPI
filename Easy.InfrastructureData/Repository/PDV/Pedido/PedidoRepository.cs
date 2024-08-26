@@ -2,32 +2,35 @@
 using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Pedido;
 using Easy.InfrastructureData.Context;
+using Easy.InfrastructureData.Tools;
 using Microsoft.EntityFrameworkCore;
 
 namespace Easy.InfrastructureData.Repository.PDV.Pedido;
 
-public class PedidoRepository : BaseRepository<PedidoEntity,FiltroBase>, IPedidoRepository<PedidoEntity, FiltroBase>
+public class PedidoRepository : BaseRepository<PedidoEntity, FiltroBase>, IPedidoRepository<PedidoEntity, FiltroBase>
 {
     protected readonly MyContext _contexto;
-    private DbSet<PedidoEntity> _dbSet;
+    private DbSet<PedidoEntity> _dataset;
     public PedidoRepository(MyContext context) : base(context)
     {
         _contexto = context;
-        _dbSet = context.Set<PedidoEntity>();
+        _dataset = context.Set<PedidoEntity>();
     }
 
-    public async Task<IEnumerable<PedidoEntity>> SelectAsync(PedidoEntityFilter filter, FiltroBase filtro)
+    public async Task<IEnumerable<PedidoEntity>> SelectAsync(PedidoEntityFilter filter, FiltroBase filtro, bool includeAll = true)
     {
         try
         {
-            var query = _dbSet.AsQueryable();
-
-            if (filter.Include)
-            {
-                query = query.Include(p_itens => p_itens.ItensPedido);
-            }
+            IQueryable<PedidoEntity> query = _dataset.AsNoTracking();
 
             query = PedidoEntityFilter.QueryablePedidoEntity(query, filter);
+
+            query = query.FiltroCliente(filtro);
+
+            if (includeAll)
+            {
+                query = query.Include(cat_preco_pedido => cat_preco_pedido.CategoriaPreco);
+            }
 
             var result = await query.ToArrayAsync();
 
@@ -35,7 +38,6 @@ public class PedidoRepository : BaseRepository<PedidoEntity,FiltroBase>, IPedido
         }
         catch (Exception ex)
         {
-
             throw new Exception(ex.Message);
         }
     }

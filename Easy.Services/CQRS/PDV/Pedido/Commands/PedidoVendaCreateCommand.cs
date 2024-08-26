@@ -1,39 +1,38 @@
 ﻿using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.Pedido;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pedido.Commands;
 
-public class PedidoVendaCreateCommand : BaseCommandsForUpdate
+public class PedidoVendaCreateCommand : BaseCommands<PedidoDto>
 {
-    public string? NumeroPedido { get; set; }
-    public Guid PontoVendaId { get; set; }
-    public Guid CategoriaPrecoId { get; set; }
+    public required PedidoDtoCreate PedidoDtoCreate { get; set; }
 
-    public class PedidoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoVendaCreateCommand, RequestResultForUpdate>
+    public class PedidoVendaCreateCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoVendaCreateCommand, RequestResult<PedidoDto>>
     {
-        public async Task<RequestResultForUpdate> Handle(PedidoVendaCreateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<PedidoDto>> Handle(PedidoVendaCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var filtro = request.GetFiltro();
-                var pedidoVendaEntity = PedidoEntity.GerarPedidoVenda(request.NumeroPedido, request.PontoVendaId, request.CategoriaPrecoId, filtro);
+                var pedidoVendaEntity = PedidoEntity.GerarPedidoVenda(request.PedidoDtoCreate.NumeroPedido, request.PedidoDtoCreate.PontoVendaId, request.PedidoDtoCreate.CategoriaPrecoId, filtro);
 
                 if (!pedidoVendaEntity.Validada)
-                    return new RequestResultForUpdate().EntidadeInvalida();
+                    return RequestResult<PedidoDto>.BadRequest();
 
                 await _repository.PedidoBaseRepository.InsertAsync(pedidoVendaEntity);
 
                 if (!await _repository.CommitAsync())
-                    return new RequestResultForUpdate().BadRequest("Não foi possível gerar pedido venda");
+                    return RequestResult<PedidoDto>.BadRequest();                
 
-                return new RequestResultForUpdate().Ok("Pedido de venda gereado com sucesso");
+                return RequestResult<PedidoDto>.Ok(mensagem: "Pedido gerado com sucesso.");
             }
             catch (Exception ex)
             {
 
-                return new RequestResultForUpdate().BadRequest(ex.Message);
+                return RequestResult<PedidoDto>.BadRequest(ex.Message);
             }
         }
     }
