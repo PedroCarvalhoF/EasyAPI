@@ -32,6 +32,8 @@ public class PedidoRepository : BaseRepository<PedidoEntity, FiltroBase>, IPedid
                 query = query.Include(cat_preco_pedido => cat_preco_pedido.CategoriaPreco);
             }
 
+            query = query.OrderByDescending(pedido => pedido.CreateAt);
+
             var result = await query.ToArrayAsync();
 
             return result;

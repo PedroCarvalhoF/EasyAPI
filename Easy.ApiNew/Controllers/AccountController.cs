@@ -101,9 +101,8 @@ public class AccountController : ControllerBase
         return new ReturnActionResult<UserDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    [AllowAnonymous]
+    //[AllowAnonymous]
     [HttpPost("upload-image/{userId}")]
-
     public async Task<ActionResult<RequestResult<UserDtoImageResult>>> UploadImage([FromServices] UserManager<UserEntity> _userManager, [FromServices] IUtil _util, Guid userId)
     {
         try

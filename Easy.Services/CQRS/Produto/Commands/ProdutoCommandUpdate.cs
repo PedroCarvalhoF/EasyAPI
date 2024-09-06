@@ -8,7 +8,7 @@ namespace Easy.Services.CQRS.Produto.Commands;
 
 public class ProdutoCommandUpdate : BaseCommands<ProdutoDto>
 {
-    public ProdutoDtoUpdate prod { get; set; }
+    public required ProdutoDtoUpdate prod { get; set; }
     public class ProdutoUpdateCommandHandler(IUnitOfWork _repository) : IRequestHandler<ProdutoCommandUpdate, RequestResult<ProdutoDto>>
     {
         public async Task<RequestResult<ProdutoDto>> Handle(ProdutoCommandUpdate request, CancellationToken cancellationToken)

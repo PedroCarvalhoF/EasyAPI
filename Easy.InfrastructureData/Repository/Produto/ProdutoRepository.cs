@@ -29,8 +29,7 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
                     _dbSet.AsNoTracking()
                           .IncludeProdutos()
                           .FiltroCliente(userFiltro)
-                          .Where(p => p.NomeProduto.ToLower() == nome.ToLower())
-                          .SingleOrDefaultAsync() ?? new ProdutoEntity();
+                          .SingleOrDefaultAsync(p => p.NomeProduto.ToLower() == nome.ToLower()) ?? new ProdutoEntity();
         }
         catch (Exception ex)
         {
@@ -45,9 +44,8 @@ public class ProdutoRepository<T, F> : IProdutoRepository<T, F> where T : Produt
             return await
                      _dbSet.AsNoTracking()
                            .IncludeProdutos()
-                           .FiltroCliente(filtro)
-                           .Where(p => p.Codigo == codigo)
-                           .SingleOrDefaultAsync() ?? new ProdutoEntity();
+                           .FiltroCliente(filtro)                          
+                           .SingleOrDefaultAsync(p => p.Codigo == codigo) ?? new ProdutoEntity();
         }
         catch (Exception ex)
         {

@@ -6,8 +6,14 @@ public class PedidoEntityFilter
     public string? NumeroPedido { get; set; }
     public Guid? PontoVendaEntityId { get; set; }
     public bool? Finalizado { get; set; }
+    public bool? Cancelado { get; set; }
     public static IQueryable<PedidoEntity> QueryablePedidoEntity(IQueryable<PedidoEntity> query, PedidoEntityFilter filtro)
     {
+        if(filtro.Cancelado.HasValue)
+        {
+            query = query.Where(pedido => pedido.Cancelado == filtro.Cancelado);
+        }
+
         if (filtro.Finalizado.HasValue)
         {
             query = query.Where(pedido => pedido.Finalizado == filtro.Finalizado);

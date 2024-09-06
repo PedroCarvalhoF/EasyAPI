@@ -4,6 +4,20 @@ namespace Easy.Services.DTOs.Produto;
 
 public class ProdutoDtoUpdate
 {
+    public ProdutoDtoUpdate(Guid id, bool habilitado, string? nomeProduto, string? codigo, string? descricao, string? observacoes, string? imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum)
+    {
+        Id = id;
+        Habilitado = habilitado;
+        NomeProduto = nomeProduto;
+        Codigo = codigo;
+        Descricao = descricao;
+        Observacoes = observacoes;
+        ImagemUrl = imagemUrl;
+        CategoriaProdutoEntityId = categoriaProdutoEntityId;
+        MedidaProdutoEnum = medidaProdutoEnum;
+        TipoProdutoEnum = tipoProdutoEnum;
+    }
+
     public Guid Id { get; set; }
     public bool Habilitado { get; set; }
     public string? NomeProduto { get; set; }

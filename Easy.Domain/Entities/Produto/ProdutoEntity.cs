@@ -126,4 +126,9 @@ public class ProdutoEntity : BaseEntity
         Habilitado = !Habilitado;
         UpdateAt = DateTime.Now;
     }
+
+    public void AlterarUrlImage(string url)
+    {
+        ImagemUrl = url;
+    }
 }
