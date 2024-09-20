@@ -15,8 +15,8 @@ public class PedidoEntity : BaseEntity
     public decimal? SubTotal { get; private set; } // soma dos itens válidos do pedido
     public decimal? Total { get; private set; } // soma dos itens - desconto
     public string? Observacoes { get; private set; }
-    public bool? Cancelado { get; private set; }
-    public bool? Finalizado { get; private set; }
+    public bool Cancelado { get; private set; }
+    public bool Finalizado { get; private set; }
     public Guid? PontoVendaEntityId { get; private set; }
     public virtual PontoVendaEntity? PontoVendaEntity { get; private set; }
     public Guid? CategoriaPrecoId { get; private set; }
@@ -141,7 +141,7 @@ public class PedidoEntity : BaseEntity
     }
     public void FinalizarPedido()
     {
-        if (Finalizado.HasValue)
+        if (Finalizado)
             throw new ArgumentException("Pedido já esta finalizado");
         Finalizado = true;
         UpdateAt = DateTime.Now;

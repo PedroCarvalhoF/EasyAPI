@@ -27,7 +27,7 @@ public class PrecoProdutoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<PrecoProdutoDtoView>>> GetAynsc()
+    public async Task<ActionResult<List<PrecoProdutoDtoView>>> GetPrecosProdutosAynsc()
     {
         var getCommand = new GetPrecosProdutosQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());

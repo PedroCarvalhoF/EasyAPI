@@ -15,12 +15,12 @@ public class PedidoAtualizarCommand : BaseCommandsForUpdate
         {
             try
             {
+                var filtro = request.GetFiltro();
+
                 var pedidoFiltro = new PedidoEntityFilter
                 {
                     IdPedido = request.IdPedido,
                 };
-
-                var filtro = request.GetFiltro();
 
                 var pedidos = await _repository.PedidoRepository.SelectAsync(pedidoFiltro, filtro);
                 if (!pedidos.Any())
@@ -29,18 +29,15 @@ public class PedidoAtualizarCommand : BaseCommandsForUpdate
 
                 pedidoSelecionado.CalcularTotalPedido();
 
-                if (!pedidoSelecionado.Validada)
-                    return new RequestResultForUpdate().BadRequest("Erro ao validar pedido.");
-
-                _repository.PedidoBaseRepository.Update(pedidoSelecionado);
+                await _repository.PedidoBaseRepository.Update(pedidoSelecionado);
                 if (!await _repository.CommitAsync())
-                    return new RequestResultForUpdate().BadRequest("Não foi possível atualizar pedido.");
+                    return new RequestResultForUpdate().BadRequest("Não foi possível atualizar pedido");
 
-                return new RequestResultForUpdate().Ok("Pedido atualizado.");
+                return new RequestResultForUpdate().Ok("Pedido Atualizado com sucesso.");
+
             }
             catch (Exception ex)
             {
-
                 return new RequestResultForUpdate().BadRequest(ex.Message);
             }
         }

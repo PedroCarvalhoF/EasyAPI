@@ -28,7 +28,6 @@ public class PedidoController : ControllerBase
         return new ReturnActionResult<IEnumerable<PedidoDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
-
     [HttpPost]
     public async Task<ActionResult<RequestResult<PedidoDto>>> GerarPedidoAsync([FromBody] PedidoVendaCreateCommand command)
     {
@@ -43,10 +42,10 @@ public class PedidoController : ControllerBase
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
     }
 
-    [HttpPost("atualizar-pedido")]
-    public async Task<ActionResult<RequestResultForUpdate>> AtualizarPedidoAsync([FromBody] PedidoAtualizarCommand command)
-    {
-        command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
-    }
+    //[HttpPost("atualizar-pedido")]
+    //public async Task<ActionResult<RequestResultForUpdate>> AtualizarPedidoAsync([FromBody] PedidoAtualizarCommand command)
+    //{
+    //    command.SetUsers(User.GetUserMasterUserDatalhes());
+    //    return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+    //}
 }

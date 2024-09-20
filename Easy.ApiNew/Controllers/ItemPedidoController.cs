@@ -2,6 +2,8 @@
 using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.ItemPedido.Commands;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.ItemPedido;
+using Easy.Services.DTOs.Pedido;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +22,11 @@ public class ItemPedidoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] ItemPedidoCreateCommand command)
+    //inserir item do pedido Retornar Pedido 
+    public async Task<ActionResult<RequestResult<PedidoDto>>> CreateAsync([FromBody] ItemPedidoInserirCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("cancelar-item")]

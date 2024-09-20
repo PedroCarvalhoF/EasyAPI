@@ -7,7 +7,11 @@ namespace Easy.InfrastructureData.Tools.PrecoProduto
     {
         public static IQueryable<PrecoProdutoEntity> IncludePrecosProdutos(this IQueryable<PrecoProdutoEntity> query)
         {
-            return query.Include(preco => preco.Produto).Include(preco => preco.CategoriaPreco);
+            return
+                query
+                .Include(preco => preco.Produto)
+                .ThenInclude(prod => prod.CategoriaProdutoEntity)
+                .Include(preco => preco.CategoriaPreco);
         }
     }
 }

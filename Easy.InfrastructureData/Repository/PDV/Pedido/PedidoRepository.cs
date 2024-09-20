@@ -30,6 +30,8 @@ public class PedidoRepository : BaseRepository<PedidoEntity, FiltroBase>, IPedid
             if (includeAll)
             {
                 query = query.Include(cat_preco_pedido => cat_preco_pedido.CategoriaPreco);
+
+                query = query.Include(itens => itens.ItensPedido);
             }
 
             query = query.OrderByDescending(pedido => pedido.CreateAt);

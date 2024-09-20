@@ -30,16 +30,33 @@ namespace Easy.InfrastructureData.Repository
             }
 
         }
-        public T Update(T item)
+        public async Task<T> Update(T item)
         {
             try
             {
-                _context.Update(item);
+                // Tenta encontrar a entidade existente pelo Id
+                var getItem = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+
+                // Verifica se a entidade foi encontrada
+                if (getItem != null)
+                {
+                    // Atualiza os valores da entidade rastreada com os valores da entidade passada
+                    _context.Entry(getItem).CurrentValues.SetValues(item);
+
+                    // Marca a entidade como modificada
+                    _context.Entry(getItem).State = EntityState.Modified;
+
+                    // Não use _context.Update(item) para evitar o erro de múltiplas instâncias
+                }
+                else
+                {
+                    throw new Exception("Entidade não encontrada para o Id informado.");
+                }
+
                 return item;
             }
             catch (Exception ex)
             {
-
                 throw new Exception(ex.Message);
             }
         }

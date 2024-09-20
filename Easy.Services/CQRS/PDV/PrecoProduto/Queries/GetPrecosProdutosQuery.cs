@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Easy.Domain.Intefaces;
+﻿using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.PrecoProduto;
 using Easy.Services.Tools.UseCase.Dto;
@@ -10,7 +9,7 @@ namespace Easy.Services.CQRS.PDV.PrecoProduto.Queries;
 public class GetPrecosProdutosQuery : BaseCommands<List<PrecoProdutoDtoView>>
 {
 
-    public class GetPrecosProdutosQueryHandler(IUnitOfWork _repository, IMapper _mapper) : IRequestHandler<GetPrecosProdutosQuery, RequestResult<List<PrecoProdutoDtoView>>>
+    public class GetPrecosProdutosQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetPrecosProdutosQuery, RequestResult<List<PrecoProdutoDtoView>>>
     {
         public async Task<RequestResult<List<PrecoProdutoDtoView>>> Handle(GetPrecosProdutosQuery request, CancellationToken cancellationToken)
         {
