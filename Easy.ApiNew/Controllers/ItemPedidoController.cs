@@ -1,6 +1,8 @@
 ﻿using Easy.Api.Extensions;
 using Easy.Api.Tools;
+using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Services.CQRS.PDV.ItemPedido.Commands;
+using Easy.Services.CQRS.PDV.ItemPedido.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.ItemPedido;
 using Easy.Services.DTOs.Pedido;
@@ -41,5 +43,13 @@ public class ItemPedidoController : ControllerBase
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+    }
+
+
+    [HttpGet("get-filtro")]
+    public async Task<ActionResult<RequestResult<IEnumerable<ItemPedidoDto>>>> GetItensPedidoFiltroAsync([FromBody] GetItensPedidoQuery commandQuery)
+    {
+        commandQuery.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<IEnumerable<ItemPedidoDto>>().ParseToActionResult(await _mediator.Send(commandQuery));
     }
 }

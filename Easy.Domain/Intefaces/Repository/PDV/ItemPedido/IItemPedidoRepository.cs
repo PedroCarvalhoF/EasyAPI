@@ -5,5 +5,5 @@ namespace Easy.Domain.Intefaces.Repository.PDV.ItemPedido;
 
 public interface IItemPedidoRepository<T, F> where T : ItemPedidoEntity where F : FiltroBase
 {
-    Task<IEnumerable<T>> SelectAsync(ItemPedidoEntityFilter itemFiltro, F filtro);
+    Task<IEnumerable<T>> SelectAsync(ItemPedidoEntityFilter itemFiltro, F filtro, bool includeAll = false);
 }

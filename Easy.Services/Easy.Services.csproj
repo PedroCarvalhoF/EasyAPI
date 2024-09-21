@@ -23,7 +23,6 @@
     <Folder Include="CQRS\PDV\CategoriaPreco\Commands\Notification\" />
     <Folder Include="CQRS\PDV\FormaPagamento\Commands\Notifications\" />
     <Folder Include="CQRS\PDV\ItemPedido\Validations\" />
-    <Folder Include="CQRS\PDV\ItemPedido\Queries\" />
     <Folder Include="CQRS\PDV\PagamentoPedido\Notificaitons\" />
     <Folder Include="CQRS\PDV\PagamentoPedido\Validations\" />
     <Folder Include="CQRS\PDV\Pdv\Notifications\" />

@@ -3,17 +3,24 @@ namespace Easy.Domain.Entities.PDV.ItensPedido
 {
     public class ItemPedidoEntityFilter
     {
-        public decimal Quantidade { get; set; }
-        public decimal Preco { get; set; }
-        public decimal DescontoItem { get; set; }
-        public decimal SubTotalItem { get; set; }
-        public decimal TotalItem { get; set; }
-        public bool Cancelado { get; set; }
-        public Guid ProdutoId { get; set; }
         public Guid? PedidoId { get; set; }
-
-        public static IQueryable<ItemPedidoEntity> QueryableItemPedidoEntity(IQueryable<ItemPedidoEntity> query, FiltroBase filtro)
+        public Guid? ProdutoId { get; set; }
+        public bool? Cancelado { get; set; }
+        public static IQueryable<ItemPedidoEntity> QueryablePedidoEntity(IQueryable<ItemPedidoEntity> query, ItemPedidoEntityFilter filtro)
         {
+            if (filtro.PedidoId.HasValue)
+            {
+                query = query.Where(item => item.PedidoId == filtro.PedidoId);
+            }
+            if (filtro.ProdutoId.HasValue)
+            {
+                query = query.Where(item => item.ProdutoId == filtro.ProdutoId);
+            }
+            if (filtro.Cancelado.HasValue)
+            {
+                query = query.Where(item => item.Cancelado == filtro.Cancelado);
+            }
+
             return query;
         }
     }
