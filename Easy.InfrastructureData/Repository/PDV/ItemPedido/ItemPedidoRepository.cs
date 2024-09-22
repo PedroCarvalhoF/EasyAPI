@@ -1,6 +1,5 @@
 ﻿using Easy.Domain.Entities;
 using Easy.Domain.Entities.PDV.ItensPedido;
-using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.ItemPedido;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
@@ -36,7 +35,7 @@ public class ItemPedidoRepository : BaseRepository<ItemPedidoEntity, FiltroBase>
                     query = query.Include(item_pedido => item_pedido.Pedido);
                 }
 
-                query = query.OrderByDescending(item => item.CreateAt);
+                query = query.OrderBy(item => item.Cancelado).ThenBy(item=>item.CreateAt);
 
                 var result = await query.ToArrayAsync();
 

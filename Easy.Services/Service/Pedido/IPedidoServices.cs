@@ -5,5 +5,6 @@ namespace Easy.Services.Service.Pedido;
 
 public interface IPedidoServices
 {
-    Task<PedidoDto> AtualizarPedido(Guid idPedido, FiltroBase filtro);
+    Task<bool> AtualizarPedido(Guid idPedido, FiltroBase filtro);
+    Task<PedidoDto> GetPedidoById(Guid idPedido, FiltroBase filtro);
 }

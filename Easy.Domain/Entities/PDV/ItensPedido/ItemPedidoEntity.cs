@@ -86,7 +86,7 @@ public class ItemPedidoEntity : BaseEntity
     public void CancelarItem()
     {
         if (Cancelado)
-            throw new ArgumentException("Item já está cancelado");
+            throw new ArgumentException("Item do pedido encontra-se cancelado.");
         Cancelado = true;
     }
 }

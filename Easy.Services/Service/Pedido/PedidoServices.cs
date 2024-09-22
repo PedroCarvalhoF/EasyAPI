@@ -8,7 +8,7 @@ namespace Easy.Services.Service.Pedido;
 
 public class PedidoServices(IUnitOfWork _repository) : IPedidoServices
 {
-    public async Task<PedidoDto> AtualizarPedido(Guid idPedido, FiltroBase filtro)
+    public async Task<bool> AtualizarPedido(Guid idPedido, FiltroBase filtro)
     {
         try
         {
@@ -20,7 +20,10 @@ public class PedidoServices(IUnitOfWork _repository) : IPedidoServices
             var pedidos = await _repository.PedidoRepository.SelectAsync(pedidoFiltro, filtro);
             if (!pedidos.Any())
                 throw new ArgumentException("Pedido não localizado");
+
             var pedidoSelecionado = pedidos.Single();
+
+            var pedido_manipular = pedidoSelecionado.Manipular;
 
             pedidoSelecionado.CalcularTotalPedido();
 
@@ -28,9 +31,27 @@ public class PedidoServices(IUnitOfWork _repository) : IPedidoServices
             if (!await _repository.CommitAsync())
                 throw new ArgumentException("Não foi possível atualizar Pedido.");
 
-            var pedidoDto = DtoMapper.ParcePedidoDto(pedidoSelecionado);
+            return true;
+        }
+        catch (Exception ex)
+        {
 
-            return pedidoDto;
+            throw new Exception(ex.Message);
+        }
+    }
+
+    public async Task<PedidoDto> GetPedidoById(Guid idPedido, FiltroBase filtro)
+    {
+        try
+        {
+            var pedidoFiltro = new PedidoEntityFilter
+            {
+                IdPedido = idPedido,
+            };
+
+            var pedidos = await _repository.PedidoRepository.SelectAsync(pedidoFiltro, filtro);
+            var pedidoSelecionado = pedidos.Single();
+            return DtoMapper.ParcePedidoDto(pedidoSelecionado);
         }
         catch (Exception ex)
         {

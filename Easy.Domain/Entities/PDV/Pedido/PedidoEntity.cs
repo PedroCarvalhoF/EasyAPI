@@ -26,6 +26,19 @@ public class PedidoEntity : BaseEntity
     public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; }
     public bool Validada => Validar();
 
+    public bool Manipular => Manipulacao();
+
+    private bool Manipulacao()
+    {
+        if (Cancelado)
+            throw new ArgumentException("Não é possível alterar pedido cancelado.");
+
+        if (Finalizado)
+            throw new ArgumentException("Não é possível alterar pedido finalizado");
+
+        return true;
+    }
+
     private bool Validar()
     {
         return true;

@@ -16,10 +16,10 @@ namespace Easy.Domain.Entities.PDV.ItensPedido
             {
                 query = query.Where(item => item.ProdutoId == filtro.ProdutoId);
             }
-            if (filtro.Cancelado.HasValue)
-            {
-                query = query.Where(item => item.Cancelado == filtro.Cancelado);
-            }
+            //if (filtro.Cancelado.HasValue)
+            //{
+            //    query = query.Where(item => item.Cancelado == filtro.Cancelado);
+            //}
 
             return query;
         }

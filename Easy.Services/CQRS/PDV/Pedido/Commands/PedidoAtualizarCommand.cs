@@ -1,17 +1,18 @@
 ﻿using Easy.Domain.Entities.PDV.Pedido;
-using Easy.Domain.Intefaces;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.Pedido;
+using Easy.Services.Service.Pedido;
 using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Pedido.Commands;
 
-public class PedidoAtualizarCommand : BaseCommandsForUpdate
+public class PedidoAtualizarCommand : BaseCommands<PedidoDto>
 {
     public Guid IdPedido { get; set; }
 
-    public class PedidoAtualizarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PedidoAtualizarCommand, RequestResultForUpdate>
+    public class PedidoAtualizarCommandHandler(IPedidoServices _pedidoServices) : IRequestHandler<PedidoAtualizarCommand, RequestResult<PedidoDto>>
     {
-        public async Task<RequestResultForUpdate> Handle(PedidoAtualizarCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<PedidoDto>> Handle(PedidoAtualizarCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -22,23 +23,15 @@ public class PedidoAtualizarCommand : BaseCommandsForUpdate
                     IdPedido = request.IdPedido,
                 };
 
-                var pedidos = await _repository.PedidoRepository.SelectAsync(pedidoFiltro, filtro);
-                if (!pedidos.Any())
-                    throw new ArgumentException("Pedido não localizado");
-                var pedidoSelecionado = pedidos.Single();
+                var pedidoAtualizado = await _pedidoServices.AtualizarPedido(request.IdPedido, filtro);
 
-                pedidoSelecionado.CalcularTotalPedido();
+                var pedidoDto = await _pedidoServices.GetPedidoById(request.IdPedido, filtro);
 
-                await _repository.PedidoBaseRepository.Update(pedidoSelecionado);
-                if (!await _repository.CommitAsync())
-                    return new RequestResultForUpdate().BadRequest("Não foi possível atualizar pedido");
-
-                return new RequestResultForUpdate().Ok("Pedido Atualizado com sucesso.");
-
+                return RequestResult<PedidoDto>.Ok(pedidoDto);
             }
             catch (Exception ex)
             {
-                return new RequestResultForUpdate().BadRequest(ex.Message);
+                return RequestResult<PedidoDto>.BadRequest(ex.Message);
             }
         }
     }

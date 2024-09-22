@@ -31,10 +31,11 @@ public class ItemPedidoController : ControllerBase
     }
 
     [HttpPost("cancelar-item")]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] ItemPedidoCancelarCommand command)
+    //cancelar item do pedido Retornar Pedido
+    public async Task<ActionResult<RequestResult<PedidoDto>>> CreateAsync([FromBody] ItemPedidoCancelarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("aplicar-desconto-item")]
