@@ -8,11 +8,11 @@ namespace Easy.Domain.Entities.PDV.ItensPedido
         public bool? Cancelado { get; set; }
         public static IQueryable<ItemPedidoEntity> QueryablePedidoEntity(IQueryable<ItemPedidoEntity> query, ItemPedidoEntityFilter filtro)
         {
-            if (filtro.PedidoId.HasValue)
+            if (filtro.PedidoId != Guid.Empty)
             {
                 query = query.Where(item => item.PedidoId == filtro.PedidoId);
             }
-            if (filtro.ProdutoId.HasValue)
+            if (filtro.ProdutoId != Guid.Empty)
             {
                 query = query.Where(item => item.ProdutoId == filtro.ProdutoId);
             }

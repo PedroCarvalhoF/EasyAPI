@@ -7,8 +7,19 @@ namespace Easy.Services.Tools.UseCase.Dto
     {
         public static PedidoDto ParcePedidoDto(PedidoEntity ped)
         {
-            return new PedidoDto
-                (ped.TipoPedido, ped.NumeroPedido, ped.Desconto, ped.SubTotal, ped.Total, ped.Observacoes, ped.Cancelado, ped.PontoVendaEntityId, ped.CategoriaPrecoId, ped.CategoriaPreco!.DescricaoCategoriaPreco, ped.UserId, ped.CreateAt, ped.Finalizado);
+            return new PedidoDto(
+                ped.Id,
+                ped.TipoPedido,
+                ped.NumeroPedido,
+                ped.Desconto,
+                ped.SubTotal,
+                ped.Total, 
+                ped.Observacoes,
+                ped.Cancelado,
+                ped.PontoVendaEntityId,
+                ped.CategoriaPrecoId,
+                ped.CategoriaPreco!.DescricaoCategoriaPreco, 
+                ped.UserId, ped.CreateAt, ped.Finalizado);
         }
 
         public static IEnumerable<PedidoDto> ParcePedidoDto(IEnumerable<PedidoEntity> pedidos)

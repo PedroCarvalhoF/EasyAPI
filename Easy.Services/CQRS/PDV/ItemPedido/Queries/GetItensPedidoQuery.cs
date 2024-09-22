@@ -9,7 +9,7 @@ namespace Easy.Services.CQRS.PDV.ItemPedido.Queries;
 
 public class GetItensPedidoQuery : BaseCommands<IEnumerable<ItemPedidoDto>>
 {
-    public required ItemPedidoEntityFilter FilteItem { get; set; }
+    public required ItemPedidoEntityFilter ItemPedidoEntityFilter { get; set; }
 
     public class GetItensPedidoQueryHandler(IUnitOfWork _repository) : IRequestHandler<GetItensPedidoQuery, RequestResult<IEnumerable<ItemPedidoDto>>>
     {
@@ -17,7 +17,7 @@ public class GetItensPedidoQuery : BaseCommands<IEnumerable<ItemPedidoDto>>
         {
             try
             {
-                var itensPedido = await _repository.ItemPedidoRepository.SelectAsync(request.FilteItem, request.GetFiltro(),true);
+                var itensPedido = await _repository.ItemPedidoRepository.SelectAsync(request.ItemPedidoEntityFilter, request.GetFiltro(),true);
 
                 var dto = DtoMapper.ParceItemPedidoDto(itensPedido);
 

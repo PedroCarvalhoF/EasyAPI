@@ -11,7 +11,7 @@ namespace Easy.Services.CQRS.PDV.ItemPedido.Commands;
 
 public class ItemPedidoInserirCommand : BaseCommands<PedidoDto>
 {
-    public required ItemPedidoDtoInserir ItemPedidoDto { get; set; }
+    public required ItemPedidoDtoInserir ItemPedidoDtoInserir { get; set; }
     public class ItemPedidoCreateCommandHandler(IUnitOfWork _repository, IMediator _mediator) : IRequestHandler<ItemPedidoInserirCommand, RequestResult<PedidoDto>>
     {
         public async Task<RequestResult<PedidoDto>> Handle(ItemPedidoInserirCommand request, CancellationToken cancellationToken)
@@ -21,7 +21,7 @@ public class ItemPedidoInserirCommand : BaseCommands<PedidoDto>
                 var filtro = request.GetFiltro();
 
                 var itemPedidoEntity =
-                    ItemPedidoEntity.InserirItem(request.ItemPedidoDto.Quantidade, request.ItemPedidoDto.Preco, request.ItemPedidoDto.ProdutoId, request.ItemPedidoDto.PedidoId, filtro);
+                    ItemPedidoEntity.InserirItem(request.ItemPedidoDtoInserir.Quantidade, request.ItemPedidoDtoInserir.Preco, request.ItemPedidoDtoInserir.ProdutoId, request.ItemPedidoDtoInserir.PedidoId, filtro);
 
                 if (!itemPedidoEntity.Validada)
                     return RequestResult<PedidoDto>.BadRequest();
