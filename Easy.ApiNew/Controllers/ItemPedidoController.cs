@@ -38,6 +38,14 @@ public class ItemPedidoController : ControllerBase
         return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
+    [HttpPost("cancelar-array-itens")]
+    //cancelar item do pedido Retornar Pedido
+    public async Task<ActionResult<RequestResult<PedidoDto>>> CancelarArrayItensByIds([FromBody] ItemPedidoCancelarArrayItensByIdCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
+    }
+
     [HttpPost("aplicar-desconto-item")]
     public async Task<ActionResult<RequestResultForUpdate>> AplicarDescontoItemAsync([FromBody] ItemPedidoAplicarDescontoCommand command)
     {

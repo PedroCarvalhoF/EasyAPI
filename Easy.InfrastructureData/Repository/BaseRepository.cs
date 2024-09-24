@@ -60,6 +60,39 @@ namespace Easy.InfrastructureData.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<int> UpdateRange(IEnumerable<T> entidades)
+        {
+            try
+            {
+                foreach (var item in entidades)
+                {
+                    // Tenta encontrar a entidade existente pelo Id
+                    var getItem = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+
+                    // Verifica se a entidade foi encontrada
+                    if (getItem != null)
+                    {
+                        // Atualiza os valores da entidade rastreada com os valores da entidade passada
+                        _context.Entry(getItem).CurrentValues.SetValues(item);
+
+                        // Marca a entidade como modificada
+                        _context.Entry(getItem).State = EntityState.Modified;
+                    }
+                    else
+                    {
+                        throw new Exception($"Entidade não encontrada para o Id {item.Id}.");
+                    }
+                }
+
+                // Salva as mudanças no banco de dados
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao atualizar entidades: {ex.Message}");
+            }
+        }
         public async Task<T> SelectAsync(Guid id, FiltroBase filtro, bool includeAll = true)
         {
             try
@@ -81,7 +114,6 @@ namespace Easy.InfrastructureData.Repository
                 throw new Exception(ex.Message);
             }
         }
-
         public async Task<IEnumerable<T>> SelectAsync(FiltroBase filtro, bool includeAll = true)
         {
             try
@@ -104,5 +136,6 @@ namespace Easy.InfrastructureData.Repository
             }
         }
 
+       
     }
 }
