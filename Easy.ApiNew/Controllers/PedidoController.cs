@@ -36,10 +36,10 @@ public class PedidoController : ControllerBase
     }
 
     [HttpPost("cancelar-pedido")]
-    public async Task<ActionResult<RequestResultForUpdate>> CancelarPedidoAsync([FromBody] PedidoCancelarCommand command)
+    public async Task<ActionResult<RequestResult<PedidoDto>>> CancelarPedidoAsync([FromBody] PedidoCancelarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpPost("atualizar-pedido")]

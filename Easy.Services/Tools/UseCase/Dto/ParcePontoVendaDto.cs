@@ -15,7 +15,8 @@ namespace Easy.Services.Tools.UseCase.Dto
                 pdvEntity.UsuarioPdv.UserPdv.Nome,
                 pdvEntity.Aberto,
                 pdvEntity.PeriodoPdvId,
-                pdvEntity.PeriodoPdv.DescricaoPeriodo, pdvEntity.CreateAt);
+                pdvEntity.PeriodoPdv.DescricaoPeriodo, pdvEntity.CreateAt,
+                pdvEntity.QtdPedidos);
         }
 
         public static IEnumerable<PontoVendaDto> ParcePontosVendasDtos(IEnumerable<PontoVendaEntity> pdvEntities)

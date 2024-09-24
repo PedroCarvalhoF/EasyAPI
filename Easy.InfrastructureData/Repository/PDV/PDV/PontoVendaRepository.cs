@@ -59,6 +59,7 @@ public class PontoVendaRepository : BaseRepository<PontoVendaEntity, FiltroBase>
 
                 query = query.Include(periodo => periodo.PeriodoPdv);
 
+                query = query.Include(pedidos => pedidos.Pedidos);
             }
 
             query = query.FiltroCliente(filtro);

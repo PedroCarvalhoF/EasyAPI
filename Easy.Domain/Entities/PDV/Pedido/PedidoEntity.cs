@@ -150,6 +150,7 @@ public class PedidoEntity : BaseEntity
             throw new ArgumentException("Pedido já está cancelado");
 
         Cancelado = true;
+        Finalizado = true;
         UpdateAt = DateTime.Now;
     }
     public void FinalizarPedido()

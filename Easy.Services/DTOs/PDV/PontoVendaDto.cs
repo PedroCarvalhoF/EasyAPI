@@ -11,7 +11,8 @@
         public bool Aberto { get; private set; }
         public Guid PeriodoPdvId { get; private set; }
         public string PeriodoDescricao { get; private set; }
-        public PontoVendaDto(Guid id, Guid usuarioGerentePdvId, string usuarioGerenteNome, Guid usuarioPdvId, string usuarioPdvNome, bool aberto, Guid periodoPdvId, string periodoDescricao, DateTime dataHoraAbertura)
+        public int QtdPedidos { get; private set; }
+        public PontoVendaDto(Guid id, Guid usuarioGerentePdvId, string usuarioGerenteNome, Guid usuarioPdvId, string usuarioPdvNome, bool aberto, Guid periodoPdvId, string periodoDescricao, DateTime dataHoraAbertura, int qtdPedidos)
         {
             Id = id;
             UsuarioGerentePdvId = usuarioGerentePdvId;
@@ -22,6 +23,12 @@
             PeriodoPdvId = periodoPdvId;
             PeriodoDescricao = periodoDescricao;
             DataHoraAbertura = dataHoraAbertura;
+            QtdPedidos = qtdPedidos;
+        }
+
+        public override string ToString()
+        {
+            return $"Ponto de Venda: Total de Pedidos {QtdPedidos}";
         }
     }
 }

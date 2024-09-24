@@ -13,9 +13,17 @@ public class PontoVendaEntity : BaseEntity
     public bool Aberto { get; set; }
     public Guid PeriodoPdvId { get; set; }
     public virtual PeriodoPdvEntity? PeriodoPdv { get; set; }
-    public virtual ICollection<PedidoEntity> Pedidos { get; set; }
+    public virtual ICollection<PedidoEntity>? Pedidos { get; set; }
     public bool Validada => Validar();
 
+    public int QtdPedidos => ContarPedidos();
+    private int ContarPedidos()
+    {
+        if (Pedidos == null)
+            return 0;
+
+        return Pedidos.Count();
+    }
 
     public PontoVendaEntity() { }
 

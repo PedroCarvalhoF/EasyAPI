@@ -23,10 +23,10 @@ public class PontoVendaQueryFilter
             query = query.Where(pv => pv.UsuarioPdvId == filter.UsuarioPdvId.Value);
         }
 
-        if (filter.Aberto.HasValue)
-        {
-            query = query.Where(pv => pv.Aberto == filter.Aberto.Value);
-        }
+        //if (filter.Aberto.HasValue)
+        //{
+        //    query = query.Where(pv => pv.Aberto == filter.Aberto.Value);
+        //}
 
         if (filter.PeriodoPdvId.HasValue)
         {
