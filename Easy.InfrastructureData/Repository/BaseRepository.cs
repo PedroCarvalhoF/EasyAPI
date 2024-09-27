@@ -60,12 +60,11 @@ namespace Easy.InfrastructureData.Repository
                 throw new Exception(ex.Message);
             }
         }
-
-        public async Task<int> UpdateRange(IEnumerable<T> entidades)
+        public async Task<int> UpdateRange(IEnumerable<T> itens)
         {
             try
             {
-                foreach (var item in entidades)
+                foreach (var item in itens)
                 {
                     // Tenta encontrar a entidade existente pelo Id
                     var getItem = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
@@ -136,6 +135,33 @@ namespace Easy.InfrastructureData.Repository
             }
         }
 
-       
+        public async Task<bool> DeleteRange(IEnumerable<T> itens)
+        {
+            try
+            {
+                foreach (var item in itens)
+                {
+                    // Tenta encontrar a entidade existente pelo Id
+                    var getItem = await _dataset.SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
+
+                    // Verifica se a entidade foi encontrada
+                    if (getItem != null)
+                    {
+                        // Remove a entidade rastreada
+                        _dataset.Remove(getItem);
+                    }
+                    else
+                    {
+                        throw new Exception($"Entidade não encontrada para o Id {item.Id}.");
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Erro ao deletar entidades: {ex.Message}");
+            }
+        }
     }
 }

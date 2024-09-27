@@ -94,6 +94,7 @@ namespace Easy.InfrastructureData.Repository.PDV.FormaPagamento
             {
                 var formasEntities = await _dbSet.AsNoTracking()
                     .FiltroCliente(userFiltro)
+                    .OrderBy(forma => forma.DescricaFormaPagamento)
                     .ToArrayAsync();
 
                 return formasEntities;

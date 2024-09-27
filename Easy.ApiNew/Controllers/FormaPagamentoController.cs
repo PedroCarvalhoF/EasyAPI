@@ -3,6 +3,7 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.FormaPagamento.Commands;
 using Easy.Services.CQRS.PDV.FormaPagamento.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.FormaPagamento;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,11 +22,11 @@ public class FormaPagamentoController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<RequestResultForUpdate>> GetAsync()
+    public async Task<ActionResult<RequestResult<IEnumerable<FormaPagamentoDto>>>> GetFormaPagamentoAsync()
     {
         var getCommand = new GetFormaPagamentosQueries();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
+        return new ReturnActionResult<IEnumerable<FormaPagamentoDto>>().ParseToActionResult(await _mediator.Send(getCommand));
     }
 
     [HttpGet("{id}/")]
@@ -39,7 +40,7 @@ public class FormaPagamentoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] FormaPagamentoCreateCommand command)
+    public async Task<ActionResult<RequestResultForUpdate>> InserirFormaPagamentoAsync([FromBody] FormaPagamentoCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));

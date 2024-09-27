@@ -11,9 +11,9 @@ public class PedidoEntity : BaseEntity
 {
     public TipoPedidoEnum? TipoPedido { get; private set; }
     public string? NumeroPedido { get; private set; }
-    public decimal? Desconto { get; private set; } // desconto
-    public decimal? SubTotal { get; private set; } // soma dos itens válidos do pedido
-    public decimal? Total { get; private set; } // soma dos itens - desconto
+    public decimal Desconto { get; private set; } // desconto
+    public decimal SubTotal { get; private set; } // soma dos itens válidos do pedido
+    public decimal Total { get; private set; } // soma dos itens - desconto
     public string? Observacoes { get; private set; }
     public bool Cancelado { get; private set; }
     public bool Finalizado { get; private set; }
@@ -25,8 +25,30 @@ public class PedidoEntity : BaseEntity
     public virtual ICollection<ItemPedidoEntity>? ItensPedido { get; set; }
     public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; }
     public bool Validada => Validar();
-
     public bool Manipular => Manipulacao();
+
+    public bool ReceberPagamentos => ValidarPagamentosPedido();
+    public decimal ValorPedidoPago => CalcularValorPedidoPago();
+
+    private decimal CalcularValorPedidoPago()
+    {
+        if (Pagamentos == null)
+            return 0;
+
+        return Pagamentos.Where(pgt => pgt.Habilitado == true).Sum(pgt => pgt.ValorPago);
+    }
+
+    private bool ValidarPagamentosPedido()
+    {
+        if (Pagamentos == null)
+            return true;
+
+        var totalPago = Pagamentos.Sum(pgt => pgt.ValorPago);
+        if (totalPago >= Total)
+            throw new ArgumentException("Não é possível receber mais pagamento para este pedido.Valor(es) informado é maior ou equivalente total do pedido.");
+
+        return true;
+    }
 
     private bool Manipulacao()
     {
@@ -115,7 +137,7 @@ public class PedidoEntity : BaseEntity
         Observacoes = string.Empty;
         UpdateAt = DateTime.Now;
     }
-    public void AplicarDescontoPedidoValorReal(decimal? valorDesconto)
+    public void AplicarDescontoPedidoValorReal(decimal valorDesconto)
     {
         if (valorDesconto <= 0)
             throw new ArgumentException("Valor do desconto não pode ser menor ou igual a zero.");
@@ -135,7 +157,7 @@ public class PedidoEntity : BaseEntity
         if (descontoPercentual > 100)
             throw new ArgumentException("Percentual do desconto não pode ultrapassar de 100%.");
 
-        decimal? valorDescontoReal = SubTotal * (descontoPercentual / 100);
+        decimal valorDescontoReal = SubTotal * (descontoPercentual / 100);
 
         AplicarDescontoPedidoValorReal(valorDescontoReal);
     }

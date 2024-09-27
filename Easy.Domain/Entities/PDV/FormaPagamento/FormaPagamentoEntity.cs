@@ -7,7 +7,7 @@ public class FormaPagamentoEntity : BaseEntity
 {
     public string DescricaFormaPagamento { get; set; }
     public int Codigo { get; set; }
-    public virtual ICollection<PagamentoPedidoEntity> Pagamentos { get; private set; }
+    public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; } = null;
     public bool Validada => Validar();
 
     private bool Validar()

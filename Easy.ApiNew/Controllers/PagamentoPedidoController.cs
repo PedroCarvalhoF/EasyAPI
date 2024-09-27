@@ -3,6 +3,7 @@ using Easy.Api.Tools;
 using Easy.Services.CQRS.PDV.PagamentoPedido.Commands;
 using Easy.Services.CQRS.PDV.PagamentoPedido.Queries;
 using Easy.Services.DTOs;
+using Easy.Services.DTOs.PagamentoPedido;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,12 @@ public class PagamentoPedidoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<RequestResultForUpdate>> CreateAsync([FromBody] PagamentoPedidoInserirCommand command)
+    //Inseri pagamento pedido
+    //Retornar Lista de pagamentos do pedido
+    public async Task<ActionResult<RequestResult<PagamentoPedidoDtoInserirResult>>> InserirPagamentoPedidoAsync([FromBody] PagamentoPedidoInserirCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PagamentoPedidoDtoInserirResult>().ParseToActionResult(await _mediator.Send(command));
     }
 
     [HttpGet]
@@ -33,5 +36,13 @@ public class PagamentoPedidoController : ControllerBase
         var getCommand = new GetPagamentoPedidoQuery();
         getCommand.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(getCommand));
+    }
+
+    [HttpDelete("remover-pagamentos-pedido")]
+    //remover pagamentos do pedido    
+    public async Task<ActionResult<RequestResult<PagamentoPedidoDtoInserirResult>>> RemoverPagamentoPedidoAsync([FromBody] PagamentoPedidoRemoverCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PagamentoPedidoDtoInserirResult>().ParseToActionResult(await _mediator.Send(command));
     }
 }

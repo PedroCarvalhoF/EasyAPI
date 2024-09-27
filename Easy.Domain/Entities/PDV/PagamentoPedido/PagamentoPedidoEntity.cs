@@ -13,7 +13,10 @@ public class PagamentoPedidoEntity : BaseEntity
     public decimal ValorPago { get; private set; }
 
     public bool Validada => Validar();
-
+    public void AlterarValorPago(decimal valor_para_alterar)
+    {
+        ValorPago = valor_para_alterar;
+    }
     private bool Validar()
     {
         if (FormaPagamentoId == Guid.Empty) return false;

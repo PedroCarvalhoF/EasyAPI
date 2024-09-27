@@ -17,9 +17,9 @@ public class PedidoDto
     public Guid? CategoriaPrecoId { get; private set; }
     public string? CategoriaPreco { get; private set; }
     public Guid? UserId { get; private set; }
-    public bool? Finalizado { get; private set; }
+    public bool Finalizado { get; private set; }
 
-    public PedidoDto(Guid id, TipoPedidoEnum? tipoPedido, string? numeroPedido, decimal? desconto, decimal? subTotal, decimal? total, string? observacoes, bool? cancelado, Guid? pontoVendaEntityId, Guid? categoriaPrecoId, string? categoriaPreco, Guid? userId, DateTime createAt, bool? finalizado)
+    public PedidoDto(Guid id, TipoPedidoEnum? tipoPedido, string? numeroPedido, decimal? desconto, decimal? subTotal, decimal? total, string? observacoes, bool? cancelado, Guid? pontoVendaEntityId, Guid? categoriaPrecoId, string? categoriaPreco, Guid? userId, DateTime createAt, bool finalizado)
     {
         Id = id;
         TipoPedido = tipoPedido;
