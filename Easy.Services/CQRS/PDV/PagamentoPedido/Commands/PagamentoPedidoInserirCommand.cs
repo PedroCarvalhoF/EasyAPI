@@ -41,9 +41,17 @@ public class PagamentoPedidoInserirCommand : BaseCommands<PagamentoPedidoDtoInse
 
                 decimal diferenca = pedidoEntity.Single().Total - total_pago - pagamentoPedidoEntity.ValorPago;
 
-                if (diferenca >= 0)
+                if (diferenca > 0)
                 {
                     await _repository.PagamentoPedidoBaseRepository.InsertAsync(pagamentoPedidoEntity);
+                }
+                else
+                if (diferenca == 0)
+                {
+                    await _repository.PagamentoPedidoBaseRepository.InsertAsync(pagamentoPedidoEntity);
+                    pedidoEntity.Single().FinalizarPedido();
+
+                    var pedidoAtualizado = await _repository.PedidoBaseRepository.Update(pedidoEntity.Single());
                 }
                 else
                 {

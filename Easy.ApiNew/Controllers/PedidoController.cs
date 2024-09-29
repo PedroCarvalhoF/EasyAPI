@@ -48,4 +48,11 @@ public class PedidoController : ControllerBase
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
+
+    [HttpPost("resumo-simples-pedidos")]
+    public async Task<ActionResult<RequestResult<PedidoDtoResumoSimples>>> GetResumoSimplesPedidoAsync([FromBody] GetPedidosResumoSimplesCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PedidoDtoResumoSimples>().ParseToActionResult(await _mediator.Send(command));
+    }
 }

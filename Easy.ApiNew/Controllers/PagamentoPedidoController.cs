@@ -38,6 +38,14 @@ public class PagamentoPedidoController : ControllerBase
         return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(getCommand));
     }
 
+    [HttpPost("get-pagamentos-by-pedido")]
+    //remover pagamentos do pedido    
+    public async Task<ActionResult<RequestResult<PagamentoPedidoDtoInserirResult>>> GetPagamentosByPedidoIdAsync([FromBody] GetPagamentosByPedidoIdQuery command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PagamentoPedidoDtoInserirResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
     [HttpDelete("remover-pagamentos-pedido")]
     //remover pagamentos do pedido    
     public async Task<ActionResult<RequestResult<PagamentoPedidoDtoInserirResult>>> RemoverPagamentoPedidoAsync([FromBody] PagamentoPedidoRemoverCommand command)
