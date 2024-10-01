@@ -1,4 +1,5 @@
 ﻿using Easy.Domain.Entities.PDV.PagamentoPedido;
+using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Services.DTOs.PagamentoPedido;
 
 namespace Easy.Services.Tools.UseCase.Dto;
@@ -16,5 +17,12 @@ public partial class DtoMapper
         {
             yield return ParcePagamentoPedidoDto(pagamento_entity);
         }
+    }
+
+    public static IEnumerable<PagamentoPedidoDto> ParcePagamentoPedidoDto(IEnumerable<PedidoEntity> entities)
+    {
+        var pagamentosEntities = entities.SelectMany(pgt => pgt.Pagamentos);
+
+        return ParcePagamentoPedidoDto(pagamentosEntities);
     }
 }

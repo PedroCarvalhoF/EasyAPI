@@ -14,14 +14,8 @@ namespace Easy.ApiNew.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class ItemPedidoController : ControllerBase
+public class ItemPedidoController(IMediator _mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-    public ItemPedidoController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpPost]
     //inserir item do pedido Retornar Pedido 
     public async Task<ActionResult<RequestResult<PedidoDto>>> CreateAsync([FromBody] ItemPedidoInserirCommand command)
@@ -59,5 +53,12 @@ public class ItemPedidoController : ControllerBase
     {
         commandQuery.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<ItemPedidoDto>>().ParseToActionResult(await _mediator.Send(commandQuery));
+    }
+
+    [HttpPost("get-itens-pedido-resumo-by-pdv")]
+    public async Task<ActionResult<RequestResult<List<ItemPedidoDtoResumoSimples>>>> GetResumoItensPedidoByPdvAsync([FromBody] GetItensPedidoResumoByPdvQuery commandQuery)
+    {
+        commandQuery.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<List<ItemPedidoDtoResumoSimples>>().ParseToActionResult(await _mediator.Send(commandQuery));
     }
 }

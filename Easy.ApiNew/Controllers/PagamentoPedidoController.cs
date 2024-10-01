@@ -53,4 +53,12 @@ public class PagamentoPedidoController : ControllerBase
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<PagamentoPedidoDtoInserirResult>().ParseToActionResult(await _mediator.Send(command));
     }
+
+    [HttpPost("get-resumo-pagamentos-by-pdv")]
+    //remover pagamentos do pedido    
+    public async Task<ActionResult<RequestResult<List<PagamentoPedidoDtoResumoPdv>>>> GetResumoPagamentosByPedidoIdAsync([FromBody] GetResumoPagamentosByPdvIdQuery command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<List<PagamentoPedidoDtoResumoPdv>>().ParseToActionResult(await _mediator.Send(command));
+    }
 }

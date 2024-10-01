@@ -16,9 +16,9 @@ namespace Easy.Domain.Entities
         {
             if (Id == Guid.Empty)
                 return false;
-            if (UserId == null || UserId == Guid.Empty)
+            if (UserId == Guid.Empty)
                 return false;
-            if (UserMasterClienteIdentityId == null || UserMasterClienteIdentityId == Guid.Empty)
+            if (UserMasterClienteIdentityId == Guid.Empty)
                 return false;
 
             return true;
@@ -35,7 +35,7 @@ namespace Easy.Domain.Entities
                                  "Informe o id do Usuário Master");
 
             Id = Guid.NewGuid();
-            CreateAt = DateTime.UtcNow;
+            CreateAt = DateTime.Now;
             UpdateAt = null;
             Habilitado = true;
             UserMasterClienteIdentityId = users.clienteId;

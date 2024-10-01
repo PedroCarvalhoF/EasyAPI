@@ -33,7 +33,7 @@ public class PedidoRepository : BaseRepository<PedidoEntity, FiltroBase>, IPedid
 
                 query = query.Include(itens => itens.ItensPedido);
 
-                query = query.Include(pgt => pgt.Pagamentos);
+                query = query.Include(pgt => pgt.Pagamentos).ThenInclude(forma_pg=>forma_pg.FormaPagamento);
             }
 
             query = query.OrderByDescending(pedido => pedido.CreateAt);

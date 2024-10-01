@@ -13,14 +13,8 @@ namespace Easy.ApiNew.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class CategoriaPrecoController : ControllerBase
-{
-    private readonly IMediator _mediator;
-    public CategoriaPrecoController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
+public class CategoriaPrecoController(IMediator _mediator) : ControllerBase
+{   
     [HttpGet]
     public async Task<ActionResult<IEnumerable<CategoriaPrecoDto>>> GetCategoriasPrecosAsync()
     {

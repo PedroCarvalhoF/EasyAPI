@@ -11,24 +11,18 @@ namespace Easy.ApiNew.Controllers;
 [Route("[controller]")]
 [ApiController]
 
-public class AccountsUserClienteController : ControllerBase
+public class AccountsUserClienteController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-    public AccountsUserClienteController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
     [HttpPost("cadastrar-cliente")]
     public async Task<ActionResult<RequestResultForUpdate>> CadastrarUserCliente([FromBody] UserMasterClienteCreateCommand command)
     {
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await mediator.Send(command));
     }
     [AllowAnonymous]
     [HttpGet("get-clientes")]
     public async Task<ActionResult<RequestResultForUpdate>> CadastrarUserCliente()
     {
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(new GetUserMasterClienteQuery()));
+        return new ReturnActionResultForUpdate().ParseToActionResult(await mediator.Send(new GetUserMasterClienteQuery()));
     }
 
 }

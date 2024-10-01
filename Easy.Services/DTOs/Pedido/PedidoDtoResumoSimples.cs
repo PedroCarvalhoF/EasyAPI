@@ -2,6 +2,7 @@
 public class PedidoDtoResumoSimples
 {
     public Guid PdvId { get; private set; }
+    public DateTime DataHoraResumoAtualizado = DateTime.Now;
     public int QtdTotalPedidos => QtdTotalPedidosValidos + QtdTotalPedidosCancelados + QtdTotalPedidosPendentes;
     public int QtdTotalPedidosValidos => SomaQtdTotalPedidosValidos();
     public decimal ValorTotalPedidosValidos => SomaValorTotalPedidosValidos();

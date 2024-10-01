@@ -7,12 +7,12 @@ namespace Easy.Api.Extensions
     {
         public static string GetUserName(this ClaimsPrincipal user)
         {
-            return user.FindFirst(ClaimTypes.Name)?.Value;
+            return user.FindFirst(ClaimTypes.Name)?.Value!;
         }
 
         public static Guid GetUserId(this ClaimsPrincipal user)
         {
-            return Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            return Guid.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
         }
 
         public static Guid GetFiltroId(this ClaimsPrincipal user)

@@ -16,11 +16,8 @@ namespace Easy.ApiNew.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class AccountController : ControllerBase
-{
-    private readonly IMediator _mediator;
-    public AccountController(IMediator mediator) => _mediator = mediator;
-
+public class AccountController(IMediator _mediator) : ControllerBase
+{   
     [AllowAnonymous]
     [HttpPost("create-user")]
     public async Task<ActionResult<RequestResult<UsuarioCadastroResponse>>> CadastrarUsuario(UserCreateCommand command)

@@ -20,16 +20,13 @@ public class PedidoEntity : BaseEntity
     public Guid? PontoVendaEntityId { get; private set; }
     public virtual PontoVendaEntity? PontoVendaEntity { get; private set; }
     public Guid? CategoriaPrecoId { get; private set; }
-
     public virtual CategoriaPrecoEntity? CategoriaPreco { get; private set; }
     public virtual ICollection<ItemPedidoEntity>? ItensPedido { get; set; }
     public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; }
     public bool Validada => Validar();
     public bool Manipular => Manipulacao();
-
     public bool ReceberPagamentos => ValidarPagamentosPedido();
     public decimal ValorPedidoPago => CalcularValorPedidoPago();
-
     private decimal CalcularValorPedidoPago()
     {
         if (Pagamentos == null)
@@ -91,19 +88,16 @@ public class PedidoEntity : BaseEntity
         Cancelado = false;
         Finalizado = false;
     }
-
     public static PedidoEntity GerarPedidoVenda(string? numeroPedido, Guid pontoVendaEntityId, Guid categoriaPrecoId, FiltroBase users)
     {
         var pedidoVendaEntity = new PedidoEntity(TipoPedidoEnum.Venda, numeroPedido, pontoVendaEntityId, categoriaPrecoId, users);
         return pedidoVendaEntity;
     }
-
     public static PedidoEntity GerarPedidoOrcamento(string? numeroPedido, Guid pontoVendaEntityId, Guid categoriaPrecoId, FiltroBase users)
     {
         var pedidoVendaEntity = new PedidoEntity(TipoPedidoEnum.Orcamento, numeroPedido, pontoVendaEntityId, categoriaPrecoId, users);
         return pedidoVendaEntity;
     }
-
     #endregion
     private void CalcularSubTotal()
     {

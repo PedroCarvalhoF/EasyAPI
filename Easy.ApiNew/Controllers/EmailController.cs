@@ -24,7 +24,7 @@ public class EmailController : ControllerBase
                 smtp.EnableSsl = true;
                 smtp.Credentials = new NetworkCredential("easysistemsolucoes@gmail.com", "pefs cxjt cola xjif");
 
-                using (MailMessage msg = new MailMessage())
+                using (MailMessage msg = new())
                 {
                     msg.From = new MailAddress("easysistemsolucoes@gmail.com");
                     msg.To.Add(new MailAddress(emailDto.EmailDestinatario));
