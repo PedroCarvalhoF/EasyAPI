@@ -7,7 +7,7 @@ namespace Easy.Services.CQRS.PDV.Pdv.Queries;
 
 public class GetPontoVendaQueryPdvFilter : BaseCommandsForUpdate
 {
-    public PontoVendaQueryFilter PontoVendaQueryFilter { get; set; }
+    public required PontoVendaQueryFilter PontoVendaQueryFilter { get; set; }
 
     public class GetPontoVendaQueryPdvFilterHandler(IUnitOfWork _repository) : IRequestHandler<GetPontoVendaQueryPdvFilter, RequestResultForUpdate>
     {

@@ -83,6 +83,8 @@ namespace Easy.Services.Service
                     usuarioLoginResponse.AdicionarErro("É necessário confirmar o login no seu segundo fator de autenticação");
                 else
                     usuarioLoginResponse.AdicionarErro("Usuário ou senha estão incorretos");
+
+                return RequestResult<UsuarioLoginResponse>.BadRequest(usuarioLoginResponse, usuarioLoginResponse.Erros.First());
             }
 
             return RequestResult<UsuarioLoginResponse>.Ok(usuarioLoginResponse, "Login realizado com sucesso.");

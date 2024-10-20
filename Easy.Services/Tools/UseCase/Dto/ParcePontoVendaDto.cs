@@ -5,18 +5,26 @@ namespace Easy.Services.Tools.UseCase.Dto
 {
     public partial class DtoMapper
     {
-        public static PontoVendaDto ParcePontoVendaDto(PontoVendaEntity pdvEntity)
+        public static PontoVendaDto ParcePontoVendaDto(PontoVendaEntity pdv)
         {
             return new PontoVendaDto(
-                pdvEntity.Id,
-                pdvEntity.UsuarioGerentePdvId,
-                pdvEntity.UsuarioGerentePdv.UserPdv.Nome,
-                pdvEntity.UsuarioPdvId,
-                pdvEntity.UsuarioPdv.UserPdv.Nome,
-                pdvEntity.Aberto,
-                pdvEntity.PeriodoPdvId,
-                pdvEntity.PeriodoPdv.DescricaoPeriodo, pdvEntity.CreateAt,
-                pdvEntity.QtdPedidos);
+                pdv.Id,
+                pdv.UsuarioGerentePdvId,
+                pdv.UsuarioGerentePdv!.UserPdv!.Nome,
+                pdv.UsuarioPdvId,
+                pdv.UsuarioPdv!.UserPdv!.Nome,
+                pdv.Aberto,
+                pdv.PeriodoPdvId,
+                pdv.PeriodoPdv!.DescricaoPeriodo,
+                pdv.CreateAt,
+                pdv.QtdPedidos,
+                pdv.QuantidadePedidosValidos,
+                pdv.QuantidadePedidosCancelados,
+                pdv.SomaValorTotalPedidos,
+                pdv.SomaValorTotalPedidosValidos,
+                pdv.SomaValorTotalPedidosCancelados,
+                pdv.TicketMedio,
+                pdv.SomaDescontoPedidosValidos);
         }
 
         public static IEnumerable<PontoVendaDto> ParcePontosVendasDtos(IEnumerable<PontoVendaEntity> pdvEntities)

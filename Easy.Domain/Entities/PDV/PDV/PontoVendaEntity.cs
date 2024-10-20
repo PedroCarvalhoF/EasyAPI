@@ -16,17 +16,19 @@ public class PontoVendaEntity : BaseEntity
     public virtual ICollection<PedidoEntity>? Pedidos { get; set; }
     public bool Validada => Validar();
 
-    public int QtdPedidos => ContarPedidos();
-    private int ContarPedidos()
-    {
-        if (Pedidos == null)
-            return 0;
+    #region Campos Auxiliares/Helpers
+    public int QtdPedidos => CalcularQuantidadePedidos();
+    public int QuantidadePedidosValidos => CalcularQuantidadePedidosValidos();
+    public int QuantidadePedidosCancelados => CalcularQuantidadePedidosCancelados();
+    public decimal SomaValorTotalPedidos => CalcularSomaValorTotalPedidos();
+    public decimal SomaValorTotalPedidosValidos => CalcularSomaValorTotalPedidosValidos();
+    public decimal SomaValorTotalPedidosCancelados => CalcularSomaValorTotalPedidosCancelados();
+    public decimal SomaDescontoPedidosValidos => CalcularSomaDescontoPedidosValidos();
+    public decimal TicketMedio => CalcularTicketMedio();     
 
-        return Pedidos.Count();
-    }
-
+    #endregion
+    #region Construtores    
     public PontoVendaEntity() { }
-
     PontoVendaEntity(Guid usuarioGerentePdvId, Guid usuarioPdvId, Guid periodoPdvId, FiltroBase user) : base(user)
     {
         DomainValidation.When(usuarioGerentePdvId == Guid.Empty, "Informe o id gerente pdv.");
@@ -38,7 +40,6 @@ public class PontoVendaEntity : BaseEntity
         PeriodoPdvId = periodoPdvId;
         Aberto = true;
     }
-
     PontoVendaEntity(Guid id, bool habilitado, Guid usuarioGerentePdvId, Guid usuarioPdvId, bool aberto, Guid periodoPdvId, FiltroBase user) : base(id, habilitado, user)
     {
         DomainValidation.When(id == Guid.Empty, "Informe o id pdv.");
@@ -51,6 +52,14 @@ public class PontoVendaEntity : BaseEntity
         Aberto = aberto;
         PeriodoPdvId = periodoPdvId;
     }
+
+    #endregion
+    #region Auxiliares
+    public static PontoVendaEntity Create(Guid usuarioGerentePdvId, Guid usuarioPdvId, Guid periodoPdvId, FiltroBase user)
+       => new PontoVendaEntity(usuarioGerentePdvId, usuarioPdvId, periodoPdvId, user);
+
+    #endregion
+    #region Validacoes
     private bool Validar()
     {
         if (UsuarioGerentePdvId == Guid.Empty)
@@ -64,10 +73,67 @@ public class PontoVendaEntity : BaseEntity
 
         return true;
     }
+    #endregion
+    #region Metodos
 
-    public static PontoVendaEntity Create(Guid usuarioGerentePdvId, Guid usuarioPdvId, Guid periodoPdvId, FiltroBase user)
-        => new PontoVendaEntity(usuarioGerentePdvId, usuarioPdvId, periodoPdvId, user);
+    #region Metodos Pedidos  
+    private int CalcularQuantidadePedidos()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
 
+        return Pedidos.Count;
+    }
+    private int CalcularQuantidadePedidosValidos()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return Pedidos.Count(p => !p.Cancelado && p.Finalizado);
+    }
+    private int CalcularQuantidadePedidosCancelados()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return Pedidos.Count(p => p.Cancelado && p.Finalizado);
+    }
+    private decimal CalcularSomaValorTotalPedidos()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return Pedidos.Sum(p => p.Total);
+    }
+    private decimal CalcularSomaValorTotalPedidosValidos()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return Pedidos.Where(p => p.Finalizado && !p.Cancelado).Sum(p => p.Total);
+    }
+    private decimal CalcularSomaValorTotalPedidosCancelados()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return Pedidos.Where(p => p.Finalizado && p.Cancelado).Sum(p => p.Total);
+    }
+    private decimal CalcularTicketMedio()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return SomaValorTotalPedidosValidos / QuantidadePedidosValidos;
+    }
+    private decimal CalcularSomaDescontoPedidosValidos()
+    {
+        if (Pedidos == null || Pedidos.Count == 0)
+            return 0;
+
+        return Pedidos.Where(p => p.Finalizado && !p.Cancelado).Sum(p => p.Desconto);
+    }
+    #endregion
     public void EncerrarPontoVenda()
     {
         if (!Aberto)
@@ -76,5 +142,5 @@ public class PontoVendaEntity : BaseEntity
         Aberto = false;
         UpdateAt = DateTime.Now;
     }
-
+    #endregion
 }

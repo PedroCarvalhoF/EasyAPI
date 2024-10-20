@@ -24,6 +24,14 @@ public class ItemPedidoController(IMediator _mediator) : ControllerBase
         return new ReturnActionResult<PedidoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
+    [HttpPost("inserir-item/return/pedido-include-itens")]
+    //inserir item do pedido Retornar Pedido 
+    public async Task<ActionResult<RequestResult<PedidoDtoIncludeItens>>> InserirItemReturnPedidoListItens([FromBody] ItemPedidoInserirResultItensIncludeCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PedidoDtoIncludeItens>().ParseToActionResult(await _mediator.Send(command));
+    }
+
     [HttpPost("cancelar-item")]
     //cancelar item do pedido Retornar Pedido
     public async Task<ActionResult<RequestResult<PedidoDto>>> CreateAsync([FromBody] ItemPedidoCancelarCommand command)

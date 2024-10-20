@@ -7,8 +7,7 @@ using MediatR;
 namespace Easy.Services.CQRS.PDV.Pedido.Commands;
 public class PedidoCancelarCommand : BaseCommands<PedidoDto>
 {
-    public Guid IdPedido { get; set; }
-
+    public required PedidoDtoCancelamentoPedidoRequest pedidoDtoCancelamentoPedidoRequest { get; set; }
     public class PedidoCancelarCommandHandler(IUnitOfWork _repository, IPedidoServices _pedidoServices) : IRequestHandler<PedidoCancelarCommand, RequestResult<PedidoDto>>
     {
         public async Task<RequestResult<PedidoDto>> Handle(PedidoCancelarCommand request, CancellationToken cancellationToken)
@@ -16,11 +15,11 @@ public class PedidoCancelarCommand : BaseCommands<PedidoDto>
             try
             {
                 var filtro = request.GetFiltro();
-                var pedidoSelecionado = await _repository.PedidoBaseRepository.SelectAsync(request.IdPedido, filtro);
+                var pedidoSelecionado = await _repository.PedidoBaseRepository.SelectAsync(request.pedidoDtoCancelamentoPedidoRequest.IdPedido, filtro);
                 if (pedidoSelecionado == null)
                     return RequestResult<PedidoDto>.BadRequest("Pedido não localizado");
 
-                pedidoSelecionado.CancelarPedido();
+                pedidoSelecionado.CancelarPedido(request.pedidoDtoCancelamentoPedidoRequest.DescricaoMotivoCancelamento);
 
                 await _repository.PedidoBaseRepository.Update(pedidoSelecionado);
 

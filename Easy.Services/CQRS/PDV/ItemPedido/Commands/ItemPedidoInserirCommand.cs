@@ -1,7 +1,5 @@
 ﻿using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Domain.Intefaces;
-using Easy.Services.CQRS.PDV.ItemPedido.Notifications;
-using Easy.Services.CQRS.PDV.Pedido.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.ItemPedido;
 using Easy.Services.DTOs.Pedido;

@@ -6,7 +6,7 @@ namespace Easy.Domain.Entities.PDV.UserPDV;
 public class UsuarioPdvEntity : BaseEntity
 {
     public Guid UserPdvId { get; private set; }
-    public virtual UserEntity UserPdv { get; private set; }
+    public virtual UserEntity? UserPdv { get; private set; }
     public virtual ICollection<PontoVendaEntity>? UsuariosGerentesPdvs { get; set; }
     public virtual ICollection<PontoVendaEntity>? UsuariosPdvs { get; set; }
     public bool Validada => Validar();

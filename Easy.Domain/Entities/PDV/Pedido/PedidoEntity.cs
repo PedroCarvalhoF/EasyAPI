@@ -4,6 +4,7 @@ using Easy.Domain.Entities.PDV.PagamentoPedido;
 using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Enuns.Pdv.Pedido;
 using Easy.Domain.Tools.Validation;
+using System.Globalization;
 
 namespace Easy.Domain.Entities.PDV.Pedido;
 
@@ -160,14 +161,26 @@ public class PedidoEntity : BaseEntity
         Desconto = 0;
         CalcularTotalPedido();
     }
-    public void CancelarPedido()
+    public void CancelarPedido(string motivoCancelamento)
     {
         if (Cancelado == true)
             throw new ArgumentException("Pedido já está cancelado");
 
+        Observacoes = string.Empty;
+
+
+        DateTime now = DateTime.Now;
+        string dataFormatada = now.ToString("dddd, dd/MM/yyyy", new CultureInfo("pt-BR")) + " " + now.ToLongTimeString();
+
+        var descricaoCancelamento = $"Pedido cancelado {dataFormatada} | Motivo: {motivoCancelamento}";
+
+        AdiconarObservacoes(descricaoCancelamento);
+
         Cancelado = true;
         Finalizado = true;
         UpdateAt = DateTime.Now;
+
+
     }
     public void FinalizarPedido()
     {
