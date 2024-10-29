@@ -37,7 +37,7 @@ public class GetPagamentosByPedidoIdQuery : BaseCommands<PagamentoPedidoDtoInser
             catch (Exception ex)
             {
 
-                throw;
+                return RequestResult<PagamentoPedidoDtoInserirResult>.BadRequest(ex.Message);
             }
         }
     }

@@ -30,7 +30,7 @@ namespace Easy.Services.CQRS.PDV.ItemPedido.Commands
                         itemPedidoSelecionado.AplicarDescontoPedidoPercentual(request.DescontoPercentual ?? 0m);
                     }
 
-                     _repository.ItemPedidoBaseRepository.Update(itemPedidoSelecionado);
+                    await _repository.ItemPedidoBaseRepository.Update(itemPedidoSelecionado);
                     if (!await _repository.CommitAsync())
                         return new RequestResultForUpdate().BadRequest("Não foi possível aplicar desconto.");
 

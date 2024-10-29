@@ -69,4 +69,12 @@ public class ItemPedidoController(IMediator _mediator) : ControllerBase
         commandQuery.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<List<ItemPedidoDtoResumoSimples>>().ParseToActionResult(await _mediator.Send(commandQuery));
     }
+
+    [HttpPost("get-resumo-itens-pedidos-group-categoria-preco/")]
+    public async Task<ActionResult<RequestResult<List<ItemPedidoDtoResumoSimples>>>>
+        GetResumoItensPedidosGroupCategoriaPrecos([FromBody] GetResumoItensPedidosGroupCategoriaPrecoQuery commandQuery)
+    {
+        commandQuery.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<List<ItemPedidoDtoResumoGroupCategoriaPreco>>().ParseToActionResult(await _mediator.Send(commandQuery));
+    }
 }

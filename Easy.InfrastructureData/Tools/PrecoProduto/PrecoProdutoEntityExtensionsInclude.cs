@@ -10,7 +10,7 @@ namespace Easy.InfrastructureData.Tools.PrecoProduto
             return
                 query
                 .Include(preco => preco.Produto)
-                .ThenInclude(prod => prod.CategoriaProdutoEntity)
+                .ThenInclude(prod => prod!.CategoriaProdutoEntity)
                 .Include(preco => preco.CategoriaPreco);
         }
     }

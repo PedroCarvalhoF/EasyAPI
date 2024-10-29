@@ -111,7 +111,7 @@ namespace Easy.InfrastructureData.Repository.PDV.FormaPagamento
             try
             {
                 var result = await _dbSet.AsNoTracking().SingleOrDefaultAsync(p => p.Id.Equals(item.Id));
-                item.DataCriacao(result.CreateAt);
+                item.DataCriacao(result!.CreateAt);
                 _context.Entry(result).CurrentValues.SetValues(item);
                 _context.Update(item);
                 return item;

@@ -31,12 +31,12 @@ public class PontoVendaController : ControllerBase
     {
         queryCommand.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<PontoVendaDto>>().ParseToActionResult(await _mediator.Send(queryCommand));
-    }   
+    }
 
     [HttpPost("encerrar")]
-    public async Task<ActionResult<RequestResultForUpdate>> EncerrarPdvAsync(PontoVendaEncerrarCommand command)
+    public async Task<ActionResult<RequestResult<PontoVendaDtoEncerrarResult>>> EncerrarPdvAsync(PontoVendaEncerrarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
-    }    
+        return new ReturnActionResult<PontoVendaDtoEncerrarResult>().ParseToActionResult(await _mediator.Send(command));
+    }
 }

@@ -16,6 +16,7 @@ public class PontoVendaEntity : BaseEntity
     public virtual ICollection<PedidoEntity>? Pedidos { get; set; }
     public bool Validada => Validar();
 
+
     #region Campos Auxiliares/Helpers
     public int QtdPedidos => CalcularQuantidadePedidos();
     public int QuantidadePedidosValidos => CalcularQuantidadePedidosValidos();
@@ -24,7 +25,7 @@ public class PontoVendaEntity : BaseEntity
     public decimal SomaValorTotalPedidosValidos => CalcularSomaValorTotalPedidosValidos();
     public decimal SomaValorTotalPedidosCancelados => CalcularSomaValorTotalPedidosCancelados();
     public decimal SomaDescontoPedidosValidos => CalcularSomaDescontoPedidosValidos();
-    public decimal TicketMedio => CalcularTicketMedio();     
+    public decimal TicketMedio => CalcularTicketMedio();
 
     #endregion
     #region Construtores    
@@ -70,6 +71,18 @@ public class PontoVendaEntity : BaseEntity
 
         if (PeriodoPdvId == Guid.Empty)
             return false;
+
+        return true;
+    }
+
+    private bool ValidarEncerramentoCaixaValidado()
+    {
+        if (!Aberto)
+            throw new ArgumentException("Não é possível encerrar Ponto de Venda (caixa). Motivo: Ponto de venda selecionado já está encerrado.");
+        
+        if (Pedidos != null)
+            if (Pedidos!.Any(ped => !ped.Finalizado))
+                throw new ArgumentException("Não é possível encerrar Ponto de Venda (caixa). Motivo: Existe pedidos pendentes. Necessário a finalização ou cancelado para concluir o encerramento de caixa.");
 
         return true;
     }
@@ -121,10 +134,18 @@ public class PontoVendaEntity : BaseEntity
     }
     private decimal CalcularTicketMedio()
     {
-        if (Pedidos == null || Pedidos.Count == 0)
-            return 0;
+        try
+        {
+            if (Pedidos == null || Pedidos.Count == 0)
+                return 0;
 
-        return SomaValorTotalPedidosValidos / QuantidadePedidosValidos;
+            return SomaValorTotalPedidosValidos / QuantidadePedidosValidos;
+
+        }
+        catch (System.DivideByZeroException)
+        {
+            return 0;
+        }
     }
     private decimal CalcularSomaDescontoPedidosValidos()
     {
@@ -136,8 +157,7 @@ public class PontoVendaEntity : BaseEntity
     #endregion
     public void EncerrarPontoVenda()
     {
-        if (!Aberto)
-            throw new ArgumentException("Ponto de venda já está encerrado");
+        ValidarEncerramentoCaixaValidado();
 
         Aberto = false;
         UpdateAt = DateTime.Now;

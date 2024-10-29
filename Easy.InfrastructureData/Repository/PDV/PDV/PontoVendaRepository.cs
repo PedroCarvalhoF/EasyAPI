@@ -26,9 +26,9 @@ public class PontoVendaRepository : BaseRepository<PontoVendaEntity, FiltroBase>
 
             if (includeAll)
             {
-                query = query.Include(user_gerente => user_gerente.UsuarioGerentePdv).ThenInclude(user => user.UserPdv);
+                query = query.Include(user_gerente => user_gerente.UsuarioGerentePdv).ThenInclude(user => user!.UserPdv);
 
-                query = query.Include(user_operador => user_operador.UsuarioPdv).ThenInclude(user => user.UserPdv);
+                query = query.Include(user_operador => user_operador.UsuarioPdv).ThenInclude(user => user!.UserPdv);
 
                 query = query.Include(periodo => periodo.PeriodoPdv);
 

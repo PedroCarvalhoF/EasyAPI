@@ -1,7 +1,4 @@
-﻿
-using Easy.Domain.Entities.PDV.ItensPedido;
-
-namespace Easy.Services.DTOs.ItemPedido;
+﻿namespace Easy.Services.DTOs.ItemPedido;
 
 public class ItemPedidoDtoResumoSimples
 {

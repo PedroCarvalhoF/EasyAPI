@@ -7,9 +7,25 @@ public class PedidoEntityFilter
     public Guid? PontoVendaEntityId { get; set; }
     public bool? Finalizado { get; set; }
     public bool? Cancelado { get; set; }
+    public Guid? FormaPagamentoId { get; set; }
+    public Guid? ProdutoId { get; set; }
+
     public static IQueryable<PedidoEntity> QueryablePedidoEntity(IQueryable<PedidoEntity> query, PedidoEntityFilter filtro)
     {
-        if(filtro.Cancelado.HasValue)
+        if (filtro.ProdutoId != null && filtro.ProdutoId != Guid.Empty)
+        {
+            query = query.Where(pedido => pedido.ItensPedido != null &&
+                                        pedido.ItensPedido.Any(itens => itens.ProdutoId == filtro.ProdutoId));
+        }
+
+
+        if (filtro.FormaPagamentoId != null && filtro.FormaPagamentoId != Guid.Empty)
+        {
+            query = query.Where(pedido => pedido.Pagamentos != null &&
+                                          pedido.Pagamentos.Any(pgt => pgt.FormaPagamentoId == filtro.FormaPagamentoId));
+        }
+
+        if (filtro.Cancelado.HasValue)
         {
             query = query.Where(pedido => pedido.Cancelado == filtro.Cancelado);
         }
