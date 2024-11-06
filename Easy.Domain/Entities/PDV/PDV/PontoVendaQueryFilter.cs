@@ -13,25 +13,25 @@ public class PontoVendaQueryFilter
     public static IQueryable<PontoVendaEntity> FiltroPontoVenda(IQueryable<PontoVendaEntity> query, PontoVendaQueryFilter filter)
     {
 
-        if (filter.UsuarioGerentePdvId.HasValue)
+        if (filter.UsuarioGerentePdvId != null && filter.UsuarioGerentePdvId != Guid.Empty)
         {
-            query = query.Where(pv => pv.UsuarioGerentePdvId == filter.UsuarioGerentePdvId.Value);
+            query = query.Where(pv => pv.UsuarioGerentePdvId == filter.UsuarioGerentePdvId);
         }
 
-        if (filter.UsuarioPdvId.HasValue)
+        if (filter.UsuarioPdvId != null && filter.UsuarioGerentePdvId != Guid.Empty)
         {
             query = query.Where(pv => pv.UsuarioPdvId == filter.UsuarioPdvId.Value);
         }
-        if(filter.IdPdv.HasValue)
+        if (filter.IdPdv != null && filter.IdPdv != Guid.Empty)
         {
             query = query.Where(pdv => pdv.Id == filter.IdPdv);
         }
-        //if (filter.Aberto.HasValue)
-        //{
-        //    query = query.Where(pv => pv.Aberto == filter.Aberto.Value);
-        //}
+        if (filter.Aberto.HasValue)
+        {
+            query = query.Where(pv => pv.Aberto == filter.Aberto);
+        }
 
-        if (filter.PeriodoPdvId.HasValue)
+        if (filter.PeriodoPdvId != null && filter.PeriodoPdvId != Guid.Empty)
         {
             query = query.Where(pv => pv.PeriodoPdvId == filter.PeriodoPdvId.Value);
         }

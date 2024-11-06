@@ -9,9 +9,26 @@ public class PedidoEntityFilter
     public bool? Cancelado { get; set; }
     public Guid? FormaPagamentoId { get; set; }
     public Guid? ProdutoId { get; set; }
-
+    public Guid? CategoriaPrecoId { get; set; }
+    public decimal? TotalPedido { get; set; }
     public static IQueryable<PedidoEntity> QueryablePedidoEntity(IQueryable<PedidoEntity> query, PedidoEntityFilter filtro)
     {
+
+        if (filtro.TotalPedido != null && filtro.TotalPedido > 0)
+        {
+            query = query.Where(pedido => pedido.Total == filtro.TotalPedido);
+        }
+
+        if (filtro.CategoriaPrecoId != null && filtro.CategoriaPrecoId != Guid.Empty)
+        {
+            query = query.Where(pedido => pedido.CategoriaPrecoId == filtro.CategoriaPrecoId);
+        }
+
+        if (filtro.CategoriaPrecoId != null && filtro.CategoriaPrecoId != Guid.Empty)
+        {
+            query = query.Where(pedido => pedido.CategoriaPrecoId == filtro.CategoriaPrecoId);
+        }
+
         if (filtro.ProdutoId != null && filtro.ProdutoId != Guid.Empty)
         {
             query = query.Where(pedido => pedido.ItensPedido != null &&

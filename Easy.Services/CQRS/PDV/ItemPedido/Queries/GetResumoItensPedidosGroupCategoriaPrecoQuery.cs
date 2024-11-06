@@ -7,7 +7,7 @@ using MediatR;
 namespace Easy.Services.CQRS.PDV.ItemPedido.Queries;
 
 public class GetResumoItensPedidosGroupCategoriaPrecoQuery : BaseCommands<List<ItemPedidoDtoResumoGroupCategoriaPreco>>
-{   
+{
     public required PedidoEntityFilter PedidoEntityFilter { get; set; }
     public class GetResumoItensPedidosGroupCategoriaPrecoQueryHandler(IUnitOfWork _repository)
         : IRequestHandler<GetResumoItensPedidosGroupCategoriaPrecoQuery, RequestResult<List<ItemPedidoDtoResumoGroupCategoriaPreco>>>
@@ -33,6 +33,7 @@ public class GetResumoItensPedidosGroupCategoriaPrecoQuery : BaseCommands<List<I
                                              Preco = item.Preco
                                          }
                                          into produtoGroup
+                                         orderby produtoGroup.Key.NomeProduto
                                          select new ItemPedidoDtoResumoGroupCategoriaPreco(
                                              produtoGroup.Key.DescricaoCategoriaPreco ?? "N/A",  // Valor padrão caso seja nulo
                                              produtoGroup.Key.NomeProduto ?? "Produto desconhecido", // Valor padrão caso seja nulo
@@ -41,7 +42,7 @@ public class GetResumoItensPedidosGroupCategoriaPrecoQuery : BaseCommands<List<I
                                              produtoGroup.Sum(i => i.TotalItem)
                                          );
 
-                return RequestResult<List<ItemPedidoDtoResumoGroupCategoriaPreco>>.Ok(result.ToList());               
+                return RequestResult<List<ItemPedidoDtoResumoGroupCategoriaPreco>>.Ok(result.ToList());
             }
             catch (Exception ex)
             {

@@ -11,13 +11,14 @@ public class PagamentoPedidoInserirCommand : BaseCommands<PagamentoPedidoDtoInse
 {
     public required PagamentoPedidoDtoInserir PagamentoPedidoDtoInserir { get; set; }
 
+    
     public class PagamentoPedidoInserirCommandHandler(IUnitOfWork _repository) : IRequestHandler<PagamentoPedidoInserirCommand, RequestResult<PagamentoPedidoDtoInserirResult>>
     {
         public async Task<RequestResult<PagamentoPedidoDtoInserirResult>> Handle(PagamentoPedidoInserirCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var filtro = request.GetFiltro();
+                var filtro = request.GetFiltro();                
 
                 //validar entidade pagamento do pedido
                 var pagamentoPedidoEntity = PagamentoPedidoEntity.Inserir(request.PagamentoPedidoDtoInserir.FormaPagamentoId, request.PagamentoPedidoDtoInserir.PedidoId, request.PagamentoPedidoDtoInserir.ValorPago, filtro);
