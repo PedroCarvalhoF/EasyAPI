@@ -7,7 +7,7 @@ namespace Easy.Services.Tools.UseCase.Dto
     {
         public static FormaPagamentoDto ParceFormaPagamentoDto(FormaPagamentoEntity formaPagamentoEntity)
         {
-            return new FormaPagamentoDto(formaPagamentoEntity.Id, formaPagamentoEntity.DescricaFormaPagamento, formaPagamentoEntity.Codigo, formaPagamentoEntity.Habilitado);
+            return new FormaPagamentoDto(formaPagamentoEntity.Id, formaPagamentoEntity.DescricaFormaPagamento!, formaPagamentoEntity.Codigo, formaPagamentoEntity.Habilitado);
         }
 
         public static IEnumerable<FormaPagamentoDto> ParceFormaPagamentoDto(IEnumerable<FormaPagamentoEntity> formas)
