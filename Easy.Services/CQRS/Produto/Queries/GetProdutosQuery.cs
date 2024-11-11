@@ -20,7 +20,7 @@ public class GetProdutosQuery : BaseCommands<IEnumerable<ProdutoDtoView>>
             {
                 Id = prod.Id,
                 Codigo = prod.Codigo,
-                DescricaoCategoria = prod.CategoriaProdutoEntity.DescricaoCategoria ?? string.Empty,
+                DescricaoCategoria = prod.CategoriaProdutoEntity!.DescricaoCategoria ?? string.Empty,
                 Medida = ProdutoHelperDto.GetMedida(prod.MedidaProdutoEnum),
                 NomeProduto = prod.NomeProduto ?? string.Empty,
                 TipoProduto = ProdutoHelperDto.GetTipo(prod.TipoProdutoEnum),

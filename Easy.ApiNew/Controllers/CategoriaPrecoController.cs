@@ -23,7 +23,7 @@ public class CategoriaPrecoController(IMediator _mediator) : ControllerBase
         return new ReturnActionResult<IEnumerable<CategoriaPrecoDto>>().ParseToActionResult(await _mediator.Send(getCommand));
     }
 
-    [HttpGet("by-id")]
+    [HttpPost("by-id")]
 
     public async Task<ActionResult<RequestResult<CategoriaPrecoDto>>> GetByIdAsync([FromBody] GetCategoriaPrecoByIdQuery command)
     {

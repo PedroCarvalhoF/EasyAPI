@@ -5,18 +5,13 @@ namespace Easy.Domain.Entities.PDV.FormaPagamento;
 
 public class FormaPagamentoEntity : BaseEntity
 {
-    public string DescricaFormaPagamento { get; set; }
+    public string? DescricaFormaPagamento { get; set; }
     public int Codigo { get; set; }
     public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; } = null;
-    public bool Validada => Validar();
+    public bool Validada => Validar();    
+    #region Construtores
 
-    private bool Validar()
-    {
-        if (DescricaFormaPagamento == null) return false;
-        if (Codigo <= 0) return false;
-
-        return true;
-    }
+    
     public FormaPagamentoEntity() { }
     FormaPagamentoEntity(string descricaFormaPagamento, int codigo, FiltroBase user) : base(user)
     {
@@ -47,4 +42,15 @@ public class FormaPagamentoEntity : BaseEntity
 
     public static FormaPagamentoEntity Update(Guid id, bool habilitado, string descricaFormaPagamento, int codigo, FiltroBase user)
        => new FormaPagamentoEntity(id, habilitado, descricaFormaPagamento, codigo, user);
+
+    #endregion
+    #region Validacoes
+    private bool Validar()
+    {
+        if (DescricaFormaPagamento == null) return false;
+        if (Codigo <= 0) return false;
+
+        return true;
+    }
+    #endregion
 }
