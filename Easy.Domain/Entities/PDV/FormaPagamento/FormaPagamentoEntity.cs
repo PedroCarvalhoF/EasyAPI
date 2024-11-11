@@ -8,7 +8,6 @@ namespace Easy.Domain.Entities.PDV.FormaPagamento
         public string? DescricaFormaPagamento { get; private set; }
         public int Codigo { get; private set; }
         public virtual ICollection<PagamentoPedidoEntity>? Pagamentos { get; private set; } = null;
-
         public bool Validada => Validar();
 
         #region Construtores
@@ -50,6 +49,20 @@ namespace Easy.Domain.Entities.PDV.FormaPagamento
         {
             return !string.IsNullOrEmpty(DescricaFormaPagamento) && Codigo > 0;
         }
+        #endregion
+        #region Metodos
+
+        public void AlterarDescricaoFormaPagamento(string descricao)
+        {
+            DescricaFormaPagamento = descricao;
+            UpdateAt = DateTime.Now;
+        }
+        public void AlterarCodigoFormaPagamento(int codigo)
+        {
+            Codigo = codigo;
+            UpdateAt = DateTime.Now;
+        }
+
         #endregion
     }
 }

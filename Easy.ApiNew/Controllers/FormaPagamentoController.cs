@@ -35,10 +35,10 @@ public class FormaPagamentoController : ControllerBase
         return new ReturnActionResult<FormaPagamentoDto>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    //[HttpPut]
-    //public async Task<ActionResult<RequestResultForUpdate>> UpdateAsync([FromBody] FormaPagamentoUpdateCommand command)
-    //{
-    //    command.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResultForUpdate().ParseToActionResult(await _mediator.Send(command));
-    //}
+    [HttpPut]
+    public async Task<ActionResult<RequestResult<FormaPagamentoDto>>> UpdateAsync([FromBody] FormaPagamentoUpdateCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<FormaPagamentoDto>().ParseToActionResult(await _mediator.Send(command));
+    }
 }
