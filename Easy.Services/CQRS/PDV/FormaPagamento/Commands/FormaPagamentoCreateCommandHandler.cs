@@ -12,14 +12,7 @@ public class FormaPagamentoCreateCommandHandler(IUnitOfWork _repository) : IRequ
     {
         try
         {
-            var formaPagamentoEntity = FormaPagamentoEntity.Create(request.DescricaFormaPagamento, request.Codigo, request.GetFiltro());
-            if (!formaPagamentoEntity.isBaseValida)
-                return new RequestResultForUpdate().EntidadeInvalida();
-
-            await _repository.FormaPagamentoRepository.InsertAsync(formaPagamentoEntity, request.GetFiltro());
-            var result = await _repository.CommitAsync();
-            if (result)
-                return new RequestResultForUpdate().Ok("Forma de pagamento criada com sucesso");
+           
 
             return new RequestResultForUpdate().BadRequest("Não foi possível criar forma de pagamento.");
 

@@ -40,7 +40,7 @@
             return Ok(data);
         }
 
-        public static RequestResult<T> Ok(T data = null, string? mensagem = "Requesição realizada com sucesso.")
+        public static RequestResult<T> Ok(T? data = null, string? mensagem = "Requesição realizada com sucesso.")
         => new RequestResult<T>(data, mensagem);
 
         public static RequestResult<T> BadRequest(string? mensagem = "Não foi possível realizar requisição.")

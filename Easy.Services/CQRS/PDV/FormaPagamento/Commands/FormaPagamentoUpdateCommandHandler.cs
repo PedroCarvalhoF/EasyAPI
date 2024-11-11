@@ -11,15 +11,7 @@ public class FormaPagamentoUpdateCommandHandler(IUnitOfWork _repository) : IRequ
     {
         try
         {
-            var formaPagamentoUpdateEntyt = FormaPagamentoEntity.Update(request.Id, request.Habilitado, request.DescricaFormaPagamento, request.Codigo, request.GetFiltro());
-
-            if (!formaPagamentoUpdateEntyt.isBaseValida)
-                return new RequestResultForUpdate().EntidadeInvalida();
-
-            await _repository.FormaPagamentoRepository.UpdateAsync(formaPagamentoUpdateEntyt, request.GetFiltro());
-            var resultUpdate = await _repository.CommitAsync();
-            if (resultUpdate)
-                return new RequestResultForUpdate().Ok("Alteração realizada com sucesso.");
+            
 
 
             return new RequestResultForUpdate().BadRequest("Não foi possível realizar alteração");

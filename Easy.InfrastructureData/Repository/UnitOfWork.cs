@@ -48,13 +48,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Easy.InfrastructureData.Repository;
 public class UnitOfWork : IUnitOfWork, IDisposable
 {
+    //CONTEXTOS
     private readonly MyContext _context;
 
+    //REPOSITORES
     private IUserMasterClienteRepository<UserMasterClienteEntity> _userMasterClienteRepository;
     private IUserMasterUserRepository<UserMasterUserEntity> _userMasterUserRepository;
     private ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase> _categorioProdutoRepository;
     private IProdutoRepository<ProdutoEntity, FiltroBase> _produtoRepository;
-    private IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoRepository;
     private ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> _categoriaPrecoRepository;
     private IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase> _precoProdutoRepository;
     private IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase> _usuarioPdvRepository;
@@ -63,16 +64,22 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IPedidoRepository<PedidoEntity, FiltroBase> _pedidoRepository;
     private IItemPedidoRepository<ItemPedidoEntity, FiltroBase> _itemPedidoRepository;
     private IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase> _pagamentoPedidoRepository;
+    private IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoRepository;
 
+    //Bases Repositores
     private IBaseRepository<CategoriaProdutoEntity, FiltroBase> _categoriaProdutoBaseRepository;
     private IBaseRepository<PontoVendaEntity, FiltroBase> _pontoVendaBaseRepository;
     private IBaseRepository<PedidoEntity, FiltroBase> _pedidoBaseRepository;
     private IBaseRepository<ItemPedidoEntity, FiltroBase> _itemPedidoBaseRepository;
     private IBaseRepository<PagamentoPedidoEntity, FiltroBase> _pagamentoPedidoBaseRepository;
+    private IBaseRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoBaseRepository;
+
     public UnitOfWork(MyContext context)
     {
         _context = context;
     }
+    #region Repository
+
 
     public IUserMasterClienteRepository<UserMasterClienteEntity> UserMasterClienteRepository
     {
@@ -104,14 +111,6 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         {
             return _produtoRepository = _produtoRepository ??
                 new ProdutoRepository<ProdutoEntity, FiltroBase>(_context);
-        }
-    }
-    public IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoRepository
-    {
-        get
-        {
-            return _formaPagamentoRepository = _formaPagamentoRepository ??
-                new FormaPagamentoRepository<FormaPagamentoEntity, FiltroBase>(_context);
         }
     }
     public ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> CategoriaPrecoRepository
@@ -154,22 +153,33 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new PontoVendaRepository(_context);
         }
     }
+    public IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoRepository
+    {
+        get
+        {
+            return _formaPagamentoRepository = _formaPagamentoRepository ??
+                new FormaPagamentoRepository(_context);
+        }
+    }
 
-    //TEMP TESTE CATEGORIA COM BASE REPOSITORY
-    public IBaseRepository<CategoriaProdutoEntity,FiltroBase> CategoriaProdutoBaseRepository
+    #endregion
+    #region Base Repository
+
+
+    public IBaseRepository<CategoriaProdutoEntity, FiltroBase> CategoriaProdutoBaseRepository
     {
         get
         {
             return _categoriaProdutoBaseRepository = _categoriaProdutoBaseRepository ??
-                new BaseRepository<CategoriaProdutoEntity,FiltroBase>(_context);
+                new BaseRepository<CategoriaProdutoEntity, FiltroBase>(_context);
         }
     }
-    public IBaseRepository<PontoVendaEntity,FiltroBase> PontoVendaBaseRepository
+    public IBaseRepository<PontoVendaEntity, FiltroBase> PontoVendaBaseRepository
     {
         get
         {
             return _pontoVendaBaseRepository = _pontoVendaBaseRepository ??
-                new BaseRepository<PontoVendaEntity,FiltroBase>(_context);
+                new BaseRepository<PontoVendaEntity, FiltroBase>(_context);
         }
     }
     public IPedidoRepository<PedidoEntity, FiltroBase> PedidoRepository
@@ -185,7 +195,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         get
         {
             return _pedidoBaseRepository = _pedidoBaseRepository ??
-                new BaseRepository<PedidoEntity,FiltroBase>(_context);
+                new BaseRepository<PedidoEntity, FiltroBase>(_context);
         }
     }
     public IItemPedidoRepository<ItemPedidoEntity, FiltroBase> ItemPedidoRepository
@@ -220,6 +230,20 @@ public class UnitOfWork : IUnitOfWork, IDisposable
                 new BaseRepository<PagamentoPedidoEntity, FiltroBase>(_context);
         }
     }
+
+    public IBaseRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoBaseRepository
+    {
+        get
+        {
+            return _formaPagamentoBaseRepository = _formaPagamentoBaseRepository ??
+                new BaseRepository<FormaPagamentoEntity, FiltroBase>(_context);
+        }
+
+    }
+
+    #endregion
+
+
     public async Task<bool> CommitAsync()
     {
         try
@@ -231,7 +255,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         }
         catch (DbUpdateException ex)
         {
-            if (ex.InnerException.Message != null)
+            if (ex.InnerException!.Message != null)
                 throw new Exception(ex.InnerException.Message);
 
             throw new Exception(ex.Message);

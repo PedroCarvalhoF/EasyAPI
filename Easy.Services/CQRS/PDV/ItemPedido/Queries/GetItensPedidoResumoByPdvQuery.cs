@@ -24,7 +24,7 @@ public class GetItensPedidoResumoByPdvQuery : BaseCommands<List<ItemPedidoDtoRes
                     .Select(grupo => new ItemPedidoDtoResumoSimples
                     {
                         ProdutoId = grupo.Key,
-                        NomeProduto = grupo.First().Produto.NomeProduto, // Pegando o nome do produto
+                        NomeProduto = grupo.First()!.Produto!.NomeProduto, // Pegando o nome do produto
                         QuantidadeTotal = grupo.Sum(item => item.Quantidade),
                     })
                     .ToList();

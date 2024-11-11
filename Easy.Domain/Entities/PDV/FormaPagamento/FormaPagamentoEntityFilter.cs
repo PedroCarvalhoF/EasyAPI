@@ -7,7 +7,7 @@ public class FormaPagamentoEntityFilter
     public string? DescricaFormaPagamentoEquals { get; set; }
     public string? DescricaFormaPagamentoContains { get; set; }
     public int? Codigo { get; set; }
-    public static IQueryable<FormaPagamentoEntity> QueryablePedidoEntity(IQueryable<FormaPagamentoEntity> query, FormaPagamentoEntityFilter filtro)
+    public static IQueryable<FormaPagamentoEntity> QueryableEntity(IQueryable<FormaPagamentoEntity> query, FormaPagamentoEntityFilter filtro)
     {
         if (filtro.FormaPagamentoId != null && filtro.FormaPagamentoId != Guid.Empty)
             return query = query.Where(forma => forma.Id == filtro.FormaPagamentoId);
