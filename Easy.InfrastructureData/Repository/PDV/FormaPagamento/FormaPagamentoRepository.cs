@@ -33,7 +33,7 @@ namespace Easy.InfrastructureData.Repository.PDV.FormaPagamento
 
                 }
 
-                query = query.OrderByDescending(pgt => pgt.DescricaFormaPagamento);
+                query = query.OrderBy(pgt => pgt.DescricaFormaPagamento);
 
                 var result = await query.ToArrayAsync();
 
