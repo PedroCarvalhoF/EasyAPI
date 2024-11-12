@@ -4,24 +4,30 @@ namespace Easy.Services.DTOs.UserIdentity
 {
     public class UsuarioCadastroRequest
     {
-        [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public string? Nome { get; set; }
+        public UsuarioCadastroRequest(string nome, string sobreNome, string email, string senha, string senhaConfirmacao)
+        {
+            Nome = nome;
+            SobreNome = sobreNome;
+            Email = email;
+            Senha = senha;
+            SenhaConfirmacao = senhaConfirmacao;
+        }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
-        public string? SobreNome { get; set; }
+        public string Nome { get; set; }
+
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public string SobreNome { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [EmailAddress(ErrorMessage = "O campo {0} é inválido")]
-        public string? Email { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
         [StringLength(50, ErrorMessage = "O campo {0} deve ter entre {2} e {1} caracteres", MinimumLength = 6)]
-        public string? Senha { get; set; }
+        public string Senha { get; set; }
 
         [Compare(nameof(Senha), ErrorMessage = "As senhas devem ser iguais")]
-        public string? SenhaConfirmacao { get; set; }
-
-        public string ImageName { get; set; }
-
+        public string SenhaConfirmacao { get; set; }
     }
 }

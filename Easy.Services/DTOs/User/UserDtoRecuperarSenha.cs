@@ -4,12 +4,7 @@ namespace Easy.Services.DTOs.User
 {
     public class UserDtoRecuperarSenha
     {
-        public UserDtoRecuperarSenha(string email, string token, string novaSenha)
-        {
-            this.Email = email;
-            this.Token = token;
-            NovaSenha = novaSenha;
-        }
+       
 
         [Required]
         [EmailAddress]
@@ -21,5 +16,17 @@ namespace Easy.Services.DTOs.User
         [DataType(DataType.Password)]
         [Display(Name = "Nova Senha.")]
         public string NovaSenha { get; private set; }
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare(nameof(NovaSenha), ErrorMessage = "As senhas devem ser iguais")]
+        public string ConfirmarNovaSenha { get; private set; }
+        public UserDtoRecuperarSenha(string email, string token, string novaSenha, string confirmarNovaSenha)
+        {
+            this.Email = email;
+            this.Token = token;
+            NovaSenha = novaSenha;
+            ConfirmarNovaSenha = confirmarNovaSenha;
+        }
+
     }
 }

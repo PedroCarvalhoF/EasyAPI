@@ -1,6 +1,7 @@
 ﻿using Easy.Domain.Entities.User;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.User;
+using Easy.Services.Service;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,7 +16,7 @@ public class SolicitarRecuperacaoSenhaCommand : BaseCommands<UserDtoRecuperarSen
         UserDto = userDto;
     }
 
-    public class SolicitarRecuperacaoSenhaCommandHandler(UserManager<UserEntity> _userManager) : IRequestHandler<SolicitarRecuperacaoSenhaCommand, RequestResult<UserDtoRecuperarSenhaResult>>
+    public class SolicitarRecuperacaoSenhaCommandHandler(UserManager<UserEntity> _userManager, IUserService _userService) : IRequestHandler<SolicitarRecuperacaoSenhaCommand, RequestResult<UserDtoRecuperarSenhaResult>>
     {
         public async Task<RequestResult<UserDtoRecuperarSenhaResult>> Handle(SolicitarRecuperacaoSenhaCommand request, CancellationToken cancellationToken)
         {
@@ -23,7 +24,7 @@ public class SolicitarRecuperacaoSenhaCommand : BaseCommands<UserDtoRecuperarSen
             {
                 var user = await _userManager.FindByEmailAsync(request.UserDto.Email);
                 if (user == null)
-                    return RequestResult<UserDtoRecuperarSenhaResult>.BadRequest("Usuário não localizado.");
+                    return RequestResult<UserDtoRecuperarSenhaResult>.BadRequest("Usuário não localizado.");              
 
                 var storedToken = await _userManager.GetAuthenticationTokenAsync(user!, "Default", "PasswordResetToken");
 

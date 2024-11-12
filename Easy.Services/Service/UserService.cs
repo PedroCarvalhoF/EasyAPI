@@ -1,5 +1,6 @@
 ﻿using Easy.Domain.Entities;
 using Easy.Domain.Entities.User;
+using Easy.Domain.Entities.UserMasterUser;
 using Easy.Domain.Intefaces;
 using Easy.InfrastructureData.Configuration;
 using Easy.Services.DTOs;
@@ -33,13 +34,12 @@ namespace Easy.Services.Service
 
         public async Task<RequestResult<UsuarioCadastroResponse>> CadastrarUsuario(UsuarioCadastroRequest user)
         {
-            var identityUser = UserEntity.CreateUser(user.Nome, user.SobreNome, user.Email, user.Email, user.ImageName);
+            UserEntity identityUser = UserEntity.CreateUser(user.Nome, user.SobreNome, user.Email, user.Email);
 
-            var result = await _userManager.CreateAsync(identityUser, user.Senha);
-            //if (result.Succeeded)
-            //    await _userManager.SetLockoutEnabledAsync(identityUser, false);
+            IdentityResult result = await _userManager.CreateAsync(identityUser, user.Senha);
 
-            var usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded, identityUser.Id);
+            UsuarioCadastroResponse usuarioCadastroResponse = new UsuarioCadastroResponse(result.Succeeded, identityUser.Id);
+
             if (!result.Succeeded && result.Errors.Count() > 0)
                 usuarioCadastroResponse.AdicionarErros(result.Errors.Select(r => r.Description));
 
@@ -55,22 +55,22 @@ namespace Easy.Services.Service
 
         public async Task<RequestResult<UsuarioLoginResponse>> Login(UsuarioLoginRequest usuarioLogin)
         {
-            var usuarioLoginResponse = new UsuarioLoginResponse();
+            UsuarioLoginResponse usuarioLoginResponse = new UsuarioLoginResponse();
 
-            var result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
+            SignInResult result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
             if (result.Succeeded)
             {
-                var userSelecionado = await _userManager.FindByEmailAsync(usuarioLogin.Email);
+                UserEntity userSelecionado = await _userManager.FindByEmailAsync(usuarioLogin.Email) ?? new UserEntity();
 
-                var mUser = await _unitOfWork.UserMasterUserRepository.GetById(userSelecionado.Id);
+                UserMasterUserEntity mUser = await _unitOfWork.UserMasterUserRepository.GetById(userSelecionado.Id);
 
                 if (mUser == null)
                     throw new ArgumentException("Usuário não crendeciado para ter acesso.");
 
-                var filtro = new FiltroBase(mUser.UserClienteId, mUser.UserMasterUserId);
+                FiltroBase filtro = new FiltroBase(mUser.UserClienteId, mUser.UserMasterUserId);
 
                 usuarioLoginResponse = await GerarCredenciais(usuarioLogin.Email, filtro);
-                usuarioLoginResponse.UsuarioReponseDetails(userSelecionado.Nome, userSelecionado.Email, userSelecionado.Id);
+                usuarioLoginResponse.UsuarioReponseDetails(userSelecionado.Nome!, userSelecionado.Email!, userSelecionado.Id);
             }
 
             if (!result.Succeeded)
@@ -93,8 +93,8 @@ namespace Easy.Services.Service
         private async Task<UsuarioLoginResponse> GerarCredenciais(string email, FiltroBase filtro)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var accessTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: true, filtro);
-            var refreshTokenClaims = await ObterClaims(user, adicionarClaimsUsuario: false, filtro);
+            var accessTokenClaims = await ObterClaims(user!, adicionarClaimsUsuario: true, filtro);
+            var refreshTokenClaims = await ObterClaims(user!, adicionarClaimsUsuario: false, filtro);
 
             var dataExpiracaoAccessToken = DateTime.Now.AddSeconds(_jwtOptions.AccessTokenExpiration);
             var dataExpiracaoRefreshToken = DateTime.Now.AddSeconds(_jwtOptions.RefreshTokenExpiration);
@@ -130,7 +130,7 @@ namespace Easy.Services.Service
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64),

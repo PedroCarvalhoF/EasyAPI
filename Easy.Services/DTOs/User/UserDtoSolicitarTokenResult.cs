@@ -6,6 +6,6 @@ public class UserDtoSolicitarTokenResult
 
     public UserDtoSolicitarTokenResult()
     {
-        Token = "Token criado com sucesso";
+        Token = "Token criado com sucesso. Verifique sua caixa de e-mail";
     }
 }

@@ -8,6 +8,13 @@ namespace Easy.Domain.Entities.User
 {
     public class UserEntity : IdentityUser<Guid>
     {
+        public string? Nome { get; private set; }
+        public string? SobreNome { get; private set; }
+        public string? ImagemURL { get; private set; }
+        public virtual ICollection<UserRoleEntity>? UserRoles { get; private set; }
+        public virtual UserMasterClienteEntity? UserMasterCliente { get; private set; }
+        public virtual UserMasterUserEntity? UserMasterUser { get; private set; }
+        public virtual UsuarioPdvEntity? UsuarioPdv { get; private set; }
         public UserEntity() { }
         public UserEntity(string nome, string sobreNome, string userName, string email, string imageName = "sem-foto.png")
         {
@@ -29,25 +36,15 @@ namespace Easy.Domain.Entities.User
             }
             else
                 ImagemURL = imageName;
-        }
+        }        
 
-        public string Nome { get; private set; }
-        public string SobreNome { get; private set; }
-        public string ImagemURL { get; private set; }
-        public virtual ICollection<UserRoleEntity>? UserRoles { get; private set; }
-        public virtual UserMasterClienteEntity? UserMasterCliente { get; private set; }
-        public virtual UserMasterUserEntity? UserMasterUser { get; private set; }
-        public virtual UsuarioPdvEntity? UsuarioPdv { get; private set; }
-
-        public static UserEntity CreateUser(string nome, string sobreNome, string userName, string email, string imageName)
-            => new UserEntity(nome, sobreNome, userName, email, imageName);
-
+        public static UserEntity CreateUser(string nome, string sobreNome, string userName, string email)
+            => new UserEntity(nome, sobreNome, userName, email, string.Empty);
         public void AlterarNomeSobreNome(string nome, string sobreNome)
         {
             Nome = nome;
             SobreNome = sobreNome;
         }
-
         public void AlterarUrlImage(string imageUrl)
         {
             ImagemURL = imageUrl;

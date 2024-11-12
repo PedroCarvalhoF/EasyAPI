@@ -9,12 +9,8 @@ namespace Easy.Services.CQRS.User.Command;
 
 public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicitarTokenResult>
 {
-    public UserDtoRequestEmail Email { get; private set; }
-    public SolicitarTokenRecuperacaoSenhaCommand(UserDtoRequestEmail email)
-    {
-        Email = email;
-    }
-
+    public required UserDtoRequestEmail UserDtoRequestEmail { get;  set; }
+   
     public class SolicitarTokenRecuperacaoSenhaCommandHandler(UserManager<UserEntity> _userManager, IMediator _mediator) : IRequestHandler<SolicitarTokenRecuperacaoSenhaCommand, RequestResult<UserDtoSolicitarTokenResult>>
     {
         public async Task<RequestResult<UserDtoSolicitarTokenResult>> Handle(SolicitarTokenRecuperacaoSenhaCommand request, CancellationToken cancellationToken)
@@ -22,7 +18,7 @@ public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicit
             try
             {
 
-                var user = await _userManager.FindByEmailAsync(request.Email.Email);
+                var user = await _userManager.FindByEmailAsync(request.UserDtoRequestEmail.Email);
                 if (user == null)
                     return RequestResult<UserDtoSolicitarTokenResult>.BadRequest("Usuário não localizado");
 
@@ -31,7 +27,7 @@ public class SolicitarTokenRecuperacaoSenhaCommand : BaseCommands<UserDtoSolicit
                 // Salvar o token na tabela AspNetUserTokens
                 await _userManager.SetAuthenticationTokenAsync(user, "Default", "PasswordResetToken", token);
 
-                var notificacao = new UserEnviarTokenRecupecaoSenhaNotificacao(token, request.Email.Email);
+                var notificacao = new UserEnviarTokenRecupecaoSenhaNotificacao(token, request.UserDtoRequestEmail.Email);
 
                 await _mediator.Publish(notificacao);
 

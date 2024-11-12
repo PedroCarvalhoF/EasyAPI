@@ -2,8 +2,8 @@
 {
     public class UsuarioCadastroResponse
     {
-        public bool Sucesso { get; private set; }
-        public List<string> Erros { get; private set; }
+        public bool? Sucesso { get; private set; }
+        public List<string>? Erros { get; private set; }
         public Guid IdUserCreate { get; private set; }
         public UsuarioCadastroResponse() =>
             Erros = new List<string>();
@@ -16,6 +16,6 @@
         }
 
         public void AdicionarErros(IEnumerable<string> erros) =>
-            Erros.AddRange(erros);
+            Erros!.AddRange(erros);
     }
 }
