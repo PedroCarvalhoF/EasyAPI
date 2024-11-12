@@ -11,9 +11,18 @@ public class UserLoginCommand : IRequest<RequestResult<UsuarioLoginResponse>>
     public class UserLoginCommandHandler(IUserService _userService) : IRequestHandler<UserLoginCommand, RequestResult<UsuarioLoginResponse>>
     {        
         public async Task<RequestResult<UsuarioLoginResponse>> Handle(UserLoginCommand request, CancellationToken cancellationToken)
-        {            
-            var resultUser = await _userService.Login(request.UsuarioLoginRequest);
-            return resultUser;
+        {
+            try
+            {
+                var resultUser = await _userService.Login(request.UsuarioLoginRequest);
+                return resultUser;
+            }
+            catch (Exception ex)
+            {
+
+                return RequestResult<UsuarioLoginResponse>.BadRequest(ex.Message);
+            }
+            
         }
     }
 }

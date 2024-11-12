@@ -9,13 +9,8 @@ namespace Easy.Services.CQRS.User.Command
 {
     public class AlterarSenhaUserCommand : BaseCommands<UserDtoUpdateSenhaResult>
     {
-        public UserDtoUpdateSenha UserDtoUpdateSenha { get; private set; }
-
-        public AlterarSenhaUserCommand(UserDtoUpdateSenha userDtoUpdateSenha)
-        {
-            UserDtoUpdateSenha = userDtoUpdateSenha;
-        }
-
+        public required UserDtoUpdateSenha UserDtoUpdateSenha { get;  set; }
+       
         public class AlterarSenhaUserCommandHandler(UserManager<UserEntity> _userManager, IUserService _userService) : IRequestHandler<AlterarSenhaUserCommand, RequestResult<UserDtoUpdateSenhaResult>>
         {
             public async Task<RequestResult<UserDtoUpdateSenhaResult>> Handle(AlterarSenhaUserCommand request, CancellationToken cancellationToken)
