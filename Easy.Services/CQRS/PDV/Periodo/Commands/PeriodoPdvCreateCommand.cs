@@ -23,19 +23,24 @@ public class PeriodoPdvCreateCommand : BaseCommands<PeriodoPdvDto>
                     return RequestResult<PeriodoPdvDto>.BadRequest();
 
 
-                var periodoExists = await _repository.PeriodoPdvRepository.SelectAsync(request.PeriodoPdvDtoCreate.DescricaoPeriodo, filtro);
-                if (periodoExists.Id !=Guid.Empty)
+                var periodoExists = await _repository.PeriodoPdvRepository.SelectAsync(new PeriodoPdvEntityFilter
+                {
+                    DescricaoPeriodoEquals = request.PeriodoPdvDtoCreate.DescricaoPeriodo
+                }, filtro);
+
+                if (periodoExists.Any())
                     return RequestResult<PeriodoPdvDto>.BadRequest("Descrição do período já esta em uso.");
 
-                await _repository.PeriodoPdvRepository.InsertAsync(periodoEnittyCreate, filtro);
+                await _repository.PeriodoPdvBaseRepository.InsertAsync(periodoEnittyCreate);
 
                 if (!await _repository.CommitAsync())
-                    return RequestResult<PeriodoPdvDto>.BadRequest();
+                    return RequestResult<PeriodoPdvDto>.BadRequest(mensagem: "Não foi possível salvar no banco");
 
                 PeriodoPdvDto dto = DtoMapper.ParcePeriodoPdvDto(periodoEnittyCreate);
 
                 return RequestResult<PeriodoPdvDto>.Ok(dto);
 
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

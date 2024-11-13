@@ -1,5 +1,4 @@
-﻿
-using Easy.Domain.Entities.PDV.PDV;
+﻿using Easy.Domain.Entities.PDV.PDV;
 using Easy.Domain.Tools;
 using Easy.Domain.Tools.Validation;
 
@@ -7,17 +6,11 @@ namespace Easy.Domain.Entities.PDV.Periodo;
 
 public class PeriodoPdvEntity : BaseEntity
 {
-    public string DescricaoPeriodo { get; private set; }
-    public virtual ICollection<PontoVendaEntity> PontosVendas { get; private set; }
+    public string? DescricaoPeriodo { get; private set; }
+    public virtual ICollection<PontoVendaEntity>? PontosVendas { get; private set; }
     public bool Validada => Validar();
-    private bool Validar()
-    {
-        if (DescricaoPeriodo == string.Empty) return false;
-        if (DescricaoPeriodo.Length > 50) return false;
 
-        return true;
-    }
-
+    #region Construtores
     public PeriodoPdvEntity() { }
     PeriodoPdvEntity(string descricaoPeriodo, FiltroBase users) : base(users)
     {
@@ -28,7 +21,6 @@ public class PeriodoPdvEntity : BaseEntity
 
         DescricaoPeriodo = PrimeiraLetraSempreMaiuscula.Formatar(descricaoPeriodo);
     }
-
     PeriodoPdvEntity(Guid id, bool habilitado, string descricaoPeriodo, FiltroBase users) : base(id, habilitado, users)
     {
         DomainValidation.When(id == Guid.Empty, "Informe o id do período");
@@ -37,10 +29,24 @@ public class PeriodoPdvEntity : BaseEntity
 
         DescricaoPeriodo = PrimeiraLetraSempreMaiuscula.Formatar(descricaoPeriodo);
     }
-
+    #endregion  
+    #region Metodos
     public static PeriodoPdvEntity Create(string descricaoPeriodo, FiltroBase users)
-        => new PeriodoPdvEntity(descricaoPeriodo, users);
+       => new PeriodoPdvEntity(descricaoPeriodo, users);
 
     public static PeriodoPdvEntity Update(Guid id, bool habilitado, string descricaoPeriodo, FiltroBase users)
         => new PeriodoPdvEntity(id, habilitado, descricaoPeriodo, users);
+
+    #endregion
+    #region Validações
+    private bool Validar()
+    {
+        if (DescricaoPeriodo == string.Empty) return false;
+        if (DescricaoPeriodo == null) return false;
+        if (DescricaoPeriodo.Length > 50) return false;
+
+        return true;
+    }
+
+    #endregion
 }

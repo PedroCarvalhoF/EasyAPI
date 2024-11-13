@@ -13,39 +13,17 @@ namespace Easy.ApiNew.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class PeriodoPdvController : ControllerBase
+public class PeriodoPdvController(IMediator _mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-    public PeriodoPdvController(IMediator mediator)
+    [HttpPost]
+    public async Task<ActionResult<RequestResult<IEnumerable<PeriodoPdvDto>>>> GetPeriodosAsync([FromBody] GetPeriodoPdvFilter command)
     {
-        _mediator = mediator;
-    }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<PeriodoPdvDto>>> GetPeriodoPdvAsync()
-    {
-        var command = new GetPeriodoPdvQueries();
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<PeriodoPdvDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    [HttpPost("by-id")]
-
-    public async Task<ActionResult<PeriodoPdvDto>> GetPeriodoPdvByIdAsync([FromBody] GetPeriodoPdvByIdQuery command)
-    {
-        command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<PeriodoPdvDto>> CreatePeriodoPdvAsync([FromBody] PeriodoPdvCreateCommand command)
-    {
-        command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
-    }
-
-    [HttpPost("habilitar-desabilitar")]
-    public async Task<ActionResult<PeriodoPdvDto>> HabilitarDesabilitarPeriodoPdvAsync([FromBody] PeriodoPdvHabilitarDesabilitarCommand command)
+    [HttpPost("cadastrar-periodo-pdv")]
+    public async Task<ActionResult<RequestResult<PeriodoPdvDto>>> CreatePeriodoPdvAsync([FromBody] PeriodoPdvCreateCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));

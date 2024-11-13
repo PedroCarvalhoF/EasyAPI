@@ -16,25 +16,31 @@ public class PeriodoPdvHabilitarDesabilitarCommand : BaseCommands<PeriodoPdvDto>
         {
             try
             {
-                var filtro = request.GetFiltro();
+                //var filtro = request.GetFiltro();
 
-                var periodoEntity = await _repository.PeriodoPdvRepository.SelectAsync(request.PeriodoPdvDtoRequestId.IdPeriodo, filtro);
-                if (periodoEntity.Id == Guid.Empty)
-                    return RequestResult<PeriodoPdvDto>.BadRequest("Período não localizado");
+                //var periodoEntity = await _repository.PeriodoPdvRepository.SelectAsync(new Domain.Entities.PDV.Periodo.PeriodoPdvEntityFilter
+                //{
+                //    Id = request.PeriodoPdvDtoRequestId.IdPeriodo
+                //}, filtro);
 
-                if (periodoEntity.Habilitado)
-                    periodoEntity.DesabilitarEntidade();
-                else
-                    periodoEntity.HabilitarEntidade();
+                //if (periodoEntity.SingleOrDefault().Id == Guid.Empty)
+                //    return RequestResult<PeriodoPdvDto>.BadRequest("Período não localizado");
 
-                var periodoUpdateResult = _repository.PeriodoPdvRepository.Update(periodoEntity, filtro);
+                //if (periodoEntity.Habilitado)
+                //    periodoEntity.DesabilitarEntidade();
+                //else
+                //    periodoEntity.HabilitarEntidade();
 
-                if (!await _repository.CommitAsync())
-                    return RequestResult<PeriodoPdvDto>.BadRequest();
+                //var periodoUpdateResult = _repository.PeriodoPdvRepository.Update(periodoEntity, filtro);
 
-                var dto = DtoMapper.ParcePeriodoPdvDto(periodoUpdateResult);
+                //if (!await _repository.CommitAsync())
+                //    return RequestResult<PeriodoPdvDto>.BadRequest();
 
-                return RequestResult<PeriodoPdvDto>.Ok(dto);
+                //var dto = DtoMapper.ParcePeriodoPdvDto(periodoUpdateResult);
+
+                //return RequestResult<PeriodoPdvDto>.Ok(dto);
+
+                throw new NotImplementedException();
             }
             catch (Exception ex)
             {

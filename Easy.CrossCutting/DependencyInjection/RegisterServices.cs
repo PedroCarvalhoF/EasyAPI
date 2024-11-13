@@ -59,7 +59,7 @@ namespace Easy.CrossCutting.DependencyInjection
             serviceCollection.AddScoped(typeof(IProdutoRepository<ProdutoEntity, FiltroBase>), typeof(ProdutoRepository<ProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>), typeof(PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>), typeof(UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));
-            serviceCollection.AddScoped(typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>), typeof(PeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>), typeof(PeriodoPdvRepository));
             serviceCollection.AddScoped(typeof(IPedidoRepository<PedidoEntity, FiltroBase>), typeof(PedidoRepository));
 
             //TESTE SERVICE

@@ -10,11 +10,10 @@ namespace Easy.InfrastructureData.Repository.PDV.FormaPagamento
 {
     public class FormaPagamentoRepository : BaseRepository<FormaPagamentoEntity, FiltroBase>, IFormaPagamentoRepository<FormaPagamentoEntity, FiltroBase>
     {
-        protected new readonly MyContext _context;
         private DbSet<FormaPagamentoEntity> _dbSet;
         public FormaPagamentoRepository(MyContext context) : base(context)
         {
-            _context = context;
+
             _dbSet = context.Set<FormaPagamentoEntity>();
         }
 

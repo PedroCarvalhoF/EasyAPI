@@ -3,29 +3,34 @@ using Easy.Domain.Entities.PDV.Periodo;
 using Easy.Domain.Intefaces.Repository.PDV.Periodo;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
-using Easy.InfrastructureData.Tools.PeriodoPdv;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace Easy.InfrastructureData.Repository.PDV.Periodo;
 
-public class PeriodoPdvRepository<T, F> : IPeriodoPdvRepository<T, F> where T : PeriodoPdvEntity where F : FiltroBase
+public class PeriodoPdvRepository : BaseRepository<PeriodoPdvEntity, FiltroBase>, IPeriodoPdvRepository<PeriodoPdvEntity, FiltroBase>
 {
-    protected readonly MyContext _context;
-    private DbSet<T> _dbSet;
-    public PeriodoPdvRepository(MyContext contexto)
+    private DbSet<PeriodoPdvEntity> _dbSet;
+    public PeriodoPdvRepository(MyContext contexto) : base(contexto)
     {
-        _context = contexto;
-        _dbSet = contexto.Set<T>();
+        _dbSet = contexto.Set<PeriodoPdvEntity>();
     }
-    public async Task<IEnumerable<T>> SelectAsync(F filtro)
+
+    public async Task<IEnumerable<PeriodoPdvEntity>> SelectAsync(PeriodoPdvEntityFilter filter, FiltroBase filtro, bool includeAll = true)
     {
         try
         {
-            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
+            IQueryable<PeriodoPdvEntity> query = _dbSet.AsNoTracking();
 
-            query = PeriodoPdvExtensionsInclude.FullInclude(query);
+            query = PeriodoPdvEntityFilter.QueryableEntity(query, filter);
 
-            query = query.OrderBy(cat => cat.DescricaoPeriodo);
+            query = query.FiltroCliente(filtro);
+
+            if (includeAll)
+            {
+            }
+
+            query = query.OrderByDescending(pedido => pedido.CreateAt);
 
             var result = await query.ToArrayAsync();
 
@@ -33,62 +38,6 @@ public class PeriodoPdvRepository<T, F> : IPeriodoPdvRepository<T, F> where T : 
         }
         catch (Exception ex)
         {
-
-            throw new Exception(ex.Message);
-        }
-    }
-    public async Task<T> SelectAsync(Guid idPeriodo, F filtro)
-    {
-        try
-        {
-            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
-
-            query = PeriodoPdvExtensionsInclude.FullInclude(query);
-
-            var result = await query.SingleOrDefaultAsync(p => p.Id == idPeriodo);
-
-            return result ?? Activator.CreateInstance<T>();
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
-    }
-    public async Task<T> SelectAsync(string descricaoPerido, F filtro)
-    {
-        try
-        {
-            IQueryable<T> query = _dbSet.AsNoTracking().FiltroCliente(filtro);
-
-            query = PeriodoPdvExtensionsInclude.FullInclude(query);
-
-            var result = await query.SingleOrDefaultAsync(p => p.DescricaoPeriodo.ToLower() == descricaoPerido.ToLower());
-
-            return result ?? Activator.CreateInstance<T>();
-        }
-        catch (Exception ex)
-        {
-
-            throw new Exception(ex.Message);
-        }
-    }
-
-    public async Task<T> InsertAsync(T item, F filtro)
-    {
-        await _context.Set<T>().AddAsync(item);
-        return item;
-    }
-    public T Update(T item, F filtro)
-    {
-        try
-        {
-            _context.Update(item);
-            return item;
-        }
-        catch (Exception ex)
-        {
-
             throw new Exception(ex.Message);
         }
     }

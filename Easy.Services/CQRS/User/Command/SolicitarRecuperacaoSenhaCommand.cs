@@ -9,12 +9,7 @@ namespace Easy.Services.CQRS.User.Command;
 
 public class SolicitarRecuperacaoSenhaCommand : BaseCommands<UserDtoRecuperarSenhaResult>
 {
-    public UserDtoRecuperarSenha UserDto { get; private set; }
-
-    public SolicitarRecuperacaoSenhaCommand(UserDtoRecuperarSenha userDto)
-    {
-        UserDto = userDto;
-    }
+    public required UserDtoRecuperarSenha UserDto { get; set; }
 
     public class SolicitarRecuperacaoSenhaCommandHandler(UserManager<UserEntity> _userManager, IUserService _userService) : IRequestHandler<SolicitarRecuperacaoSenhaCommand, RequestResult<UserDtoRecuperarSenhaResult>>
     {
@@ -24,7 +19,7 @@ public class SolicitarRecuperacaoSenhaCommand : BaseCommands<UserDtoRecuperarSen
             {
                 var user = await _userManager.FindByEmailAsync(request.UserDto.Email);
                 if (user == null)
-                    return RequestResult<UserDtoRecuperarSenhaResult>.BadRequest("Usuário não localizado.");              
+                    return RequestResult<UserDtoRecuperarSenhaResult>.BadRequest("Usuário não localizado.");
 
                 var storedToken = await _userManager.GetAuthenticationTokenAsync(user!, "Default", "PasswordResetToken");
 
