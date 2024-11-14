@@ -5,7 +5,7 @@ namespace Easy.Domain.Entities
     public abstract class BaseEntity
     {
         public Guid Id { get; protected set; }
-        public DateTime CreateAt { get; set; }
+        public DateTime CreateAt { get; protected set; }
         public DateTime? UpdateAt { get; protected set; }
         public bool Habilitado { get; protected set; }
         public Guid UserMasterClienteIdentityId { get; protected set; }

@@ -8,7 +8,7 @@
         public T? Data { get; private set; }
         public RequestResult()
         {
-            
+
         }
         RequestResult(T? data, string? mensagem)
         {
@@ -36,15 +36,24 @@
         }
 
         public RequestResult<T> ResultOk(T data)
-        {
-            return Ok(data);
-        }
+        => Ok(data);
+
+        public RequestResult<T> Erro(Exception ex)
+       => BadRequest(ex.Message);
+        public RequestResult<T> Erro(string mensagem)
+       => BadRequest(mensagem);
 
         public static RequestResult<T> Ok(T? data = null, string? mensagem = "Requesição realizada com sucesso.")
         => new RequestResult<T>(data, mensagem);
 
         public static RequestResult<T> BadRequest(string? mensagem = "Não foi possível realizar requisição.")
         => new RequestResult<T>(mensagem);
+
+        public static RequestResult<T> EntidadeInvalida(string? mensagem = "Entidade não foi validada. Verifique os requesistos necessários.")
+       => new RequestResult<T>(mensagem);
+
+        public static RequestResult<T> FalhaCommitRepository(string? mensagem = "Falha ao tentar salvar no banco de dados.")
+       => new RequestResult<T>(mensagem);
 
         public static RequestResult<T> BadRequest(T data, string? mensagem = "Não foi possível realizar requisição.")
        => new RequestResult<T>(mensagem);

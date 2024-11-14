@@ -4,48 +4,47 @@ using Easy.Services.DTOs.PeriodoPdv;
 using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
 
-namespace Easy.Services.CQRS.PDV.Periodo.Commands;
-
-public class PeriodoPdvHabilitarDesabilitarCommand : BaseCommands<PeriodoPdvDto>
+namespace Easy.Services.CQRS.PDV.Periodo.Commands
 {
-    public required PeriodoPdvDtoRequestId PeriodoPdvDtoRequestId { get; set; }
-
-    public class PeriodoPdvHabilitarDesabilitarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PeriodoPdvHabilitarDesabilitarCommand, RequestResult<PeriodoPdvDto>>
+    public class PeriodoPdvHabilitarDesabilitarCommand : BaseCommands<PeriodoPdvDto>
     {
-        public async Task<RequestResult<PeriodoPdvDto>> Handle(PeriodoPdvHabilitarDesabilitarCommand request, CancellationToken cancellationToken)
+        public required PeriodoPdvDtoRequestId PeriodoPdvDtoRequestId { get; set; }
+
+        public class PeriodoPdvHabilitarDesabilitarCommandHandler(IUnitOfWork _repository) : IRequestHandler<PeriodoPdvHabilitarDesabilitarCommand, RequestResult<PeriodoPdvDto>>
         {
-            try
+            public async Task<RequestResult<PeriodoPdvDto>> Handle(PeriodoPdvHabilitarDesabilitarCommand request, CancellationToken cancellationToken)
             {
-                //var filtro = request.GetFiltro();
+                try
+                {
+                    var filtro = request.GetFiltro();
+                    var periodoUpdate = (await _repository.PeriodoPdvRepository.SelectAsync(new Domain.Entities.PDV.Periodo.PeriodoPdvEntityFilter
+                    {
+                        Id = request.PeriodoPdvDtoRequestId.IdPeriodo
+                    }, filtro)).SingleOrDefault();
 
-                //var periodoEntity = await _repository.PeriodoPdvRepository.SelectAsync(new Domain.Entities.PDV.Periodo.PeriodoPdvEntityFilter
-                //{
-                //    Id = request.PeriodoPdvDtoRequestId.IdPeriodo
-                //}, filtro);
+                    if (periodoUpdate == null)
+                        return new RequestResult<PeriodoPdvDto>().Erro("Período não localizado.");
 
-                //if (periodoEntity.SingleOrDefault().Id == Guid.Empty)
-                //    return RequestResult<PeriodoPdvDto>.BadRequest("Período não localizado");
+                    if (periodoUpdate.Habilitado)
+                        periodoUpdate.DesabilitarEntidade();
+                    else
+                        periodoUpdate.HabilitarEntidade();
 
-                //if (periodoEntity.Habilitado)
-                //    periodoEntity.DesabilitarEntidade();
-                //else
-                //    periodoEntity.HabilitarEntidade();
+                    await _repository.PeriodoPdvBaseRepository.Update(periodoUpdate);
 
-                //var periodoUpdateResult = _repository.PeriodoPdvRepository.Update(periodoEntity, filtro);
+                    if (!await _repository.CommitAsync())
+                        return RequestResult<PeriodoPdvDto>.BadRequest(mensagem: "Não foi possível salvar no banco");
 
-                //if (!await _repository.CommitAsync())
-                //    return RequestResult<PeriodoPdvDto>.BadRequest();
+                    PeriodoPdvDto dto = DtoMapper.ParcePeriodoPdvDto(periodoUpdate);
 
-                //var dto = DtoMapper.ParcePeriodoPdvDto(periodoUpdateResult);
+                    return RequestResult<PeriodoPdvDto>.Ok(dto);
 
-                //return RequestResult<PeriodoPdvDto>.Ok(dto);
+                }
+                catch (Exception ex)
+                {
 
-                throw new NotImplementedException();
-            }
-            catch (Exception ex)
-            {
-
-                return RequestResult<PeriodoPdvDto>.BadRequest(ex.Message);
+                    return new RequestResult<PeriodoPdvDto>().Erro(ex);
+                }
             }
         }
     }

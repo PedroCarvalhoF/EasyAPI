@@ -40,6 +40,7 @@ namespace Easy.InfrastructureData.Repository
                 // Verifica se a entidade foi encontrada
                 if (getItem != null)
                 {
+                    item.DataCriacao(getItem.CreateAt);
                     // Atualiza os valores da entidade rastreada com os valores da entidade passada
                     _context.Entry(getItem).CurrentValues.SetValues(item);
 

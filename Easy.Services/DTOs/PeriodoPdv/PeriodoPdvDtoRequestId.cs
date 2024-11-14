@@ -1,11 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Easy.Services.DTOs.PeriodoPdv;
+﻿namespace Easy.Services.DTOs.PeriodoPdv;
 
 public class PeriodoPdvDtoRequestId
 {
-    [Required]
-    public Guid IdPeriodo { get; private set; }
+    public Guid IdPeriodo { get; set; }
 
     public PeriodoPdvDtoRequestId(Guid idPeriodo)
     {

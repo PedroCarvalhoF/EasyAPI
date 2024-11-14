@@ -28,4 +28,17 @@ public class PeriodoPdvController(IMediator _mediator) : ControllerBase
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
     }
+
+    [HttpPut]
+    public async Task<ActionResult<RequestResult<PeriodoPdvDto>>> UpdatePeriodoPdvAsync([FromBody] PeriodoPdvUpdateCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
+    }
+    [HttpPut("habilitar-desabilitar")]
+    public async Task<ActionResult<RequestResult<PeriodoPdvDto>>> HabilitarDesabilitarPeriodoPdvAsync([FromBody] PeriodoPdvHabilitarDesabilitarCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
+    }
 }

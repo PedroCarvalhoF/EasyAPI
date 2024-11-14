@@ -38,9 +38,7 @@ public class PeriodoPdvCreateCommand : BaseCommands<PeriodoPdvDto>
 
                 PeriodoPdvDto dto = DtoMapper.ParcePeriodoPdvDto(periodoEnittyCreate);
 
-                return RequestResult<PeriodoPdvDto>.Ok(dto);
-
-                throw new NotImplementedException();
+                return RequestResult<PeriodoPdvDto>.Ok(dto);                
             }
             catch (Exception ex)
             {
