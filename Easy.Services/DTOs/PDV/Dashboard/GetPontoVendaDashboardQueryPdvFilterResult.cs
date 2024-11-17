@@ -2,10 +2,10 @@
 
 public class GetPontoVendaDashboardQueryPdvFilterResult
 {
-    public string? CreatAtDashboard { get; internal set; }
-    public decimal Faturamento { get; internal set; }
-    public decimal TC { get; internal set; }
-    public decimal TM { get; internal set; }
+    public string? Mensagem { get; internal set; } = "Nenhum resultado encontrado.";
+    public decimal Faturamento { get; internal set; } = 0;
+    public decimal TC { get; internal set; } = 0;
+    public decimal TM { get; internal set; } = 0;
 
     public List<byCategoriaPreco>? byCategoriaPrecos { get; internal set; } = new List<byCategoriaPreco>();
     public List<byFormaPagamento>? byPagamentos { get; internal set; } = new List<byFormaPagamento>();
@@ -30,7 +30,7 @@ public class GetPontoVendaDashboardQueryPdvFilterResult
 
     public class byItem
     {
-        public string? NomeProduto { get; internal set; }       
+        public string? NomeProduto { get; internal set; }
         public decimal Quantidade { get; internal set; }
         public decimal Total { get; internal set; }
     }

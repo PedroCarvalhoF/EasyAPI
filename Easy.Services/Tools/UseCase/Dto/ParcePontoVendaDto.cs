@@ -47,7 +47,14 @@ namespace Easy.Services.Tools.UseCase.Dto
         {
             var dash = new GetPontoVendaDashboardQueryPdvFilterResult();
 
-            dash.CreatAtDashboard = $"Dashboard gerado: {DateTime.Now.ToString()}";
+            if (pdvsDtos.ToList() == null || pdvsDtos.ToList().Count == 0)
+                return new GetPontoVendaDashboardQueryPdvFilterResult();
+
+
+
+            var firstData = pdvsDtos.OrderBy(pdv => pdv.DataHoraAbertura).First().DataHoraAbertura.ToShortDateString();
+            var lasttData = pdvsDtos.OrderBy(pdv => pdv.DataHoraAbertura).Last().DataHoraAbertura.ToShortDateString();
+            dash.Mensagem = $"Resultados encontrados entre: {firstData} - {lasttData}";
 
             dash.Faturamento = pdvsDtos.Sum(pdvs => pdvs.SomaValorTotalPedidosValidos);
             dash.TC = pdvsDtos.Sum(pdvs => pdvs.QuantidadePedidosValidos);
@@ -100,6 +107,9 @@ namespace Easy.Services.Tools.UseCase.Dto
 
 
             return dash;
+
+
+
         }
 
 
