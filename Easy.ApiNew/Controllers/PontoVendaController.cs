@@ -4,6 +4,7 @@ using Easy.Services.CQRS.PDV.Pdv.Commands;
 using Easy.Services.CQRS.PDV.Pdv.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.PDV;
+using Easy.Services.DTOs.PDV.Dashboard;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,4 +40,19 @@ public class PontoVendaController : ControllerBase
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<PontoVendaDtoEncerrarResult>().ParseToActionResult(await _mediator.Send(command));
     }
+
+
+
+    #region Dashboard
+
+    [HttpPost("get-dashboard")]
+    public async Task<ActionResult<RequestResult<GetPontoVendaDashboardQueryPdvFilterResult>>> GetDashboardAsync(GetPontoVendaDashboardQueryPdvFilter command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<GetPontoVendaDashboardQueryPdvFilterResult>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    #endregion
+
+
 }

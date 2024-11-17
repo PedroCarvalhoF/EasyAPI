@@ -1,5 +1,7 @@
 ﻿using Easy.Domain.Entities;
+using Easy.Domain.Entities.PDV.ItensPedido;
 using Easy.Domain.Entities.PDV.PDV;
+using Easy.Domain.Entities.PDV.Pedido;
 using Easy.Domain.Intefaces.Repository.PDV.Pdv;
 using Easy.InfrastructureData.Context;
 using Easy.InfrastructureData.Tools;
@@ -53,20 +55,31 @@ public class PontoVendaRepository : BaseRepository<PontoVendaEntity, FiltroBase>
 
             if (includeAll)
             {
-                query = query.Include(user_gerente => user_gerente.UsuarioGerentePdv).ThenInclude(user => user!.UserPdv);
 
+                //operadores
+                query = query.Include(user_gerente => user_gerente.UsuarioGerentePdv).ThenInclude(user => user!.UserPdv);
                 query = query.Include(user_operador => user_operador.UsuarioPdv).ThenInclude(user => user!.UserPdv);
 
+                //periodo
                 query = query.Include(periodo => periodo.PeriodoPdv);
 
-                query = query.Include(pedidos => pedidos.Pedidos);
+
+                //pedidos
+                query = query.Include(pedidos => pedidos.Pedidos!).ThenInclude(pedido_categoria => pedido_categoria.CategoriaPreco);
+                query = query.Include(pedidos => pedidos.Pedidos!).ThenInclude(pedido_pagamento => pedido_pagamento.Pagamentos!).ThenInclude(pagamento => pagamento.FormaPagamento);
+
+                //itens do pedido
+                query = query.Include(pedido => pedido.Pedidos).ThenInclude(itens_pedido => itens_pedido.ItensPedido).ThenInclude(produto => produto.Produto);
             }
 
             query = query.FiltroCliente(filtro);
 
             query = PontoVendaQueryFilter.FiltroPontoVenda(query, pdvFiltro);
 
+            query = query.OrderBy(pdv => pdv.CreateAt);
+
             var result = await query.ToArrayAsync();
+
             return result;
         }
         catch (Exception ex)

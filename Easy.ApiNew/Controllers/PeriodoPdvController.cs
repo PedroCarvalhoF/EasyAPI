@@ -16,7 +16,7 @@ namespace Easy.ApiNew.Controllers;
 public class PeriodoPdvController(IMediator _mediator) : ControllerBase
 {
     [HttpPost]
-    public async Task<ActionResult<RequestResult<IEnumerable<PeriodoPdvDto>>>> GetPeriodosAsync([FromBody] GetPeriodoPdvFilter command)
+    public async Task<ActionResult<RequestResult<IEnumerable<PeriodoPdvDto>>>> GetPeriodosAsync([FromBody] GetPeriodoPdvFilterCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<PeriodoPdvDto>>().ParseToActionResult(await _mediator.Send(command));
@@ -39,6 +39,6 @@ public class PeriodoPdvController(IMediator _mediator) : ControllerBase
     public async Task<ActionResult<RequestResult<PeriodoPdvDto>>> HabilitarDesabilitarPeriodoPdvAsync([FromBody] PeriodoPdvHabilitarDesabilitarCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await _mediator.Send(command));
+        return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await  _mediator.Send(command));
     }
 }

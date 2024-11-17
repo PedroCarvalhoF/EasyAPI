@@ -7,12 +7,12 @@ using MediatR;
 
 namespace Easy.Services.CQRS.PDV.Periodo.Queries
 {
-    public class GetPeriodoPdvFilter : BaseCommands<IEnumerable<PeriodoPdvDto>>
+    public class GetPeriodoPdvFilterCommand : BaseCommands<IEnumerable<PeriodoPdvDto>>
     {
         public required PeriodoPdvEntityFilter PeriodoPdvEntityFilter { get; set; }
-        public class GetPeriodoPdvFiltersHandler(IUnitOfWork _repository) : IRequestHandler<GetPeriodoPdvFilter, RequestResult<IEnumerable<PeriodoPdvDto>>>
+        public class GetPeriodoPdvFiltersHandler(IUnitOfWork _repository) : IRequestHandler<GetPeriodoPdvFilterCommand, RequestResult<IEnumerable<PeriodoPdvDto>>>
         {
-            public async Task<RequestResult<IEnumerable<PeriodoPdvDto>>> Handle(GetPeriodoPdvFilter request, CancellationToken cancellationToken)
+            public async Task<RequestResult<IEnumerable<PeriodoPdvDto>>> Handle(GetPeriodoPdvFilterCommand request, CancellationToken cancellationToken)
             {
                 try
                 {

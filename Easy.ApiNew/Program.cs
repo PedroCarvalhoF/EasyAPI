@@ -2,6 +2,8 @@ using AutoMapper;
 using Easy.ApiNew.Extensions;
 using Easy.CrossCutting.DependencyInjection;
 using Easy.CrossCutting.Mappings;
+using Easy.InfrastructureData.Context;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 
@@ -63,4 +65,13 @@ app.UseStaticFiles(new StaticFileOptions()
     RequestPath = new PathString("/Resources")
 });
 
+
+//using (var service = app.Services.GetRequiredService<IServiceScopeFactory>()
+//                                                .CreateScope())
+//{
+//    using (var context = service.ServiceProvider.GetService<MyContext>())
+//    {
+//        context.Database.Migrate();
+//    }
+//}
 app.Run();

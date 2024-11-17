@@ -1,14 +1,10 @@
 ﻿using Easy.Api.Tools;
-using Easy.Domain.Entities.User;
 using Easy.Services.CQRS.User.Command;
-using Easy.Services.CQRS.User.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.User;
 using Easy.Services.DTOs.UserIdentity;
-using Easy.Services.Tools.ImageUrls;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easy.ApiNew.Controllers;
@@ -18,6 +14,15 @@ namespace Easy.ApiNew.Controllers;
 [Authorize]
 public class AccountController(IMediator _mediator) : ControllerBase
 {
+    [AllowAnonymous]
+    [HttpGet("versao")]
+    public ActionResult<string> GetActionResultAsync()
+    {
+        return Ok("versao-api.3.0 - TESTE SERVIDOR PC DO PEDRO");
+    }
+
+
+
     [AllowAnonymous]
     [HttpPost("criar-conta")]
     public async Task<ActionResult<RequestResult<UserDto>>> CadastrarUsuario([FromBody] UserCreateCommand command)

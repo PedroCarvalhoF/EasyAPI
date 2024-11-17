@@ -40,7 +40,8 @@ public class PeriodoPdvUpdateCommand : BaseCommands<PeriodoPdvDto>
 
 
                 if (descricaoPeriodoExists.Any())
-                    return new RequestResult<PeriodoPdvDto>().Erro("Descrição do período já esta em uso.");
+                    if (descricaoPeriodoExists.Single().Id != periodoEntityUpdate.Id)
+                        return new RequestResult<PeriodoPdvDto>().Erro("Descrição do período já esta em uso.");
 
                 await _repository.PeriodoPdvBaseRepository.Update(periodoEntityUpdate);
                 if (!await _repository.CommitAsync())

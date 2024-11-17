@@ -19,7 +19,7 @@ public class GetPontoVendaQuery : BaseCommands<IEnumerable<PontoVendaDto>>
 
                 var filtro = request.GetFiltro();
                 var pdvsEntities = await _repository.PontoVendaRepository.SelectAsync(request.PontoVendaQueryFilter, filtro, true);
-                var dtos = DtoMapper.ParcePontosVendasDtos(pdvsEntities);
+                var dtos = DtoMapper.ParcePontoVendaDto(pdvsEntities);
 
                 return RequestResult<IEnumerable<PontoVendaDto>>.Ok(dtos);
             }
