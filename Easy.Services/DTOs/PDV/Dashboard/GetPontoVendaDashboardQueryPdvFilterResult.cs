@@ -6,6 +6,7 @@ public class GetPontoVendaDashboardQueryPdvFilterResult
     public decimal Faturamento { get; internal set; } = 0;
     public decimal TC { get; internal set; } = 0;
     public decimal TM { get; internal set; } = 0;
+    public decimal TC_cancelados { get; internal set; } = 0;
 
     public List<byCategoriaPreco>? byCategoriaPrecos { get; internal set; } = new List<byCategoriaPreco>();
     public List<byFormaPagamento>? byPagamentos { get; internal set; } = new List<byFormaPagamento>();

@@ -24,7 +24,7 @@ public class GetPontoVendaDashboardQueryPdvFilter : BaseCommands<GetPontoVendaDa
                 var pdvEntities = await _repository.PontoVendaRepository.SelectAsync(request.PontoVendaQueryFilter, filtro);
                 var pdvDtos = DtoMapper.ParcePontoVendaDto(pdvEntities);
 
-                var pedidos_entities_validos = pdvEntities.SelectMany(pdv_pedidos => pdv_pedidos.Pedidos ?? Enumerable.Empty<PedidoEntity>().Where(pedido => pedido.Finalizado && pedido.Cancelado == false));
+                var pedidos_entities_validos = pdvEntities.SelectMany(pdv_pedidos => pdv_pedidos.Pedidos ?? Enumerable.Empty<PedidoEntity>()).Where(pedido => pedido.Finalizado && pedido.Cancelado == false);
 
                 var pedido_validos_dtos = DtoMapper.ParcePedidoDto(pedidos_entities_validos);
 
@@ -38,7 +38,7 @@ public class GetPontoVendaDashboardQueryPdvFilter : BaseCommands<GetPontoVendaDa
                 var itens_pedido_dtos = DtoMapper.ParceItemPedidoDto(itens_pedidos_entities_validos);
 
 
-                var dto = DtoMapper.ParcePontoVendaDashboard(pdvDtos, pedido_validos_dtos, pagamentos_pedidos_validos_dtos, itens_pedido_dtos);
+                var dto = DtoMapper.ParcePontoVendaDashboard(pdvDtos, pedido_validos_dtos, pagamentos_pedidos_validos_dtos, itens_pedido_dtos, pdvEntities.Sum(pedido => pedido.QuantidadePedidosCancelados));
 
                 return new RequestResult<GetPontoVendaDashboardQueryPdvFilterResult>().ResultOk(dto);
             }

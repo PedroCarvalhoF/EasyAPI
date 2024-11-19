@@ -43,7 +43,7 @@ namespace Easy.Services.Tools.UseCase.Dto
             }
         }
 
-        public static GetPontoVendaDashboardQueryPdvFilterResult ParcePontoVendaDashboard(IEnumerable<PontoVendaDto> pdvsDtos, IEnumerable<PedidoDto> pedidosValidos, IEnumerable<PagamentoPedidoDto> pagamentosDto, IEnumerable<ItemPedidoDto> itensPedidosDtos)
+        public static GetPontoVendaDashboardQueryPdvFilterResult ParcePontoVendaDashboard(IEnumerable<PontoVendaDto> pdvsDtos, IEnumerable<PedidoDto> pedidosValidos, IEnumerable<PagamentoPedidoDto> pagamentosDto, IEnumerable<ItemPedidoDto> itensPedidosDtos, int qtd_pedidos_cancelados)
         {
             var dash = new GetPontoVendaDashboardQueryPdvFilterResult();
 
@@ -67,6 +67,8 @@ namespace Easy.Services.Tools.UseCase.Dto
 
                 dash.TM = 0;
             }
+
+            dash.TC_cancelados = qtd_pedidos_cancelados;
 
             dash.byCategoriaPrecos = pedidosValidos
                     .Where(p => !string.IsNullOrEmpty(p.CategoriaPreco)) // Ignorar categorias nulas ou vazias
