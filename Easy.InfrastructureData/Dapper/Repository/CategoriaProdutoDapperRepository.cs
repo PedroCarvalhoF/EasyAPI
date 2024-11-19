@@ -2,21 +2,16 @@
 using Easy.Domain.Entities;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
+using Easy.InfrastructureData.Dapper.Mapping;
 using Easy.InfrastructureData.Dapper.Queries;
 using System.Data;
 
 namespace Easy.InfrastructureData.Dapper.Repository;
 
-public class CategoriaProdutoDapperRepository : ICategoriaProdutoDapperRepository<FiltroBase>
+public class CategoriaProdutoDapperRepository(IDbConnection _dbConnection) : ICategoriaProdutoDapperRepository<FiltroBase>
 {
-    private readonly IDbConnection _dbConnection;
-
-    public CategoriaProdutoDapperRepository(IDbConnection connection)
-    {
-        _dbConnection = connection;
-    }
-
-    public async Task<CategoriaProdutoEntity> GetCategoriaProdutoById(Guid idCategoria, FiltroBase filtro)
+    private readonly string nomeTabela = ContextMappingDapper.GetTableNameCagoriasProdutos();
+    public async Task<CategoriaProdutoEntity> GetCategoriaProdutoByIdCategoria(Guid? idCategoria, FiltroBase filtro)
     {
         try
         {
@@ -30,14 +25,41 @@ public class CategoriaProdutoDapperRepository : ICategoriaProdutoDapperRepositor
             throw new Exception(ex.Message);
         }
     }
-
-    public async Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriaProdutoEnity(FiltroBase filtro)
+    public async Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriasProdutoAsync(FiltroBase filtro)
     {
         try
         {
             var query = CategoriaProdutoDapperQueries<FiltroBase>.GetCategoriaProdutoQuery(filtro);
             var entities = await _dbConnection.QueryAsync<CategoriaProdutoEntity>(query.Query!, query.Parameter);
-            return entities ?? new List<CategoriaProdutoEntity>();
+            return entities;
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+    }
+    public async Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriaProdutoEqualsCategoriaQuery(FiltroBase filtro, string descricaoCategoria)
+    {
+        try
+        {
+            var query = CategoriaProdutoDapperQueries<FiltroBase>.GetCategoriaProdutoEqualsCategoriaQuery(filtro, descricaoCategoria);
+            var entities = await _dbConnection.QueryAsync<CategoriaProdutoEntity>(query.Query!, query.Parameter);
+            return entities;
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+    }
+    public async Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriaProdutoContainsCategoriaQuery(FiltroBase filtro, string descricaoCategoria)
+    {
+        try
+        {
+            var query = CategoriaProdutoDapperQueries<FiltroBase>.GetCategoriaProdutoContainsCategoriaQuery(filtro, descricaoCategoria);
+            var entities = await _dbConnection.QueryAsync<CategoriaProdutoEntity>(query.Query!, query.Parameter);
+            return entities;
         }
         catch (Exception ex)
         {

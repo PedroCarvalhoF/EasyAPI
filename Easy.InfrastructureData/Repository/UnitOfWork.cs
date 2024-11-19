@@ -103,7 +103,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         get
         {
             return _categorioProdutoRepository = _categorioProdutoRepository ??
-                new CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>(_context);
+                new CategoriaProdutoRepository(_context);
         }
     }
     public IProdutoRepository<ProdutoEntity, FiltroBase> ProdutoRepository

@@ -5,29 +5,54 @@ namespace Easy.InfrastructureData.Dapper.Queries
 {
     public static class CategoriaProdutoDapperQueries<F> where F : FiltroBase
     {
+        private static readonly string nomeTabela = string.Empty;
+        static CategoriaProdutoDapperQueries()
+        {
+            if (string.IsNullOrEmpty(nomeTabela))
+                nomeTabela = ContextMappingDapper.GetTableNameCagoriasProdutos();
+        }
         public static QueryModel GetCategoriaProdutoQuery(F filtro)
         {
-            var table = ContextMappingDapper.GetCategoriaProdutoTable();
-            var query = @$"SELECT * FROM {table}                           
-                            WHERE
-                            UserMasterClienteIdentityId=@idCliente";
+            var query = @$"SELECT * FROM {nomeTabela}                           
+                                WHERE
+                                UserMasterClienteIdentityId=@idCliente";
 
             var parameters = new { idCliente = filtro.clienteId };
 
             return new QueryModel(query, parameters);
+
         }
-
-
-        public static QueryModel GetCategoriaProdutoByIdQuery(Guid idCategoria, F filtro)
+        public static QueryModel GetCategoriaProdutoByIdQuery(Guid? idCategoria, F filtro)
         {
-            var table = ContextMappingDapper.GetCategoriaProdutoTable();
-            var query = @$"SELECT * FROM {table}                           
-                            WHERE
-                            UserMasterClienteIdentityId=@idCliente
-                            and
-                            Id=@idCat";
+            var query = @$"SELECT * FROM {nomeTabela}                           
+                                  WHERE  UserMasterClienteIdentityId=@idCliente 
+                                  AND Id=@idCat";
 
             var parameters = new { idCliente = filtro.clienteId, idCat = idCategoria };
+
+            return new QueryModel(query, parameters);
+        }
+        public static QueryModel GetCategoriaProdutoEqualsCategoriaQuery(F filtro, string descricaoCategoria)
+        {
+            var query = @$"SELECT * FROM {nomeTabela}                           
+                                  WHERE UserMasterClienteIdentityId=@idCliente
+                                  AND    DescricaoCategoria  =@categoria  ";
+
+            var parameters = new { idCliente = filtro.clienteId, categoria = descricaoCategoria };
+
+            return new QueryModel(query, parameters);
+        }
+        public static QueryModel GetCategoriaProdutoContainsCategoriaQuery(F filtro, string descricaoCategoria)
+        {
+            var query = @$"SELECT * FROM {nomeTabela}                           
+                                  WHERE UserMasterClienteIdentityId = @idCliente
+                                  AND DescricaoCategoria LIKE @categoria";
+
+            var parameters = new
+            {
+                idCliente = filtro.clienteId,
+                categoria = descricaoCategoria
+            };
 
             return new QueryModel(query, parameters);
         }

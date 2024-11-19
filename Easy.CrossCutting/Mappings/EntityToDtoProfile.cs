@@ -23,7 +23,7 @@ namespace Easy.CrossCutting.Mappings
             CreateMap<UserMasterUserDto, UserMasterUserEntity>().ReverseMap();
 
             //Categoria de Produto
-            CreateMap<CategoriaProdutoDtoView, CategoriaProdutoEntity>().ReverseMap();
+            CreateMap<CategoriaProdutoDto, CategoriaProdutoEntity>().ReverseMap();
 
             //Produto
             CreateMap<ProdutoDtoView, ProdutoEntity>().ReverseMap();

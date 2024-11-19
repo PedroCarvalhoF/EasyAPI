@@ -1,4 +1,5 @@
 ﻿using Easy.Api.Extensions;
+using Easy.Api.Tools;
 using Easy.Services.CQRS.Produto.Categoria.Commands;
 using Easy.Services.CQRS.Produto.Categoria.Queries;
 using Easy.Services.DTOs;
@@ -12,41 +13,20 @@ namespace Easy.ApiNew.Controllers;
 [Route("[controller]")]
 [ApiController]
 [Authorize]
-public class CategoriaProdutoController : ControllerBase
-{
-    private readonly IMediator _mediator;
-    public CategoriaProdutoController(IMediator mediator)
+public class CategoriaProdutoController(IMediator _mediator) : ControllerBase
+{    
+    [HttpPost("get-categoria-produto-filter")]
+    public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoDto>>>> GetCategoriaProdutoAsync([FromBody] GetCategoriaProdutoEntityFilter command)
     {
-        _mediator = mediator;
+
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<IEnumerable<CategoriaProdutoDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    [HttpGet]
-    public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoDtoView>>>> GetCategoriasProdutos()
-    {
-        var getCommand = new GetCategoriaProdutoQuery();
-        getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
-    }
-
-    [HttpGet("{idCategoria}")]
-    public async Task<ActionResult<RequestResult<CategoriaProdutoDtoView>>> GetCategoriaProdutudoByIdCategoria(Guid idCategoria)
-    {
-        var getCommand = new GetCategoriaProdutoQueryById(idCategoria);
-        getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(getCommand);
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<RequestResult<CategoriaProdutoDtoView>>> CadastrarCategoria([FromBody] CategoriaProdutoCreateCommand command)
+    [HttpPost("get-categoria-produto-dapper")]
+    public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoDto>>>> GetCategoriaProdutoDapperAsync([FromBody] GetCategoriaProdutoEntityDapper command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(command);
-    }
-
-    [HttpPut]
-    public async Task<ActionResult<RequestResult<CategoriaProdutoDtoView>>> AlterarCategoria([FromBody] CategoriaProdutoUpdateCommand command)
-    {
-        command.SetUsers(User.GetUserMasterUserDatalhes());
-        return await _mediator.Send(command);
-    }
+        return new ReturnActionResult<IEnumerable<CategoriaProdutoDto>>().ParseToActionResult(await _mediator.Send(command));
+    }    
 }

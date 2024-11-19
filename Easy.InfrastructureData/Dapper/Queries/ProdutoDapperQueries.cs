@@ -8,7 +8,7 @@ namespace Easy.InfrastructureData.Dapper.Queries
         public static QueryModel GetProdutosQuery(F filtro)
         {
             var tableProduto = ContextMappingDapper.GetProdutoTable();
-            var tableCategoriaProduto = ContextMappingDapper.GetCategoriaProdutoTable();
+            var tableCategoriaProduto = ContextMappingDapper.GetTableNameCagoriasProdutos();
 
             var query = $@"SELECT * FROM
                            {tableProduto} as prod
@@ -25,7 +25,7 @@ namespace Easy.InfrastructureData.Dapper.Queries
         public static QueryModel GetProdutoByIdQuery(Guid idProduto, F filtro)
         {
             var tableProduto = ContextMappingDapper.GetProdutoTable();
-            var tableCategoriaProduto = ContextMappingDapper.GetCategoriaProdutoTable();
+            var tableCategoriaProduto = ContextMappingDapper.GetTableNameCagoriasProdutos();
 
             var query = $@"SELECT * FROM
                            {tableProduto} as prod

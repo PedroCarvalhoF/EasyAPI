@@ -55,7 +55,7 @@ namespace Easy.CrossCutting.DependencyInjection
 
             serviceCollection.AddScoped(typeof(IUserMasterClienteRepository<>), typeof(UserMasterClienteRepository<>));
             serviceCollection.AddScoped(typeof(IUserMasterUserRepository<>), typeof(UserMasterUserRepository<>));
-            serviceCollection.AddScoped(typeof(ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>), typeof(CategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>));
+            serviceCollection.AddScoped(typeof(ICategoriaProdutoRepository<CategoriaProdutoEntity, FiltroBase>), typeof(CategoriaProdutoRepository));
             serviceCollection.AddScoped(typeof(IProdutoRepository<ProdutoEntity, FiltroBase>), typeof(ProdutoRepository<ProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IPrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>), typeof(PrecoProdutoRepository<PrecoProdutoEntity, FiltroBase>));
             serviceCollection.AddScoped(typeof(IUsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>), typeof(UsuarioPdvRepository<UsuarioPdvEntity, FiltroBase>));

@@ -2,7 +2,7 @@
 
 public static class ContextMappingDapper
 {
-    public static string GetCategoriaProdutoTable()
+    public static string GetTableNameCagoriasProdutos()
         => "desenvolvimento.categoriasprodutos";
     public static string GetProdutoTable()
        => "desenvolvimento.produtos";

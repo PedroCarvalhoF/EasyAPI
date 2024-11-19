@@ -9,13 +9,13 @@ using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Commands;
 
-public class CategoriaProdutoUpdateCommand : BaseCommands<CategoriaProdutoDtoView>
+public class CategoriaProdutoUpdateCommand : BaseCommands<CategoriaProdutoDto>
 {
     public Guid Id { get; set; }
     public bool Habilitado { get; set; }
     public string DescricaoCategoria { get; set; }
 
-    public class CategoriaProdutoUpdateCommandHandler : IRequestHandler<CategoriaProdutoUpdateCommand, RequestResult<CategoriaProdutoDtoView>>
+    public class CategoriaProdutoUpdateCommandHandler : IRequestHandler<CategoriaProdutoUpdateCommand, RequestResult<CategoriaProdutoDto>>
     {
         private readonly IUnitOfWork _repository;
         private readonly ICategoriaProdutoDapperRepository<FiltroBase> _dapperRepository;
@@ -28,31 +28,31 @@ public class CategoriaProdutoUpdateCommand : BaseCommands<CategoriaProdutoDtoVie
             _mapper = mapper;
         }
 
-        public async Task<RequestResult<CategoriaProdutoDtoView>> Handle(CategoriaProdutoUpdateCommand request, CancellationToken cancellationToken)
+        public async Task<RequestResult<CategoriaProdutoDto>> Handle(CategoriaProdutoUpdateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var filtro = request.GetFiltro();
                 var categoriaProdutoForUpdate = CategoriaProdutoEntity.Update(request.Id, request.Habilitado, request.DescricaoCategoria, filtro);
                 if (!categoriaProdutoForUpdate.Validada)
-                    return RequestResult<CategoriaProdutoDtoView>.BadRequest("Entidade inválida.");
+                    return RequestResult<CategoriaProdutoDto>.BadRequest("Entidade inválida.");
 
                await  _repository.CategoriaProdutoBaseRepository.Update(categoriaProdutoForUpdate);
                 if (!await _repository.CommitAsync())
-                    return RequestResult<CategoriaProdutoDtoView>.BadRequest("Não foi possível alterar categoria do produto.");
+                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível alterar categoria do produto.");
 
-                var categoriaEntity = await _dapperRepository.GetCategoriaProdutoById(categoriaProdutoForUpdate.Id, filtro);
+                var categoriaEntity = await _dapperRepository.GetCategoriaProdutoByIdCategoria(categoriaProdutoForUpdate.Id, filtro);
                 if (categoriaEntity == null)
-                    return RequestResult<CategoriaProdutoDtoView>.BadRequest("Não foi possível localizar categoria do produto");
+                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível localizar categoria do produto");
 
-                var categoriaDto = _mapper.Map<CategoriaProdutoDtoView>(categoriaEntity);
+                var categoriaDto = _mapper.Map<CategoriaProdutoDto>(categoriaEntity);
 
-                return RequestResult<CategoriaProdutoDtoView>.Ok(categoriaDto, "Categoria do produto alterada com sucesso.");
+                return RequestResult<CategoriaProdutoDto>.Ok(categoriaDto, "Categoria do produto alterada com sucesso.");
             }
             catch (Exception ex)
             {
 
-                return RequestResult<CategoriaProdutoDtoView>.BadRequest(ex.Message);
+                return RequestResult<CategoriaProdutoDto>.BadRequest(ex.Message);
             }
         }
     }
