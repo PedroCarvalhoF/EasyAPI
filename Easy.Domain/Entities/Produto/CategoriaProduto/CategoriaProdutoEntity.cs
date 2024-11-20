@@ -4,7 +4,7 @@ namespace Easy.Domain.Entities.Produto.CategoriaProduto;
 
 public class CategoriaProdutoEntity : BaseEntity
 {
-    public string? DescricaoCategoria { get; private set; }
+    public string DescricaoCategoria { get; private set; }
     public bool Validada => Validar();
     public virtual ICollection<ProdutoEntity>? Produtos { get; set; }
     private bool Validar()

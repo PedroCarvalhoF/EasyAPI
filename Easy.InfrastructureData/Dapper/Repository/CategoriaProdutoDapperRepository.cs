@@ -17,7 +17,7 @@ public class CategoriaProdutoDapperRepository(IDbConnection _dbConnection) : ICa
         {
             var query = CategoriaProdutoDapperQueries<FiltroBase>.GetCategoriaProdutoByIdQuery(idCategoria, filtro);
             var entities = await _dbConnection.QuerySingleOrDefaultAsync<CategoriaProdutoEntity>(query.Query!, query.Parameter);
-            return entities ?? new CategoriaProdutoEntity();
+            return entities;
         }
         catch (Exception ex)
         {

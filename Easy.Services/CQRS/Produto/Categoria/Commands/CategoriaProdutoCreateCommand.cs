@@ -1,56 +1,42 @@
-﻿using AutoMapper;
+﻿using Easy.Domain.Entities;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces;
-using Easy.Services.CQRS.Produto.Categoria.Commands.Notifications;
+using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.CategoriaProduto;
+using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Commands;
 
 public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDto>
 {
-    public string DescricaoCategoria { get; private set; }
-    public CategoriaProdutoCreateCommand(string descricaoCategoria)
+    public required CategoriaProdutoDtoCreate CategoriaProdutoDtoCreate { get; set; }
+    public class CategoriaProdutoCreateCommandHandler(IUnitOfWork _repository, ICategoriaProdutoDapperRepository<FiltroBase> _dapperRespository) : IRequestHandler<CategoriaProdutoCreateCommand, RequestResult<CategoriaProdutoDto>>
     {
-        DescricaoCategoria = descricaoCategoria;
-    }
-
-
-    public class CategoriaProdutoCreateCommandHandler : IRequestHandler<CategoriaProdutoCreateCommand, RequestResult<CategoriaProdutoDto>>
-    {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-
-        public CategoriaProdutoCreateCommandHandler(IUnitOfWork unitOfWork, IMediator mediator, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mediator = mediator;
-            _mapper = mapper;
-        }
-
         public async Task<RequestResult<CategoriaProdutoDto>> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
         {
             try
             {
-                var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.GetFiltro());
-                if (!categoriaEntity.isBaseValida)
+                var filtro = request.GetFiltro();
+
+                var categoriaProdutoCreate = CategoriaProdutoEntity.Create(request.CategoriaProdutoDtoCreate.DescricaoCategoria, filtro);
+                if (!categoriaProdutoCreate.isBaseValida)
                     return RequestResult<CategoriaProdutoDto>.BadRequest("Entidade inválida.");
 
-                await _unitOfWork.CategoriaProdutoBaseRepository.InsertAsync(categoriaEntity);
-                var result = await _unitOfWork.CommitAsync();
-                if (!result)
-                {
 
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível cadastrar categoria do produto");
-                }
+                var categoriaExists = (await _dapperRespository.GetCategoriaProdutoEqualsCategoriaQuery(filtro, categoriaProdutoCreate.DescricaoCategoria)).SingleOrDefault();
+                if (categoriaExists != null)
+                    return new RequestResult<CategoriaProdutoDto>().Erro("Descrição da categoria ja existe.");
 
-                await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
+                await _repository.CategoriaProdutoBaseRepository.InsertAsync(categoriaProdutoCreate);
+                if (!await _repository.CommitAsync())
+                    return new RequestResult<CategoriaProdutoDto>().ErroSalvarNoBanco();
 
-                var categorioDto = _mapper.Map<CategoriaProdutoDto>(categoriaEntity);
+                var dto = DtoMapper.ParceCategoriaProdutoDto(categoriaProdutoCreate);
 
-                return RequestResult<CategoriaProdutoDto>.Ok(categorioDto, "Categoria criada com sucesso.");
+                return new RequestResult<CategoriaProdutoDto>().ResultOk(dto);
+
             }
             catch (Exception ex)
             {
@@ -58,34 +44,5 @@ public class CategoriaProdutoCreateCommand : BaseCommands<CategoriaProdutoDto>
                 return RequestResult<CategoriaProdutoDto>.BadRequest(ex.Message);
             }
         }
-
-
-
-        //CategoriaProdutoRepository
-        //public async Task<RequestResult> Handle(CategoriaProdutoCreateCommand request, CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        var categoriaEntity = CategoriaProdutoEntity.Create(request.DescricaoCategoria, request.FiltroBase);
-        //        if (!categoriaEntity.isBaseValida)
-        //            return new RequestResult().EntidadeInvalida();
-
-        //        await _unitOfWork.CategoriaProdutoRepository.Create(categoriaEntity);
-        //        var result = await _unitOfWork.CommitAsync();
-        //        if (result)
-        //        {
-        //            await _mediator.Publish(new CategoriaProdutoCreatedNotification(categoriaEntity));
-        //            return new RequestResult().Ok("Categoria de produto criada com sucesso.");
-        //        }
-
-
-        //        return new RequestResult().BadRequest("Não foi possível cadastrar cadastrar categoria");
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        return new RequestResult().BadRequest(ex.Message);
-        //    }
-        //}
     }
 }

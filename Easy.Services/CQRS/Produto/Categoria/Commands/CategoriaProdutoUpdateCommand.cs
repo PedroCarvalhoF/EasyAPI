@@ -1,53 +1,47 @@
-﻿using AutoMapper;
-using Easy.Domain.Entities;
+﻿using Easy.Domain.Entities;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
 using Easy.Domain.Intefaces;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.CategoriaProduto;
+using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
 
 namespace Easy.Services.CQRS.Produto.Categoria.Commands;
 
 public class CategoriaProdutoUpdateCommand : BaseCommands<CategoriaProdutoDto>
 {
-    public Guid Id { get; set; }
-    public bool Habilitado { get; set; }
-    public string DescricaoCategoria { get; set; }
-
-    public class CategoriaProdutoUpdateCommandHandler : IRequestHandler<CategoriaProdutoUpdateCommand, RequestResult<CategoriaProdutoDto>>
+    public required CategoriaProdutoDtoUpdate CategoriaProdutoDtoUpdate { get; set; }
+    public class CategoriaProdutoUpdateCommandHandler(IUnitOfWork _repository, ICategoriaProdutoDapperRepository<FiltroBase> _dapperRepository) : IRequestHandler<CategoriaProdutoUpdateCommand, RequestResult<CategoriaProdutoDto>>
     {
-        private readonly IUnitOfWork _repository;
-        private readonly ICategoriaProdutoDapperRepository<FiltroBase> _dapperRepository;
-        private readonly IMapper _mapper;
-
-        public CategoriaProdutoUpdateCommandHandler(IUnitOfWork repository, ICategoriaProdutoDapperRepository<FiltroBase> dapperRepository, IMapper mapper)
-        {
-            _repository = repository;
-            _dapperRepository = dapperRepository;
-            _mapper = mapper;
-        }
-
         public async Task<RequestResult<CategoriaProdutoDto>> Handle(CategoriaProdutoUpdateCommand request, CancellationToken cancellationToken)
         {
             try
             {
                 var filtro = request.GetFiltro();
-                var categoriaProdutoForUpdate = CategoriaProdutoEntity.Update(request.Id, request.Habilitado, request.DescricaoCategoria, filtro);
+
+                var categoriaProdutoForUpdate = CategoriaProdutoEntity.Update(request.CategoriaProdutoDtoUpdate.Id, request.CategoriaProdutoDtoUpdate.Habilitado, request.CategoriaProdutoDtoUpdate.DescricaoCategoria, filtro);
                 if (!categoriaProdutoForUpdate.Validada)
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Entidade inválida.");
+                    return RequestResult<CategoriaProdutoDto>.EntidadeInvalida();
 
-               await  _repository.CategoriaProdutoBaseRepository.Update(categoriaProdutoForUpdate);
+                var categoriaProdutoExists = await _dapperRepository.GetCategoriaProdutoByIdCategoria(request.CategoriaProdutoDtoUpdate.Id, filtro);
+
+                if (categoriaProdutoExists == null)
+                    return new RequestResult<CategoriaProdutoDto>().Erro("Categoria de produto não localizada.");
+
+                //verificar se descricao da categoria alterada ja exist
+                var categoriaDescricaoExists = (await _dapperRepository.GetCategoriaProdutoEqualsCategoriaQuery(filtro, categoriaProdutoForUpdate.DescricaoCategoria)).SingleOrDefault();
+
+                if (categoriaDescricaoExists != null)
+                    if (categoriaProdutoForUpdate.Id != categoriaDescricaoExists.Id)
+                        return new RequestResult<CategoriaProdutoDto>().Erro("Descrição da categoria já esta em uso");
+
+                await _repository.CategoriaProdutoBaseRepository.Update(categoriaProdutoForUpdate);
                 if (!await _repository.CommitAsync())
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível alterar categoria do produto.");
+                    return RequestResult<CategoriaProdutoDto>.FalhaCommitRepository();
 
-                var categoriaEntity = await _dapperRepository.GetCategoriaProdutoByIdCategoria(categoriaProdutoForUpdate.Id, filtro);
-                if (categoriaEntity == null)
-                    return RequestResult<CategoriaProdutoDto>.BadRequest("Não foi possível localizar categoria do produto");
-
-                var categoriaDto = _mapper.Map<CategoriaProdutoDto>(categoriaEntity);
-
-                return RequestResult<CategoriaProdutoDto>.Ok(categoriaDto, "Categoria do produto alterada com sucesso.");
+                var dto = DtoMapper.ParceCategoriaProdutoDto(categoriaProdutoForUpdate);
+                return new RequestResult<CategoriaProdutoDto>().ResultOk(dto);
             }
             catch (Exception ex)
             {

@@ -43,6 +43,9 @@
         public RequestResult<T> Erro(string mensagem)
        => BadRequest(mensagem);
 
+        public RequestResult<T> ErroSalvarNoBanco()
+      => BadRequest("Não foi possível salvar no banco de dados.");
+
         public static RequestResult<T> Ok(T? data = null, string? mensagem = "Requesição realizada com sucesso.")
         => new RequestResult<T>(data, mensagem);
 
@@ -52,7 +55,7 @@
         public static RequestResult<T> EntidadeInvalida(string? mensagem = "Entidade não foi validada. Verifique os requesistos necessários.")
        => new RequestResult<T>(mensagem);
 
-        public static RequestResult<T> FalhaCommitRepository(string? mensagem = "Falha ao tentar salvar no banco de dados.")
+        public static RequestResult<T> FalhaCommitRepository(string? mensagem = "Falha ao tentar realizar tarefa no banco de dados.")
        => new RequestResult<T>(mensagem);
 
         public static RequestResult<T> BadRequest(T data, string? mensagem = "Não foi possível realizar requisição.")

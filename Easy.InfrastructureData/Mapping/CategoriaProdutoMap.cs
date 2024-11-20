@@ -11,7 +11,7 @@ public class CategoriaProdutoMap : IEntityTypeConfiguration<CategoriaProdutoEnti
         builder.ToTable("CategoriasProdutos");
 
         builder.Property(c => c.DescricaoCategoria).HasMaxLength(60).IsRequired();
-
+        builder.HasIndex(c => c.DescricaoCategoria).IsUnique();
 
         builder.HasKey(b => b.Id);
         builder.Property(b => b.UserMasterClienteIdentityId).IsRequired();

@@ -14,7 +14,7 @@ namespace Easy.ApiNew.Controllers;
 [ApiController]
 [Authorize]
 public class CategoriaProdutoController(IMediator _mediator) : ControllerBase
-{    
+{
     [HttpPost("get-categoria-produto-filter")]
     public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoDto>>>> GetCategoriaProdutoAsync([FromBody] GetCategoriaProdutoEntityFilter command)
     {
@@ -28,5 +28,18 @@ public class CategoriaProdutoController(IMediator _mediator) : ControllerBase
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<CategoriaProdutoDto>>().ParseToActionResult(await _mediator.Send(command));
-    }    
+    }
+    [HttpPost("cadastrar")]
+    public async Task<ActionResult<RequestResult<CategoriaProdutoDto>>> CadastrarCategoriaProdutoAsync([FromBody] CategoriaProdutoCreateCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<CategoriaProdutoDto>().ParseToActionResult(await _mediator.Send(command));
+    }
+
+    [HttpPut("alterar")]
+    public async Task<ActionResult<RequestResult<CategoriaProdutoDto>>> AlterarCategoriaProdutoAsync([FromBody] CategoriaProdutoUpdateCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<CategoriaProdutoDto>().ParseToActionResult(await _mediator.Send(command));
+    }
 }
