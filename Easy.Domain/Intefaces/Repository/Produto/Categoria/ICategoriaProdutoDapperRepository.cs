@@ -9,4 +9,5 @@ public interface ICategoriaProdutoDapperRepository<F> where F : FiltroBase
     Task<CategoriaProdutoEntity> GetCategoriaProdutoByIdCategoria(Guid? idCategoria, F filtro);
     Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriaProdutoEqualsCategoriaQuery(FiltroBase filtro, string descricaoCategoria);
     Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriaProdutoContainsCategoriaQuery(FiltroBase filtro, string descricaoCategoria);
+    Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriasProdutosHabilitadosDesabilitados(FiltroBase filtro, bool? habilitado);
 }

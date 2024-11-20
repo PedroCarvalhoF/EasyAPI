@@ -18,7 +18,6 @@ public class CategoriaProdutoController(IMediator _mediator) : ControllerBase
     [HttpPost("get-categoria-produto-filter")]
     public async Task<ActionResult<RequestResult<IEnumerable<CategoriaProdutoDto>>>> GetCategoriaProdutoAsync([FromBody] GetCategoriaProdutoEntityFilter command)
     {
-
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<CategoriaProdutoDto>>().ParseToActionResult(await _mediator.Send(command));
     }

@@ -56,5 +56,20 @@ namespace Easy.InfrastructureData.Dapper.Queries
 
             return new QueryModel(query, parameters);
         }
+
+        public static QueryModel GetCategoriasProdutosHabilitadosDesabilitados(FiltroBase filtro, bool? habilitadoValue)
+        {
+            var query = @$"SELECT * FROM {nomeTabela}                           
+                                  WHERE UserMasterClienteIdentityId = @idCliente
+                                  AND Habilitado = @habilitado";
+
+            var parameters = new
+            {
+                idCliente = filtro.clienteId,
+                habilitado = habilitadoValue
+            };
+
+            return new QueryModel(query, parameters);
+        }
     }
 }

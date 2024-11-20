@@ -51,6 +51,13 @@ namespace Easy.Services.CQRS.Produto.Categoria.Queries
                         return new RequestResult<IEnumerable<CategoriaProdutoDto>>().ResultOk(dtosByCategoriaContains);
                     }
 
+                    if(request.CategoriaProdutoEntityFilterDapper.Habilitado.HasValue)
+                    {
+                        entities = await _dapperRepository.GetCategoriasProdutosHabilitadosDesabilitados(filtro, request.CategoriaProdutoEntityFilterDapper.Habilitado);
+                        var dtosByCategoriaContains = DtoMapper.ParceCategoriaProdutoDto(entities);
+                        return new RequestResult<IEnumerable<CategoriaProdutoDto>>().ResultOk(dtosByCategoriaContains);
+                    }
+
 
                     return new RequestResult<IEnumerable<CategoriaProdutoDto>>().Erro("Não foi possível realizar consulta.");
                 }

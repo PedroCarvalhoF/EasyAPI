@@ -67,4 +67,19 @@ public class CategoriaProdutoDapperRepository(IDbConnection _dbConnection) : ICa
             throw new Exception(ex.Message);
         }
     }
+
+    public async Task<IEnumerable<CategoriaProdutoEntity>> GetCategoriasProdutosHabilitadosDesabilitados(FiltroBase filtro, bool? habilitado)
+    {
+        try
+        {
+            var query = CategoriaProdutoDapperQueries<FiltroBase>.GetCategoriasProdutosHabilitadosDesabilitados(filtro, habilitado);
+            var entities = await _dbConnection.QueryAsync<CategoriaProdutoEntity>(query.Query!, query.Parameter);
+            return entities;
+        }
+        catch (Exception ex)
+        {
+
+            throw new Exception(ex.Message);
+        }
+    }
 }

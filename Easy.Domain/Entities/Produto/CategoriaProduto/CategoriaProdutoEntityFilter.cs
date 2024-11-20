@@ -21,10 +21,11 @@ public class CategoriaProdutoEntityFilter
     }
 }
 
-public class CategoriaProdutoEntityFilterDapper
+public class CategoriaProdutoEntityFilterDapper : IEntityFilter
 {
-    public bool? GetAll { get; set; }
+    public bool? GetAll { get; set; } = null;
     public Guid? CategoriaProdutoId { get; set; }
     public string? DescricaoCategoriasProdutosEquals { get; set; } = null;
     public string? DescricaoCategoriasProdutosContains { get; set; } = null;
+    public bool? Habilitado { get; set; } = null;
 }
