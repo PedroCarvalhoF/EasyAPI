@@ -2,6 +2,7 @@
 using Easy.Domain.Entities;
 using Easy.Domain.Entities.Produto;
 using Easy.Domain.Entities.Produto.CategoriaProduto;
+using Easy.Domain.EntitiesBD.Produto;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.InfrastructureData.Dapper.Queries;
 using System.Data;
@@ -16,22 +17,13 @@ namespace Easy.InfrastructureData.Dapper.Repository
             _dbConnection = dbConnection;
         }
 
-        public async Task<IEnumerable<ProdutoEntity>> GetProdutosAsync(FiltroBase filtro)
+        public async Task<IEnumerable<ProdutoEntityViewBD>> GetAllProdutosAsync(FiltroBase filtro)
         {
             try
             {
                 var query = ProdutoDapperQueries<FiltroBase>.GetProdutosQuery(filtro);
 
-                var entities = await _dbConnection.QueryAsync<ProdutoEntity, CategoriaProdutoEntity, ProdutoEntity>(
-                    query.Query!,
-                    (produto, categoria) =>
-                    {
-                        produto.CategoriaProdutoEntity = categoria;
-                        return produto;
-                    },
-                    query.Parameter,
-                    splitOn: "CategoriaProdutoEntityId"
-                );
+                var entities = await _dbConnection.QueryAsync<ProdutoEntityViewBD>(query.Query!, query.Parameter);
 
                 return entities;
             }

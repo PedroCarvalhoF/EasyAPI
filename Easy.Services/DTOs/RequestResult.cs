@@ -43,6 +43,9 @@
         public RequestResult<T> Erro(string mensagem)
        => BadRequest(mensagem);
 
+        public RequestResult<T> SemParamentroConsulta()
+             => BadRequest("Nenhum parametro foi encontrado para realizar consulta");
+
         public RequestResult<T> ErroSalvarNoBanco()
       => BadRequest("Não foi possível salvar no banco de dados.");
 

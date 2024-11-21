@@ -1,19 +1,24 @@
-﻿using Easy.Domain.Enuns;
-using Easy.Services.DTOs.CategoriaProduto;
-
-namespace Easy.Services.DTOs.Produto;
+﻿namespace Easy.Services.DTOs.Produto;
 
 public class ProdutoDto
 {
-    public Guid Id { get; set; }
-    public bool Habilitado { get; set; }
-    public string? DescricaoCategoria { get; set; }
-    public string? NomeProduto { get; set; }
-    public string? Codigo { get; set; }
-    public string? Descricao { get; set; }
-    public string? Observacoes { get; set; }
-    public string? ImagemUrl { get; set; }
-    public virtual CategoriaProdutoDto? CategoriaProdutoEntity { get; set; }
-    public MedidaProdutoEnum MedidaProdutoEnum { get; set; }
-    public ProdutoTipoEnum TipoProdutoEnum { get; set; }
+    public Guid ProdutoId { get; private set; }
+    public string NomeProduto { get; private set; }
+    public string Codigo { get; private set; }
+    public string ImagemUrl { get; private set; }
+    public int MedidaProdutoEnum { get; private set; }
+    public int TipoProdutoEnum { get; private set; }
+    public Guid CategoriaId { get; private set; }
+    public string DescricaoCategoria { get; private set; }
+    public ProdutoDto(Guid produtoId, string nomeProduto, string codigo, string imagemUrl, int medidaProdutoEnum, int tipoProdutoEnum, Guid categoriaId, string descricaoCategoria)
+    {
+        ProdutoId = produtoId;
+        NomeProduto = nomeProduto;
+        Codigo = codigo;
+        ImagemUrl = imagemUrl;
+        MedidaProdutoEnum = medidaProdutoEnum;
+        TipoProdutoEnum = tipoProdutoEnum;
+        CategoriaId = categoriaId;
+        DescricaoCategoria = descricaoCategoria;
+    }
 }

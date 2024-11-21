@@ -31,6 +31,7 @@
     <Folder Include="CQRS\PDV\Periodo\Validations\" />
     <Folder Include="CQRS\PDV\PrecoProduto\Commands\Notifications\" />
     <Folder Include="CQRS\PDV\PrecoProduto\Commands\Validations\" />
+    <Folder Include="CQRS\Produto\Commands\" />
     <Folder Include="CQRS\UserMasterCliente\Notificacao\" />
     <Folder Include="CQRS\UserMasterUser\Notification\" />
   </ItemGroup>

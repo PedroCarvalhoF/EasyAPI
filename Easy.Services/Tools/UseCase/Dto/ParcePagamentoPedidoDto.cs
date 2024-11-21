@@ -8,7 +8,7 @@ public partial class DtoMapper
 {
     public static PagamentoPedidoDto ParcePagamentoPedidoDto(PagamentoPedidoEntity entity)
     {
-        return new PagamentoPedidoDto(entity.Id, entity.FormaPagamento.DescricaFormaPagamento, entity.PedidoId, entity.ValorPago);
+        return new PagamentoPedidoDto(entity.Id, entity.FormaPagamento!.DescricaFormaPagamento, entity.PedidoId, entity.ValorPago);
     }
 
     public static IEnumerable<PagamentoPedidoDto> ParcePagamentoPedidoDto(IEnumerable<PagamentoPedidoEntity> entities)
@@ -21,7 +21,7 @@ public partial class DtoMapper
 
     public static IEnumerable<PagamentoPedidoDto> ParcePagamentoPedidoDto(IEnumerable<PedidoEntity> entities)
     {
-        var pagamentosEntities = entities.SelectMany(pgt => pgt.Pagamentos);
+        var pagamentosEntities = entities.SelectMany(pgt => pgt.Pagamentos!);
 
         return ParcePagamentoPedidoDto(pagamentosEntities);
     }
