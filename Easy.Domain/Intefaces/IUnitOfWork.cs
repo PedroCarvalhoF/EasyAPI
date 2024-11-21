@@ -54,7 +54,8 @@ public interface IUnitOfWork
     IBaseRepository<ItemPedidoEntity, FiltroBase> ItemPedidoBaseRepository { get; }
     IBaseRepository<PagamentoPedidoEntity, FiltroBase> PagamentoPedidoBaseRepository { get; }
     IBaseRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoBaseRepository { get; }
-    IBaseRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvBaseRepository { get; }    
+    IBaseRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvBaseRepository { get; }
+    IBaseRepository<ProdutoEntity, FiltroBase> ProdutoBaseRepository { get; }
     Task<bool> CommitAsync();
     void FinalizarContexto();
 

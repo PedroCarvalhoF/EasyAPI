@@ -22,8 +22,9 @@ public class ProdutoEntity : BaseEntity
     public virtual ICollection<PrecoProdutoEntity>? PrecosProdutos { get; set; }
     public virtual ICollection<ItemPedidoEntity>? ItensPedido { get; set; }
 
+
+    #region Construtores
     public ProdutoEntity() { }
-    //create
     ProdutoEntity(string nomeProduto, string codigo, string descricao, string observacoes, string imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum, FiltroBase users) : base(users)
     {
 
@@ -50,7 +51,7 @@ public class ProdutoEntity : BaseEntity
             this.Observacoes = observacoes;
         }
 
-        if (imagemUrl is null)
+        if (string.IsNullOrEmpty(imagemUrl))
             ImagemUrl = "sem_img.jpg";
         else
             ImagemUrl = imagemUrl;
@@ -68,7 +69,6 @@ public class ProdutoEntity : BaseEntity
         MedidaProdutoEnum = medidaProdutoEnum;
         TipoProdutoEnum = tipoProdutoEnum;
     }
-    //update
     ProdutoEntity(Guid id, bool habilitado, string nomeProduto, string codigo, string descricao, string observacoes, string imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum, FiltroBase users) : base(id, habilitado, users)
     {
         DomainValidation.When(id == Guid.Empty, "Informe o id");
@@ -115,18 +115,14 @@ public class ProdutoEntity : BaseEntity
         TipoProdutoEnum = tipoProdutoEnum;
     }
 
-    public static ProdutoEntity Create(string nomeProduto, string codigo, string descricao, string observacoes, string imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum, FiltroBase users)
-        => new ProdutoEntity(nomeProduto, codigo, descricao, observacoes, imagemUrl, categoriaProdutoEntityId, medidaProdutoEnum, tipoProdutoEnum, users);
+    #endregion
+    #region Metodos
+    public static ProdutoEntity Create(string nomeProduto, string codigo, string? descricao, string? observacoes, string? imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum, FiltroBase users)
+       => new ProdutoEntity(nomeProduto, codigo, descricao ?? string.Empty, observacoes ?? string.Empty, imagemUrl ?? string.Empty, categoriaProdutoEntityId, medidaProdutoEnum, tipoProdutoEnum, users);
 
     public static ProdutoEntity Update(Guid id, bool habilitado, string nomeProduto, string codigo, string descricao, string observacoes, string imagemUrl, Guid categoriaProdutoEntityId, MedidaProdutoEnum medidaProdutoEnum, ProdutoTipoEnum tipoProdutoEnum, FiltroBase users)
        => new ProdutoEntity(id, habilitado, nomeProduto, codigo, descricao, observacoes, imagemUrl, categoriaProdutoEntityId, medidaProdutoEnum, tipoProdutoEnum, users);
-
-    public void HabilitarDesabilitar()
-    {
-        Habilitado = !Habilitado;
-        UpdateAt = DateTime.Now;
-    }
-
+    #endregion   
     public void AlterarUrlImage(string url)
     {
         ImagemUrl = url;

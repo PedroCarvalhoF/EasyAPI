@@ -1,7 +1,7 @@
 ﻿
 namespace Easy.Domain.Entities.Produto
 {
-    internal class ProdutoEntityFilter
+    public class ProdutoEntityFilter
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Easy.Domain.EntitiesBD.Produto;
+﻿using Easy.Domain.Entities.Produto;
+using Easy.Domain.EntitiesBD.Produto;
 using Easy.Services.DTOs.Produto;
 
 namespace Easy.Services.Tools.UseCase.Dto

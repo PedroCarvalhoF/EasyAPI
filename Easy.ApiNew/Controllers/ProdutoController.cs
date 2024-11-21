@@ -1,5 +1,6 @@
 ﻿using Easy.Api.Extensions;
 using Easy.Api.Tools;
+using Easy.Services.CQRS.Produto.Commands;
 using Easy.Services.CQRS.Produto.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.Produto;
@@ -14,7 +15,7 @@ namespace Easy.ApiNew.Controllers;
 [Authorize]
 public class ProdutoController(IMediator _mediator) : ControllerBase
 {
-  
+
     [HttpPost("get-produto-filter")]
     public async Task<ActionResult<RequestResult<IEnumerable<ProdutoDto>>>> GetProdutosAynsc([FromBody] GetProdutosQueryCommand command)
     {
@@ -22,22 +23,12 @@ public class ProdutoController(IMediator _mediator) : ControllerBase
         return new ReturnActionResult<IEnumerable<ProdutoDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    //[HttpGet("{idProduto}/")]
-
-    //public async Task<ActionResult<RequestResult<ProdutoDto>>> GetProdutoByIdAsync(Guid idProduto)
-    //{
-    //    var getCommand = new GetProdutoByIdQuery();
-    //    getCommand.IdProduto = idProduto;
-    //    getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult<ProdutoDto>().ParseToActionResult(await _mediator.Send(getCommand));
-    //}
-
-    //[HttpPost]
-    //public async Task<ActionResult<RequestResult<ProdutoDtoView>>> CadastraProdutoAsync([FromBody] ProdutoCommandCreate command)
-    //{
-    //    command.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult<ProdutoDtoView>().ParseToActionResult(await _mediator.Send(command));
-    //}
+    [HttpPost("cadastrar")]
+    public async Task<ActionResult<RequestResult<ProdutoDto>>> CadastraProdutoAsync([FromBody] ProdutoCreateCommand command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<ProdutoDto>().ParseToActionResult(await _mediator.Send(command));
+    }
 
     //[HttpPut]
     //public async Task<ActionResult<ProdutoDto>> AlterarProdutoAsync([FromBody] ProdutoCommandUpdate command)

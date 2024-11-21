@@ -74,14 +74,13 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IBaseRepository<PagamentoPedidoEntity, FiltroBase> _pagamentoPedidoBaseRepository;
     private IBaseRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoBaseRepository;
     private IBaseRepository<PeriodoPdvEntity, FiltroBase> _periodoPdvBaseRepository;
+    private IBaseRepository<ProdutoEntity, FiltroBase> _produtoBaseRepository;
 
     public UnitOfWork(MyContext context)
     {
         _context = context;
     }
     #region Repository
-
-
     public IUserMasterClienteRepository<UserMasterClienteEntity> UserMasterClienteRepository
     {
         get
@@ -111,7 +110,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         get
         {
             return _produtoRepository = _produtoRepository ??
-                new ProdutoRepository<ProdutoEntity, FiltroBase>(_context);
+                new ProdutoRepository(_context);
         }
     }
     public ICategoriaPrecoRepository<CategoriaPrecoEntity, FiltroBase> CategoriaPrecoRepository
@@ -251,7 +250,14 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         }
     }
 
-
+    public IBaseRepository<ProdutoEntity, FiltroBase> ProdutoBaseRepository
+    {
+        get
+        {
+            return _produtoBaseRepository = _produtoBaseRepository ??
+                new BaseRepository<ProdutoEntity, FiltroBase>(_context);
+        }
+    }
 
     #endregion
 
