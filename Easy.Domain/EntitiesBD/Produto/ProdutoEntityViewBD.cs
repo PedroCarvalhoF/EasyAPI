@@ -1,7 +1,7 @@
 ﻿namespace Easy.Domain.EntitiesBD.Produto
 {
     public class ProdutoEntityViewBD
-    {        
+    {
         public Guid ProdutoId { get; private set; }
         public string NomeProduto { get; private set; }
         public string Codigo { get; private set; }
@@ -10,9 +10,10 @@
         public int TipoProdutoEnum { get; private set; }
         public Guid CategoriaId { get; private set; }
         public string DescricaoCategoria { get; private set; }
+        public bool Habilitado { get; private set; }
         public Guid UserMasterClienteIdentityId { get; private set; }
         public Guid UserId { get; private set; }
-        public ProdutoEntityViewBD(Guid produtoId, string nomeProduto, string codigo, string imagemUrl, int medidaProdutoEnum, int tipoProdutoEnum, Guid categoriaId, string descricaoCategoria, Guid userMasterClienteIdentityId, Guid userId)
+        public ProdutoEntityViewBD(Guid produtoId, string nomeProduto, string codigo, string imagemUrl, int medidaProdutoEnum, int tipoProdutoEnum, bool habilitado, Guid categoriaId, string descricaoCategoria, Guid userMasterClienteIdentityId, Guid userId)
         {
             ProdutoId = produtoId;
             NomeProduto = nomeProduto;
@@ -24,8 +25,9 @@
             DescricaoCategoria = descricaoCategoria;
             UserMasterClienteIdentityId = userMasterClienteIdentityId;
             UserId = userId;
+            Habilitado = habilitado;
         }
     }
 
-    
+
 }

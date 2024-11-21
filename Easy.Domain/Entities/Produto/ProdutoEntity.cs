@@ -9,8 +9,8 @@ namespace Easy.Domain.Entities.Produto;
 
 public class ProdutoEntity : BaseEntity
 {
-    public string NomeProduto { get; private set; }
-    public string Codigo { get; private set; }
+    public string? NomeProduto { get; private set; }
+    public string? Codigo { get; private set; }
     public string? Descricao { get; private set; }
     public string? Observacoes { get; private set; }
     public string? ImagemUrl { get; private set; }

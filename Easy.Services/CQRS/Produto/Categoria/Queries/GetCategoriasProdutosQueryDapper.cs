@@ -29,24 +29,24 @@ namespace Easy.Services.CQRS.Produto.Categoria.Queries
                         }
 
 
-                    if (request.CategoriaProdutoEntityFilterDapper.CategoriaProdutoId != null && request.CategoriaProdutoEntityFilterDapper.CategoriaProdutoId != Guid.Empty)
+                    if (request.CategoriaProdutoEntityFilterDapper.Id != null && request.CategoriaProdutoEntityFilterDapper.Id != Guid.Empty)
                     {
-                        var entity = await _dapperRepository.GetCategoriaProdutoByIdCategoria(request.CategoriaProdutoEntityFilterDapper.CategoriaProdutoId, filtro);
+                        var entity = await _dapperRepository.GetCategoriaProdutoByIdCategoria(request.CategoriaProdutoEntityFilterDapper.Id, filtro);
                         var dtoById = DtoMapper.ParceCategoriaProdutoDto(entity);
                         return new RequestResult<IEnumerable<CategoriaProdutoDto>>().ResultOk(new List<CategoriaProdutoDto>
                         { dtoById});
                     }
 
-                    if (!string.IsNullOrEmpty(request.CategoriaProdutoEntityFilterDapper.DescricaoCategoriasProdutosEquals))
+                    if (!string.IsNullOrEmpty(request.CategoriaProdutoEntityFilterDapper.NomeDescricaoEquals))
                     {
-                        entities = await _dapperRepository.GetCategoriaProdutoEqualsCategoriaQuery(filtro, request.CategoriaProdutoEntityFilterDapper.DescricaoCategoriasProdutosEquals);
+                        entities = await _dapperRepository.GetCategoriaProdutoEqualsCategoriaQuery(filtro, request.CategoriaProdutoEntityFilterDapper.NomeDescricaoEquals);
                         var dtoByCategoriaEquals = DtoMapper.ParceCategoriaProdutoDto(entities);
                         return new RequestResult<IEnumerable<CategoriaProdutoDto>>().ResultOk(dtoByCategoriaEquals);
                     }
                     else
-                    if (!string.IsNullOrEmpty(request.CategoriaProdutoEntityFilterDapper.DescricaoCategoriasProdutosContains))
+                    if (!string.IsNullOrEmpty(request.CategoriaProdutoEntityFilterDapper.NomeDescricaoContains))
                     {
-                        entities = await _dapperRepository.GetCategoriaProdutoContainsCategoriaQuery(filtro, request.CategoriaProdutoEntityFilterDapper.DescricaoCategoriasProdutosEquals!);
+                        entities = await _dapperRepository.GetCategoriaProdutoContainsCategoriaQuery(filtro, request.CategoriaProdutoEntityFilterDapper.NomeDescricaoEquals!);
                         var dtosByCategoriaContains = DtoMapper.ParceCategoriaProdutoDto(entities);
                         return new RequestResult<IEnumerable<CategoriaProdutoDto>>().ResultOk(dtosByCategoriaContains);
                     }

@@ -1,4 +1,5 @@
-﻿namespace Easy.Domain.Entities.Produto
+﻿
+namespace Easy.Domain.Entities.Produto
 {
     internal class ProdutoEntityFilter
     {
@@ -6,7 +7,14 @@
 
     public class ProdutoEntityFilterDapper : IEntityFilter
     {
-        public bool? GetAll { get; set; } = null;
-        public bool? Habilitado { get; set; } = null;
+        //propriedadas/queries
+        public Guid? Id { get; set; } = null; //ok
+        public bool? GetAll { get; set; } = null; //ok
+        public bool? Habilitado { get; set; } = null; //ok
+        public string? NomeDescricaoEquals { get; set; } = null; //ok
+        public string? NomeDescricaoContains { get; set; } = null; //ok
+        public Guid? IdCategoria { get; set; } = null; // ok
+        public string? Codigo { get; set; } = null; // ok
+
     }
 }

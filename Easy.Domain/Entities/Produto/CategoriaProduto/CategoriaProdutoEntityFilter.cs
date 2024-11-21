@@ -23,9 +23,10 @@ public class CategoriaProdutoEntityFilter
 
 public class CategoriaProdutoEntityFilterDapper : IEntityFilter
 {
+    public Guid? Id { get; set; } = null;
     public bool? GetAll { get; set; } = null;
-    public Guid? CategoriaProdutoId { get; set; }
-    public string? DescricaoCategoriasProdutosEquals { get; set; } = null;
-    public string? DescricaoCategoriasProdutosContains { get; set; } = null;
+    public string? NomeDescricaoEquals { get; set; } = null;
+    public string? NomeDescricaoContains { get; set; } = null;
     public bool? Habilitado { get; set; } = null;
+
 }
