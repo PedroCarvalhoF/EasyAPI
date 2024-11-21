@@ -27,7 +27,7 @@ public class ProdutoCreateCommand : BaseCommands<ProdutoDto>
                              codigo: request.ProdutoDtoCreate.Codigo,
                           descricao: request.ProdutoDtoCreate.Descricao,
                         observacoes: request.ProdutoDtoCreate.Observacoes,
-                          imagemUrl: request.ProdutoDtoCreate.ImagemUrl,
+                          //imagemUrl: request.ProdutoDtoCreate.ImagemUrl,
            categoriaProdutoEntityId: request.ProdutoDtoCreate.CategoriaProdutoEntityId,
                   medidaProdutoEnum: request.ProdutoDtoCreate.MedidaProdutoEnum, tipoProdutoEnum: request.ProdutoDtoCreate.TipoProdutoEnum,
                               users: filtro);

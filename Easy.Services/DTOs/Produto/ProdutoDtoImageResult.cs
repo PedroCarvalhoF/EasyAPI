@@ -15,7 +15,7 @@
         public static ProdutoDtoImageResult BadRequest()
             => new ProdutoDtoImageResult(Guid.Empty, "Não foi possível alterar imagem", false);
         public static ProdutoDtoImageResult ImagemAlteradaComSucesso(Guid idProduto)
-           => new ProdutoDtoImageResult(idProduto, "Não foi possível alterar imagem", true);
+           => new ProdutoDtoImageResult(idProduto, "Imagem alterada com sucesso.", true);
 
     }
 }
