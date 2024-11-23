@@ -1,13 +1,15 @@
 ﻿using Easy.Api.Extensions;
 using Easy.Api.Tools;
+using Easy.Domain.Entities;
 using Easy.Domain.Intefaces;
+using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Services.CQRS.Produto.Commands;
 using Easy.Services.CQRS.Produto.Queries;
 using Easy.Services.DTOs;
 using Easy.Services.DTOs.Produto;
 using Easy.Services.Tools.ImageUrls;
+using Easy.Services.Tools.UseCase.Dto;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Easy.ApiNew.Controllers;
@@ -40,7 +42,7 @@ public class ProdutoController(IMediator _mediator) : ControllerBase
     }
 
 
-    [HttpPost("upload-image-formdata/{idProduto}")]
+    [HttpPost("upload-image-formadata/{idProduto}")]
     //via Form Data - aplicativos
     public async Task<ActionResult<RequestResult<ProdutoDtoImageResult>>> UploadImage([FromServices] IUtil _util, [FromServices] IUnitOfWork _repository, Guid idProduto)
     {
@@ -74,15 +76,22 @@ public class ProdutoController(IMediator _mediator) : ControllerBase
         }
     }
 
+    //[HttpPut("upload-image")]
+    //public async Task<ActionResult<RequestResult<ProdutoDto>>> UploadImage([FromBody] ProdutoUploadImageCommand command)
+    //{
+    //    command.SetUsers(User.GetUserMasterUserDatalhes());
+    //    return new ReturnActionResult<ProdutoDto>().ParseToActionResult(await _mediator.Send(command));
+    //}
+
     [HttpPost("upload-image/{idProduto}")]
     //via upload
-    public async Task<ActionResult<RequestResult<ProdutoDtoImageResult>>> UploadImage([FromServices] IUtil _util, [FromServices] IUnitOfWork _repository, Guid idProduto, IFormFile imagemUpload)
+    public async Task<ActionResult<RequestResult<ProdutoDto>>> UploadImage([FromServices] IUtil _util, [FromServices] IUnitOfWork _repository, [FromServices] IProdutoDapperRepository<FiltroBase> _produtoDapperRepository, Guid idProduto, IFormFile imagemUpload)
     {
         try
         {
             if (imagemUpload == null)
             {
-                return RequestResult<ProdutoDtoImageResult>.BadRequest("Arquivo não localizado");
+                return RequestResult<ProdutoDto>.BadRequest("Arquivo não localizado");
             }
 
             string _destino = "Produtos";
@@ -101,7 +110,12 @@ public class ProdutoController(IMediator _mediator) : ControllerBase
             var userRetorno = await _repository.ProdutoBaseRepository.Update(produto);
             await _repository.CommitAsync();
 
-            return Ok(ProdutoDtoImageResult.ImagemAlteradaComSucesso(produto.Id));
+            var produtoEntityViewBd = await _produtoDapperRepository.GetProdutoByIdAsync(User.GetUserMasterUserDatalhes(), idProduto);
+
+            var dto = DtoMapper.ParceProdutoDto(produtoEntityViewBd);
+
+
+            return new RequestResult<ProdutoDto>().ResultOk(dto.Single());
         }
         catch (Exception ex)
         {

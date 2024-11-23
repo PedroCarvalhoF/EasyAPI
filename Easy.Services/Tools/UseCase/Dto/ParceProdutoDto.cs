@@ -15,7 +15,8 @@ namespace Easy.Services.Tools.UseCase.Dto
                           medidaProdutoEnum: produtoEntityViewBDs.MedidaProdutoEnum,
                             tipoProdutoEnum: produtoEntityViewBDs.TipoProdutoEnum,
                                 categoriaId: produtoEntityViewBDs.CategoriaId,
-                         descricaoCategoria: produtoEntityViewBDs.DescricaoCategoria);
+                         descricaoCategoria: produtoEntityViewBDs.DescricaoCategoria,
+                                 habilitado: produtoEntityViewBDs.Habilitado);
         }
         public static IEnumerable<ProdutoDto> ParceProdutoDto(IEnumerable<ProdutoEntityViewBD> produtoEntityViewBDs)
         {
