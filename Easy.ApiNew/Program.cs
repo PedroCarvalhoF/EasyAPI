@@ -2,8 +2,6 @@ using AutoMapper;
 using Easy.ApiNew.Extensions;
 using Easy.CrossCutting.DependencyInjection;
 using Easy.CrossCutting.Mappings;
-using Easy.InfrastructureData.Context;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 

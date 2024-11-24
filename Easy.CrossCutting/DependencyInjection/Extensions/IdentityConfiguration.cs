@@ -1,5 +1,7 @@
 ﻿using Easy.Domain.Entities;
+using Easy.Domain.Entities.PDV.PrecoProduto;
 using Easy.Domain.Entities.User;
+using Easy.Domain.Intefaces.Repository.PDV.PrecoProduto;
 using Easy.Domain.Intefaces.Repository.Produto;
 using Easy.Domain.Intefaces.Repository.Produto.Categoria;
 using Easy.Domain.Intefaces.Repository.User;
@@ -51,6 +53,7 @@ namespace Easy.CrossCutting.DependencyInjection.Extensions
             serviceCollection.AddScoped<IUserMasterUserDapperRepository<FiltroBase>, UserMasterUserDapperRepository>();
             serviceCollection.AddScoped<ICategoriaProdutoDapperRepository<FiltroBase>, CategoriaProdutoDapperRepository>();
             serviceCollection.AddScoped<IProdutoDapperRepository<FiltroBase>, ProdutoDapperRepository>();
+            serviceCollection.AddScoped<IPrecoProdutoDapperRepository<FiltroBase, PrecoProdutoEntityFilterDapper>, PrecoProdutoDapperRepository>();
         }
     }
 }

@@ -14,6 +14,10 @@ public static class ContextMappingDapper
     public static string GetTableNameCagoriasProdutos()
         => $"{nome_banco_dados}.categoriasprodutos";
 
+    //PRECO PRODUTO
+    public static string GetPrecoProdutoNomeView()
+        => $"{nome_banco_dados}.vw_precos_produtos";
+
 
     //USER MASTER
     public static string GetUserMasterUserTable()
