@@ -10,6 +10,7 @@ namespace Easy.Services.CQRS.Produto.Categoria.Queries
 {
     public class GetCategoriaProdutoEntityDapper : BaseCommands<IEnumerable<CategoriaProdutoDto>>
     {
+        //MARCADOR - #release CATEGORIA DOS PRODUTOS
         public required CategoriaProdutoEntityFilterDapper CategoriaProdutoEntityFilterDapper { get; set; }
         public class GetCategoriaProdutoEntityDapperHandler(ICategoriaProdutoDapperRepository<FiltroBase> _dapperRepository) : IRequestHandler<GetCategoriaProdutoEntityDapper, RequestResult<IEnumerable<CategoriaProdutoDto>>>
         {
