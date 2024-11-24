@@ -38,9 +38,31 @@ namespace Easy.InfrastructureData.Dapper.Queries
         {
             var query = $@"SELECT * FROM {_tableViewName}
                            WHERE UserMasterClienteIdentityId = @idCliente AND NomeProduto= @nome_produto
-                           ORDER BY DescricaoCategoriaPreco" ;
+                           ORDER BY NomeProduto,DescricaoCategoriaPreco" ;
 
             var parameters = new { idCliente = filtro.clienteId, nome_produto = nomeDescricaoEqualsInput };
+
+            return new QueryModel(query, parameters);
+        }
+
+        public static QueryModel GetPrecosProdutosByProdutoIdAsync(FiltroBase filtro, Guid? idProdutoInput)
+        {
+            var query = $@"SELECT * FROM {_tableViewName}
+                           WHERE UserMasterClienteIdentityId = @idCliente AND ProdutoId= @produto_id
+                           ORDER BY NomeProduto,DescricaoCategoriaPreco";
+
+            var parameters = new { idCliente = filtro.clienteId, produto_id = idProdutoInput };
+
+            return new QueryModel(query, parameters);
+        }
+
+        internal static QueryModel GetPrecosProdutoByHabilitado(FiltroBase filtro, bool? habilitadoInput)
+        {
+            var query = $@"SELECT * FROM {_tableViewName}
+                           WHERE UserMasterClienteIdentityId = @idCliente AND PrecoHabilitado= @preco_habilitado
+                           ORDER BY NomeProduto,DescricaoCategoriaPreco";
+
+            var parameters = new { idCliente = filtro.clienteId, preco_habilitado = habilitadoInput };
 
             return new QueryModel(query, parameters);
         }

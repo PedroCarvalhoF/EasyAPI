@@ -11,5 +11,6 @@ namespace Easy.Domain.Entities.PDV.PrecoProduto
         public string? NomeDescricaoEquals { get; set; } = null;
         public string? NomeDescricaoContains { get; set; } = null;
         public bool? Habilitado { get; set; } = null;
+        public Guid? IdProduto { get; set; } = null;
     }
 }

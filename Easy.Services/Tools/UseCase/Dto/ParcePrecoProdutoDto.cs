@@ -7,7 +7,7 @@ namespace Easy.Services.Tools.UseCase.Dto
     {
         public static PrecoProdutoDto ParcePrecoProdutoDto(PrecoProdutoEntityViewBD precoEntity)
         {
-            return new PrecoProdutoDto(precoEntity.PrecoProdutoId, precoEntity.PrecoProdutoId, precoEntity.PrecoHabilitado, precoEntity.ProdutoId, precoEntity.NomeProduto, precoEntity.Preco, precoEntity.CategoriaPrecoId, precoEntity.DescricaoCategoriaPreco);
+            return new PrecoProdutoDto(precoEntity.PrecoProdutoId, precoEntity.PrecoProdutoId, precoEntity.PrecoHabilitado, precoEntity.ProdutoId, precoEntity.CodigoProduto, precoEntity.NomeProduto, precoEntity.Preco, precoEntity.CategoriaPrecoId, precoEntity.DescricaoCategoriaPreco);
         }
 
         public static IEnumerable<PrecoProdutoDto> ParcePrecoProdutoDto(IEnumerable<PrecoProdutoEntityViewBD> precosEntities)

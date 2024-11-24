@@ -30,15 +30,30 @@ namespace Easy.InfrastructureData.Dapper.Repository
                         return entityViewBD;
                     }
                 }
-
-                if (!string.IsNullOrEmpty(filtroDapper.NomeDescricaoEquals))
+                if(filtroDapper.Habilitado.HasValue)
                 {
-                    //REALIZEI UTILIZANDO NOME PRA APROVEITAR A CLASS PRECO PRODUTO ENTITY FILTER DAPPER
-                    //BOM SERIA CONSULTAR VIA GUID DO PRODUTO
-                    QueryModel query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutosByNomeProdutoAsync(filtro, filtroDapper.NomeDescricaoEquals);
+                    var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutoByHabilitado(filtro, filtroDapper.Habilitado);
                     var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
                     return entityViewBD;
                 }
+
+                //if (!string.IsNullOrEmpty(filtroDapper.NomeDescricaoEquals))
+                //{
+                //    //REALIZEI UTILIZANDO NOME PRA APROVEITAR A CLASS PRECO PRODUTO ENTITY FILTER DAPPER
+                //    //BOM SERIA CONSULTAR VIA GUID DO PRODUTO
+                //    QueryModel query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutosByNomeProdutoAsync(filtro, filtroDapper.NomeDescricaoEquals);
+                //    var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
+                //    return entityViewBD;
+                //}
+
+                if(filtroDapper.IdProduto is { } idProduto && idProduto !=Guid.Empty)
+                {
+                    var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutosByProdutoIdAsync(filtro, filtroDapper.IdProduto);
+                    var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
+                    return entityViewBD;
+                }
+
+
 
                 throw new ArgumentException("Não foi possível realizar consulta com banco.Motivo: Não foi localizado filtro necessário para realizar consulta.");
             }
