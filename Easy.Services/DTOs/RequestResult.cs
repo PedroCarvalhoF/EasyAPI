@@ -37,17 +37,18 @@
 
         public RequestResult<T> ResultOk(T data)
         => Ok(data);
-
         public RequestResult<T> Erro(Exception ex)
-       => BadRequest(ex.Message);
+        => BadRequest(ex.Message);
         public RequestResult<T> Erro(string mensagem)
-       => BadRequest(mensagem);
+        => BadRequest(mensagem);
 
+        public RequestResult<T> EntidadeInvalida()
+            => EntidadeInvalida();
         public RequestResult<T> SemParamentroConsulta()
-             => BadRequest("Nenhum parametro foi encontrado para realizar consulta");
+        => BadRequest("Nenhum parametro foi encontrado para realizar consulta");
 
         public RequestResult<T> ErroSalvarNoBanco()
-      => BadRequest("Não foi possível salvar no banco de dados.");
+         => BadRequest("Não foi possível salvar no banco de dados.");
 
         public static RequestResult<T> Ok(T? data = null, string? mensagem = "Requesição realizada com sucesso.")
         => new RequestResult<T>(data, mensagem);

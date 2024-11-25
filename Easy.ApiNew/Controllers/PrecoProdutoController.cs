@@ -1,6 +1,8 @@
 ﻿using Easy.Api.Extensions;
 using Easy.Api.Tools;
+using Easy.Services.CQRS.PDV.PrecoProduto.Commands;
 using Easy.Services.CQRS.PDV.PrecoProduto.Queries;
+using Easy.Services.DTOs;
 using Easy.Services.DTOs.PrecoProduto;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,25 +22,16 @@ public class PrecoProdutoController : ControllerBase
     }
 
     [HttpPost("get-preco-produto-filter-dapper")]
-    public async Task<ActionResult<IEnumerable<PrecoProdutoDto>>> GetPrecosProdutosAynsc([FromBody] GetPrecoProdutoDapperFilterCommand command)
+    public async Task<ActionResult<RequestResult<IEnumerable<PrecoProdutoDto>>>> GetPrecosProdutosAynsc([FromBody] GetPrecoProdutoDapperFilterCommand command)
     {
         command.SetUsers(User.GetUserMasterUserDatalhes());
         return new ReturnActionResult<IEnumerable<PrecoProdutoDto>>().ParseToActionResult(await _mediator.Send(command));
     }
 
-    //[HttpPost]
-    //public async Task<ActionResult<PrecoProdutoDtoView>> CreateAsync([FromBody] PrecoProdutoCommand command)
-    //{
-    //    command.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult<PrecoProdutoDtoView>().ParseToActionResult(await _mediator.Send(command));
-    //}   
-
-    //[HttpGet("{idProduto}")]
-    //public async Task<ActionResult<List<PrecoProdutoDtoView>>> GetPrecoProdutoByIdProduto(Guid idProduto)
-    //{
-    //    var getCommand = new GetPrecoProdutoByProduto();
-    //    getCommand.IdProduto = idProduto;
-    //    getCommand.SetUsers(User.GetUserMasterUserDatalhes());
-    //    return new ReturnActionResult<List<PrecoProdutoDtoView>>().ParseToActionResult(await _mediator.Send(getCommand));
-    //}
+    [HttpPost("cadastrar-alterar")]
+    public async Task<ActionResult<RequestResult<PrecoProdutoDto>>> CreateUpdateAsync([FromBody] PrecoProdutoCommandCreate command)
+    {
+        command.SetUsers(User.GetUserMasterUserDatalhes());
+        return new ReturnActionResult<PrecoProdutoDto>().ParseToActionResult(await _mediator.Send(command));
+    }
 }

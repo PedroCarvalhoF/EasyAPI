@@ -75,6 +75,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IBaseRepository<FormaPagamentoEntity, FiltroBase> _formaPagamentoBaseRepository;
     private IBaseRepository<PeriodoPdvEntity, FiltroBase> _periodoPdvBaseRepository;
     private IBaseRepository<ProdutoEntity, FiltroBase> _produtoBaseRepository;
+    private IBaseRepository<PrecoProdutoEntity, FiltroBase> _precoProdutoBaseRepository;
 
     public UnitOfWork(MyContext context)
     {
@@ -256,6 +257,15 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         {
             return _produtoBaseRepository = _produtoBaseRepository ??
                 new BaseRepository<ProdutoEntity, FiltroBase>(_context);
+        }
+    }
+
+    public IBaseRepository<PrecoProdutoEntity, FiltroBase> PrecoProdutoBaseRepository
+    {
+        get
+        {
+            return _precoProdutoBaseRepository = _precoProdutoBaseRepository ??
+                new BaseRepository<PrecoProdutoEntity, FiltroBase>(_context);
         }
     }
 

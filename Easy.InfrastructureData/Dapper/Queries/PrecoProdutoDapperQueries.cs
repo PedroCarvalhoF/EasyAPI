@@ -38,7 +38,7 @@ namespace Easy.InfrastructureData.Dapper.Queries
         {
             var query = $@"SELECT * FROM {_tableViewName}
                            WHERE UserMasterClienteIdentityId = @idCliente AND NomeProduto= @nome_produto
-                           ORDER BY NomeProduto,DescricaoCategoriaPreco" ;
+                           ORDER BY NomeProduto,DescricaoCategoriaPreco";
 
             var parameters = new { idCliente = filtro.clienteId, nome_produto = nomeDescricaoEqualsInput };
 
@@ -56,6 +56,17 @@ namespace Easy.InfrastructureData.Dapper.Queries
             return new QueryModel(query, parameters);
         }
 
+        internal static QueryModel GetPrecosProdutoByCategoriaId(FiltroBase filtro, Guid? categoriaPrecoid)
+        {
+            var query = $@"SELECT * FROM {_tableViewName}
+                           WHERE UserMasterClienteIdentityId = @idCliente AND CategoriaPrecoId= @categoria_preco_id
+                           ORDER BY NomeProduto,DescricaoCategoriaPreco";
+
+            var parameters = new { idCliente = filtro.clienteId, categoria_preco_id = categoriaPrecoid };
+
+            return new QueryModel(query, parameters);
+        }
+
         internal static QueryModel GetPrecosProdutoByHabilitado(FiltroBase filtro, bool? habilitadoInput)
         {
             var query = $@"SELECT * FROM {_tableViewName}
@@ -63,6 +74,18 @@ namespace Easy.InfrastructureData.Dapper.Queries
                            ORDER BY NomeProduto,DescricaoCategoriaPreco";
 
             var parameters = new { idCliente = filtro.clienteId, preco_habilitado = habilitadoInput };
+
+            return new QueryModel(query, parameters);
+        }
+
+        internal static QueryModel GetPrecosProdutoExists(FiltroBase filtro, Guid? idProduto, Guid? categoriaPrecoid)
+        {
+            var query = $@"SELECT * FROM {_tableViewName}
+                           WHERE UserMasterClienteIdentityId = @idCliente 
+                           AND ProdutoId= @produto_id 
+                           AND CategoriaPrecoId=@categoria_id";
+
+            var parameters = new { idCliente = filtro.clienteId, produto_id = idProduto, categoria_id = categoriaPrecoid };
 
             return new QueryModel(query, parameters);
         }

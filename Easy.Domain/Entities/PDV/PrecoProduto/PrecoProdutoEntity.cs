@@ -16,7 +16,7 @@ public class PrecoProdutoEntity : BaseEntity
     {
         if (ProdutoEntityId == Guid.Empty) return false;
         if (CategoriaPrecoEntityId == Guid.Empty) return false;
-        if (Preco == 0 || Preco < 0) return false;
+        if (Preco < 0) return false;
 
         return true;
     }
@@ -24,6 +24,9 @@ public class PrecoProdutoEntity : BaseEntity
     public PrecoProdutoEntity() { }
     PrecoProdutoEntity(Guid produtoEntityId, Guid categoriaPrecoEntityId, decimal preco, FiltroBase filtro) : base(filtro)
     {
+        if (preco < 0)
+            throw new ArgumentException("Preço do produto não pode ser menor que R$ 0,00");
+
         ProdutoEntityId = produtoEntityId;
         CategoriaPrecoEntityId = categoriaPrecoEntityId;
         Preco = preco;

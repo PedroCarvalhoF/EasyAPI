@@ -47,6 +47,7 @@ public interface IUnitOfWork
     IItemPedidoRepository<ItemPedidoEntity, FiltroBase> ItemPedidoRepository { get; }
     IPagamentoPedidoRepository<PagamentoPedidoEntity, FiltroBase> PagamentoPedidoRespoitory { get; }
 
+
     //TEMP TESTE COM BASE REPOSITORY
     IBaseRepository<CategoriaProdutoEntity, FiltroBase> CategoriaProdutoBaseRepository { get; }
     IBaseRepository<PontoVendaEntity, FiltroBase> PontoVendaBaseRepository { get; }
@@ -56,6 +57,7 @@ public interface IUnitOfWork
     IBaseRepository<FormaPagamentoEntity, FiltroBase> FormaPagamentoBaseRepository { get; }
     IBaseRepository<PeriodoPdvEntity, FiltroBase> PeriodoPdvBaseRepository { get; }
     IBaseRepository<ProdutoEntity, FiltroBase> ProdutoBaseRepository { get; }
+    IBaseRepository<PrecoProdutoEntity, FiltroBase> PrecoProdutoBaseRepository { get; }
     Task<bool> CommitAsync();
     void FinalizarContexto();
 

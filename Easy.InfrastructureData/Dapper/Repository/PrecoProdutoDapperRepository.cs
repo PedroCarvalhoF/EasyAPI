@@ -8,59 +8,61 @@ using System.Data;
 
 namespace Easy.InfrastructureData.Dapper.Repository
 {
-    public class PrecoProdutoDapperRepository(IDbConnection _dbConnection) : IPrecoProdutoDapperRepository<FiltroBase, PrecoProdutoEntityFilterDapper>
+    public class PrecoProdutoDapperRepository : IPrecoProdutoDapperRepository<FiltroBase, PrecoProdutoEntityFilterDapper>
     {
+        private readonly Func<IDbConnection> _connectionFactory;
+        public PrecoProdutoDapperRepository(Func<IDbConnection> connectionFactory)
+        {
+            _connectionFactory = connectionFactory;
+        }
         public async Task<IEnumerable<PrecoProdutoEntityViewBD>> GetPrecoProdutoFilterAsync(FiltroBase filtro, PrecoProdutoEntityFilterDapper filtroDapper)
         {
             try
             {
+                using var connection = _connectionFactory();
+                connection.Open();
+
                 if (filtroDapper.Id is { } id && id != Guid.Empty)
                 {
                     var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecoProdutoByIdAsync(filtro, filtroDapper.Id);
-                    var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
-                    return entityViewBD;
+                    return await connection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
                 }
 
-                if (filtroDapper.GetAll.HasValue)
+                if (filtroDapper.GetAll.HasValue && filtroDapper.GetAll.Value)
                 {
-                    if (filtroDapper.GetAll.Value)
-                    {
-                        var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetAllPrecosProdutosAsync(filtro);
-                        var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
-                        return entityViewBD;
-                    }
+                    var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetAllPrecosProdutosAsync(filtro);
+                    return await connection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
                 }
-                if(filtroDapper.Habilitado.HasValue)
+
+                if (filtroDapper.Habilitado.HasValue)
                 {
                     var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutoByHabilitado(filtro, filtroDapper.Habilitado);
-                    var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
-                    return entityViewBD;
+                    return await connection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
                 }
 
-                //if (!string.IsNullOrEmpty(filtroDapper.NomeDescricaoEquals))
-                //{
-                //    //REALIZEI UTILIZANDO NOME PRA APROVEITAR A CLASS PRECO PRODUTO ENTITY FILTER DAPPER
-                //    //BOM SERIA CONSULTAR VIA GUID DO PRODUTO
-                //    QueryModel query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutosByNomeProdutoAsync(filtro, filtroDapper.NomeDescricaoEquals);
-                //    var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
-                //    return entityViewBD;
-                //}
+                if (filtroDapper.CategoriaPrecoid is { } cat_id && cat_id != Guid.Empty)
+                {
+                    if (filtroDapper.IdProduto.HasValue && filtroDapper.IdProduto != Guid.Empty)
+                    {
+                        var queryExistis = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutoExists(filtro, filtroDapper.IdProduto, filtroDapper.CategoriaPrecoid);
+                        return await connection.QueryAsync<PrecoProdutoEntityViewBD>(queryExistis.Query!, queryExistis.Parameter);
+                    }
 
-                if(filtroDapper.IdProduto is { } idProduto && idProduto !=Guid.Empty)
+                    var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutoByCategoriaId(filtro, filtroDapper.CategoriaPrecoid);
+                    return await connection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
+                }
+
+                if (filtroDapper.IdProduto is { } idProduto && idProduto != Guid.Empty)
                 {
                     var query = PrecoProdutoDapperQueries<FiltroBase, PrecoProdutoEntityFilterDapper>.GetPrecosProdutosByProdutoIdAsync(filtro, filtroDapper.IdProduto);
-                    var entityViewBD = await _dbConnection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
-                    return entityViewBD;
+                    return await connection.QueryAsync<PrecoProdutoEntityViewBD>(query.Query!, query.Parameter);
                 }
 
-
-
-                throw new ArgumentException("Não foi possível realizar consulta com banco.Motivo: Não foi localizado filtro necessário para realizar consulta.");
+                throw new ArgumentException("Não foi possível realizar consulta: Filtro inválido.");
             }
             catch (Exception ex)
             {
-
-                throw new Exception(ex.Message);
+                throw new Exception($"Erro ao consultar preços: {ex.Message}", ex);
             }
         }
     }

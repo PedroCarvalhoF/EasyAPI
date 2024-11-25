@@ -48,6 +48,14 @@ namespace Easy.CrossCutting.DependencyInjection.Extensions
                 return connection;
             });
 
+            serviceCollection.AddTransient<Func<IDbConnection>>(provider =>
+            {
+                var configuration = provider.GetRequiredService<IConfiguration>();
+                var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+                return () => new MySqlConnection(connectionString);
+            });
+
             serviceCollection.AddScoped<IUserDappperRepository, UserDapperRepository>();
             serviceCollection.AddScoped<IUserMasterClienteDapperRepository, UserMasterClienteDapperRepository>();
             serviceCollection.AddScoped<IUserMasterUserDapperRepository<FiltroBase>, UserMasterUserDapperRepository>();
