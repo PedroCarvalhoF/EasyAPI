@@ -42,3 +42,4 @@ public class PeriodoPdvController(IMediator _mediator) : ControllerBase
         return new ReturnActionResult<PeriodoPdvDto>().ParseToActionResult(await  _mediator.Send(command));
     }
 }
+// marcador para commit
